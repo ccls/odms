@@ -50,7 +50,7 @@ class PagesController < ApplicationController
 	end
 
 	def create
-		@page = Page.new(params[:page])
+		@page = Page.new(page_params)
 		@page.save!
 		flash[:notice] = 'Page was successfully created.'
 		redirect_to(@page)
@@ -60,7 +60,7 @@ class PagesController < ApplicationController
 	end
 
 	def update
-		@page.update_attributes!(params[:page])
+		@page.update_attributes!(page_params)
 		flash[:notice] = 'Page was successfully updated.'
 		redirect_to(@page)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
@@ -81,6 +81,10 @@ protected
 		else
 			access_denied("Valid page id required!", pages_path)
 		end
+	end
+
+	def page_params
+		params.require(:page).permit(:parent_id,:hide_menu,:path,:title_en,:menu_en,:body_en)
 	end
 
 end

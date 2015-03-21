@@ -10,12 +10,10 @@ class LanguageTest < ActiveSupport::TestCase
 	attributes = %w( code position )
 	required   = %w( code )
 	unique     = %w( code )
-	protected_attributes = []	#	"protected" is a reserved word
 	assert_should_require( required )
 	assert_should_require_unique( unique )
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes - unique )
-	assert_should_not_protect( attributes - protected_attributes )
 
 	test "language factory should create language" do
 		assert_difference('Language.count',1) {

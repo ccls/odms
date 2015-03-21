@@ -4,14 +4,11 @@ class CandidateControlTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_belong_to( :study_subject )
-	assert_should_protect( :study_subject_id, :study_subject )
 	assert_should_belong_to( :birth_datum )
-	assert_should_protect( :birth_datum_id, :birth_datum )
 
 	attributes = %w( assigned_on related_patid )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
-	assert_should_not_protect( attributes )
 
 	assert_should_require_attribute_length( :related_patid, :is => 4 )
 	assert_should_require_attribute_length( 

@@ -15,7 +15,6 @@ class ZipCodeTest < ActiveSupport::TestCase
 	assert_should_not_require( attributes - required )
 	assert_should_require_unique( unique )
 	assert_should_not_require_unique( attributes - unique )
-	assert_should_not_protect( attributes )
 
 	assert_should_require_attribute_length( :zip_code, :is => 5 )
 	assert_should_require_attribute_length( :city, :state, :zip_class,

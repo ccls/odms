@@ -4,7 +4,7 @@
 #	*	description ( unique and > 3 chars )
 class Race < ActiveRecord::Base
 
-	attr_accessible :key, :description, :code #	position ?
+#	attr_accessible :key, :description, :code #	position ?
 
 	acts_as_list
 	acts_like_a_hash

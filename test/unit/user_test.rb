@@ -11,7 +11,6 @@ class UserTest < ActiveSupport::TestCase
 	assert_should_not_require( attributes - required )
 	assert_should_require_unique( unique )
 	assert_should_not_require_unique( attributes - unique )
-	assert_should_not_protect( attributes )
 
 	assert_should_habtm(:roles)
 

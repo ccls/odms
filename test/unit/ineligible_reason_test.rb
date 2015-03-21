@@ -10,7 +10,6 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 	attributes = %w( position )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
-	assert_should_not_protect( attributes )
 
 	test "ineligible_reason factory should create ineligible reason" do
 		assert_difference('IneligibleReason.count',1) {
@@ -32,7 +31,6 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 	end
 
 	test "should return nil on random when no records" do
-#		IneligibleReason.destroy_all
 		IneligibleReason.stubs(:count).returns(0)
 		ineligible_reason = IneligibleReason.random()
 		assert_nil ineligible_reason

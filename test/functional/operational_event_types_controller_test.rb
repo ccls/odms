@@ -54,4 +54,29 @@ skip_validation
 	assert_no_access_with_login({ :logins => non_site_administrators })
 	assert_no_access_without_login
 
+	test "operational_event_type_params should require operational_event_type" do
+		@controller.params=HWIA.new(:no_operational_event_type => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:operational_event_type_params).permitted?
+		}
+	end
+
+	[ :key,:description,:event_category ].each do |attr|
+		test "operational_event_type_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:operational_event_type => { attr => 'funky' })
+			assert @controller.send(:operational_event_type_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "operational_event_type_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:operational_event_type => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:operational_event_type_params).permitted?
+				assert  @controller.params[:operational_event_type].has_key?(attr)
+				assert !@controller.send(:operational_event_type_params).has_key?(attr)
+			}
+		end
+	end
+
 end

@@ -20,7 +20,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 			:bad_values  => "I'm not valid" })
 
 	assert_should_create_default_object
-	assert_should_protect(:study_subject_id, :study_subject)
 
 	attributes = %w( completed_on contact_for_related_study
 		ineligible_reason_id other_ineligible_reason is_candidate is_chosen 
@@ -32,7 +31,6 @@ class EnrollmentTest < ActiveSupport::TestCase
 		assigned_for_interview_at interview_completed_on vaccine_authorization_received_at )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
-	assert_should_not_protect( attributes )
 
 	assert_should_require_attribute_length( 
 		:other_ineligible_reason,

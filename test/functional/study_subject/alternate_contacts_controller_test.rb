@@ -111,7 +111,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 			assert_difference("StudySubject.find(#{study_subject.id}).alternate_contacts.count",1) {
 			assert_difference('AlternateContact.count',1) {
 				post :create, :study_subject_id => study_subject.id,
-					:alternate_contact => factory_attributes
+					:alternate_contact => factory_attributes(:relation => 'testing')
 			} }
 			assert assigns(:study_subject)
 			assert_redirected_to study_subject_contacts_path(study_subject)
@@ -135,7 +135,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0) do
 				post :create, :study_subject_id => study_subject.id,
-					:alternate_contact => factory_attributes
+					:alternate_contact => factory_attributes(:relation => 'testing')
 			end
 			assert assigns(:study_subject)
 			assert_response :success
@@ -150,7 +150,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0) do
 				post :create, :study_subject_id => study_subject.id,
-					:alternate_contact => factory_attributes
+					:alternate_contact => factory_attributes(:relation => 'testing')
 			end
 			assert assigns(:study_subject)
 			assert_response :success
@@ -399,49 +399,30 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-#  setup do
-#    @alternate_contact = alternate_contacts(:one)
-#  end
-#
-#  test "should get index" do
-#    get :index
-#    assert_response :success
-#    assert_not_nil assigns(:alternate_contacts)
-#  end
-#
-#  test "should get new" do
-#    get :new
-#    assert_response :success
-#  end
-#
-#  test "should create alternate_contact" do
-#    assert_difference('AlternateContact.count') do
-#      post :create, alternate_contact: { city: @alternate_contact.city, line_1: @alternate_contact.line_1, line_2: @alternate_contact.line_2, name: @alternate_contact.name, phone_number_1: @alternate_contact.phone_number_1, phone_number_2: @alternate_contact.phone_number_2, relation: @alternate_contact.relation, state: @alternate_contact.state, study_subject_id: @alternate_contact.study_subject_id, zip: @alternate_contact.zip }
-#    end
-#
-#    assert_redirected_to alternate_contact_path(assigns(:alternate_contact))
-#  end
-#
-#  test "should show alternate_contact" do
-#    get :show, id: @alternate_contact
-#    assert_response :success
-#  end
-#
-#  test "should get edit" do
-#    get :edit, id: @alternate_contact
-#    assert_response :success
-#  end
-#
-#  test "should update alternate_contact" do
-#    patch :update, id: @alternate_contact, alternate_contact: { city: @alternate_contact.city, line_1: @alternate_contact.line_1, line_2: @alternate_contact.line_2, name: @alternate_contact.name, phone_number_1: @alternate_contact.phone_number_1, phone_number_2: @alternate_contact.phone_number_2, relation: @alternate_contact.relation, state: @alternate_contact.state, study_subject_id: @alternate_contact.study_subject_id, zip: @alternate_contact.zip }
-#    assert_redirected_to alternate_contact_path(assigns(:alternate_contact))
-#  end
-#
-#  test "should destroy alternate_contact" do
-#    assert_difference('AlternateContact.count', -1) do
-#      delete :destroy, id: @alternate_contact
-#    end
-#
-#    assert_redirected_to alternate_contacts_path
-#  end
+	test "alternate_contact_params should require alternate_contact" do
+		@controller.params=HWIA.new(:no_alternate_contact => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:alternate_contact_params).permitted?
+		}
+	end
+
+	[ :name, :relation, :line_1, :line_2, :city, :state, :zip, 
+			:phone_number_1, :phone_number_2 ].each do |attr|
+		test "alternate_contact_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:alternate_contact => { attr => 'funky' })
+			assert @controller.send(:alternate_contact_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "alternate_contact_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:alternate_contact => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:alternate_contact_params).permitted?
+				assert  @controller.params[:alternate_contact].has_key?(attr)
+				assert !@controller.send(:alternate_contact_params).has_key?(attr)
+			}
+		end
+	end
+
 end

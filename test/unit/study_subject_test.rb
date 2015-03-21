@@ -56,15 +56,10 @@ class StudySubjectTest < ActiveSupport::TestCase
 #	NOTE icf_master_id is not set, so unique test doesn't fail
 #	NOTE studyid is not set, so unique test doesn't fail
 
-	protected_attributes = %w( studyid 
-		subjectid familyid childid patid 
-		matchingid case_control_type  subject_type )	#	can I have subject_type here?
 	assert_should_require( required )
 	assert_should_require_unique( unique )
-	assert_should_protect( protected_attributes )
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes - unique )
-	assert_should_not_protect( attributes - protected_attributes )
 
 	assert_requires_complete_date( :reference_date, :died_on )
 

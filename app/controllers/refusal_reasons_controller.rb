@@ -21,7 +21,7 @@ class RefusalReasonsController < ApplicationController
 	end
 
 	def create
-		@refusal_reason = RefusalReason.new(params[:refusal_reason])
+		@refusal_reason = RefusalReason.new(refusal_reason_params)
 		@refusal_reason.save!
 		flash[:notice] = 'Success!'
 		redirect_to @refusal_reason
@@ -32,7 +32,7 @@ class RefusalReasonsController < ApplicationController
 	end 
 
 	def update
-		@refusal_reason.update_attributes!(params[:refusal_reason])
+		@refusal_reason.update_attributes!(refusal_reason_params)
 		flash[:notice] = 'Success!'
 		redirect_to refusal_reasons_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -54,6 +54,10 @@ protected
 		else
 			access_denied("Valid id required!", refusal_reasons_path)
 		end
+	end
+
+	def refusal_reason_params
+		params.require(:refusal_reason).permit(:key,:description)
 	end
 
 end

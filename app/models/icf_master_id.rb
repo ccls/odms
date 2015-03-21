@@ -1,7 +1,7 @@
 class IcfMasterId < ActiveRecord::Base
 
 	belongs_to :study_subject
-  attr_protected( :study_subject_id, :study_subject )
+#  attr_protected( :study_subject_id, :study_subject )
 
 #	probably shouldn't add validations as this won't be created by users. yet.
 

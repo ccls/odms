@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
 	end
 
 	def create
-		@project = Project.new(params[:project])
+		@project = Project.new(project_params)
 		@project.save!
 		flash[:notice] = 'Success!'
 		redirect_to @project
@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
 	end 
 
 	def update
-		@project.update_attributes!(params[:project])
+		@project.update_attributes!(project_params)
 		flash[:notice] = 'Success!'
 		redirect_to projects_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -54,6 +54,10 @@ protected
 		else
 			access_denied("Valid id required!", projects_path)
 		end
+	end
+
+	def project_params
+		params.require(:project).permit(:key,:label,:description)
 	end
 
 end

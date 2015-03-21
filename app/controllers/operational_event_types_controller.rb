@@ -33,7 +33,7 @@ class OperationalEventTypesController < ApplicationController
 	end
 
 	def create
-		@operational_event_type = OperationalEventType.new(params[:operational_event_type])
+		@operational_event_type = OperationalEventType.new(operational_event_type_params)
 		@operational_event_type.save!
 		flash[:notice] = 'Success!'
 		redirect_to @operational_event_type
@@ -43,7 +43,7 @@ class OperationalEventTypesController < ApplicationController
 	end 
 
 	def update
-		@operational_event_type.update_attributes!(params[:operational_event_type])
+		@operational_event_type.update_attributes!(operational_event_type_params)
 		flash[:notice] = 'Success!'
 		redirect_to operational_event_types_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -64,6 +64,10 @@ protected
 		else
 			access_denied("Valid id required!", operational_event_types_path)
 		end
+	end
+
+	def operational_event_type_params
+		params.require(:operational_event_type).permit(:key,:description,:event_category)
 	end
 
 end

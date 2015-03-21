@@ -4,7 +4,7 @@ class Patient < ActiveRecord::Base
 	belongs_to :study_subject
 	belongs_to :organization
 
-	attr_protected( :study_subject_id, :study_subject )
+#	attr_protected( :study_subject_id, :study_subject )
 
 	before_save :format_hospital_no, :if => :hospital_no_changed?
 

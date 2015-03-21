@@ -4,14 +4,12 @@ class AbstractTest < ActiveSupport::TestCase
 
 	assert_should_initially_belong_to :study_subject
 
-	assert_should_protect( :study_subject_id, :study_subject, :entry_1_by_uid, 
-		:entry_2_by_uid, :merged_by_uid )
-
 	test "explicit Factory abstract test" do
 		assert_difference('Abstract.count',1) {
 			@abstract = FactoryGirl.create(:abstract)
 		}
-		( not_nil = %w( id created_at updated_at study_subject_id entry_1_by_uid entry_2_by_uid ) ).each do |c|
+		( not_nil = %w( id created_at updated_at study_subject_id 
+				entry_1_by_uid entry_2_by_uid ) ).each do |c|
 			assert_not_nil @abstract.send(c), "#{c} is nil"
 		end
 	end
@@ -24,7 +22,8 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should return false if abstracts are not the same" do
 		abstract1 = FactoryGirl.create(:abstract)
-		abstract2 = FactoryGirl.create(:abstract, :icdo_classification_description => 'something' )
+		abstract2 = FactoryGirl.create(:abstract,
+			:icdo_classification_description => 'something' )
 		assert !abstract1.is_the_same_as?(abstract2)
 	end
 
@@ -37,7 +36,8 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should return hash if abstracts are not the same" do
 		abstract1 = FactoryGirl.create(:abstract)
-		abstract2 = FactoryGirl.create(:abstract, :icdo_classification_description => 'something' )
+		abstract2 = FactoryGirl.create(:abstract,
+			:icdo_classification_description => 'something' )
 		assert !abstract1.diff(abstract2).empty?
 		assert  abstract1.diff(abstract2).has_key?('icdo_classification_description')
 	end
@@ -45,9 +45,8 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as entry_1_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			#abstract = FactoryGirl.create(:abstract,:entry_1_by => FactoryGirl.create(:user))
-			#	4.1.8 won't allow the direct use of entry_1_by
-			abstract = FactoryGirl.create(:abstract,:current_user => FactoryGirl.create(:user))
+			abstract = FactoryGirl.create(:abstract,
+				:current_user => FactoryGirl.create(:user))
 			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -55,9 +54,8 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as entry_2_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			#abstract = FactoryGirl.create(:abstract,:entry_2_by => FactoryGirl.create(:user))
-			#	4.1.8 won't allow the direct use of entry_2_by
-			abstract = FactoryGirl.create(:abstract,:current_user => FactoryGirl.create(:user))
+			abstract = FactoryGirl.create(:abstract,
+				:current_user => FactoryGirl.create(:user))
 			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -65,7 +63,8 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should save a User as merged_by" do
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
-			abstract = FactoryGirl.create(:abstract,:merged_by => FactoryGirl.create(:user))
+			abstract = FactoryGirl.create(:abstract,
+				:merged_by => FactoryGirl.create(:user))
 			assert_not_nil abstract.merged_by_uid
 			assert abstract.merged_by.is_a?(User)
 			assert abstract.merged?
@@ -76,7 +75,8 @@ class AbstractTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
 		assert_difference('Abstract.count',1) {
-			abstract = FactoryGirl.create(:abstract,:current_user => current_user,
+			abstract = FactoryGirl.create(:abstract,
+				:current_user => current_user,
 				:study_subject => study_subject)
 			assert_equal abstract.entry_1_by, current_user
 			assert_equal abstract.entry_2_by, current_user
@@ -87,10 +87,12 @@ class AbstractTest < ActiveSupport::TestCase
 	test "should create second abstract for study_subject with current_user" do
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
-		FactoryGirl.create(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,
+			:current_user => current_user,
 			:study_subject => study_subject)
 		assert_difference('Abstract.count',1) {
-			abstract = FactoryGirl.create(:abstract,:current_user => current_user,
+			abstract = FactoryGirl.create(:abstract,
+				:current_user => current_user,
 				:study_subject => study_subject)
 			assert_equal abstract.entry_1_by, current_user
 			assert_equal abstract.entry_2_by, current_user
@@ -102,9 +104,11 @@ class AbstractTest < ActiveSupport::TestCase
 			"without merging flag" do
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
-		FactoryGirl.create(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,
+			:current_user => current_user,
 			:study_subject => study_subject)
-		FactoryGirl.create(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,
+			:current_user => current_user,
 			:study_subject => study_subject)
 		assert_difference('Abstract.count',0) {
 			#	study_subject.reload is needed here
@@ -120,15 +124,19 @@ class AbstractTest < ActiveSupport::TestCase
 			"with merging flag" do
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
-		FactoryGirl.create(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,
+			:current_user => current_user,
 			:study_subject => study_subject)
-		FactoryGirl.create(:abstract,:current_user => current_user,
+		FactoryGirl.create(:abstract,
+			:current_user => current_user,
 			:study_subject => study_subject)	#.reload)
 		#	yes, -1 , because when creating the merged, the other 2 go away
 		assert_difference('Abstract.count',-1) {
 			#	study_subject.reload is needed here
-			abstract = FactoryGirl.create(:abstract,:current_user => current_user,
-				:study_subject => study_subject.reload, :merging => true)
+			abstract = FactoryGirl.create(:abstract,
+				:current_user => current_user,
+				:study_subject => study_subject.reload,
+				:merging => true)
 			assert_equal abstract.merged_by, current_user
 			assert_equal abstract.study_subject, study_subject
 			assert_not_nil abstract.merged_by_uid
@@ -141,7 +149,8 @@ class AbstractTest < ActiveSupport::TestCase
 
 	test "should NOT create merged abstract if study_subject already has one" do
 		study_subject = FactoryGirl.create(:case_study_subject)
-		a1 = FactoryGirl.create(:abstract,:study_subject => study_subject)
+		a1 = FactoryGirl.create(:abstract,
+			:study_subject => study_subject)
 		a1.merged_by = FactoryGirl.create(:user)
 		a1.save
 		assert_not_nil study_subject.abstracts.merged
@@ -390,21 +399,10 @@ class AbstractTest < ActiveSupport::TestCase
 
 		test "should search" do
 			Sunspot.remove_all!					#	isn't always necessary
-
 			Abstract.solr_reindex
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
-#			Abstract.find_each{|a|a.index}
-#			Sunspot.commit
-
 			assert Abstract.search.hits.empty?
 			FactoryGirl.create(:abstract)
-
 			Abstract.solr_reindex
-#	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
-#			Abstract.find_each{|a|a.index}
-#			Sunspot.commit
-
-
 			assert !Abstract.search.hits.empty?
 		end
 

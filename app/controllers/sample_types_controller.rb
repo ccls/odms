@@ -21,7 +21,7 @@ class SampleTypesController < ApplicationController
 	end
 
 	def create
-		@sample_type = SampleType.new(params[:sample_type])
+		@sample_type = SampleType.new(sample_type_params)
 		@sample_type.save!
 		flash[:notice] = 'Success!'
 		redirect_to @sample_type
@@ -31,7 +31,7 @@ class SampleTypesController < ApplicationController
 	end 
 
 	def update
-		@sample_type.update_attributes!(params[:sample_type])
+		@sample_type.update_attributes!(sample_type_params)
 		flash[:notice] = 'Success!'
 		redirect_to sample_types_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -52,6 +52,11 @@ protected
 		else
 			access_denied("Valid id required!", sample_types_path)
 		end
+	end
+
+	def sample_type_params
+		params.require(:sample_type).permit(:parent_id,:key,:description,
+			:for_new_sample,:t2k_sample_type_id,:gegl_sample_type_id)
 	end
 
 end

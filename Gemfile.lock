@@ -95,8 +95,6 @@ GEM
     progress_bar (1.0.3)
       highline (~> 1.6.1)
       options (~> 2.3.0)
-    protected_attributes (1.0.9)
-      activemodel (>= 4.0.1, < 5.0)
     rack (1.5.2)
     rack-ssl (1.4.1)
       rack
@@ -197,7 +195,6 @@ DEPENDENCIES
   net-ldap
   prawn
   prawnto
-  protected_attributes
   rack-ssl
   rails (~> 4.1.8)
   rails-dom-testing

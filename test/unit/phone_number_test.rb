@@ -2,7 +2,6 @@ require 'test_helper'
 
 class PhoneNumberTest < ActiveSupport::TestCase
 
-#	assert_should_accept_only_good_values( :current_phone, :is_valid,
 	assert_should_accept_only_good_values( :current_phone, 
 		{ :good_values => ( YNDK.valid_values + [nil] ), 
 			:bad_values  => 12345 })
@@ -19,29 +18,17 @@ class PhoneNumberTest < ActiveSupport::TestCase
 	assert_should_act_as_list( :scope => :study_subject_id )
 	assert_should_initially_belong_to( :study_subject )
 
-#	attributes = %w( phone_number position study_subject_id
-#		is_primary is_valid
-#		why_invalid is_verified how_verified
-#		verified_on verified_by_uid current_phone )
 	attributes = %w( phone_number position study_subject_id
 		is_primary current_phone )
 	required = %w( phone_number )
-	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_require( required )
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes )
-	assert_should_protect( protected_attributes )
-	assert_should_not_protect( attributes - protected_attributes )
-
-#	assert_should_require_attribute_length( :how_verified, :why_invalid, 
-#		:maximum => 250 )
 
 	test "phone_number factory should create phone number" do
 		assert_difference('PhoneNumber.count',1) {
 			phone_number = FactoryGirl.create(:phone_number)
 			assert_match /\(\d{3}\) \d{3}-\d{4}/, phone_number.phone_number
-#			assert_equal 1, phone_number.is_valid
-#			assert         !phone_number.is_verified
 		}
 	end
 

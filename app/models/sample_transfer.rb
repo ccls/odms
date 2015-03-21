@@ -1,6 +1,6 @@
 class SampleTransfer < ActiveRecord::Base
 
-	attr_accessible :sample_id, :source_org_id, :destination_org_id, :sent_on, :status, :notes
+#	attr_accessible :sample_id, :source_org_id, :destination_org_id, :sent_on, :status, :notes
 
 	belongs_to :sample
 	belongs_to :source_org,      :class_name => "Organization"

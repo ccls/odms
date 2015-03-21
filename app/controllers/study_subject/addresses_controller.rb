@@ -20,7 +20,7 @@ class StudySubject::AddressesController < StudySubjectController
 	end
 
 	def create
-		@address = @study_subject.addresses.build( params[:address] )
+		@address = @study_subject.addresses.build( address_params )
 		@address.save!
 		redirect_to study_subject_contacts_path(@address.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -29,7 +29,7 @@ class StudySubject::AddressesController < StudySubjectController
 	end
 
 	def update
-		@address.update_attributes!( params[:address] )
+		@address.update_attributes!( address_params )
 		redirect_to study_subject_contacts_path(@address.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "Address update failed"
@@ -49,6 +49,12 @@ protected
 		else
 			access_denied("Valid address id required!", study_subjects_path)
 		end
+	end
+
+	def address_params
+		params.require(:address).permit( :address_type, :data_source, :other_data_source, 
+			:line_1, :unit, :line_2, :city, :state, :zip, :county, :country,
+			:current_address, :subject_moved, :address_at_diagnosis, :notes )
 	end
 
 end

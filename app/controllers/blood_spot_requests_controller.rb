@@ -28,7 +28,7 @@ class BloodSpotRequestsController < ApplicationController
 
 	#		transform update to more generic update for status and comments/notes
 	def update
-		@blood_spot_request.update_attributes!(params[:blood_spot_request])
+		@blood_spot_request.update_attributes!(blood_spot_request_params)
 		redirect_path = session[:blood_spot_request_return_to] || new_blood_spot_request_path
 		#	NOTE why not delete key?
 		session[:blood_spot_request_return_to] = nil
@@ -147,6 +147,11 @@ protected
 		else
 			nil
 		end
+	end
+
+	def blood_spot_request_params
+		params.require(:blood_spot_request).permit(
+			:status,:sent_on,:returned_on,:is_found,:notes)
 	end
 
 end

@@ -2,9 +2,6 @@ require 'test_helper'
 
 class StudySubjectIcfMasterIdTest < ActiveSupport::TestCase
 
-	assert_should_protect( :icf_master_id, 
-		:model => 'StudySubject' )
-
 	assert_should_require_attribute_length( :icf_master_id, 
 		:model => 'StudySubject',
 			:maximum => 9 )

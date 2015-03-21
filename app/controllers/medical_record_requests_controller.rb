@@ -28,7 +28,7 @@ class MedicalRecordRequestsController < ApplicationController
 
 	#		transform update to more generic update for status and comments/notes
 	def update
-		@medical_record_request.update_attributes!(params[:medical_record_request])
+		@medical_record_request.update_attributes!(medical_record_request_params)
 		redirect_path = session[:medical_record_request_return_to] || new_medical_record_request_path
 		#	NOTE why not delete key?
 		session[:medical_record_request_return_to] = nil
@@ -149,4 +149,8 @@ protected
 		end
 	end
 
+	def medical_record_request_params
+		params.require(:medical_record_request).permit(
+			:status,:sent_on,:returned_on,:is_found,:notes)
+	end
 end

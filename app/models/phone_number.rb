@@ -4,7 +4,7 @@ class PhoneNumber < ActiveRecord::Base
 	acts_as_list :scope => :study_subject_id
 
 	belongs_to :study_subject, :counter_cache => true
-	attr_protected :study_subject_id, :study_subject
+#	attr_protected :study_subject_id, :study_subject
 
 	scope :current,  
 		->{ where(:current_phone => YNDK[:yes]) }

@@ -1,0 +1,20 @@
+-
+  :attribute: :action
+  :length:
+    :maximum: 250
+  :allow_blank: true
+  :uniqueness:
+    :scope: :controller
+
+-
+  :attribute: :controller
+  :length:
+    :maximum: 250
+  :allow_blank: true
+
+-
+  :attribute: :body
+  :length:
+    :maximum: 65000
+  :allow_blank: true
+

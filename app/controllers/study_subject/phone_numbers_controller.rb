@@ -17,7 +17,7 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	end
 
 	def create
-		@phone_number = @study_subject.phone_numbers.build( params[:phone_number] )
+		@phone_number = @study_subject.phone_numbers.build( phone_number_params )
 		@phone_number.save!
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -26,7 +26,7 @@ class StudySubject::PhoneNumbersController < StudySubjectController
 	end
 
 	def update
-		@phone_number.update_attributes!( params[:phone_number] )
+		@phone_number.update_attributes!( phone_number_params )
 		redirect_to study_subject_contacts_path(@phone_number.study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "PhoneNumber update failed"
@@ -47,6 +47,11 @@ protected
 		else
 			access_denied("Valid phone_number id required!", study_subjects_path)
 		end
+	end
+
+	def phone_number_params
+		params.require(:phone_number).permit(:is_primary, :phone_number,
+			:phone_type, :data_source, :other_data_source, :current_phone )
 	end
 
 end

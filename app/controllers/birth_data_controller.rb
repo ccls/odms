@@ -13,7 +13,6 @@ class BirthDataController < ApplicationController
 				:page     => valid_find_page
 			)
 			.order(search_order)
-
 	end
 
 protected

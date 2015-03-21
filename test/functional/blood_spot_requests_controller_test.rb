@@ -619,6 +619,31 @@ class BloodSpotRequestsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
+	test "blood_spot_request_params should require blood_spot_request" do
+		@controller.params=HWIA.new(:no_blood_spot_request => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:blood_spot_request_params).permitted?
+		}
+	end
+
+	[ :status,:sent_on,:returned_on,:is_found,:notes ].each do |attr|
+		test "blood_spot_request_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:blood_spot_request => { attr => 'funky' })
+			assert @controller.send(:blood_spot_request_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "blood_spot_request_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:blood_spot_request => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:blood_spot_request_params).permitted?
+				assert  @controller.params[:blood_spot_request].has_key?(attr)
+				assert !@controller.send(:blood_spot_request_params).has_key?(attr)
+			}
+		end
+	end
+
 	def create_blood_spot_requests(count=1,options={})
 		count.times.collect { FactoryGirl.create(:blood_spot_request, options) }
 	end

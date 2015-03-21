@@ -21,7 +21,7 @@ class RacesController < ApplicationController
 	end
 
 	def create
-		@race = Race.new(params[:race])
+		@race = Race.new(race_params)
 		@race.save!
 		flash[:notice] = 'Success!'
 		redirect_to @race
@@ -31,7 +31,7 @@ class RacesController < ApplicationController
 	end 
 
 	def update
-		@race.update_attributes!(params[:race])
+		@race.update_attributes!(race_params)
 		flash[:notice] = 'Success!'
 		redirect_to races_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -52,6 +52,10 @@ protected
 		else
 			access_denied("Valid id required!", races_path)
 		end
+	end
+
+	def race_params
+		params.require(:race).permit(:key,:code,:description)
 	end
 
 end

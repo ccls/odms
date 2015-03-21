@@ -21,7 +21,7 @@ class GuidesController < ApplicationController
 	end
 
 	def create
-		@guide = Guide.new(params[:guide])
+		@guide = Guide.new(guide_params)
 		@guide.save!
 		flash[:notice] = 'Success!'
 		redirect_to @guide
@@ -31,7 +31,7 @@ class GuidesController < ApplicationController
 	end 
 
 	def update
-		@guide.update_attributes!(params[:guide])
+		@guide.update_attributes!(guide_params)
 		flash[:notice] = 'Success!'
 		redirect_to guides_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -52,6 +52,10 @@ protected
 		else
 			access_denied("Valid id required!", guides_path)
 		end
+	end
+
+	def guide_params
+		params.require(:guide).permit(:controller,:action,:body)
 	end
 
 end

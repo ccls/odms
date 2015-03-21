@@ -46,9 +46,9 @@ class StudySubject < ActiveRecord::Base
 
 	#	Very cool that this doesn't stop factory girl from using them.
 	#	it will stop the study_subject nested_attribute tests though
-	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
-		:familyid, :childid, :subjectid, :patid, :orderno,
-		:matchingid, :case_control_type, :subject_type, :icf_master_id
+#	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
+#		:familyid, :childid, :subjectid, :patid, :orderno,
+#		:matchingid, :case_control_type, :subject_type, :icf_master_id
 
 	attr_accessor :language_required
 

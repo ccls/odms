@@ -117,7 +117,8 @@ FactoryGirl.define do
 
 	factory :abstract do |f|
 		f.association :study_subject, :factory => :case_study_subject
-		f.updated_at Time.now	#	to make it dirty
+#		f.reviewed_by 'FactoryGirl'
+#		f.updated_at Time.now	#	to make it dirty
 	end
 
 	factory :address do |f|
@@ -128,7 +129,7 @@ FactoryGirl.define do
 		f.state "CA"
 		f.zip "12345"
 		f.data_source 'RAF (CCLS Rapid Ascertainment Form)'
-		f.updated_at Time.now	#	to make it dirty
+#		f.updated_at Time.now	#	to make it dirty
 	end
 	factory :blank_line_1_address, :parent => :address do |f|
 		f.line_1 ""

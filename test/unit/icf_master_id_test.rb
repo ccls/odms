@@ -4,7 +4,6 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
 	assert_should_belong_to(:study_subject)
-	assert_should_protect( :study_subject_id, :study_subject )
 
 	test "icf_master_id factory should create icf master id" do
 		assert_difference('IcfMasterId.count',1) {
@@ -18,7 +17,6 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 		assert_equal "#{icf_master_id.icf_master_id}", "#{icf_master_id}"
 		assert_equal "123456789", "#{icf_master_id}"
 	end
-
 
 	test "unused should return those without a study subject" do
 		icf_master_id_1 = FactoryGirl.create(:icf_master_id)

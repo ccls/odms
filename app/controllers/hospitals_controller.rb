@@ -17,11 +17,11 @@ class HospitalsController < ApplicationController
 	end
 
 	def new
-		@hospital = Hospital.new(params[:hospital])
+		@hospital = Hospital.new(params[:hospital])	#	don't "REQUIRE" here
 	end
 
 	def create
-		@hospital = Hospital.new(params[:hospital])
+		@hospital = Hospital.new(hospital_params)
 		@hospital.save!
 		flash[:notice] = 'Success!'
 		redirect_to @hospital
@@ -31,7 +31,7 @@ class HospitalsController < ApplicationController
 	end 
 
 	def update
-		@hospital.update_attributes!(params[:hospital])
+		@hospital.update_attributes!(hospital_params)
 		flash[:notice] = 'Success!'
 		redirect_to hospitals_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -52,6 +52,10 @@ protected
 		else
 			access_denied("Valid id required!", hospitals_path)
 		end
+	end
+
+	def hospital_params
+		params.require(:hospital).permit(:is_active,:has_irb_waiver,:organization_id)
 	end
 
 end

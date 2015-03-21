@@ -93,14 +93,22 @@ module Odms
 
 
 		# Version of your assets, change this if you want to expire all your assets
-		config.assets.version = '1.0'
+		#config.assets.version = '1.0'
 
 #	I followed instructions to secrets.yml, but app doesn't actually read it?
 #	I will probably have to removing the following line when 4.1 is used.
 #	http://stackoverflow.com/questions/21136363/using-config-secrets-yml-in-rails-4-0-2-version
 #	https://github.com/rails/rails/pull/13298
-config.secret_key_base = YAML.load(File.open("#{Rails.root}/config/secrets.yml"))[Rails.env]['secret_key_base']
+
+#	20150320 - I shouldn't need this line
+#config.secret_key_base = YAML.load(File.open("#{Rails.root}/config/secrets.yml"))[Rails.env]['secret_key_base']
 
 
+
+
+		#	20150320 - rails 4.1.10
+		# Do not swallow errors in after_commit/after_rollback callbacks.
+#	fails in testing?
+#		config.active_record.raise_in_transactional_callbacks = true
 	end
 end

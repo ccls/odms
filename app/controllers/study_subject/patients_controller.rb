@@ -44,7 +44,7 @@ class StudySubject::PatientsController < StudySubjectController
 	end
 
 	def create
-		@patient = @study_subject.build_patient(params[:patient])
+		@patient = @study_subject.build_patient(patient_params)
 		@patient.save!
 #		flash[:notice] = "Patient created"
 		redirect_to study_subject_patient_path(@study_subject)
@@ -54,7 +54,7 @@ class StudySubject::PatientsController < StudySubjectController
 	end
 
 	def update
-		@patient.update_attributes!(params[:patient])
+		@patient.update_attributes!(patient_params)
 		flash[:notice] = "Patient updated"
 		redirect_to study_subject_patient_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -88,6 +88,11 @@ protected
 			access_denied("Valid patient required!",
 				new_study_subject_patient_path(@study_subject))
 		end
+	end
+
+	def patient_params
+		params.require(:patient).permit( :admit_date, :diagnosis_date,
+			:diagnosis, :other_diagnosis, :organization_id, :hospital_no )
 	end
 
 end

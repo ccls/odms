@@ -37,7 +37,7 @@ class StudySubject::EventsController < StudySubjectController
 	end
 
 	def create
-		@operational_event = @study_subject.operational_events.new(params[:operational_event])
+		@operational_event = @study_subject.operational_events.new(operational_event_params)
 		@operational_event.save!
 		flash[:notice] = "Operational Event successfully created."
 		redirect_to study_subject_events_path(@study_subject)
@@ -50,7 +50,7 @@ class StudySubject::EventsController < StudySubjectController
 	end
 
 	def update
-		@operational_event.update_attributes!(params[:operational_event])
+		@operational_event.update_attributes!(operational_event_params)
 		redirect_to study_subject_event_path(@study_subject,@operational_event)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Operational Event update failed."
@@ -92,6 +92,11 @@ protected
 		else
 			'occurred_at asc'	#nil
 		end
+	end
+
+	def operational_event_params
+		params.require(:operational_event).permit( :occurred_at, :project_id,
+			:operational_event_type_id, :description, :notes )
 	end
 
 end

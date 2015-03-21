@@ -19,51 +19,30 @@ class SampleLocationsControllerTest < ActionController::TestCase
 	assert_no_access_with_login({ :logins => non_site_administrators })
 	assert_no_access_without_login
 
+	test "sample_location_params should require sample_location" do
+		@controller.params=HWIA.new(:no_sample_location => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:sample_location_params).permitted?
+		}
+	end
+
+	[ :is_active,:organization_id ].each do |attr|
+		test "sample_location_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:sample_location => { attr => 'funky' })
+			assert @controller.send(:sample_location_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "sample_location_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:sample_location => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:sample_location_params).permitted?
+				assert  @controller.params[:sample_location].has_key?(attr)
+				assert !@controller.send(:sample_location_params).has_key?(attr)
+			}
+		end
+	end
+
 end
 __END__
-  setup do
-    @sample_location = sample_locations(:one)
-  end
-
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:sample_locations)
-  end
-
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
-  test "should create sample_location" do
-    assert_difference('SampleLocation.count') do
-      post :create, sample_location: { is_active: @sample_location.is_active, notes: @sample_location.notes, organization_id: @sample_location.organization_id, position: @sample_location.position }
-    end
-
-    assert_redirected_to sample_location_path(assigns(:sample_location))
-  end
-
-  test "should show sample_location" do
-    get :show, id: @sample_location
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @sample_location
-    assert_response :success
-  end
-
-  test "should update sample_location" do
-    put :update, id: @sample_location, sample_location: { is_active: @sample_location.is_active, notes: @sample_location.notes, organization_id: @sample_location.organization_id, position: @sample_location.position }
-    assert_redirected_to sample_location_path(assigns(:sample_location))
-  end
-
-  test "should destroy sample_location" do
-    assert_difference('SampleLocation.count', -1) do
-      delete :destroy, id: @sample_location
-    end
-
-    assert_redirected_to sample_locations_path
-  end
-end

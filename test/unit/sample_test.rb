@@ -13,11 +13,8 @@ class SampleTest < ActiveSupport::TestCase
 		sample_format sample_temperature 
 		sent_to_lab_at sent_to_subject_at
 		shipped_to_ccls_at notes )
-	protected_attributes = %w( study_subject_id study_subject )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
-	assert_should_protect( protected_attributes )
-	assert_should_not_protect( attributes - protected_attributes )
 
 	assert_should_require_attribute_length( :notes, :maximum => 65000 )
 

@@ -14,8 +14,6 @@ class PatientTest < ActiveSupport::TestCase
 	assert_should_create_default_object
 	assert_should_initially_belong_to :study_subject
 	assert_should_initially_belong_to :organization
-	assert_should_protect( :study_subject_id, :study_subject )
-
 
 	attributes = %w( hospital_no organization_id admit_date
 		other_diagnosis diagnosis_date raf_zip raf_county )
@@ -23,9 +21,7 @@ class PatientTest < ActiveSupport::TestCase
 	assert_should_require( required )
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes )
-	assert_should_not_protect( attributes )
 	assert_should_require_unique(:hospital_no, :scope => :organization_id)
-
 
 	assert_should_require_attribute_length :hospital_no, :maximum => 25
 	assert_should_require_attribute_length( :raf_zip, :maximum => 10 )

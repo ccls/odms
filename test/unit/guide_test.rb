@@ -18,6 +18,7 @@ class GuideTest < ActiveSupport::TestCase
 
 	assert_should_require_attribute_length( :controller, :action,
 		:maximum => 250 )
+	assert_should_require_attribute_length( :body, :maximum => 65000 )
 
 	test "should return controller and action name as to_s" do
 		guide = FactoryGirl.create(:guide)

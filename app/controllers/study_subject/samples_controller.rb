@@ -37,7 +37,7 @@ class StudySubject::SamplesController < StudySubjectController
 	end
 
 	def create
-		@sample = @study_subject.samples.new(params[:sample])
+		@sample = @study_subject.samples.new(sample_params)
 
 		#	All or nothin'
 		Sample.transaction do
@@ -57,7 +57,7 @@ class StudySubject::SamplesController < StudySubjectController
 	end
 
 	def update
-		@sample.update_attributes!(params[:sample])
+		@sample.update_attributes!(sample_params)
 		redirect_to study_subject_sample_path(@study_subject,@sample)
 	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
 		flash.now[:error] = "Sample update failed."
@@ -77,6 +77,13 @@ protected
 		else
 			access_denied("Valid sample id required!", study_subjects_path)
 		end
+	end
+
+	def sample_params
+		params.require(:sample).permit( :project_id, :sample_type_id, :sent_to_subject_at,
+			:collected_from_subject_at, :shipped_to_ccls_at, :received_by_ccls_at,
+			:sent_to_lab_at, :location_id, :received_by_lab_at, :sample_format, 
+			:sample_temperature, :external_id, :external_id_source, :notes )
 	end
 
 end

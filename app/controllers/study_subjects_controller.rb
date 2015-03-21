@@ -75,7 +75,7 @@ class StudySubjectsController < ApplicationController
 	end
 
 	def update
-		@study_subject.update_attributes!(params[:study_subject])
+		@study_subject.update_attributes!(study_subject_params)
 		flash[:notice] = 'Success!'
 		redirect_to study_subject_path(@study_subject)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -179,6 +179,19 @@ protected
 		else
 			nil
 		end
+	end
+
+	def study_subject_params
+		params.require(:study_subject).permit( :do_not_contact ,
+			:first_name, :middle_name, :last_name, :dob, :sex,
+			:state_registrar_no, :local_registrar_no, :reference_date, :vital_status,
+			:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
+			:father_first_name, :father_middle_name, :father_last_name,
+			:guardian_first_name, :guardian_middle_name, :guardian_last_name,
+			:guardian_relationship, :other_guardian_relationship,
+			subject_races_attributes: [:id, :_destroy, :race_code, :other_race, :mixed_race] )
+		#	for some reason subject_races_attributes needs to be last?
+		#	AND NEED :id and :_destroy there too!
 	end
 
 end

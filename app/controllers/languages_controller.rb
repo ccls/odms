@@ -21,7 +21,7 @@ class LanguagesController < ApplicationController
 	end
 
 	def create
-		@language = Language.new(params[:language])
+		@language = Language.new(language_params)
 		@language.save!
 		flash[:notice] = 'Success!'
 		redirect_to @language
@@ -32,7 +32,7 @@ class LanguagesController < ApplicationController
 	end 
 
 	def update
-		@language.update_attributes!(params[:language])
+		@language.update_attributes!(language_params)
 		flash[:notice] = 'Success!'
 		redirect_to languages_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -54,6 +54,10 @@ protected
 		else
 			access_denied("Valid id required!", languages_path)
 		end
+	end
+
+	def language_params
+		params.require(:language).permit(:key,:code,:description)
 	end
 
 end

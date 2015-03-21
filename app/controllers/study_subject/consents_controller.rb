@@ -31,12 +31,16 @@ class StudySubject::ConsentsController < StudySubjectController
 	def update
 		ActiveRecord::Base.transaction do
 			@enrollment = @study_subject.enrollments.find_or_create_by(project_id: Project['ccls'].id )
-			@enrollment.attributes = params[:enrollment]||{}
+#			@enrollment.attributes = params[:enrollment]||{}
+			@enrollment.attributes = enrollment_params
 			@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
 #	TODO what if case subject has no patient model??
 #	TODO what if isn't case subject?
 			if @study_subject.is_case? and !@study_subject.patient.nil?
-				@study_subject.patient.attributes = params[:patient]||{}
+#				@study_subject.patient.attributes = params[:patient]||{}
+				@study_subject.patient.attributes = params.require(:patient).permit(
+					:admit_date, :hospital_no, :organization_id, :diagnosis,
+					:was_previously_treated, :was_ca_resident_at_diagnosis)
 			end
 #raise ActiveRecord::RecordNotSaved.new(@enrollment)
 			@enrollment.save!
@@ -51,6 +55,15 @@ class StudySubject::ConsentsController < StudySubjectController
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "Enrollment update failed"
 		render :action => 'edit'
+	end
+
+	def enrollment_params
+		params.require(:enrollment).permit( :vaccine_authorization_received_at,
+			:is_eligible, :ineligible_reason_id, :other_ineligible_reason, :consented,
+			:refusal_reason_id, :other_refusal_reason, :consented_on,
+			:use_smp_future_rsrch, :use_smp_future_cancer_rsrch, :use_smp_future_other_rsrch,
+			:share_smp_with_others, :contact_for_related_study,
+			:provide_saliva_smp, :receive_study_findings)
 	end
 
 end

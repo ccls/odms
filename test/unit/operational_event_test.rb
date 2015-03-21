@@ -10,23 +10,11 @@ class OperationalEventTest < ActiveSupport::TestCase
 #
 
 	assert_should_create_default_object
-#	assert_should_initially_belong_to(:study_subject,:project)
-#	assert_should_initially_belong_to(:operational_event_type)
 	assert_should_belong_to(:study_subject,:project,:operational_event_type)
 
-#	TODO counts incorrect in tests due to callbacks
-#	attributes = %w( enrollment_id occurred_at description notes )
-#	required   = %w( enrollment_id )
-#	attributes = %w( study_subject_id project_id occurred_at description notes )
 	attributes = %w( occurred_at description notes )
-#	required   = %w( study_subject_id project_id )	#	TODO try to figure this out
-#	assert_should_require( required )
-	assert_should_not_require( attributes )	#- required )
+	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
-	assert_should_not_protect( attributes )
-
-
-	assert_should_protect(:study_subject_id, :study_subject)
 
 	assert_requires_complete_date(:occurred_at)
 	assert_should_require_attribute_length( :description, :maximum => 250 )

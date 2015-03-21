@@ -8,7 +8,7 @@ class Sample < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :study_subject, :counter_cache => true
 
-	attr_protected :study_subject_id, :study_subject
+#	attr_protected :study_subject_id, :study_subject
 
 	#	unfortunately, there are a few samples that do not have a subject????
 	delegate :subject_type, :vital_status, :subjectid, :childid, :studyid,

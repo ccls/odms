@@ -380,4 +380,30 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
+	test "patient_params should require patient" do
+		@controller.params=HWIA.new(:no_patient => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:patient_params).permitted?
+		}
+	end
+
+	[ :admit_date, :diagnosis_date, :diagnosis, :other_diagnosis, 
+			:organization_id, :hospital_no ].each do |attr|
+		test "patient_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:patient => { attr => 'funky' })
+			assert @controller.send(:patient_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "patient_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:patient => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:patient_params).permitted?
+				assert  @controller.params[:patient].has_key?(attr)
+				assert !@controller.send(:patient_params).has_key?(attr)
+			}
+		end
+	end
+
 end

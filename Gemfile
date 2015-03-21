@@ -49,8 +49,9 @@ gem 'rails', '~>4.1.8'
 #
 
 
+#	20150320 - Changing to strong parameters
 #	sadly, this is all or nothing.
-gem 'protected_attributes'	#	to keep rails 3 style
+#gem 'protected_attributes'	#	to keep rails 3 style
 
 #	to keep rails 3 style	... going back to cookies so removed
 #gem 'activerecord-session_store'	

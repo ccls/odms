@@ -21,7 +21,7 @@ class OrganizationsController < ApplicationController
 	end
 
 	def create
-		@organization = Organization.new(params[:organization])
+		@organization = Organization.new(organization_params)
 		@organization.save!
 		flash[:notice] = 'Success!'
 		redirect_to @organization
@@ -31,7 +31,7 @@ class OrganizationsController < ApplicationController
 	end 
 
 	def update
-		@organization.update_attributes!(params[:organization])
+		@organization.update_attributes!(organization_params)
 		flash[:notice] = 'Success!'
 		redirect_to organizations_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -52,6 +52,10 @@ protected
 		else
 			access_denied("Valid id required!", organizations_path)
 		end
+	end
+
+	def organization_params
+		params.require(:organization).permit(:key,:name)
 	end
 
 end

@@ -22,7 +22,7 @@ class StudySubject::EnrollmentsController < StudySubjectController
 	end
 
 	def create
-		@enrollment = @study_subject.enrollments.build(params[:enrollment])
+		@enrollment = @study_subject.enrollments.build(enrollment_params)
 		@enrollment.save!
 #	TODO what?  no flash of success?
 		redirect_to edit_study_subject_enrollment_path(@study_subject,@enrollment)
@@ -33,7 +33,7 @@ class StudySubject::EnrollmentsController < StudySubjectController
 	end
 
 	def update
-		@enrollment.update_attributes!(params[:enrollment])
+		@enrollment.update_attributes!(enrollment_params)
 #		redirect_to study_subject_enrollments_path(@enrollment.study_subject)
 #	TODO what?  no flash of success?
 		redirect_to study_subject_enrollment_path(@study_subject,@enrollment)
@@ -56,6 +56,15 @@ protected
 		else
 			access_denied("Valid enrollment id required!", study_subjects_path)
 		end
+	end
+
+	def enrollment_params
+		params.require(:enrollment).permit( :project_id, :is_candidate, :tracing_status,
+			:is_eligible, :ineligible_reason_id, :other_ineligible_reason, :is_chosen,
+			:reason_not_chosen, :consented, :consented_on, :refusal_reason_id,
+			:other_refusal_reason, :assigned_for_interview_at,
+			:interview_completed_on, :terminated_participation,
+			:terminated_reason, :is_complete, :completed_on, :notes )
 	end
 
 end

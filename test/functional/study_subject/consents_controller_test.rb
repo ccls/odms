@@ -181,6 +181,8 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			assert_difference('SubjectLanguage.count',1){
 				put :update, :study_subject_id => @study_subject.id, 
+				:patient => FactoryGirl.attributes_for(:patient),
+					:enrollment => FactoryGirl.attributes_for(:consented_enrollment),
 					:study_subject => { :subject_languages_attributes => {
 					'0' => { :language_code => language.code }
 			} } }
@@ -205,6 +207,8 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
 			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, 
+				:patient => FactoryGirl.attributes_for(:patient),
+					:enrollment => FactoryGirl.attributes_for(:consented_enrollment),
 					:study_subject => { :subject_languages_attributes => {
 						'0' => { :id => subject_language.id, :_destroy => 1 } } }
 			}
@@ -220,7 +224,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			#	Don't need to provide something new to save to trigger this failure.
-			put :update, :study_subject_id => study_subject.id
+			put :update, :study_subject_id => study_subject.id,
+				:patient => FactoryGirl.attributes_for(:patient),
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -233,7 +239,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			login_as send(cu)
 			Patient.any_instance.stubs(:create_or_update).returns(false)
-			put :update, :study_subject_id => study_subject.id
+			put :update, :study_subject_id => study_subject.id,
+				:patient => FactoryGirl.attributes_for(:patient),
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -279,7 +287,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			assert_nil study_subject.patient
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:enrollment)
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
@@ -289,7 +297,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:complete_control_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:enrollment)
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
@@ -344,7 +352,8 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:enrollment)
+				:patient => FactoryGirl.attributes_for(:patient),
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
@@ -362,7 +371,8 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:valid?).returns(false)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:enrollment)
+				:patient => FactoryGirl.attributes_for(:patient),
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -374,7 +384,8 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:enrollment)
+				:patient => FactoryGirl.attributes_for(:patient),
+				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -465,6 +476,36 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		study_subject = FactoryGirl.create(:study_subject)
 		put :update, :study_subject_id => study_subject.id
 		assert_redirected_to_login
+	end
+
+	test "enrollment_params should require enrollment" do
+		@controller.params=HWIA.new(:no_enrollment => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:enrollment_params).permitted?
+		}
+	end
+
+	[ :vaccine_authorization_received_at, :is_eligible, :ineligible_reason_id, 
+		:other_ineligible_reason, :consented, :refusal_reason_id, 
+		:other_refusal_reason, :consented_on, :use_smp_future_rsrch, 
+		:use_smp_future_cancer_rsrch, :use_smp_future_other_rsrch, 
+		:share_smp_with_others, :contact_for_related_study, :provide_saliva_smp, 
+		:receive_study_findings ].each do |attr|
+		test "enrollment_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:enrollment => { attr => 'funky' })
+			assert @controller.send(:enrollment_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "enrollment_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:enrollment => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:enrollment_params).permitted?
+				assert  @controller.params[:enrollment].has_key?(attr)
+				assert !@controller.send(:enrollment_params).has_key?(attr)
+			}
+		end
 	end
 
 end

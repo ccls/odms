@@ -3,7 +3,7 @@
 #	*	description ( unique and > 3 chars )
 class OperationalEventType < ActiveRecord::Base
 
-	attr_accessible :key, :description, :event_category #	position?
+#	attr_accessible :key, :description, :event_category #	position?
 
 	acts_as_list
 	acts_like_a_hash

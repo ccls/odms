@@ -3,7 +3,6 @@ require 'test_helper'
 class AddressTest < ActiveSupport::TestCase
 
 	assert_should_create_default_object
-	assert_should_protect(:study_subject_id, :study_subject)
 
 	attributes = %w( current_address address_at_diagnosis 
 		line_1 line_2 unit city state zip county country external_address_id )
@@ -13,7 +12,6 @@ class AddressTest < ActiveSupport::TestCase
 	assert_should_not_require( attributes - required )
 #	assert_should_require_unique( unique )
 	assert_should_not_require_unique( attributes - unique )
-	assert_should_not_protect( attributes )
 
 	assert_should_initially_belong_to( :study_subject )
 	assert_should_require_attribute_length( :notes,
@@ -36,8 +34,6 @@ class AddressTest < ActiveSupport::TestCase
 		:zip, :maximum => 10 )
 	assert_should_require_attribute_length( 
 		:line_1, :line_2, :unit, :city, :state, :maximum => 250 )
-
-#	assert_should_have_many(:interviews)	#	address did
 
 	assert_should_accept_only_good_values( :address_type,
 		{ :good_values => Address.const_get( :VALID_ADDRESS_TYPES ), 

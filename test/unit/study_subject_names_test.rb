@@ -17,7 +17,6 @@ class StudySubjectNamesTest < ActiveSupport::TestCase
 	)
 	assert_should_not_require( attributes, :model => 'StudySubject' )
 	assert_should_not_require_unique( attributes, :model => 'StudySubject' )
-	assert_should_not_protect( attributes, :model => 'StudySubject' )
 
 	test "should return 'name not available' for study_subject without names" do
 		study_subject = StudySubject.new

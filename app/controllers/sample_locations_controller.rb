@@ -21,7 +21,7 @@ class SampleLocationsController < ApplicationController
 	end
 
 	def create
-		@sample_location = SampleLocation.new(params[:sample_location])
+		@sample_location = SampleLocation.new(sample_location_params)
 		@sample_location.save!
 		flash[:notice] = 'Success!'
 		redirect_to @sample_location
@@ -31,7 +31,7 @@ class SampleLocationsController < ApplicationController
 	end 
 
 	def update
-		@sample_location.update_attributes!(params[:sample_location])
+		@sample_location.update_attributes!(sample_location_params)
 		flash[:notice] = 'Success!'
 		redirect_to sample_locations_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -52,6 +52,10 @@ protected
 		else
 			access_denied("Valid id required!", sample_locations_path)
 		end
+	end
+
+	def sample_location_params
+		params.require(:sample_location).permit(:is_active,:organization_id)
 	end
 
 end

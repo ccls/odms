@@ -21,7 +21,7 @@ class IneligibleReasonsController < ApplicationController
 	end
 
 	def create
-		@ineligible_reason = IneligibleReason.new(params[:ineligible_reason])
+		@ineligible_reason = IneligibleReason.new(ineligible_reason_params)
 		@ineligible_reason.save!
 		flash[:notice] = 'Success!'
 		redirect_to @ineligible_reason
@@ -32,7 +32,7 @@ class IneligibleReasonsController < ApplicationController
 	end 
 
 	def update
-		@ineligible_reason.update_attributes!(params[:ineligible_reason])
+		@ineligible_reason.update_attributes!(ineligible_reason_params)
 		flash[:notice] = 'Success!'
 		redirect_to ineligible_reasons_path
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -54,6 +54,10 @@ protected
 		else
 			access_denied("Valid id required!", ineligible_reasons_path)
 		end
+	end
+
+	def ineligible_reason_params
+		params.require(:ineligible_reason).permit(:key,:description)
 	end
 
 end

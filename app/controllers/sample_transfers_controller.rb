@@ -22,7 +22,7 @@ class SampleTransfersController < ApplicationController
 
 	def update
 		@study_subject = @sample_transfer.sample.study_subject
-		@sample_transfer.update_attributes!(params[:sample_transfer])
+		@sample_transfer.update_attributes!(sample_transfer_params)
 		flash[:notice] = 'Sample Transfer successfully updated!'
 		redirect_to study_subject_sample_path(@study_subject,@sample_transfer.sample_id)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid 
@@ -130,6 +130,10 @@ protected
 		if @active_sample_transfers.empty?
 			access_denied("Active sample transfers required to confirm!", sample_transfers_path)
 		end
+	end
+
+	def sample_transfer_params
+		params.require(:sample_transfer).permit(:sent_on,:status,:notes)
 	end
 
 end

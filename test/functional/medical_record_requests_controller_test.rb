@@ -624,6 +624,31 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
+	test "medical_record_request_params should require medical_record_request" do
+		@controller.params=HWIA.new(:no_medical_record_request => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:medical_record_request_params).permitted?
+		}
+	end
+
+	[ :status,:sent_on,:returned_on,:is_found,:notes ].each do |attr|
+		test "medical_record_request_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:medical_record_request => { attr => 'funky' })
+			assert @controller.send(:medical_record_request_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "medical_record_request_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:medical_record_request => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:medical_record_request_params).permitted?
+				assert  @controller.params[:medical_record_request].has_key?(attr)
+				assert !@controller.send(:medical_record_request_params).has_key?(attr)
+			}
+		end
+	end
+
 	def create_medical_record_requests(count=1,options={})
 		count.times.collect { FactoryGirl.create(:medical_record_request, options) }
 	end

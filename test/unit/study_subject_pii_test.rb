@@ -10,8 +10,6 @@ class StudySubjectPiiTest < ActiveSupport::TestCase
 		:birth_state, :birth_country, :model => 'StudySubject' )
 	assert_should_not_require_unique( :dob, :birth_city, 
 		:birth_state, :birth_country, :model => 'StudySubject' )
-	assert_should_not_protect( :dob, :birth_city,
-		:birth_state, :birth_country, :model => 'StudySubject' )
 	assert_should_require_attribute_length(
 		:birth_city, 
 		:birth_state, :birth_country, 

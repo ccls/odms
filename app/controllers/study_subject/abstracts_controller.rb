@@ -38,7 +38,7 @@ class StudySubject::AbstractsController < StudySubjectController
 	end
 
 	def create
-		@abstract = @study_subject.abstracts.new(params[:abstract])
+		@abstract = @study_subject.abstracts.new(abstract_params)
 		@abstract.save!
 		flash[:notice] = 'Success!'
 		redirect_to study_subject_abstract_path(@study_subject,@abstract)
@@ -52,7 +52,7 @@ class StudySubject::AbstractsController < StudySubjectController
 #	end
 
 	def update
-		@abstract.update_attributes!(params[:abstract])
+		@abstract.update_attributes!(abstract_params)
 		flash[:notice] = 'Success!'
 		redirect_to study_subject_abstract_path(@study_subject,@abstract)
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
@@ -72,7 +72,19 @@ class StudySubject::AbstractsController < StudySubjectController
 	end
 
 	def merge
-		@abstract = @study_subject.abstracts.new(params[:abstract].merge(:merging => true))
+
+
+
+
+		@abstract = @study_subject.abstracts.new(
+			params[:abstract].merge(:merging => true).permit!)
+
+
+
+
+#		params[:abstract][:merging] = true
+#		@abstract = @study_subject.abstracts.new(abstract_params)
+#		@abstract = @study_subject.abstracts.new(abstract_params.merge(:merging => true))
 		@abstract.save!
 		flash[:notice] = 'Success!'
 		redirect_to study_subject_abstract_path(@study_subject,@abstract)
@@ -101,6 +113,7 @@ protected
 	def append_current_user_to_params
 		params[:abstract] = {} unless params[:abstract]
 		params[:abstract].merge!(:current_user => current_user)
+#		params[:abstract][:current_user] = current_user
 	end
 
 	def valid_id_required
@@ -116,6 +129,19 @@ protected
 			access_denied("StudySubject must be Case to have abstract data!",
 				@study_subject)
 		end
+	end
+
+	def abstract_params
+
+
+
+
+		params.require(:abstract).permit!	#(:reviewed_by,'current_user')
+
+
+
+
+#		params[:abstract].permit!
 	end
 
 end

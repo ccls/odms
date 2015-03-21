@@ -10,7 +10,6 @@ class CountyTest < ActiveSupport::TestCase
 	assert_should_require( required )
 	assert_should_not_require( attributes - required )
 	assert_should_not_require_unique( attributes )
-	assert_should_not_protect( attributes )
 
 	assert_should_require_length( :name, :maximum => 250 )
 	assert_should_require_length( :fips_code, :maximum => 5 )

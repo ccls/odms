@@ -44,7 +44,7 @@ class ReceiveSamplesController < ApplicationController
 
 	def create
 
-		@sample = @sample_for_subject.samples.new(params[:sample])
+		@sample = @sample_for_subject.samples.new(sample_params)
 		@sample.received_by_ccls_at = DateTime.current
 
 		#	All or nothin'
@@ -94,11 +94,17 @@ protected
 			( @study_subject.is_child? ) ? @study_subject : @study_subject.child
 		end
 		if @sample_for_subject.blank?
-			@sample = Sample.new(params[:sample])	#	for valid form
+			#@sample = Sample.new(params[:sample])	#	for valid form
+			@sample = Sample.new(sample_params)	#	for valid form
 			flash.now[:error] = "Sample source / subject type mismatch."
 			#	this render trigger filter failure so nothing else happens.
 			render :action => 'new'
 		end
+	end
+
+	def sample_params
+		params.require(:sample).permit(:project_id,:sample_type_id,:sample_temperature,
+			:sent_to_subject_at, :collected_from_subject_at, :shipped_to_ccls_at)
 	end
 
 end

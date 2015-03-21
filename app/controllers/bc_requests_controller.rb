@@ -28,7 +28,7 @@ class BcRequestsController < ApplicationController
 
 	#		transform update to more generic update for status and comments/notes
 	def update
-		@bc_request.update_attributes!(params[:bc_request])
+		@bc_request.update_attributes!(bc_request_params)
 		redirect_path = session[:bc_request_return_to] || new_bc_request_path
 		#	NOTE why not delete key?
 		session[:bc_request_return_to] = nil
@@ -147,6 +147,10 @@ protected
 		else
 			nil
 		end
+	end
+
+	def bc_request_params
+		params.require(:bc_request).permit(:status,:sent_on,:returned_on,:is_found,:notes)
 	end
 
 end

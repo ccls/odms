@@ -228,4 +228,29 @@ class PagesControllerTest < ActionController::TestCase
 		end
 	end
 
+	test "page_params should require page" do
+		@controller.params=HWIA.new(:no_page => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:page_params).permitted?
+		}
+	end
+
+	[ :parent_id,:hide_menu,:path,:title_en,:menu_en,:body_en ].each do |attr|
+		test "page_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:page => { attr => 'funky' })
+			assert @controller.send(:page_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "page_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:page => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:page_params).permitted?
+				assert  @controller.params[:page].has_key?(attr)
+				assert !@controller.send(:page_params).has_key?(attr)
+			}
+		end
+	end
+
 end

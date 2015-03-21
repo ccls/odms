@@ -42,4 +42,29 @@ class ProjectsControllerTest < ActionController::TestCase
 
 	assert_no_access_without_login
 
+	test "project_params should require project" do
+		@controller.params=HWIA.new(:no_project => { :foo => 'bar' })
+		assert_raises( ActionController::ParameterMissing ){
+			assert !@controller.send(:project_params).permitted?
+		}
+	end
+
+	[ :key,:label,:description ].each do |attr|
+		test "project_params should permit #{attr} subkey" do
+			@controller.params=HWIA.new(:project => { attr => 'funky' })
+			assert @controller.send(:project_params).permitted?
+		end
+	end
+
+	%w( id ).each do |attr|
+		test "project_params should NOT permit #{attr} subkey" do
+			@controller.params=HWIA.new(:project => { attr => 'funky' })
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send(:project_params).permitted?
+				assert  @controller.params[:project].has_key?(attr)
+				assert !@controller.send(:project_params).has_key?(attr)
+			}
+		end
+	end
+
 end
