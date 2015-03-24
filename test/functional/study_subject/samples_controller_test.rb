@@ -516,33 +516,11 @@ class StudySubject::SamplesControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "sample_params should require sample" do
-		@controller.params=HWIA.new(:no_sample => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:sample_params).permitted?
-		}
-	end
-
-	[ :project_id, :sample_type_id, :sent_to_subject_at, 
+	add_strong_parameters_tests( :sample,
+		[ :project_id, :sample_type_id, :sent_to_subject_at, 
 		:collected_from_subject_at, :shipped_to_ccls_at, :received_by_ccls_at, 
 		:sent_to_lab_at, :location_id, :received_by_lab_at, :sample_format, 
-		:sample_temperature, :external_id, :external_id_source, :notes ].each do |attr|
-		test "sample_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:sample => { attr => 'funky' })
-			assert @controller.send(:sample_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "sample_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:sample => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:sample_params).permitted?
-				assert  @controller.params[:sample].has_key?(attr)
-				assert !@controller.send(:sample_params).has_key?(attr)
-			}
-		end
-	end
+		:sample_temperature, :external_id, :external_id_source, :notes ])
 
 protected 
 

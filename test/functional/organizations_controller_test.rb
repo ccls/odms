@@ -17,29 +17,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 	assert_no_access_with_login({ :logins => non_site_administrators })
 	assert_no_access_without_login
 
-	test "organization_params should require organization" do
-		@controller.params=HWIA.new(:no_organization => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:organization_params).permitted?
-		}
-	end
-
-	[ :key,:name ].each do |attr|
-		test "organization_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:organization => { attr => 'funky' })
-			assert @controller.send(:organization_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "organization_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:organization => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:organization_params).permitted?
-				assert  @controller.params[:organization].has_key?(attr)
-				assert !@controller.send(:organization_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :organization,
+		[ :key,:name ])
 
 end

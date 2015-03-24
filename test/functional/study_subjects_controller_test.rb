@@ -356,37 +356,20 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "study_subject_params should require study_subject" do
-		@controller.params=HWIA.new(:no_study_subject => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:study_subject_params).permitted?
-		}
-	end
 
-	[ :do_not_contact ,
+	test "add more strong parameters tests" do
+		pending
+	end
+#			subject_races_attributes: [:race_code] )
+
+	add_strong_parameters_tests( :study_subject,
+		[ :do_not_contact ,
 			:first_name, :middle_name, :last_name, :dob, :sex,
 			:state_registrar_no, :local_registrar_no, :reference_date, :vital_status,
 			:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
 			:father_first_name, :father_middle_name, :father_last_name,
 			:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-			:guardian_relationship, :other_guardian_relationship ].each do |attr|
-#			subject_races_attributes: [:race_code] )
-		#	for some reason subject_races_attributes needs to be last?
-		test "study_subject_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:study_subject => { attr => 'funky' })
-			assert @controller.send(:study_subject_params).permitted?
-		end
-	end
-
-	%w( id subjectid subject_type state_id_no ).each do |attr|
-		test "study_subject_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:study_subject => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:study_subject_params).permitted?
-				assert  @controller.params[:study_subject].has_key?(attr)
-				assert !@controller.send(:study_subject_params).has_key?(attr)
-			}
-		end
-	end
+			:guardian_relationship, :other_guardian_relationship ],
+		[:subjectid, :subject_type, :state_id_no ])
 
 end

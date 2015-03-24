@@ -609,31 +609,9 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "operational_event_params should require operational_event" do
-		@controller.params=HWIA.new(:no_operational_event => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:operational_event_params).permitted?
-		}
-	end
-
-	[ :occurred_at, :project_id, :operational_event_type_id, 
-			:description, :notes ].each do |attr|
-		test "operational_event_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:operational_event => { attr => 'funky' })
-			assert @controller.send(:operational_event_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "operational_event_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:operational_event => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:operational_event_params).permitted?
-				assert  @controller.params[:operational_event].has_key?(attr)
-				assert !@controller.send(:operational_event_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :operational_event,
+		[ :occurred_at, :project_id, :operational_event_type_id, 
+			:description, :notes ])
 
 protected
 

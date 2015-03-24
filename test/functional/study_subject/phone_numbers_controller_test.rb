@@ -412,30 +412,8 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "phone_number_params should require phone_number" do
-		@controller.params=HWIA.new(:no_phone_number => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:phone_number_params).permitted?
-		}
-	end
-
-	[ :is_primary, :phone_number, :phone_type, :data_source, 
-			:other_data_source, :current_phone ].each do |attr|
-		test "phone_number_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:phone_number => { attr => 'funky' })
-			assert @controller.send(:phone_number_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "phone_number_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:phone_number => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:phone_number_params).permitted?
-				assert  @controller.params[:phone_number].has_key?(attr)
-				assert !@controller.send(:phone_number_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :phone_number,
+		[ :is_primary, :phone_number, :phone_type, :data_source, 
+			:other_data_source, :current_phone ])
 
 end

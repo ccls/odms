@@ -16,29 +16,7 @@ class RacesControllerTest < ActionController::TestCase
 	assert_no_access_with_login( :logins => non_site_administrators )
 	assert_no_access_without_login
 
-	test "race_params should require race" do
-		@controller.params=HWIA.new(:no_race => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:race_params).permitted?
-		}
-	end
-
-	[ :key,:code,:description ].each do |attr|
-		test "race_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:race => { attr => 'funky' })
-			assert @controller.send(:race_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "race_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:race => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:race_params).permitted?
-				assert  @controller.params[:race].has_key?(attr)
-				assert !@controller.send(:race_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :race,
+		[ :key,:code,:description ])
 
 end

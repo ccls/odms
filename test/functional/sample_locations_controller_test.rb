@@ -19,30 +19,8 @@ class SampleLocationsControllerTest < ActionController::TestCase
 	assert_no_access_with_login({ :logins => non_site_administrators })
 	assert_no_access_without_login
 
-	test "sample_location_params should require sample_location" do
-		@controller.params=HWIA.new(:no_sample_location => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:sample_location_params).permitted?
-		}
-	end
-
-	[ :is_active,:organization_id ].each do |attr|
-		test "sample_location_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:sample_location => { attr => 'funky' })
-			assert @controller.send(:sample_location_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "sample_location_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:sample_location => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:sample_location_params).permitted?
-				assert  @controller.params[:sample_location].has_key?(attr)
-				assert !@controller.send(:sample_location_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :sample_location,
+		[ :is_active,:organization_id ])
 
 end
 __END__

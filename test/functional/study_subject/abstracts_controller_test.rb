@@ -603,29 +603,10 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "abstract_params should require abstract" do
-		@controller.params=HWIA.new(:no_abstract => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:abstract_params).permitted?
-		}
-	end
+	add_strong_parameters_tests( :abstract )
 
-#	[  ].each do |attr|
-#		test "abstract_params should permit #{attr} subkey" do
-#			@controller.params=HWIA.new(:abstract => { attr => 'funky' })
-#			assert @controller.send(:abstract_params).permitted?
-#		end
-#	end
-#
-#	%w( id ).each do |attr|
-#		test "abstract_params should NOT permit #{attr} subkey" do
-#			@controller.params=HWIA.new(:abstract => { attr => 'funky' })
-#			assert_raises( ActionController::UnpermittedParameters ){
-#				assert !@controller.send(:abstract_params).permitted?
-#				assert  @controller.params[:abstract].has_key?(attr)
-#				assert !@controller.send(:abstract_params).has_key?(attr)
-#			}
-#		end
-#	end
+	test "add more strong parameters tests" do
+		pending
+	end
 
 end

@@ -561,32 +561,10 @@ class StudySubject::AddressesControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "address_params should require address" do
-		@controller.params=HWIA.new(:no_address => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:address_params).permitted?
-		}
-	end
-
-	[ :address_type, :data_source, :other_data_source, :line_1, :unit, 
+	add_strong_parameters_tests( :address,
+		[ :address_type, :data_source, :other_data_source, :line_1, :unit, 
 			:line_2, :city, :state, :zip, :county, :country, :current_address, 
-			:subject_moved, :address_at_diagnosis, :notes ].each do |attr|
-		test "address_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:address => { attr => 'funky' })
-			assert @controller.send(:address_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "address_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:address => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:address_params).permitted?
-				assert  @controller.params[:address].has_key?(attr)
-				assert !@controller.send(:address_params).has_key?(attr)
-			}
-		end
-	end
+			:subject_moved, :address_at_diagnosis, :notes ])
 
 protected
 

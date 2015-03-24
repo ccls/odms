@@ -399,30 +399,8 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "alternate_contact_params should require alternate_contact" do
-		@controller.params=HWIA.new(:no_alternate_contact => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:alternate_contact_params).permitted?
-		}
-	end
-
-	[ :name, :relation, :line_1, :line_2, :city, :state, :zip, 
-			:phone_number_1, :phone_number_2 ].each do |attr|
-		test "alternate_contact_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:alternate_contact => { attr => 'funky' })
-			assert @controller.send(:alternate_contact_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "alternate_contact_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:alternate_contact => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:alternate_contact_params).permitted?
-				assert  @controller.params[:alternate_contact].has_key?(attr)
-				assert !@controller.send(:alternate_contact_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :alternate_contact,
+		[ :name, :relation, :line_1, :line_2, :city, :state, :zip, 
+			:phone_number_1, :phone_number_2 ])
 
 end

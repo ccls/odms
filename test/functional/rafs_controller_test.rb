@@ -1108,30 +1108,9 @@ class RafsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-#	test "study_subject_params should require study_subject" do
-#		@controller.params=HWIA.new(:no_study_subject => { :foo => 'bar' })
-#		assert_raises( ActionController::ParameterMissing ){
-#			assert !@controller.send(:study_subject_params).permitted?
-#		}
-#	end
-#
-#	[  ].each do |attr|
-#		test "study_subject_params should permit #{attr} subkey" do
-#			@controller.params=HWIA.new(:study_subject => { attr => 'funky' })
-#			assert @controller.send(:study_subject_params).permitted?
-#		end
-#	end
-#
-#	%w( id ).each do |attr|
-#		test "study_subject_params should NOT permit #{attr} subkey" do
-#			@controller.params=HWIA.new(:study_subject => { attr => 'funky' })
-#			assert_raises( ActionController::UnpermittedParameters ){
-#				assert !@controller.send(:study_subject_params).permitted?
-#				assert  @controller.params[:study_subject].has_key?(attr)
-#				assert !@controller.send(:study_subject_params).has_key?(attr)
-#			}
-#		end
-#	end
+	test "add strong parameters tests" do
+		pending
+	end
 
 end
 __END__

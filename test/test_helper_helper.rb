@@ -49,6 +49,37 @@ class ActionController::TestCase
 		self # per contract
 	end
 
+
+	def self.add_strong_parameters_tests( main_key, required=[], not_permitted=[] )
+		test "params should require #{main_key}" do
+			@controller.params=HWIA.new("not_#{main_key}" => { :foo => 'bar' })
+			assert_raises( ActionController::ParameterMissing ){
+				assert !@controller.send("#{main_key}_params").permitted?
+			}
+		end
+
+		required.each do |attr|
+			test "params should permit #{main_key}:#{attr} subkey" do
+				@controller.params=HWIA.new(main_key => { attr => 'funky' })
+				assert @controller.send("#{main_key}_params").permitted?
+			end
+		end
+
+		#	requires this setting ....
+		#	config.action_controller.action_on_unpermitted_parameters = :raise
+		(not_permitted + [:id,:created_at,:updated_at]).each do |attr|
+			test "params should NOT permit #{main_key}:#{attr} subkey" do
+				@controller.params=HWIA.new(main_key => { attr => 'funky' })
+				assert_raises( ActionController::UnpermittedParameters ){
+					assert !@controller.send("#{main_key}_params").permitted?
+					assert  @controller.params[main_key].has_key?(attr)
+					assert !@controller.send("#{main_key}_params").has_key?(attr)
+				}
+			end
+		end
+	end
+
+
 end
 
 

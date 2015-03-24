@@ -491,34 +491,12 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "enrollment_params should require enrollment" do
-		@controller.params=HWIA.new(:no_enrollment => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:enrollment_params).permitted?
-		}
-	end
-
-	[ :project_id, :is_candidate, :tracing_status, :is_eligible, 
+	add_strong_parameters_tests( :enrollment,
+		[ :project_id, :is_candidate, :tracing_status, :is_eligible, 
 		:ineligible_reason_id, :other_ineligible_reason, :is_chosen, 
 		:reason_not_chosen, :consented, :consented_on, :refusal_reason_id, 
 		:other_refusal_reason, :assigned_for_interview_at, 
 		:interview_completed_on, :terminated_participation, 
-		:terminated_reason, :is_complete, :completed_on, :notes ].each do |attr|
-		test "enrollment_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:enrollment => { attr => 'funky' })
-			assert @controller.send(:enrollment_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "enrollment_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:enrollment => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:enrollment_params).permitted?
-				assert  @controller.params[:enrollment].has_key?(attr)
-				assert !@controller.send(:enrollment_params).has_key?(attr)
-			}
-		end
-	end
+		:terminated_reason, :is_complete, :completed_on, :notes ])
 
 end

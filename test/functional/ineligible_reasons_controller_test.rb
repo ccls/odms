@@ -16,29 +16,7 @@ class IneligibleReasonsControllerTest < ActionController::TestCase
 	assert_no_access_with_login( :logins => non_site_administrators )
 	assert_no_access_without_login
 
-	test "ineligible_reason_params should require ineligible_reason" do
-		@controller.params=HWIA.new(:no_ineligible_reason => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:ineligible_reason_params).permitted?
-		}
-	end
-
-	[ :key,:description ].each do |attr|
-		test "ineligible_reason_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:ineligible_reason => { attr => 'funky' })
-			assert @controller.send(:ineligible_reason_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "ineligible_reason_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:ineligible_reason => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:ineligible_reason_params).permitted?
-				assert  @controller.params[:ineligible_reason].has_key?(attr)
-				assert !@controller.send(:ineligible_reason_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :ineligible_reason,
+		[ :key,:description ])
 
 end

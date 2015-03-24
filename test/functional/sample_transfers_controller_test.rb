@@ -488,30 +488,8 @@ class SampleTransfersControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-	test "sample_transfer_params should require sample_transfer" do
-		@controller.params=HWIA.new(:no_sample_transfer => { :foo => 'bar' })
-		assert_raises( ActionController::ParameterMissing ){
-			assert !@controller.send(:sample_transfer_params).permitted?
-		}
-	end
-
-	[ :sent_on,:status,:notes ].each do |attr|
-		test "sample_transfer_params should permit #{attr} subkey" do
-			@controller.params=HWIA.new(:sample_transfer => { attr => 'funky' })
-			assert @controller.send(:sample_transfer_params).permitted?
-		end
-	end
-
-	%w( id ).each do |attr|
-		test "sample_transfer_params should NOT permit #{attr} subkey" do
-			@controller.params=HWIA.new(:sample_transfer => { attr => 'funky' })
-			assert_raises( ActionController::UnpermittedParameters ){
-				assert !@controller.send(:sample_transfer_params).permitted?
-				assert  @controller.params[:sample_transfer].has_key?(attr)
-				assert !@controller.send(:sample_transfer_params).has_key?(attr)
-			}
-		end
-	end
+	add_strong_parameters_tests( :sample_transfer,
+		[ :sent_on,:status,:notes ])
 
 protected
 
