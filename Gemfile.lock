@@ -86,8 +86,8 @@ GEM
     pdf-core (0.5.1)
     power_assert (0.2.3)
     pr_geohash (1.0.0)
-    prawn (2.0.0)
-      pdf-core (~> 0.5.0)
+    prawn (2.0.1)
+      pdf-core (~> 0.5.1)
       ttfunk (~> 1.4.0)
     prawnto (0.1.1)
       prawn
