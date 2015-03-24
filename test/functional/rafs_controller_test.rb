@@ -1108,9 +1108,56 @@ class RafsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
+#	add_strong_parameters_tests( :study_subject, [
+#		:first_name, :middle_name, :last_name, :dob, :sex,
+#		:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
+#		:father_first_name, :father_middle_name, :father_last_name,
+#		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
+#		:guardian_relationship, :other_guardian_relationship ])
+
+
+#	move ALL OF THE ATTRIBUTES onto the form
+#	NO MORE controller set this and that default stuff
+
 	test "add strong parameters tests" do
 		pending
 	end
 
+	test "add patient_attributes strong parameters tests" do
+		pending
+		#:patient_attributes => [:raf_county,:raf_zip,:organization_id]
+		#:admitting_oncologist,
+		#:hospital_no,
+		#:admit_date,
+		#:diagnosis,
+		#:other_diagnosis,
+		#:was_under_15_at_dx,
+		#:was_previously_treated
+		#:was_ca_resident_at_diagnosis
+	end
+
+	test "add subject_languages strong parameters tests" do
+		pending
+		#languages_select( Language.where(:key => %w(english spanish other)) ) %>
+	end
+
+	test "add enrollments_attributes strong parameters tests" do
+		pending
+#ARRAY!
+#:enrollments_attributes => 
+		#	[:consented, :consented_on, :refused_by_family, :refused_by_physician, :refusal_reason_id, :other_refusal_reason ]
+	end
+
+	test "add addresses_attributes strong parameters tests" do
+		pending
+		#	[:line_1, :unit, :city, :state, :zip, :county ]
+	end
+
+	test "add phone_numbers_attributes strong parameters tests" do
+		pending
+		#	[:phone_number, :phone_type, :is_primary]
+	end
+
 end
 __END__
+

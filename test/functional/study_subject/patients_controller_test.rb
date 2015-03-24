@@ -382,6 +382,7 @@ class StudySubject::PatientsControllerTest < ActionController::TestCase
 
 	add_strong_parameters_tests( :patient,
 		[ :admit_date, :diagnosis_date, :diagnosis, :other_diagnosis, 
-			:organization_id, :hospital_no ])
+			:organization_id, :hospital_no ],
+		[:study_subject_id])
 
 end

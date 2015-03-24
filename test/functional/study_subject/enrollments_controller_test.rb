@@ -497,6 +497,7 @@ class StudySubject::EnrollmentsControllerTest < ActionController::TestCase
 		:reason_not_chosen, :consented, :consented_on, :refusal_reason_id, 
 		:other_refusal_reason, :assigned_for_interview_at, 
 		:interview_completed_on, :terminated_participation, 
-		:terminated_reason, :is_complete, :completed_on, :notes ])
+		:terminated_reason, :is_complete, :completed_on, :notes ],
+		[:study_subject_id])
 
 end

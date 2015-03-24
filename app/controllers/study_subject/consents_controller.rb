@@ -29,18 +29,19 @@ class StudySubject::ConsentsController < StudySubjectController
 #	"study_subject_id"=>"2"}
 
 	def update
+		#
+		#	20150324 - Why isn't this just normal nested attributes style?
+		#			Perhaps some security prior to strong params?
+		#
 		ActiveRecord::Base.transaction do
-			@enrollment = @study_subject.enrollments.find_or_create_by(project_id: Project['ccls'].id )
-#			@enrollment.attributes = params[:enrollment]||{}
+			@enrollment = @study_subject.enrollments.find_or_create_by(
+				project_id: Project['ccls'].id )
 			@enrollment.attributes = enrollment_params
 			@study_subject.subject_languages_attributes = params.dig('study_subject','subject_languages_attributes')||{}
-#	TODO what if case subject has no patient model??
-#	TODO what if isn't case subject?
+#	TODO what if case subject has no patient model??  Should never happen.
+#	TODO what if isn't case subject?  Should also never happen.
 			if @study_subject.is_case? and !@study_subject.patient.nil?
-#				@study_subject.patient.attributes = params[:patient]||{}
-				@study_subject.patient.attributes = params.require(:patient).permit(
-					:admit_date, :hospital_no, :organization_id, :diagnosis,
-					:was_previously_treated, :was_ca_resident_at_diagnosis)
+				@study_subject.patient.attributes = patient_params
 			end
 #raise ActiveRecord::RecordNotSaved.new(@enrollment)
 			@enrollment.save!
@@ -64,6 +65,12 @@ class StudySubject::ConsentsController < StudySubjectController
 			:use_smp_future_rsrch, :use_smp_future_cancer_rsrch, :use_smp_future_other_rsrch,
 			:share_smp_with_others, :contact_for_related_study,
 			:provide_saliva_smp, :receive_study_findings)
+	end
+
+	def patient_params
+		params.require(:patient).permit(
+			:was_previously_treated, :was_ca_resident_at_diagnosis)
+			#:admit_date, :hospital_no, :organization_id, :diagnosis,
 	end
 
 end

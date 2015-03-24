@@ -564,7 +564,8 @@ class StudySubject::AddressesControllerTest < ActionController::TestCase
 	add_strong_parameters_tests( :address,
 		[ :address_type, :data_source, :other_data_source, :line_1, :unit, 
 			:line_2, :city, :state, :zip, :county, :country, :current_address, 
-			:subject_moved, :address_at_diagnosis, :notes ])
+			:subject_moved, :address_at_diagnosis, :notes ],
+		[:study_subject_id])
 
 protected
 

@@ -401,6 +401,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 
 	add_strong_parameters_tests( :alternate_contact,
 		[ :name, :relation, :line_1, :line_2, :city, :state, :zip, 
-			:phone_number_1, :phone_number_2 ])
+			:phone_number_1, :phone_number_2 ],
+		[:study_subject_id])
 
 end

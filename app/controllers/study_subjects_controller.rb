@@ -188,9 +188,11 @@ protected
 			:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
 			:father_first_name, :father_middle_name, :father_last_name,
 			:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-			:guardian_relationship, :other_guardian_relationship,
-			subject_races_attributes: [:id, :_destroy, :race_code, :other_race, :mixed_race] )
+			{ subject_races_attributes: [:id, :_destroy, :race_code, :other_race, :mixed_race] },
+			:guardian_relationship, :other_guardian_relationship
+)
 		#	for some reason subject_races_attributes needs to be last?
+		#		unless wrapped in {} ?
 		#	AND NEED :id and :_destroy there too!
 	end
 

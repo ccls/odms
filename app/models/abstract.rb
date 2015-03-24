@@ -16,7 +16,7 @@ class Abstract  < ActiveRecord::Base
 #	attr_protected :entry_2_by_uid
 #	attr_protected :merged_by_uid
 
-	attr_accessor :current_user
+	attr_accessor :current_user_uid
 	attr_accessor :merging	#	flag to be used to skip 2 abstract limitation
 
 	validate :subject_has_less_than_three_abstracts, :on => :create
@@ -522,17 +522,17 @@ protected
 			#	both as the same until the merge
 			case study_subject.abstracts.count
 				when 0 
-					self.entry_1_by_uid = current_user.try(:uid)||0
-					self.entry_2_by_uid = current_user.try(:uid)||0
+					self.entry_1_by_uid = current_user_uid||0
+					self.entry_2_by_uid = current_user_uid||0
 				when 1 
-					self.entry_1_by_uid = current_user.try(:uid)||0
-					self.entry_2_by_uid = current_user.try(:uid)||0
+					self.entry_1_by_uid = current_user_uid||0
+					self.entry_2_by_uid = current_user_uid||0
 				when 2
 					abs = study_subject.abstracts
 					#	compact just in case a nil crept in
 					self.entry_1_by_uid = [abs[0].entry_1_by_uid,abs[0].entry_2_by_uid].compact.first
 					self.entry_2_by_uid = [abs[1].entry_1_by_uid,abs[1].entry_2_by_uid].compact.first
-					self.merged_by_uid  = current_user.try(:uid)||0
+					self.merged_by_uid  = current_user_uid||0
 			end
 		end
 	end

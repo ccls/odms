@@ -15,6 +15,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 	assert_no_route(:get,:new,:study_subject_id => 0)
 	assert_no_route(:post,:create,:study_subject_id => 0)
 
+	def patient_attributes_on_consent(options={})
+		{:was_previously_treated => 2, :was_ca_resident_at_diagnosis => 1}.merge(options)
+	end
 
 #	ONLY SHOW, EDIT and UPDATE
 
@@ -179,9 +182,10 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 #	NOTE CASE subject only (for now) ... ONLY CASE WILL HAVE PATIENT (AND MUST) SO CASE ONLY
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
+#				:patient => FactoryGirl.attributes_for(:patient),
 			assert_difference('SubjectLanguage.count',1){
 				put :update, :study_subject_id => @study_subject.id, 
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 					:enrollment => FactoryGirl.attributes_for(:consented_enrollment),
 					:study_subject => { :subject_languages_attributes => {
 					'0' => { :language_code => language.code }
@@ -205,9 +209,10 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 #	NOTE CASE subject only (for now) ... ONLY CASE WILL HAVE PATIENT (AND MUST) SO CASE ONLY
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
+#				:patient => FactoryGirl.attributes_for(:patient),
 			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, 
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 					:enrollment => FactoryGirl.attributes_for(:consented_enrollment),
 					:study_subject => { :subject_languages_attributes => {
 						'0' => { :id => subject_language.id, :_destroy => 1 } } }
@@ -224,8 +229,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			#	Don't need to provide something new to save to trigger this failure.
+			#	:patient => FactoryGirl.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
@@ -239,8 +245,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			login_as send(cu)
 			Patient.any_instance.stubs(:create_or_update).returns(false)
+#				:patient => FactoryGirl.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
@@ -351,8 +358,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		test "should update consent with #{cu} login" do
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			login_as send(cu)
+#				:patient => FactoryGirl.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
@@ -370,8 +378,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:valid?).returns(false)
+#				:patient => FactoryGirl.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
@@ -383,8 +392,9 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			study_subject = FactoryGirl.create(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)
+#				:patient => FactoryGirl.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
-				:patient => FactoryGirl.attributes_for(:patient),
+				:patient => patient_attributes_on_consent,
 				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
@@ -484,6 +494,35 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		:other_refusal_reason, :consented_on, :use_smp_future_rsrch, 
 		:use_smp_future_cancer_rsrch, :use_smp_future_other_rsrch, 
 		:share_smp_with_others, :contact_for_related_study, :provide_saliva_smp, 
-		:receive_study_findings ])
+		:receive_study_findings ],
+		[:study_subject_id])
+
+	#	These are separate and NOT NESTED!
+	add_strong_parameters_tests( :patient, [ 
+		:was_previously_treated, :was_ca_resident_at_diagnosis ])
+
+
+	#	This will require some mods.
+	test "add subject language attributes tests" do
+		pending
+	end
+
 
 end
+__END__
+
+I'm surprised that this isn't entirely study_subject with nested attributes?
+
+
+"enrollment"=>{"vaccine_authorization_received_at"=>"", "is_eligible"=>"1", "ineligible_reason_id"=>"", "other_ineligible_reason"=>"", "consented"=>"1", "refusal_reason_id"=>"", "other_refusal_reason"=>"", "consented_on"=>"10/14/1996", "use_smp_future_rsrch"=>"", "use_smp_future_cancer_rsrch"=>"", "use_smp_future_other_rsrch"=>"", "share_smp_with_others"=>"", "contact_for_related_study"=>"", "provide_saliva_smp"=>"", "receive_study_findings"=>""}, 
+
+"study_subject"=>{"subject_languages_attributes"=>{"0"=>{"language_code"=>"1", "_destroy"=>"0", "id"=>"450"}, "1"=>{"language_code"=>""}, "2"=>{"language_code"=>"", "other_language"=>""}}}, 
+
+"patient"=>{"was_previously_treated"=>"2", "was_ca_resident_at_diagnosis"=>""}, 
+
+"study_subject_id"=>"7674"}
+
+
+
+
+

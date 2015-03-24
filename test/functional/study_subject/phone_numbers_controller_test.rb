@@ -414,6 +414,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 	add_strong_parameters_tests( :phone_number,
 		[ :is_primary, :phone_number, :phone_type, :data_source, 
-			:other_data_source, :current_phone ])
+			:other_data_source, :current_phone ],
+		[:study_subject_id])
 
 end

@@ -46,7 +46,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
 			abstract = FactoryGirl.create(:abstract,
-				:current_user => FactoryGirl.create(:user))
+				:current_user_uid => FactoryGirl.create(:user).uid)
 			assert abstract.entry_1_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -55,7 +55,7 @@ class AbstractTest < ActiveSupport::TestCase
 		assert_difference('User.count',1) {
 		assert_difference('Abstract.count',1) {
 			abstract = FactoryGirl.create(:abstract,
-				:current_user => FactoryGirl.create(:user))
+				:current_user_uid => FactoryGirl.create(:user).uid)
 			assert abstract.entry_2_by.is_a?(User)	#	will fail if using sqlite database
 		} }
 	end
@@ -76,7 +76,7 @@ class AbstractTest < ActiveSupport::TestCase
 		current_user = FactoryGirl.create(:user)
 		assert_difference('Abstract.count',1) {
 			abstract = FactoryGirl.create(:abstract,
-				:current_user => current_user,
+				:current_user_uid => current_user.uid,
 				:study_subject => study_subject)
 			assert_equal abstract.entry_1_by, current_user
 			assert_equal abstract.entry_2_by, current_user
@@ -88,11 +88,11 @@ class AbstractTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
 		FactoryGirl.create(:abstract,
-			:current_user => current_user,
+			:current_user_uid => current_user.uid,
 			:study_subject => study_subject)
 		assert_difference('Abstract.count',1) {
 			abstract = FactoryGirl.create(:abstract,
-				:current_user => current_user,
+				:current_user_uid => current_user.uid,
 				:study_subject => study_subject)
 			assert_equal abstract.entry_1_by, current_user
 			assert_equal abstract.entry_2_by, current_user
@@ -105,14 +105,14 @@ class AbstractTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
 		FactoryGirl.create(:abstract,
-			:current_user => current_user,
+			:current_user_uid => current_user.uid,
 			:study_subject => study_subject)
 		FactoryGirl.create(:abstract,
-			:current_user => current_user,
+			:current_user_uid => current_user.uid,
 			:study_subject => study_subject)
 		assert_difference('Abstract.count',0) {
 			#	study_subject.reload is needed here
-			abstract = create_abstract(:current_user => current_user,
+			abstract = create_abstract(:current_user_uid => current_user.uid,
 				:study_subject => study_subject.reload)
 			assert abstract.errors.include?(:study_subject_id)
 			assert abstract.errors.matching?(:study_subject_id, 
@@ -125,16 +125,16 @@ class AbstractTest < ActiveSupport::TestCase
 		study_subject = FactoryGirl.create(:case_study_subject)
 		current_user = FactoryGirl.create(:user)
 		FactoryGirl.create(:abstract,
-			:current_user => current_user,
+			:current_user_uid => current_user.uid,
 			:study_subject => study_subject)
 		FactoryGirl.create(:abstract,
-			:current_user => current_user,
+			:current_user_uid => current_user.uid,
 			:study_subject => study_subject)	#.reload)
 		#	yes, -1 , because when creating the merged, the other 2 go away
 		assert_difference('Abstract.count',-1) {
 			#	study_subject.reload is needed here
 			abstract = FactoryGirl.create(:abstract,
-				:current_user => current_user,
+				:current_user_uid => current_user.uid,
 				:study_subject => study_subject.reload,
 				:merging => true)
 			assert_equal abstract.merged_by, current_user

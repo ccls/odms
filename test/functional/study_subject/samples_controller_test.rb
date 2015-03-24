@@ -520,7 +520,8 @@ class StudySubject::SamplesControllerTest < ActionController::TestCase
 		[ :project_id, :sample_type_id, :sent_to_subject_at, 
 		:collected_from_subject_at, :shipped_to_ccls_at, :received_by_ccls_at, 
 		:sent_to_lab_at, :location_id, :received_by_lab_at, :sample_format, 
-		:sample_temperature, :external_id, :external_id_source, :notes ])
+		:sample_temperature, :external_id, :external_id_source, :notes ],
+		[:study_subject_id])
 
 protected 
 

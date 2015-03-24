@@ -611,7 +611,8 @@ class StudySubject::EventsControllerTest < ActionController::TestCase
 
 	add_strong_parameters_tests( :operational_event,
 		[ :occurred_at, :project_id, :operational_event_type_id, 
-			:description, :notes ])
+			:description, :notes ],
+		[:study_subject_id])
 
 protected
 
