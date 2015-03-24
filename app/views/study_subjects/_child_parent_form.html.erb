@@ -34,8 +34,7 @@
    <span><%= f.text_field :guardian_last_name %></span>
    <span class='big'><%= f.select :guardian_relationship,
 				@study_subject.guardian_relationships,
-				:include_blank => true,
-				:label_text => 'vital status:' %>
+				:include_blank => true %>
    </span>
    <span><%= f.text_field :other_guardian_relationship %></span>
   </div><!-- class='guardian tablerow' -->
