@@ -117,9 +117,4 @@ class AbstractsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-
-	test "add strong parameter tests" do
-		pending
-	end
-
 end
