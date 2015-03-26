@@ -73,4 +73,8 @@ class StudySubject::ConsentsController < StudySubjectController
 			#:admit_date, :hospital_no, :organization_id, :diagnosis,
 	end
 
+#	def subject_language_params
+#		params.require(:study_subject).permit({:subject_languages_attributes => [:language_code,:other_language]})[:subject_languages_attributes]
+#	end
+
 end
