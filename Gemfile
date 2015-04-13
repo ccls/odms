@@ -16,6 +16,12 @@ gem 'bundler'
 gem 'rsolr', '<1.0.11'
 
 gem 'jakewendt-active_record_sunspotter'
+gem 'sunspot', '=2.1.1'
+gem 'sunspot_rails', '=2.1.1'
+gem 'sunspot_solr', '=2.1.1'
+#	upgraded to 2.2.0 and got lots of ...
+#	NoMethodError: undefined method `solr_escape' for RSolr:Module
+
 #	copied in sunspot_rails-2.1.0/lib/sunspot/rails/adapters.rb
 #	to stop ActiveRecord deprecation warnings
 #	Commented that out now.

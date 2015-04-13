@@ -140,14 +140,14 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    sunspot (2.2.0)
+    sunspot (2.1.1)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
-    sunspot_rails (2.2.0)
+    sunspot_rails (2.1.1)
       nokogiri
       rails (>= 3)
-      sunspot (= 2.2.0)
-    sunspot_solr (2.2.0)
+      sunspot (= 2.1.1)
+    sunspot_solr (2.1.1)
     test-unit (3.0.9)
       power_assert
     thor (0.19.1)
@@ -199,6 +199,9 @@ DEPENDENCIES
   sass
   sass-rails
   simplecov
+  sunspot (= 2.1.1)
+  sunspot_rails (= 2.1.1)
+  sunspot_solr (= 2.1.1)
   test-unit
   ucb_ldap (~> 2.0.0.pre)
   will_paginate
