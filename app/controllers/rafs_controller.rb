@@ -20,25 +20,13 @@ class RafsController < ApplicationController
 	end
 
 	def create
-		#
-		#	Add defaults that are not on the forms.
-		#	This is ugly, but they are required, so either here or 
-		#	hidden in the view.  If put in view, then need to be explicitly
-		#	set in tests as well.
-		#	deep_merge does not work correctly with a HashWithIndifferentAccess
-		#	convert to hash, but MUST use string keys, not symbols as
-		#		real requests do not send symbols
-		#
-#
-#	hashes are passed as references and so are modified and don't need explicitly updated
-#
-		study_subject_params = params[:study_subject].to_hash.deep_merge({
-			'enrollments_attributes' => { '0' => { "project_id"=> Project['ccls'].id } }
-		})
-		add_default_raf_address_attributes(study_subject_params)
-		add_default_raf_phone_number_attributes(study_subject_params)
 
-		mark_as_eligible(study_subject_params)
+		params[:study_subject][:addresses_attributes] ||= {}
+		params[:study_subject][:addresses_attributes]['0'] ||= {}
+		allow_blank_address_line_1_for(
+			params[:study_subject][:addresses_attributes]['0'])
+
+		mark_as_eligible(params[:study_subject])
 		@study_subject = StudySubject.new(study_subject_params)
 
 		warn = []
@@ -89,10 +77,6 @@ class RafsController < ApplicationController
 			if @study_subject.icf_master_id.blank?
 				warn << "Case was not assigned an icf_master_id."
 			end
-#			if @study_subject.mother.icf_master_id.blank?
-#
-#	If mother is nil, we've got other problems
-#
 			if @study_subject.mother.try(:icf_master_id).blank?
 				warn << "Mother was not assigned an icf_master_id."
 			end
@@ -120,10 +104,14 @@ class RafsController < ApplicationController
 	end
 
 	def update
-		study_subject_params = ( params[:study_subject] || Hash.new ).to_hash
-		add_default_raf_address_attributes(study_subject_params)
-		add_default_raf_phone_number_attributes(study_subject_params)
-		mark_as_eligible(study_subject_params)
+
+		params[:study_subject] ||= {}
+		params[:study_subject][:addresses_attributes] ||= {}
+		params[:study_subject][:addresses_attributes]['0'] ||= {}
+		allow_blank_address_line_1_for(
+			params[:study_subject][:addresses_attributes]['0'])
+
+		mark_as_eligible(params[:study_subject])
 		@study_subject.assign_attributes(study_subject_params)
 		check_was_under_15(@study_subject)
 		@study_subject.save!
@@ -132,15 +120,6 @@ class RafsController < ApplicationController
 	rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
 		flash.now[:error] = "StudySubject updation failed"
 		render :action => 'edit'
-#	rescue ActiveRecord::StatementInvalid => e
-#		UNLIKELY TO HAPPEN ON UPDATE
-#		flash.now[:error] = "Database error.  Check production logs and contact Jake."
-#		render :action => 'edit'
-#	rescue StudySubject::DuplicatesFound
-#		NOT CHECKED ON UPDATE
-#		flash.now[:error] = "Possible Duplicate(s) Found."
-#		flash.now[:warn] = warn.join('<br/>') unless warn.empty?
-#		render :action => 'edit'
 	rescue Under15InconsistencyFound
 		flash.now[:error] = "Under 15 Inconsistency Found."
 		flash.now[:warn]  = "Under 15 selection does not match computed value."
@@ -164,45 +143,6 @@ protected
 		unless @study_subject.is_case?
 			access_denied("Valid case study_subject required!", @study_subject)
 		end
-	end
-
-	def default_raf_phone_number_attributes
-		{ 'current_phone' => YNDK[:yes],
-			'data_source'   => 'RAF (CCLS Rapid Ascertainment Form)',
-			'phone_type'    => 'Home' }
-	end
-
-	def add_default_raf_phone_number_attributes(study_subject_params)
-		#	set defaults for phone numbers WITHOUT EXISTING IDs
-		study_subject_params['phone_numbers_attributes'].each_pair do |k,v|
-			unless study_subject_params['phone_numbers_attributes'][k].has_key?('id')
-				study_subject_params['phone_numbers_attributes'][k] = 
-					default_raf_phone_number_attributes.merge(
-						study_subject_params['phone_numbers_attributes'][k])
-			end
-		end if study_subject_params.has_key?('phone_numbers_attributes')
-	end
-
-	def default_raf_address_attributes
-		{ 'address_at_diagnosis' => YNDK[:yes],
-			'current_address' => YNDK[:yes],
-			'data_source'     => 'RAF (CCLS Rapid Ascertainment Form)',
-			'address_type'    => 'Residence'
-		}
-	end
-
-	def add_default_raf_address_attributes(study_subject_params)
-		#	set defaults for addresses WITHOUT EXISTING IDs
-		study_subject_params['addresses_attributes'].each_pair do |k,v|
-			unless study_subject_params['addresses_attributes'][k].has_key?('id')
-				study_subject_params['addresses_attributes'][k] = 
-					#	must use deep_merge as contains address_attributes
-					default_raf_address_attributes.deep_merge(
-						study_subject_params['addresses_attributes'][k])
-				allow_blank_address_line_1_for(
-					study_subject_params['addresses_attributes'][k])
-			end
-		end if study_subject_params.has_key?('addresses_attributes')
 	end
 
 	#	CAUTION: params come from forms as strings
@@ -291,6 +231,30 @@ protected
 				raise Under15InconsistencyFound
 			end
 		end
+	end
+
+	def study_subject_params
+		params.require( :study_subject ).permit(
+			:first_name, :middle_name, :last_name, :dob, :sex,
+			:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
+			:father_first_name, :father_middle_name, :father_last_name,
+			:guardian_first_name, :guardian_middle_name, :guardian_last_name,
+			:guardian_relationship, :other_guardian_relationship, {
+			:phone_numbers_attributes => [
+				:id,:phone_number,:phone_type,:data_source,:is_primary,:current_phone],
+			:addresses_attributes => [
+				:id,:line_1,:unit,:city,:state,:zip,:data_source,:county,
+				:current_address,:address_at_diagnosis,:address_type],
+			:enrollments_attributes => [
+				:id,:project_id,:consented,:consented_on,:refused_by_family,
+				:refused_by_physician,:other_refusal_reason,:refusal_reason_id,
+				:is_eligible,:ineligible_reason_id,:other_ineligible_reason],
+			:patient_attributes => [
+				:id,:organization_id,:admitting_oncologist,:hospital_no,:admit_date,
+				:diagnosis,:other_diagnosis,:raf_county,:raf_zip,:was_under_15_at_dx,
+				:was_previously_treated,:was_ca_resident_at_diagnosis],
+			:subject_languages_attributes => [ :id,:language_code,:other_language]
+		} )
 	end
 
 end

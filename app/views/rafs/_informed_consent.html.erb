@@ -6,6 +6,7 @@
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
 <%= f.fields_for :enrollments, @study_subject.enrollments.detect{|e|
 	e.project_id == Project['ccls'].id } do |enrollment_fields| %>
+<%= enrollment_fields.hidden_field :project_id %>
 
 <p>
 <%= enrollment_fields.radio_button :consented, 1 %>

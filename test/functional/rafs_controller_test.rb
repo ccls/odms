@@ -182,10 +182,10 @@ class RafsControllerTest < ActionController::TestCase
 			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" without complete address and #{cu} login" do
 			login_as send(cu)
-			minimum_waivered_successful_creation(
+			minimum_raf_successful_creation(
 				:study_subject => { :addresses_attributes => { '0' => {
 					:line_1 => '', :city => '',
 					:state  => '', :zip  => '' } } } )
@@ -196,7 +196,7 @@ class RafsControllerTest < ActionController::TestCase
 				" with #{cu} login" do
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, minimum_waivered_form_attributes(
+				post :create, minimum_raf_form_attributes(
 					:study_subject => { 
 						'dob' => '12/31/2010',
 						:patient_attributes => { 
@@ -217,7 +217,7 @@ class RafsControllerTest < ActionController::TestCase
 				" with #{cu} login" do
 			login_as send(cu)
 			assert_all_differences(0) do
-				post :create, minimum_waivered_form_attributes(
+				post :create, minimum_raf_form_attributes(
 					:study_subject => { 
 						'dob' => '12/31/1990',
 						:patient_attributes => { 
@@ -233,22 +233,22 @@ class RafsControllerTest < ActionController::TestCase
 			assert_template 'new'
 		end
 
-		test "should create waivered case study_subject enrolled in ccls" <<
+		test "should create raf case study_subject enrolled in ccls" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_equal [Project['ccls']],
 				assigns(:study_subject).enrollments.collect(&:project)
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" with minimum requirements and #{cu} login" do
 			login_as send(cu)
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 		end
 
 		test "should add '[no address provided]' to blank line_1 if city, state, zip" <<
-				" are not blank for waivered with #{cu} login" do
+				" are not blank for raf with #{cu} login" do
 			login_as send(cu)
 			assert_difference('SubjectLanguage.count',0){
 			assert_difference('PhoneNumber.count',0){
@@ -256,7 +256,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_difference('Enrollment.count',2){	#	both child and mother
 			assert_difference('Patient.count',1){
 			assert_difference('StudySubject.count',2){
-				post :create, minimum_waivered_form_attributes(
+				post :create, minimum_raf_form_attributes(
 					:study_subject => { :addresses_attributes => { 
 						'0' => FactoryGirl.attributes_for(:blank_line_1_address) } } ) 
 			} } } } } }
@@ -267,26 +267,26 @@ class RafsControllerTest < ActionController::TestCase
 				assigns(:study_subject).addresses.first.line_1
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" with #{cu} login and create studyid" do
 			login_as send(cu)
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_not_nil assigns(:study_subject).studyid
 			assert_match /\d{4}-C-0/, assigns(:study_subject).studyid
 		end
 
-		test "should create waivered case study_subject" <<
-				" with waivered attributes and #{cu} login" do
+		test "should create raf case study_subject" <<
+				" with raf attributes and #{cu} login" do
 			login_as send(cu)
-			waivered_successful_creation
+			raf_successful_creation
 			assert_equal 'C', assigns(:study_subject).case_control_type
 			assert_equal '0', assigns(:study_subject).orderno.to_s
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" and set is_eligible yes with #{cu} login" do
 			login_as send(cu)
-			waivered_successful_creation
+			raf_successful_creation
 			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_under_15_at_dx,
 				"Should have been under 15 at dx"
 			assert_equal YNDK[:no],  assigns(:study_subject).patient.was_previously_treated,
@@ -314,10 +314,10 @@ class RafsControllerTest < ActionController::TestCase
 
 #	TODO test ineligiblity_reasons
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" and set is_eligible no with #{cu} login and over 15" do
 			login_as send(cu)
-			waivered_successful_creation({ 'study_subject' => {
+			raf_successful_creation({ 'study_subject' => {
 				#	something greater than 15 years ago
 				'dob' => Date.jd( ((Date.current - 15.years).jd) - rand(5000)).to_s,
 				'patient_attributes' => { 
@@ -334,10 +334,10 @@ class RafsControllerTest < ActionController::TestCase
 				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" and set is_eligible no with #{cu} login and previously treated" do
 			login_as send(cu)
-			waivered_successful_creation({ 'study_subject' => {
+			raf_successful_creation({ 'study_subject' => {
 				'patient_attributes' => { 
 					'was_previously_treated' => YNDK[:yes] } } } )
 			assert_equal YNDK[:yes], assigns(:study_subject).patient.was_previously_treated
@@ -350,10 +350,10 @@ class RafsControllerTest < ActionController::TestCase
 				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" and set is_eligible no with #{cu} login and not ca resident" do
 			login_as send(cu)
-			waivered_successful_creation({ 'study_subject' => {
+			raf_successful_creation({ 'study_subject' => {
 				'patient_attributes' => { 
 					'was_ca_resident_at_diagnosis' => YNDK[:no] } } } )
 			assert_equal YNDK[:no], assigns(:study_subject).patient.was_ca_resident_at_diagnosis
@@ -366,11 +366,11 @@ class RafsControllerTest < ActionController::TestCase
 				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
-		test "should create waivered case study_subject" <<
+		test "should create raf case study_subject" <<
 				" and set is_eligible no with #{cu} login and not english or spanish" do
 			login_as send(cu)
 			#	remove english and add another so subject_language is created
-			waivered_successful_creation({ 'study_subject' => {
+			raf_successful_creation({ 'study_subject' => {
 				'subject_languages_attributes' => {
 					'0' => {'language_code' => '' },
 					'2' => {'language_code' => Language['other'].code, 
@@ -393,53 +393,53 @@ class RafsControllerTest < ActionController::TestCase
 				Project['ccls'].id).other_ineligible_reason.blank?
 		end
 
-		test "should create mother on waivered create with #{cu} login" do
+		test "should create mother on raf create with #{cu} login" do
 			login_as send(cu)
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_not_nil assigns(:study_subject).mother
 		end
 
-		test "should not assign icf_master_id to mother if none exist on waivered create" <<
+		test "should not assign icf_master_id to mother if none exist on raf create" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
-		test "should not assign icf_master_id to mother if one exist on waivered create" <<
+		test "should not assign icf_master_id to mother if one exist on raf create" <<
 				" with #{cu} login" do
 			login_as send(cu)
 			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456789')
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
-		test "should assign icf_master_id to mother if two exist on waivered create" <<
+		test "should assign icf_master_id to mother if two exist on raf create" <<
 				" with #{cu} login" do
 			login_as send(cu)
 			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456780')
 			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456781')
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_not_nil assigns(:study_subject).icf_master_id
 			assert_equal '123456780', assigns(:study_subject).icf_master_id
 			assert_not_nil assigns(:study_subject).mother.icf_master_id
 			assert_equal '123456781', assigns(:study_subject).mother.icf_master_id
 		end
 
-		test "should not assign icf_master_id if none exist on waivered create" <<
+		test "should not assign icf_master_id if none exist on raf create" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_nil assigns(:study_subject).icf_master_id
 			assert_not_nil flash[:warn]
 		end
 
-		test "should assign icf_master_id if any exist on waivered create with #{cu} login" do
+		test "should assign icf_master_id if any exist on raf create with #{cu} login" do
 			login_as send(cu)
 			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456789')
-			minimum_waivered_successful_creation
+			minimum_raf_successful_creation
 			assert_not_nil assigns(:study_subject).icf_master_id
 			assert_equal '123456789', assigns(:study_subject).icf_master_id
 			#	only one icf_master_id so mother will raise warning
@@ -537,7 +537,7 @@ class RafsControllerTest < ActionController::TestCase
 		test "should send email on create with #{cu} login" do
 			login_as send(cu)
 			assert_difference('ActionMailer::Base.deliveries.length',1) {
-				minimum_waivered_successful_creation
+				minimum_raf_successful_creation
 			}
 		end
 
@@ -659,24 +659,26 @@ class RafsControllerTest < ActionController::TestCase
 			assert_redirected_to raf_path(study_subject)
 		end
 
-		test "should update and create address with defaults and #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			login_as user = send(cu)
-			assert_difference('Address.count',1) {
-				put :update, :id => study_subject.id, 
-					:study_subject => { 'addresses_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:address) } }
-			}
-			assert_not_nil assigns(:study_subject)
-			assert_nil flash[:error]
-			assert_redirected_to raf_path(study_subject)
-
-			address = assigns(:study_subject).addresses.first
-			assert_equal address.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
-			assert_equal address.address_at_diagnosis, YNDK[:yes]
-			assert_equal address.current_address, YNDK[:yes]
-			assert_equal address.address_type, 'Residence'
-		end
+#	Defaults are now on the form
+#
+#		test "should update and create address with defaults and #{cu} login" do
+#			study_subject = FactoryGirl.create(:case_study_subject)
+#			login_as user = send(cu)
+#			assert_difference('Address.count',1) {
+#				put :update, :id => study_subject.id, 
+#					:study_subject => { 'addresses_attributes' => { 
+#					'0' => FactoryGirl.attributes_for(:address) } }
+#			}
+#			assert_not_nil assigns(:study_subject)
+#			assert_nil flash[:error]
+#			assert_redirected_to raf_path(study_subject)
+#
+#			address = assigns(:study_subject).addresses.first
+#			assert_equal address.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
+#			assert_equal address.address_at_diagnosis, YNDK[:yes]
+#			assert_equal address.current_address, YNDK[:yes]
+#			assert_equal address.address_type, 'Residence'
+#		end
 
 		test "should update address with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
@@ -695,25 +697,27 @@ class RafsControllerTest < ActionController::TestCase
 			assert_redirected_to raf_path(study_subject)
 		end
 
-		test "should update address and not overwrite with defaults "<<
-			 	"with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			address = FactoryGirl.create(:address,:study_subject => study_subject,
-				:current_address => YNDK[:no],
-				:address_at_diagnosis => YNDK[:no] )
-			login_as send(cu)
-			assert_difference('Address.count',0) {
-				put :update, :id => study_subject.id, 
-					:study_subject => { 'addresses_attributes' => { 
-						'0' => { :id => address.id } }
-			} }
-			assert_not_nil assigns(:study_subject)
-			address.reload
-			assert_equal YNDK[:no], address.current_address
-			assert_equal YNDK[:no], address.address_at_diagnosis
-			assert_nil flash[:error]
-			assert_redirected_to raf_path(study_subject)
-		end
+#	Defaults are now on the form
+#
+#		test "should update address and not overwrite with defaults "<<
+#			 	"with #{cu} login" do
+#			study_subject = FactoryGirl.create(:case_study_subject)
+#			address = FactoryGirl.create(:address,:study_subject => study_subject,
+#				:current_address => YNDK[:no],
+#				:address_at_diagnosis => YNDK[:no] )
+#			login_as send(cu)
+#			assert_difference('Address.count',0) {
+#				put :update, :id => study_subject.id, 
+#					:study_subject => { 'addresses_attributes' => { 
+#						'0' => { :id => address.id } }
+#			} }
+#			assert_not_nil assigns(:study_subject)
+#			address.reload
+#			assert_equal YNDK[:no], address.current_address
+#			assert_equal YNDK[:no], address.address_at_diagnosis
+#			assert_nil flash[:error]
+#			assert_redirected_to raf_path(study_subject)
+#		end
 
 		test "should update and create phone number with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
@@ -728,22 +732,24 @@ class RafsControllerTest < ActionController::TestCase
 			assert_redirected_to raf_path(study_subject)
 		end
 
-		test "should update and create phone number with defaults and #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			login_as user = send(cu)
-			assert_difference('PhoneNumber.count',1) {
-				put :update, :id => study_subject.id, 
-					:study_subject => { 'phone_numbers_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:phone_number) } }
-			}
-			assert_not_nil assigns(:study_subject)
-			assert_nil flash[:error]
-			assert_redirected_to raf_path(study_subject)
-
-			phone_number = assigns(:study_subject).phone_numbers.first
-			assert_equal phone_number.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
-			assert_equal phone_number.current_phone, YNDK[:yes]
-		end
+#	Defaults are now on the form
+#
+#		test "should update and create phone number with defaults and #{cu} login" do
+#			study_subject = FactoryGirl.create(:case_study_subject)
+#			login_as user = send(cu)
+#			assert_difference('PhoneNumber.count',1) {
+#				put :update, :id => study_subject.id, 
+#					:study_subject => { 'phone_numbers_attributes' => { 
+#					'0' => FactoryGirl.attributes_for(:phone_number) } }
+#			}
+#			assert_not_nil assigns(:study_subject)
+#			assert_nil flash[:error]
+#			assert_redirected_to raf_path(study_subject)
+#
+#			phone_number = assigns(:study_subject).phone_numbers.first
+#			assert_equal phone_number.data_source, 'RAF (CCLS Rapid Ascertainment Form)'
+#			assert_equal phone_number.current_phone, YNDK[:yes]
+#		end
 
 		test "should update phone number with #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
@@ -762,24 +768,26 @@ class RafsControllerTest < ActionController::TestCase
 			assert_not_equal phone_number.reload.phone_number, number
 		end
 
-		test "should update phone number and not overwrite with defaults with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			phone_number = FactoryGirl.create(:phone_number,:study_subject => study_subject,
-				:current_phone => YNDK[:no],
-				:phone_type    => 'Mobile' )
-			login_as send(cu)
-			assert_difference('PhoneNumber.count',0) {
-				put :update, :id => study_subject.id, 
-					:study_subject => { 'phone_numbers_attributes' => { 
-						'0' => { :id => phone_number.id,  } }
-			} }
-			assert_not_nil assigns(:study_subject)
-			phone_number.reload
-			assert_equal YNDK[:no], phone_number.current_phone
-			assert_equal 'Mobile', phone_number.phone_type
-			assert_nil flash[:error]
-			assert_redirected_to raf_path(study_subject)
-		end
+#	Defaults are now on the form
+#
+#		test "should update phone number and not overwrite with defaults with #{cu} login" do
+#			study_subject = FactoryGirl.create(:case_study_subject)
+#			phone_number = FactoryGirl.create(:phone_number,:study_subject => study_subject,
+#				:current_phone => YNDK[:no],
+#				:phone_type    => 'Mobile' )
+#			login_as send(cu)
+#			assert_difference('PhoneNumber.count',0) {
+#				put :update, :id => study_subject.id, 
+#					:study_subject => { 'phone_numbers_attributes' => { 
+#						'0' => { :id => phone_number.id,  } }
+#			} }
+#			assert_not_nil assigns(:study_subject)
+#			phone_number.reload
+#			assert_equal YNDK[:no], phone_number.current_phone
+#			assert_equal 'Mobile', phone_number.phone_type
+#			assert_nil flash[:error]
+#			assert_redirected_to raf_path(study_subject)
+#		end
 
 		test "should update and create address with blank line and #{cu} login" do
 			study_subject = FactoryGirl.create(:case_study_subject)
@@ -1108,56 +1116,128 @@ class RafsControllerTest < ActionController::TestCase
 		assert_redirected_to_login
 	end
 
-#	add_strong_parameters_tests( :study_subject, [
-#		:first_name, :middle_name, :last_name, :dob, :sex,
-#		:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
-#		:father_first_name, :father_middle_name, :father_last_name,
-#		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
-#		:guardian_relationship, :other_guardian_relationship ])
 
+	add_strong_parameters_tests( :study_subject, [
+		:first_name, :middle_name, :last_name, :dob, :sex,
+		:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
+		:father_first_name, :father_middle_name, :father_last_name,
+		:guardian_first_name, :guardian_middle_name, :guardian_last_name,
+		:guardian_relationship, :other_guardian_relationship ])
 
-#	move ALL OF THE ATTRIBUTES onto the form
-#	NO MORE controller set this and that default stuff
-
-	test "add strong parameters tests" do
-		pending
+	[:id,:organization_id,:admitting_oncologist,:hospital_no,:admit_date,
+			:diagnosis,:other_diagnosis,:raf_county,:raf_zip,:was_under_15_at_dx,
+			:was_previously_treated,:was_ca_resident_at_diagnosis].each do |attr|
+		test "params should permit study_subject:patient_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => { 
+				:patient_attributes => [{ attr => 'value' }] })
+			assert @controller.send("study_subject_params").permitted?
+		end
 	end
 
-	test "add patient_attributes strong parameters tests" do
-		pending
-		#:patient_attributes => [:raf_county,:raf_zip,:organization_id]
-		#:admitting_oncologist,
-		#:hospital_no,
-		#:admit_date,
-		#:diagnosis,
-		#:other_diagnosis,
-		#:was_under_15_at_dx,
-		#:was_previously_treated
-		#:was_ca_resident_at_diagnosis
+	[:study_subject_id,:created_at,:updated_at].each do |attr|
+		test "params should NOT permit " <<
+				"study_subject:patient_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => {
+				:patient_attributes => [{ attr => 'funky' }]})
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send("study_subject_params").permitted?
+				assert  @controller.params[:study_subject][
+					:patient_attributes].first.has_key?(attr)
+				assert !@controller.send("study_subject_params").has_key?(attr)
+			}
+		end
 	end
 
-	test "add subject_languages strong parameters tests" do
-		pending
-		#languages_select( Language.where(:key => %w(english spanish other)) ) %>
+	[ :id,:language_code,:other_language].each do |attr|
+		test "params should permit study_subject:subject_languages_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => { 
+				:subject_languages_attributes => [{ attr => 'value' }] })
+			assert @controller.send("study_subject_params").permitted?
+		end
 	end
 
-	test "add enrollments_attributes strong parameters tests" do
-		pending
-#ARRAY!
-#:enrollments_attributes => 
-		#	[:consented, :consented_on, :refused_by_family, :refused_by_physician, :refusal_reason_id, :other_refusal_reason ]
+	[:study_subject_id,:created_at,:updated_at].each do |attr|
+		test "params should NOT permit " <<
+				"study_subject:subject_languages_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => {
+				:subject_languages_attributes => [{ attr => 'funky' }]})
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send("study_subject_params").permitted?
+				assert  @controller.params[:study_subject][
+					:subject_languages_attributes].first.has_key?(attr)
+				assert !@controller.send("study_subject_params").has_key?(attr)
+			}
+		end
 	end
 
-	test "add addresses_attributes strong parameters tests" do
-		pending
-		#	[:line_1, :unit, :city, :state, :zip, :county ]
+	[:id,:project_id,:consented,:consented_on,:refused_by_family,
+				:refused_by_physician,:other_refusal_reason,:refusal_reason_id,
+				:is_eligible,:ineligible_reason_id,:other_ineligible_reason].each do |attr|
+		test "params should permit study_subject:enrollments_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => { 
+				:enrollments_attributes => [{ attr => 'value' }] })
+			assert @controller.send("study_subject_params").permitted?
+		end
 	end
 
-	test "add phone_numbers_attributes strong parameters tests" do
-		pending
-		#	[:phone_number, :phone_type, :is_primary]
+	[:study_subject_id,:created_at,:updated_at].each do |attr|
+		test "params should NOT permit " <<
+				"study_subject:enrollments_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => {
+				:enrollments_attributes => [{ attr => 'funky' }]})
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send("study_subject_params").permitted?
+				assert  @controller.params[:study_subject][
+					:enrollments_attributes].first.has_key?(attr)
+				assert !@controller.send("study_subject_params").has_key?(attr)
+			}
+		end
+	end
+
+	[:id,:line_1,:unit,:city,:state,:zip,:data_source,:county,
+		:address_type,:current_address,:address_at_diagnosis].each do |attr|
+		test "params should permit study_subject:addresses_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => { 
+				:addresses_attributes => [{ attr => 'value' }] })
+			assert @controller.send("study_subject_params").permitted?
+		end
+	end
+
+	[:study_subject_id,:created_at,:updated_at].each do |attr|
+		test "params should NOT permit " <<
+				"study_subject:addresses_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => {
+				:addresses_attributes => [{ attr => 'funky' }]})
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send("study_subject_params").permitted?
+				assert  @controller.params[:study_subject][
+					:addresses_attributes].first.has_key?(attr)
+				assert !@controller.send("study_subject_params").has_key?(attr)
+			}
+		end
+	end
+
+	[:id, :phone_number, :phone_type, :data_source, :is_primary].each do |attr|
+		test "params should permit study_subject:phone_numbers_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => { 
+				:phone_numbers_attributes => [{ attr => 'value' }] })
+			assert @controller.send("study_subject_params").permitted?
+		end
+	end
+
+	[:study_subject_id,:created_at,:updated_at].each do |attr|
+		test "params should NOT permit " <<
+				"study_subject:phone_numbers_attributes:#{attr} subkey" do
+			@controller.params=HWIA.new(:study_subject => {
+				:phone_numbers_attributes => [{ attr => 'funky' }]})
+			assert_raises( ActionController::UnpermittedParameters ){
+				assert !@controller.send("study_subject_params").permitted?
+				assert  @controller.params[:study_subject][
+					:phone_numbers_attributes].first.has_key?(attr)
+				assert !@controller.send("study_subject_params").has_key?(attr)
+			}
+		end
 	end
 
 end
 __END__
-

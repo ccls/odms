@@ -4,6 +4,9 @@
 <% @raf_addresses = @study_subject.addresses.select{|a|
 	a.data_source == 'RAF (CCLS Rapid Ascertainment Form)'} %>
 <% @raf_addresses << @study_subject.addresses.build(
+	:address_at_diagnosis => YNDK[:yes],
+	:current_address => YNDK[:yes],
+	:address_type    => 'Residence',
 	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') if @raf_addresses.to_a.empty? %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
@@ -25,12 +28,19 @@
   <%= address_fields.wrapped_text_field :county, :class => :county_field %>
  
 <hr/>
+<%= address_fields.hidden_field :address_at_diagnosis %>
+<%= address_fields.hidden_field :current_address %>
+<%= address_fields.hidden_field :address_type %>
+<%= address_fields.hidden_field :data_source %>
 <% end %><%#= f.fields_for :addresses do |address_fields| %>
 
 <% @raf_phone_numbers = @study_subject.phone_numbers.select{|a|
 	a.data_source == 'RAF (CCLS Rapid Ascertainment Form)'} %>
 <% @raf_phone_numbers << @study_subject.phone_numbers.build(
-	:data_source => 'RAF (CCLS Rapid Ascertainment Form)') while @raf_phone_numbers.length < 3 %>
+	:current_phone => YNDK[:yes],
+	:phone_type    => 'Home',
+	:data_source   => 'RAF (CCLS Rapid Ascertainment Form)'
+	) while @raf_phone_numbers.length < 3 %>
 
 <%# BE ADVISED THAT FIELDS_FOR WILL CREATE AN HIDDEN HTML TAG WITH ID
 	AND MULTIPLES WILL CREATE MULTIPLE HTML TAGS WHICH WILL BE INVALID HTML! %>
@@ -39,11 +49,14 @@
 <div class='field_grouper'>
  <%= phone_number_fields.wrapped_text_field :phone_number,
    :label_text => 'phone number:' %>
-<%= phone_number_fields.wrapped_select :phone_type, phone_number_fields.object.phone_types,
-			:include_blank => true, :label_text => 'type:' %>
+<%= phone_number_fields.wrapped_select :phone_type, 
+		phone_number_fields.object.phone_types,
+		:include_blank => true, :label_text => 'type:' %>
 <%= phone_number_fields.wrapped_check_box :is_primary,
 	:label_text => 'primary?' %>
 </div><!-- class='field_grouper' -->
-<% end -%>
+<%= phone_number_fields.hidden_field :data_source %>
+<%= phone_number_fields.hidden_field :current_phone %>
+<% end -%><%#= f.fields_for :phone_numbers, %>
 
 </div><!-- class='current_address' -->

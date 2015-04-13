@@ -13,19 +13,9 @@ module RafTestHelper
 #		Must also be conscious of whether the keys are STRINGs or SYMBOLs.
 #
 
-#ActiveModel::MassAssignmentSecurity::Error: Can't mass-assign protected attributes: case_control_type
-#	if I set it to nil, will it stop the above?
-#	may want to re-enable in config file
-#	config.active_record.mass_assignment_sanitizer = :strict
-#	but production doesn't so why do it in test?
-
 	def complete_case_study_subject_attributes(options={})
-		{ 'study_subject' => FactoryGirl.attributes_for(:study_subject,
+		{ 'study_subject' => FactoryGirl.attributes_for(:raf_study_subject,
 			'patient_attributes' => FactoryGirl.attributes_for(:patient),
-#			'subject_languages_attributes' => [ {"language_code"=>"1"} ],
-#			'phone_numbers_attributes' => [ FactoryGirl.attributes_for(:phone_number) ],
-#			'addresses_attributes' => [ FactoryGirl.attributes_for(:address) ],
-#			'enrollments_attributes' => [ FactoryGirl.attributes_for(:enrollment) ]
 			'subject_languages_attributes' => {
 				"0"=>{"language_code"=>"1"} },
 			'phone_numbers_attributes' => {
@@ -33,7 +23,8 @@ module RafTestHelper
 			'addresses_attributes' => {
 				'0' => FactoryGirl.attributes_for(:address) },
 			'enrollments_attributes' => {
-				'0' => FactoryGirl.attributes_for(:enrollment) }
+				'0' => FactoryGirl.attributes_for(:enrollment,
+					:project_id => Project['ccls'].id ) }
 			)
 		}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
@@ -77,62 +68,33 @@ module RafTestHelper
 	end
 
 	def full_successful_creation(options={})
-		#	waivered / nonwaivered? does it matter?
 		successful_raf_creation { 
 			post :create, complete_case_study_subject_attributes(options) }
 	end
 
-#	def minimum_nonwaivered_form_attributes(options={})
-#		{ 'study_subject' => FactoryGirl.attributes_for(:minimum_nonwaivered_form_attributes
-#			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-#	end
-#
-#	def nonwaivered_form_attributes(options={})
-#		{ 'study_subject' => FactoryGirl.attributes_for(:nonwaivered_form_attributes
-#				) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
-#	end
-#
-#	def nonwaivered_successful_creation(options={})
-#		successful_raf_creation { 
-#			post :create, nonwaivered_form_attributes(options) }
-#	end
-#
-#	def minimum_nonwaivered_successful_creation(options={})
-#		assert_difference('SubjectLanguage.count',0){
-#		assert_difference('PhoneNumber.count',0){
-#		assert_difference('Address.count',1){
-#		assert_difference('Enrollment.count',2){	#	both child and mother
-#		assert_difference('Patient.count',1){
-#		assert_difference('StudySubject.count',2){
-#			post :create, minimum_nonwaivered_form_attributes(options)
-#		} } } } } }
-#		assert_nil flash[:error]
-#		assert_redirected_to assigns(:study_subject)
-#	end
-
-	def minimum_waivered_form_attributes(options={})
-		{ 'study_subject' => FactoryGirl.attributes_for(:minimum_waivered_form_attributes
+	def minimum_raf_form_attributes(options={})
+		{ 'study_subject' => FactoryGirl.attributes_for(:minimum_raf_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
-	def waivered_form_attributes(options={})
-		{ 'study_subject' => FactoryGirl.attributes_for(:waivered_form_attributes
+	def raf_form_attributes(options={})
+		{ 'study_subject' => FactoryGirl.attributes_for(:raf_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
-	def waivered_successful_creation(options={})
+	def raf_successful_creation(options={})
 		successful_raf_creation { 
-			post :create, waivered_form_attributes(options) }
+			post :create, raf_form_attributes(options) }
 	end
 
-	def minimum_waivered_successful_creation(options={})
+	def minimum_raf_successful_creation(options={})
 		assert_difference('SubjectLanguage.count',0){
 		assert_difference('PhoneNumber.count',0){
 		assert_difference('Address.count',0){
 		assert_difference('Enrollment.count',2){	#	both child and mother
 		assert_difference('Patient.count',1){
 		assert_difference('StudySubject.count',2){
-			post :create, minimum_waivered_form_attributes(options)
+			post :create, minimum_raf_form_attributes(options)
 		} } } } } }
 		assert_nil flash[:error]
 		assert_redirected_to assigns(:study_subject)

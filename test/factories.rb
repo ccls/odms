@@ -28,30 +28,12 @@ FactoryGirl.define do
 	#
 	factory :minimum_raf_form_attributes, :class => 'StudySubject' do |f|
 		f.sex "M" 
-
-		#irb(main):019:0> Date.current
-		#=> Mon, 26 Nov 2012
-		#irb(main):020:0> Date.current.jd
-		#=> 2456258
-		#irb(main):026:0> Date.current.jd - (Date.current - 15.years).jd
-		#=> 5479
-		#irb(main):027:0> Date.current.jd - (Date.current - 14.years).jd
-		#=> 5114
-		#irb(main):028:0> Date.current - 14.years
-		#=> Thu, 26 Nov 1998
-		#irb(main):029:0> _.jd
-		#=> 2451144
 		#	Always want this date between yesterday and <15 years ago
 		#	as default was_under_15 is Yes and admit_date is Today.
-		#	f.dob Date.jd(2440000+rand(15000)).to_s	#	no, not like this anymore
-		#	f.dob Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s # and not like this
 		f.dob { Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s }	# like this
-	end
-
-	factory :minimum_waivered_form_attributes, :parent => :minimum_raf_form_attributes do |f|
 		f.patient_attributes { FactoryGirl.attributes_for(:waivered_patient) }
 	end
-	factory :waivered_form_attributes, :parent => :minimum_waivered_form_attributes do |f|
+	factory :raf_form_attributes, :parent => :minimum_raf_form_attributes do |f|
 		f.first_name ''
 		f.middle_name ''
 		f.last_name ''
@@ -74,7 +56,8 @@ FactoryGirl.define do
 		f.addresses_attributes {{
 			"0"=> FactoryGirl.attributes_for(:address) }}
 		f.phone_numbers_attributes {{
-			"0"=>{"phone_number"=>"1234567890"}, "1"=>{"phone_number"=>""} }}
+			"0"=> FactoryGirl.attributes_for(:phone_number),
+			"1"=>{"phone_number"=>""} }}
 		f.patient_attributes { FactoryGirl.attributes_for(:waivered_patient,{
 			"raf_zip" => '12345',
 			"raf_county" => "some county, usa",
@@ -85,6 +68,7 @@ FactoryGirl.define do
 		}) }
 		f.enrollments_attributes {{
 			"0"=>{
+				"project_id"=>"10",
 				"other_refusal_reason"=>"", 
 				"consented_on"=>"", 
 				"refusal_reason_id"=>""
@@ -117,8 +101,6 @@ FactoryGirl.define do
 
 	factory :abstract do |f|
 		f.association :study_subject, :factory => :case_study_subject
-#		f.reviewed_by 'FactoryGirl'
-#		f.updated_at Time.now	#	to make it dirty
 	end
 
 	factory :address do |f|
@@ -129,7 +111,6 @@ FactoryGirl.define do
 		f.state "CA"
 		f.zip "12345"
 		f.data_source 'RAF (CCLS Rapid Ascertainment Form)'
-#		f.updated_at Time.now	#	to make it dirty
 	end
 	factory :blank_line_1_address, :parent => :address do |f|
 		f.line_1 ""
@@ -270,17 +251,8 @@ FactoryGirl.define do
 		f.sequence(:hospital_no){|n| "#{n}"}	
 	
 		#	Doing it this way will actually include organization_id 
-		#	in the FactoryGirl.attributes_for(:patient) method.
-		#	Of course, it requires that there actually be an Organization.
-		#	f.association :organization
-		#	f.organization { Organization.first }
-		#	f.organization_id { Organization.first.id }
-	
-	#	f.organization_id { Hospital.first.organization_id }		#	make this a sequence rather than just first?
-	#	This sequence seems to work, but lets see if it has any repercusions.  May have to modify
-	#	some other existing tests that may have expected it not to change.
-	#	f.sequence(:organization_id){|n| Hospital.all()[ n % Hospital.count ].organization_id }
-		f.sequence(:organization_id){|n| Hospital.active()[ n % Hospital.active.count ].organization_id }
+		f.sequence(:organization_id){|n| 
+			Hospital.active()[ n % Hospital.active.count ].organization_id }
 	
 		f.diagnosis 'ALL'
 	end
@@ -289,14 +261,12 @@ FactoryGirl.define do
 		f.association :study_subject, :factory => :case_study_subject
 	end
 	factory :waivered_patient, :parent => :patient do |f|
-	#	f.organization_id { Hospital.waivered.first.organization_id }		#	make this a sequence rather than just first?
-	#	f.sequence(:organization_id){|n| Hospital.waivered()[ n % Hospital.waivered.length ].organization_id }
-		f.sequence(:organization_id){|n| Hospital.active.waivered()[ n % Hospital.active.waivered.length ].organization_id }
+		f.sequence(:organization_id){|n| 
+			Hospital.active.waivered()[ n % Hospital.active.waivered.length ].organization_id }
 	end
 	factory :nonwaivered_patient, :parent => :patient do |f|
-	#	f.organization_id { Hospital.nonwaivered.first.organization_id }		#	make this a sequence rather than just first?
-	#	f.sequence(:organization_id){|n| Hospital.nonwaivered()[ n % Hospital.nonwaivered.length ].organization_id }
-		f.sequence(:organization_id){|n| Hospital.active.nonwaivered()[ n % Hospital.active.nonwaivered.length ].organization_id }
+		f.sequence(:organization_id){|n| 
+			Hospital.active.nonwaivered()[ n % Hospital.active.nonwaivered.length ].organization_id }
 	end
 	
 	factory :phone_number do |f|
@@ -304,8 +274,6 @@ FactoryGirl.define do
 		f.phone_type 'Home'
 		f.data_source 'RAF (CCLS Rapid Ascertainment Form)'
 		f.sequence(:phone_number){|n| sprintf("%010d",n) }
-	#	f.is_valid    1
-	#	f.is_verified false		#		2		#	20111110 just noticed that this is boolean and not int for YNDK
 	end
 	factory :primary_phone_number, :parent => :phone_number do |f|
 		f.is_primary true
@@ -377,19 +345,16 @@ FactoryGirl.define do
 	factory :state do |f|
 		f.sequence(:code) { |n| "Code#{n}" }
 		f.sequence(:name) { |n| "Name#{n}" }
-	#	This is just one character so looping through known unused chars.
-	#	This is potentially a problem causer in testing.
-	#	fips_state_code is actually 2 chars so could add something
-	#	36 squared is pretty big so  ....
 		f.sequence(:fips_state_code){|n|
-	#		n += 56	#	56 appears to be the highest code used
 			'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')[n/26] <<
 			'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')[n%26] }
-	#		'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')[n/36] <<
-	#		'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')[n%36] }
 		f.fips_country_code 'US'
 	end
 	
+	factory :raf_study_subject, :class => 'StudySubject'  do |f|
+		f.sequence(:sex) { random_sex }
+		f.sequence(:dob) { random_date }
+	end
 	factory :study_subject do |f|
 		f.subject_type 'Control'
 		f.sequence(:sex) { random_sex }
@@ -408,15 +373,6 @@ FactoryGirl.define do
 		#	when the fixtures have been loaded and these will work.
 		#	Only really needed for patient as gets Hospital and Diagnosis.
 	
-	#	f.patient { FactoryGirl.build(:subjectless_patient) }
-	#	Either by building subjectless versions(above) or 
-	#		with nested attributes(below). Both seem to work.
-	#	The model must be set to accept nested attributes for
-	#		those versions to actually work though.
-	#	Using the nested attributes makes for easier merging.
-	#	Actually, this mucks up sequencing.  Calling this factory twice results in uniqueness validation failures.
-	#	If these calls are wrapped in {}, the sequencing is fine.  Its all about when its called
-	#		and the {} delay the execution of the FactoryGirl.attributes_for
 		f.patient_attributes { FactoryGirl.attributes_for(:patient) }
 	end
 	factory :complete_waivered_case_study_subject, :parent => :complete_case_study_subject do |f|
