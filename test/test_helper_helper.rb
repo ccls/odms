@@ -50,7 +50,7 @@ class ActionController::TestCase
 	end
 
 
-	def self.add_strong_parameters_tests( main_key, required=[], not_permitted=[] )
+	def self.add_strong_parameters_tests( main_key, permitted=[], not_permitted=[] )
 		test "params should require #{main_key}" do
 			@controller.params=HWIA.new("not_#{main_key}" => { :foo => 'bar' })
 			assert_raises( ActionController::ParameterMissing ){
@@ -58,7 +58,7 @@ class ActionController::TestCase
 			}
 		end
 
-		required.each do |attr|
+		permitted.each do |attr|
 			test "params should permit #{main_key}:#{attr} subkey" do
 				@controller.params=HWIA.new(main_key => { attr => 'funky' })
 				assert @controller.send("#{main_key}_params").permitted?
