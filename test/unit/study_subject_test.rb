@@ -32,7 +32,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 #		:enrollments,
 
 	assert_should_have_many( :bc_requests, :medical_record_requests, :alternate_contacts )
-	assert_should_have_many( :birth_data )
+#	assert_should_have_many( :birth_data )
+	assert_should_have_one( :birth_datum )
 
 	attributes = %w( 
 		birth_type birth_year case_control_type dad_is_biodad died_on 

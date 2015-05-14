@@ -4,5 +4,7 @@ class StudySubject::BirthRecordsController < StudySubjectController
 
 	def index
 	end
+	def show
+	end
 
 end

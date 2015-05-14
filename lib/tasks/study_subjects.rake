@@ -855,7 +855,8 @@ namespace :study_subjects do
 			puts "Updating #{study_subject}"
 			StudySubject.reset_counters( study_subject.id,
 				:samples, :operational_events, :addresses, :phone_numbers, 
-				:birth_data, :interviews, :abstracts, :enrollments )
+				:interviews, :abstracts, :enrollments )
+#				:birth_data, :interviews, :abstracts, :enrollments )
 		end
 	end
 

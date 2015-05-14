@@ -407,7 +407,6 @@ Table: birth_data
 | mother_ssn                        | varchar(255) | YES  |     | NULL    |                |
 | birth_data_file_name              | varchar(255) | YES  |     | NULL    |                |
 | childid                           | int(11)      | YES  |     | NULL    |                |
-| subjectid                         | varchar(6)   | YES  |     | NULL    |                |
 | deceased                          | varchar(255) | YES  |     | NULL    |                |
 | case_dob                          | date         | YES  |     | NULL    |                |
 | ccls_import_notes                 | text         | YES  |     | NULL    |                |
@@ -866,7 +865,6 @@ Table: study_subjects
 | cdcid                       | int(11)      | YES  |     | NULL    |                |
 | samples_count               | int(11)      | YES  |     | 0       |                |
 | operational_events_count    | int(11)      | YES  |     | 0       |                |
-| birth_data_count            | int(11)      | YES  |     | 0       |                |
 | addresses_count             | int(11)      | YES  |     | 0       |                |
 | phone_numbers_count         | int(11)      | YES  |     | 0       |                |
 | interviews_count            | int(11)      | YES  |     | 0       |                |

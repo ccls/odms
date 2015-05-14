@@ -282,10 +282,15 @@ module ApplicationHelper
 				list_items << link_to( "Hospital / Medical", study_subject_patient_path(study_subject),
 						:class => ((current == :hospital)?'current':nil) ) if study_subject.is_case?
 	
+#				list_items += [
+#					link_to( "Birth Records", study_subject_birth_records_path(study_subject),
+#						:class => ((current == :birth_record)?'current':nil) ) <<
+#						"<span class='count'>#{study_subject.birth_data_count}</span>".html_safe
+#				] if( logged_in? and current_user.may_administrate? )
 				list_items += [
-					link_to( "Birth Records", study_subject_birth_records_path(study_subject),
+					link_to( "Birth Record", study_subject_birth_record_path(study_subject),
 						:class => ((current == :birth_record)?'current':nil) ) <<
-						"<span class='count'>#{study_subject.birth_data_count}</span>".html_safe
+						"<span class='count'>#{study_subject.birth_datum.present? ? '1' : '0'}</span>".html_safe
 				] if( logged_in? and current_user.may_administrate? )
 	
 				list_items += [
@@ -316,9 +321,11 @@ module ApplicationHelper
 #						:class => ((current == :notes)?'current':nil) ),
 #				] if( logged_in? and current_user.may_administrate? )
 	
-				list_items << link_to( "Related Subjects", 
+				list_items += [ link_to( "Related Subjects", 
 						study_subject_related_subjects_path(study_subject),
-						:class => ((current == :related_subjects)?'current':nil) )
+						:class => ((current == :related_subjects)?'current':nil) ) <<
+						"<span class='count'>#{study_subject.matching.count}</span>".html_safe
+				]
 				if study_subject.is_case?
 					list_items << (link_to( "Abstracts", study_subject_abstracts_path(study_subject),
 						:class => ((current == :abstracts)?'current':nil) ) <<

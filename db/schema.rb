@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150313175238) do
+ActiveRecord::Schema.define(version: 20150514180041) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -409,7 +409,6 @@ ActiveRecord::Schema.define(version: 20150313175238) do
     t.datetime "updated_at"
     t.string   "birth_data_file_name"
     t.integer  "childid"
-    t.string   "subjectid",                         limit: 6
     t.string   "deceased"
     t.date     "case_dob"
     t.text     "ccls_import_notes"
@@ -852,7 +851,6 @@ ActiveRecord::Schema.define(version: 20150313175238) do
     t.integer  "cdcid"
     t.integer  "operational_events_count",               default: 0
     t.integer  "phone_numbers_count",                    default: 0
-    t.integer  "birth_data_count",                       default: 0
     t.integer  "interviews_count",                       default: 0
     t.boolean  "needs_reindexed",                        default: false
     t.integer  "enrollments_count",                      default: 0

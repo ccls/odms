@@ -44,6 +44,7 @@ class BirthDatumUpdate < CSVFile
 			birth_datum_attributes.delete('ignore1')
 			birth_datum_attributes.delete('ignore2')
 			birth_datum_attributes.delete('ignore3')
+			birth_datum_attributes.delete('subjectid')
 #			birth_datum_attributes.delete('first_name_again')
 
 #			birth_datum_attributes.delete(nil)

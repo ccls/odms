@@ -47,7 +47,8 @@
 <tbody>
 <% @study_subjects.each do |study_subject| -%>
 <% address = study_subject.addresses.first -%>
-<% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
+<%# birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
+<% birth_datum = study_subject.birth_datum -%>
 
 <tr class='row'>
 <td><%= check_box_tag('ids[]', study_subject.id, 

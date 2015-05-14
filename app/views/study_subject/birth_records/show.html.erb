@@ -1,20 +1,21 @@
 <div id='birth_records'>
-<h3>Birth Records</h3>
+<h3>Birth Record(s)</h3>
 
 <%# unless @study_subject.birth_data.all.empty? ... seems I needed to add the ".all" here ???%>
-<% unless @study_subject.birth_data.to_a.empty? %>
-<h4>Study Subject has <%=pluralize(@study_subject.birth_data.length, 'birth record')%> on file.</h4>
+<%# unless @study_subject.birth_data.to_a.empty? %>
+<% unless @study_subject.birth_datum.nil? %>
+<h4>Study Subject has a birth record<%#=pluralize(@study_subject.birth_data.length, 'birth record')%> on file.</h4>
 
 <% attrs = BirthDatum.attribute_names %>
 <% attrs-=['id','birth_datum_update_id','study_subject_id'] %>
-<% birth_data =  @study_subject.birth_data.order('id desc') %>
+<%# birth_data =  @study_subject.birth_data.order('id desc') %>
 <table class='birth_records'><tbody>
 <% attrs.sort.each do |attr| %>
 <tr>
 <td><%=attr %></td>
-<% birth_data.each do |birth_datum| %>
-<td><%= birth_datum.send(attr) || nbsp %></td>
-<% end %>
+<%# birth_data.each do |birth_datum| %>
+<td><%= @study_subject.birth_datum.send(attr) || nbsp %></td>
+<%# end %>
 </tr>
 <% end %>
 </tbody></table>

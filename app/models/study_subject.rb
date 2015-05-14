@@ -15,7 +15,8 @@ class StudySubject < ActiveRecord::Base
 	has_many :abstracts
 	has_many :addresses
 	has_many :alternate_contacts
-	has_many :birth_data
+#	has_many :birth_data
+	has_one  :birth_datum
 	has_many :bc_requests
 	has_many :blood_spot_requests
 	has_many :enrollments

@@ -39,7 +39,8 @@
 ).to_csv( :headers => true) -%>
 <% @study_subjects.each do |study_subject| -%>
 <% address = study_subject.addresses.first -%>
-<% birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
+<%# birth_datum = study_subject.birth_data.order('created_at DESC').first -%>
+<% birth_datum = study_subject.birth_datum -%>
 <%= [
 mdy_or_nil(study_subject.reference_date),
 study_subject.case_icf_master_id||"[No Case Subject]",

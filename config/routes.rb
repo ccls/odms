@@ -181,7 +181,8 @@ Rails.application.routes.draw do
 		#	module adds controller namespace
 		scope :module => :study_subject do
 			resource  :patient
-			resources :birth_records, :only => :index
+			#resources :birth_records, :only => :index
+			resource :birth_record, :only => :show
 			#	TEMP ADD DESTROY FOR DEV OF PHONE AND ADDRESS ONLY!
 			resources :phone_numbers, :except => [:show]
 			resources :addresses

@@ -199,7 +199,8 @@ class ApplicationHelperTest < ActionView::TestCase
 	controllers_and_current_links = {
 		'rafs'                    => 'raf_path',
 		'patients'                => 'study_subject_patient_path',
-		'birth_records'           => 'study_subject_birth_records_path',
+#		'birth_records'           => 'study_subject_birth_records_path',
+		'birth_records'           => 'study_subject_birth_record_path',
 		'addresses'               => 'study_subject_contacts_path',
 		'contacts'                => 'study_subject_contacts_path',
 		'phone_numbers'           => 'study_subject_contacts_path',

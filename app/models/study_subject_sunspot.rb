@@ -9,9 +9,9 @@ def self.included(base)
 #	or it will raise many "undefined method"s.
 base.class_eval do
 
-	def newest_birth_data
-		@newest_birth_data ||= birth_data.order('created_at DESC')
-	end
+#	def newest_birth_data
+#		@newest_birth_data ||= birth_data.order('created_at DESC')
+#	end
 #	def father_ssn
 #		newest_birth_data.collect(&:father_ssn).collect(&:to_ssn).compact.first
 #	end
@@ -21,11 +21,13 @@ base.class_eval do
 
 	#	is indexed as text too, so NEED actual method (at least for now)
 	def derived_state_file_no_last6
-		newest_birth_data.collect(&:derived_state_file_no_last6).compact.first
+#		newest_birth_data.collect(&:derived_state_file_no_last6).compact.first
+		birth_datum.try(:derived_state_file_no_last6)
 	end
 	#	is text so NEED actual method (at least for now)
 	def derived_local_file_no_last6
-		newest_birth_data.collect(&:derived_local_file_no_last6).compact.first
+#		newest_birth_data.collect(&:derived_local_file_no_last6).compact.first
+		birth_datum.try(:derived_local_file_no_last6)
 	end
 
 
@@ -165,11 +167,14 @@ base.class_eval do
 	add_sunspot_column( :middle_name )
 	add_sunspot_column( :maiden_name )
 	add_sunspot_column( :father_ssn,
-		:meth => ->(s){ s.newest_birth_data.collect(&:father_ssn).collect(&:to_ssn).compact.first } )
+		:meth => ->(s){ s.birth_datum.try(:father_ssn).try(:to_ssn) } )
+#		:meth => ->(s){ s.newest_birth_data.collect(&:father_ssn).collect(&:to_ssn).compact.first } )
 	add_sunspot_column( :mother_ssn,
-		:meth => ->(s){ s.newest_birth_data.collect(&:mother_ssn).collect(&:to_ssn).compact.first } )
+		:meth => ->(s){ s.birth_datum.try(:mother_ssn).try(:to_ssn) } )
+#		:meth => ->(s){ s.newest_birth_data.collect(&:mother_ssn).collect(&:to_ssn).compact.first } )
 	add_sunspot_column( :mother_dob, :type => :date,
-		:meth => ->(s){ s.newest_birth_data.collect(&:mother_dob).compact.first } )
+		:meth => ->(s){ s.birth_datum.try(:mother_dob) } )
+#		:meth => ->(s){ s.newest_birth_data.collect(&:mother_dob).compact.first } )
 	add_sunspot_column( :patid )
 	add_sunspot_column( :childid )
 	add_sunspot_column( :subjectid )
@@ -188,21 +193,29 @@ base.class_eval do
 	#
 	with_options( :group => 'Ethnicity', :facetable => true ) do |o|
 		o.add_sunspot_column( :mother_hispanic_origin_code,
-			:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:mother_hispanic_origin_code) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:mother_hispanic_origin_code).compact.first })
 		o.add_sunspot_column( :mother_race_ethn_1, :type => :integer,
-			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_1).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:mother_race_ethn_1) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_1).compact.first })
 		o.add_sunspot_column( :mother_race_ethn_2, :type => :integer,
-			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_2).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:mother_race_ethn_2) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_2).compact.first })
 		o.add_sunspot_column( :mother_race_ethn_3, :type => :integer,
-			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_3).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:mother_race_ethn_3) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:mother_race_ethn_3).compact.first })
 		o.add_sunspot_column( :father_hispanic_origin_code,
-			:meth => ->(s){ s.newest_birth_data.collect(&:father_hispanic_origin_code).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:father_hispanic_origin_code) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:father_hispanic_origin_code).compact.first })
 		o.add_sunspot_column( :father_race_ethn_1, :type => :integer,
-			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_1).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:father_race_ethn_1) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_1).compact.first })
 		o.add_sunspot_column( :father_race_ethn_2, :type => :integer,
-			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_2).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:father_race_ethn_2) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_2).compact.first })
 		o.add_sunspot_column( :father_race_ethn_3, :type => :integer,
-			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
+			:meth => ->(s){ s.birth_datum.try(:father_race_ethn_3) })
+#			:meth => ->(s){ s.newest_birth_data.collect(&:father_race_ethn_3).compact.first })
 	end
 
 

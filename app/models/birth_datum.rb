@@ -1,6 +1,6 @@
 class BirthDatum < ActiveRecord::Base
 
-	belongs_to :study_subject, :counter_cache => true
+	belongs_to :study_subject		#, :counter_cache => true
 #	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
 	before_create :cleanup_data
@@ -10,10 +10,10 @@ class BirthDatum < ActiveRecord::Base
 	alias_attribute :father_years_educ, :father_yrs_educ
 
 #	This interferes with some tests, so don't leave it live.
-#	delegate :subjectid, :subject_type, :patid, :birth_year, :state_id_no, 
-#		:to => :study_subject, :allow_nil => true
-	delegate :subject_type, :patid, :birth_year, :state_id_no, 
+	delegate :subjectid, :subject_type, :patid, :birth_year, :state_id_no, 
 		:to => :study_subject, :allow_nil => true
+#	delegate :subject_type, :patid, :birth_year, :state_id_no, 
+#		:to => :study_subject, :allow_nil => true
 
 	def is_case?
 		['1','case'].include?(case_control_flag)
@@ -35,6 +35,7 @@ class BirthDatum < ActiveRecord::Base
 	end
 
 	def post_processing
+		#	There are exactly 3 records with childids
 		if master_id.blank? and childid.blank? and subjectid.blank?
 			append_notes "master_id, childid and subjectid blank"
 		else
@@ -182,7 +183,8 @@ class BirthDatum < ActiveRecord::Base
 		else
 			case_subject = find_case_subject
 			return if case_subject.nil?
-			case_subject.birth_data << self
+#			case_subject.birth_data << self
+			case_subject.birth_datum = self
 			case_subject
 		end
 	end
