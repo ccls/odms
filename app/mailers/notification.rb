@@ -2,7 +2,7 @@ class Notification < ActionMailer::Base
 
 	default :from => "notifyccls@berkeley.edu",
 		:to   => (( Rails.env.production? ) ? 
-			["jakewendt@berkeley.edu", "notifyccls@berkeley.edu"] : ['jakewendt@berkeley.edu'] )
+			["notifyccls@berkeley.edu"] : ['jakewendt@berkeley.edu'] )
 	
 	#
 	#	Really important NOTE...
