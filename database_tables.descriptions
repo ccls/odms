@@ -1,0 +1,53 @@
+Table: abstracts
+Table: addresses
+Table: alternate_contacts
+Table: bc_requests
+Table: birth_data
+Table: blood_spot_requests
+Table: candidate_controls
+Table: counties
+Table: enrollments
+
+Table: guides
+Holds helpful guides specific to certain controllers/actions.
+
+Table: hospitals
+Table: icf_master_ids
+Table: ineligible_reasons
+Table: languages
+Table: medical_record_requests
+Table: operational_event_types
+Table: operational_events
+Table: organizations
+
+Table: pages
+Hold the non-science pages.
+
+Table: patients
+Table: phone_numbers
+Table: projects
+Table: races
+Table: refusal_reasons
+
+Table: roles
+Holds a list of the site roles (admin,editor,reader,etc.)
+
+Table: roles_users
+Join table between users and their roles.
+
+Table: sample_locations
+Table: sample_transfers
+Table: sample_types
+Table: samples
+Table: states
+Table: study_subjects
+
+Table: subject_languages
+Join table between study_subjects and their languages.
+
+Table: subject_races
+Join table between study_subjects and their races.
+
+Table: users
+Table: zip_codes
+

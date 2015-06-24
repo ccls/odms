@@ -1,0 +1,737 @@
+Table Name, Field, Type, Null, Key, Default, Human Description
+abstracts,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+abstracts,entry_1_by_uid,varchar(255),YES,,NULL,Calnet UID of who was logged in when 1st entry of abstract was created
+abstracts,entry_2_by_uid,varchar(255),YES,,NULL,Calnet UID of who was logged in when 2nd entry of abstract was created
+abstracts,merged_by_uid,varchar(255),YES,,NULL,Calnet UID of who was logged in when 2 entries were merged
+abstracts,study_subject_id,int(11),YES,,NULL,MySQL database foreign key reference id
+abstracts,bmb_report_found,smallint(6),YES,,NULL,
+abstracts,bmb_test_date,date,YES,,NULL,
+abstracts,bmb_percentage_blasts_known,smallint(6),YES,,NULL,
+abstracts,bmb_percentage_blasts,varchar(25),YES,,NULL,
+abstracts,bmb_comments,text,YES,,NULL,
+abstracts,bma_report_found,smallint(6),YES,,NULL,
+abstracts,bma_test_date,date,YES,,NULL,
+abstracts,bma_percentage_blasts_known,smallint(6),YES,,NULL,
+abstracts,bma_percentage_blasts,varchar(25),YES,,NULL,
+abstracts,bma_comments,text,YES,,NULL,
+abstracts,ccs_report_found,smallint(6),YES,,NULL,
+abstracts,ccs_test_date,date,YES,,NULL,
+abstracts,ccs_peroxidase,varchar(25),YES,,NULL,
+abstracts,ccs_sudan_black,varchar(25),YES,,NULL,
+abstracts,ccs_periodic_acid_schiff,varchar(25),YES,,NULL,
+abstracts,ccs_chloroacetate_esterase,varchar(25),YES,,NULL,
+abstracts,ccs_non_specific_esterase,varchar(25),YES,,NULL,
+abstracts,ccs_alpha_naphthyl_butyrate_esterase,varchar(25),YES,,NULL,
+abstracts,ccs_toluidine_blue,varchar(25),YES,,NULL,
+abstracts,ccs_bcl_2,varchar(25),YES,,NULL,
+abstracts,ccs_other,varchar(25),YES,,NULL,
+abstracts,dfc_report_found,smallint(6),YES,,NULL,
+abstracts,dfc_test_date,date,YES,,NULL,
+abstracts,dfc_numerical_data_available,smallint(6),YES,,NULL,
+abstracts,marker_bmk,varchar(25),YES,,NULL,
+abstracts,marker_bml,varchar(25),YES,,NULL,
+abstracts,marker_cd10,varchar(25),YES,,NULL,
+abstracts,marker_cd11b,varchar(25),YES,,NULL,
+abstracts,marker_cd11c,varchar(25),YES,,NULL,
+abstracts,marker_cd13,varchar(25),YES,,NULL,
+abstracts,marker_cd14,varchar(25),YES,,NULL,
+abstracts,marker_cd15,varchar(25),YES,,NULL,
+abstracts,marker_cd16,varchar(25),YES,,NULL,
+abstracts,marker_cd19,varchar(25),YES,,NULL,
+abstracts,marker_cd19_cd10,varchar(25),YES,,NULL,
+abstracts,marker_cd1a,varchar(25),YES,,NULL,
+abstracts,marker_cd2,varchar(25),YES,,NULL,
+abstracts,marker_cd20,varchar(25),YES,,NULL,
+abstracts,marker_cd21,varchar(25),YES,,NULL,
+abstracts,marker_cd22,varchar(25),YES,,NULL,
+abstracts,marker_cd23,varchar(25),YES,,NULL,
+abstracts,marker_cd24,varchar(25),YES,,NULL,
+abstracts,marker_cd25,varchar(25),YES,,NULL,
+abstracts,marker_cd3,varchar(25),YES,,NULL,
+abstracts,marker_cd33,varchar(25),YES,,NULL,
+abstracts,marker_cd34,varchar(25),YES,,NULL,
+abstracts,marker_cd38,varchar(25),YES,,NULL,
+abstracts,marker_cd3_cd4,varchar(25),YES,,NULL,
+abstracts,marker_cd3_cd8,varchar(25),YES,,NULL,
+abstracts,marker_cd4,varchar(25),YES,,NULL,
+abstracts,marker_cd40,varchar(25),YES,,NULL,
+abstracts,marker_cd41,varchar(25),YES,,NULL,
+abstracts,marker_cd45,varchar(25),YES,,NULL,
+abstracts,marker_cd5,varchar(25),YES,,NULL,
+abstracts,marker_cd56,varchar(25),YES,,NULL,
+abstracts,marker_cd57,varchar(25),YES,,NULL,
+abstracts,marker_cd61,varchar(25),YES,,NULL,
+abstracts,marker_cd7,varchar(25),YES,,NULL,
+abstracts,marker_cd71,varchar(25),YES,,NULL,
+abstracts,marker_cd8,varchar(25),YES,,NULL,
+abstracts,marker_cd9,varchar(25),YES,,NULL,
+abstracts,marker_cdw65,varchar(25),YES,,NULL,
+abstracts,marker_glycophorin_a,varchar(25),YES,,NULL,
+abstracts,marker_hla_dr,varchar(25),YES,,NULL,
+abstracts,marker_igm,varchar(25),YES,,NULL,
+abstracts,marker_sig,varchar(25),YES,,NULL,
+abstracts,marker_tdt,varchar(25),YES,,NULL,
+abstracts,other_markers,text,YES,,NULL,
+abstracts,marker_comments,text,YES,,NULL,
+abstracts,tdt_report_found,smallint(6),YES,,NULL,
+abstracts,tdt_test_date,date,YES,,NULL,
+abstracts,tdt_found_where,varchar(25),YES,,NULL,
+abstracts,tdt_result,varchar(25),YES,,NULL,
+abstracts,tdt_numerical_result,varchar(25),YES,,NULL,
+abstracts,ploidy_report_found,smallint(6),YES,,NULL,
+abstracts,ploidy_test_date,date,YES,,NULL,
+abstracts,ploidy_found_where,varchar(25),YES,,NULL,
+abstracts,ploidy_hypodiploid,varchar(25),YES,,NULL,
+abstracts,ploidy_pseudodiploid,varchar(25),YES,,NULL,
+abstracts,ploidy_hyperdiploid,varchar(25),YES,,NULL,
+abstracts,ploidy_diploid,varchar(25),YES,,NULL,
+abstracts,ploidy_dna_index,varchar(25),YES,,NULL,
+abstracts,ploidy_other_dna_measurement,text,YES,,NULL,
+abstracts,ploidy_notes,text,YES,,NULL,
+abstracts,hla_report_found,smallint(6),YES,,NULL,
+abstracts,hla_test_date,date,YES,,NULL,
+abstracts,hla_results,text,YES,,NULL,
+abstracts,cgs_report_found,smallint(6),YES,,NULL,
+abstracts,cgs_test_date,date,YES,,NULL,
+abstracts,cgs_normal,smallint(6),YES,,NULL,
+abstracts,cgs_conventional_karyotype_done,smallint(6),YES,,NULL,
+abstracts,cgs_hospital_fish_done,smallint(6),YES,,NULL,
+abstracts,cgs_hyperdiploidy_detected,smallint(6),YES,,NULL,
+abstracts,cgs_hyperdiploidy_by,varchar(25),YES,,NULL,
+abstracts,cgs_hyperdiploidy_number_of_chromosomes,varchar(25),YES,,NULL,
+abstracts,cgs_t12_21,smallint(6),YES,,NULL,
+abstracts,cgs_inv16,smallint(6),YES,,NULL,
+abstracts,cgs_t1_19,smallint(6),YES,,NULL,
+abstracts,cgs_t8_21,smallint(6),YES,,NULL,
+abstracts,cgs_t9_22,smallint(6),YES,,NULL,
+abstracts,cgs_t15_17,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_4,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_5,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_10,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_17,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_21,smallint(6),YES,,NULL,
+abstracts,cgs_t4_11_q21_q23,smallint(6),YES,,NULL,
+abstracts,cgs_deletion_6q,smallint(6),YES,,NULL,
+abstracts,cgs_deletion_9p,smallint(6),YES,,NULL,
+abstracts,cgs_t16_16_p13_q22,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_8,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_x,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_6,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_14,smallint(6),YES,,NULL,
+abstracts,cgs_trisomy_18,smallint(6),YES,,NULL,
+abstracts,cgs_monosomy_7,smallint(6),YES,,NULL,
+abstracts,cgs_deletion_16_q22,smallint(6),YES,,NULL,
+abstracts,cgs_others,text,YES,,NULL,
+abstracts,cgs_conventional_karyotyping_results,text,YES,,NULL,
+abstracts,cgs_hospital_fish_results,text,YES,,NULL,
+abstracts,cgs_comments,text,YES,,NULL,
+abstracts,omg_abnormalities_found,smallint(6),YES,,NULL,
+abstracts,omg_test_date,date,YES,,NULL,
+abstracts,omg_p16,varchar(25),YES,,NULL,
+abstracts,omg_p15,varchar(25),YES,,NULL,
+abstracts,omg_p53,varchar(25),YES,,NULL,
+abstracts,omg_ras,varchar(25),YES,,NULL,
+abstracts,omg_all1,varchar(25),YES,,NULL,
+abstracts,omg_wt1,varchar(25),YES,,NULL,
+abstracts,omg_bcr,varchar(25),YES,,NULL,
+abstracts,omg_etv6,varchar(25),YES,,NULL,
+abstracts,omg_fish,varchar(25),YES,,NULL,
+abstracts,em_report_found,smallint(6),YES,,NULL,
+abstracts,em_test_date,date,YES,,NULL,
+abstracts,em_comments,text,YES,,NULL,
+abstracts,cbc_report_found,smallint(6),YES,,NULL,
+abstracts,cbc_test_date,date,YES,,NULL,
+abstracts,cbc_hemoglobin,varchar(25),YES,,NULL,
+abstracts,cbc_leukocyte_count,varchar(25),YES,,NULL,
+abstracts,cbc_number_of_blasts,varchar(25),YES,,NULL,
+abstracts,cbc_percentage_blasts,varchar(25),YES,,NULL,
+abstracts,cbc_platelet_count,varchar(25),YES,,NULL,
+abstracts,csf_report_found,smallint(6),YES,,NULL,
+abstracts,csf_test_date,date,YES,,NULL,
+abstracts,csf_blasts_present,smallint(6),YES,,NULL,
+abstracts,csf_cytology,text,YES,,NULL,
+abstracts,csf_number_of_blasts,varchar(25),YES,,NULL,
+abstracts,csf_pb_contamination,smallint(6),YES,,NULL,
+abstracts,csf_rbc,varchar(25),YES,,NULL,
+abstracts,csf_wbc,varchar(25),YES,,NULL,
+abstracts,ob_skin_report_found,smallint(6),YES,,NULL,
+abstracts,ob_skin_date,date,YES,,NULL,
+abstracts,ob_skin_leukemic_cells_present,smallint(6),YES,,NULL,
+abstracts,ob_lymph_node_report_found,smallint(6),YES,,NULL,
+abstracts,ob_lymph_node_date,date,YES,,NULL,
+abstracts,ob_lymph_node_leukemic_cells_present,smallint(6),YES,,NULL,
+abstracts,ob_liver_report_found,smallint(6),YES,,NULL,
+abstracts,ob_liver_date,date,YES,,NULL,
+abstracts,ob_liver_leukemic_cells_present,smallint(6),YES,,NULL,
+abstracts,ob_other_report_found,smallint(6),YES,,NULL,
+abstracts,ob_other_date,date,YES,,NULL,
+abstracts,ob_other_site_organ,varchar(255),YES,,NULL,
+abstracts,ob_other_leukemic_cells_present,smallint(6),YES,,NULL,
+abstracts,cxr_report_found,smallint(6),YES,,NULL,
+abstracts,cxr_test_date,date,YES,,NULL,
+abstracts,cxr_result,varchar(25),YES,,NULL,
+abstracts,cxr_mediastinal_mass_description,text,YES,,NULL,
+abstracts,cct_report_found,smallint(6),YES,,NULL,
+abstracts,cct_test_date,date,YES,,NULL,
+abstracts,cct_result,varchar(25),YES,,NULL,
+abstracts,cct_mediastinal_mass_description,text,YES,,NULL,
+abstracts,as_report_found,smallint(6),YES,,NULL,
+abstracts,as_test_date,date,YES,,NULL,
+abstracts,as_normal,smallint(6),YES,,NULL,
+abstracts,as_sphenomegaly,smallint(6),YES,,NULL,
+abstracts,as_hepatomegaly,smallint(6),YES,,NULL,
+abstracts,as_lymphadenopathy,smallint(6),YES,,NULL,
+abstracts,as_other_abdominal_masses,smallint(6),YES,,NULL,
+abstracts,as_ascities,smallint(6),YES,,NULL,
+abstracts,as_other_abnormal_findings,text,YES,,NULL,
+abstracts,ts_report_found,smallint(6),YES,,NULL,
+abstracts,ts_test_date,date,YES,,NULL,
+abstracts,ts_findings,text,YES,,NULL,
+abstracts,hpr_report_found,smallint(6),YES,,NULL,
+abstracts,hpr_test_date,date,YES,,NULL,
+abstracts,hpr_hepatomegaly,smallint(6),YES,,NULL,
+abstracts,hpr_splenomegaly,smallint(6),YES,,NULL,
+abstracts,hpr_down_syndrome_phenotype,smallint(6),YES,,NULL,
+abstracts,height,varchar(10),YES,,NULL,
+abstracts,height_units,varchar(5),YES,,NULL,
+abstracts,weight,varchar(10),YES,,NULL,
+abstracts,weight_units,varchar(5),YES,,NULL,
+abstracts,ds_report_found,smallint(6),YES,,NULL,
+abstracts,ds_test_date,date,YES,,NULL,
+abstracts,ds_clinical_diagnosis,text,YES,,NULL,
+abstracts,cp_report_found,smallint(6),YES,,NULL,
+abstracts,cp_induction_protocol_used,smallint(6),YES,,NULL,
+abstracts,cp_induction_protocol_name_and_number,varchar(255),YES,,NULL,
+abstracts,cp_therapeutic_agents,text,YES,,NULL,
+abstracts,bma07_report_found,smallint(6),YES,,NULL,
+abstracts,bma07_test_date,date,YES,,NULL,
+abstracts,bma07_classification,varchar(25),YES,,NULL,
+abstracts,bma07_inconclusive_results,tinyint(1),YES,,NULL,
+abstracts,bma07_percentage_of_blasts,varchar(25),YES,,NULL,
+abstracts,bma14_report_found,smallint(6),YES,,NULL,
+abstracts,bma14_test_date,date,YES,,NULL,
+abstracts,bma14_classification,varchar(25),YES,,NULL,
+abstracts,bma14_inconclusive_results,tinyint(1),YES,,NULL,
+abstracts,bma14_percentage_of_blasts,varchar(25),YES,,NULL,
+abstracts,bma28_report_found,smallint(6),YES,,NULL,
+abstracts,bma28_test_date,date,YES,,NULL,
+abstracts,bma28_classification,varchar(25),YES,,NULL,
+abstracts,bma28_inconclusive_results,tinyint(1),YES,,NULL,
+abstracts,bma28_percentage_of_blasts,varchar(25),YES,,NULL,
+abstracts,clinical_remission,smallint(6),YES,,NULL,
+abstracts,leukemia_class,varchar(25),YES,,NULL,
+abstracts,other_all_leukemia_class,varchar(25),YES,,NULL,
+abstracts,other_aml_leukemia_class,varchar(25),YES,,NULL,
+abstracts,icdo_classification_number,varchar(25),YES,,NULL,
+abstracts,icdo_classification_description,text,YES,,NULL,
+abstracts,leukemia_lineage,varchar(25),YES,,NULL,
+abstracts,pe_report_found,smallint(6),YES,,NULL,
+abstracts,pe_test_date,date,YES,,NULL,
+abstracts,pe_gingival_infiltrates,smallint(6),YES,,NULL,
+abstracts,pe_leukemic_skin_infiltrates,smallint(6),YES,,NULL,
+abstracts,pe_lymphadenopathy,smallint(6),YES,,NULL,
+abstracts,pe_lymphadenopathy_description,text,YES,,NULL,
+abstracts,pe_splenomegaly,smallint(6),YES,,NULL,
+abstracts,pe_splenomegaly_size,varchar(255),YES,,NULL,
+abstracts,pe_hepatomegaly,smallint(6),YES,,NULL,
+abstracts,pe_hepatomegaly_size,varchar(255),YES,,NULL,
+abstracts,pe_testicular_mass,smallint(6),YES,,NULL,
+abstracts,pe_other_soft_tissue,smallint(6),YES,,NULL,
+abstracts,pe_other_soft_tissue_location,varchar(255),YES,,NULL,
+abstracts,pe_other_soft_tissue_size,varchar(255),YES,,NULL,
+abstracts,pe_neurological_abnormalities,text,YES,,NULL,
+abstracts,pe_other_abnormal_findings,text,YES,,NULL,
+abstracts,abstracted_by,varchar(255),YES,,NULL,
+abstracts,abstracted_on,date,YES,,NULL,
+abstracts,reviewed_by,varchar(255),YES,,NULL,
+abstracts,reviewed_on,date,YES,,NULL,
+abstracts,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+abstracts,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+addresses,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+addresses,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+addresses,current_address,int(11),YES,,1,
+addresses,address_at_diagnosis,int(11),YES,,NULL,
+addresses,other_data_source,varchar(255),YES,,NULL,
+addresses,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+addresses,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+addresses,notes,text,YES,,NULL,
+addresses,data_source,varchar(255),YES,,NULL,
+addresses,line_1,varchar(255),YES,,NULL,
+addresses,line_2,varchar(255),YES,,NULL,
+addresses,city,varchar(255),YES,,NULL,
+addresses,state,varchar(255),YES,,NULL,
+addresses,zip,varchar(10),YES,,NULL,
+addresses,external_address_id,int(11),YES,,NULL,
+addresses,county,varchar(255),YES,,NULL,
+addresses,unit,varchar(255),YES,,NULL,
+addresses,country,varchar(255),YES,,NULL,
+addresses,needs_geocoded,tinyint(1),YES,MUL,1,Rails app flag
+addresses,geocoding_failed,tinyint(1),YES,,0,Rails app flag
+addresses,longitude,float,YES,,NULL,From successful google geocoding
+addresses,latitude,float,YES,,NULL,From successful google geocoding
+addresses,geocoding_response,text,YES,,NULL,Google geocoding response
+addresses,address_type,varchar(255),YES,,NULL,
+alternate_contacts,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+alternate_contacts,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+alternate_contacts,name,varchar(255),YES,,NULL,
+alternate_contacts,relation,varchar(255),YES,,NULL,
+alternate_contacts,line_1,varchar(255),YES,,NULL,
+alternate_contacts,line_2,varchar(255),YES,,NULL,
+alternate_contacts,city,varchar(255),YES,,NULL,
+alternate_contacts,state,varchar(255),YES,,NULL,
+alternate_contacts,zip,varchar(255),YES,,NULL,
+alternate_contacts,phone_number_1,varchar(255),YES,,NULL,
+alternate_contacts,phone_number_2,varchar(255),YES,,NULL,
+alternate_contacts,notes,text,YES,,NULL,
+alternate_contacts,created_at,datetime,YES,,NULL,Rails field set when record was created (could've been overridden)
+alternate_contacts,updated_at,datetime,YES,,NULL,Rails field set when record was last updated (could've been overridden)
+bc_requests,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+bc_requests,study_subject_id,int(11),YES,,NULL,MySQL database foreign key reference id
+bc_requests,sent_on,date,YES,,NULL,
+bc_requests,status,varchar(255),YES,,NULL,
+bc_requests,notes,text,YES,,NULL,
+bc_requests,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+bc_requests,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+bc_requests,is_found,tinyint(1),YES,,NULL,
+bc_requests,returned_on,date,YES,,NULL,
+birth_data,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+birth_data,birth_datum_update_id,int(11),YES,,NULL,MySQL database foreign key reference id
+birth_data,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+birth_data,master_id,varchar(255),YES,,NULL,
+birth_data,found_in_state_db,varchar(255),YES,,NULL,
+birth_data,birth_state,varchar(255),YES,,NULL,
+birth_data,match_confidence,varchar(255),YES,,NULL,
+birth_data,case_control_flag,varchar(255),YES,,NULL,
+birth_data,length_of_gestation_weeks,int(11),YES,,NULL,
+birth_data,father_race_ethn_1,int(11),YES,,NULL,
+birth_data,father_race_ethn_2,int(11),YES,,NULL,
+birth_data,father_race_ethn_3,int(11),YES,,NULL,
+birth_data,mother_race_ethn_1,int(11),YES,,NULL,
+birth_data,mother_race_ethn_2,int(11),YES,,NULL,
+birth_data,mother_race_ethn_3,int(11),YES,,NULL,
+birth_data,abnormal_conditions,varchar(255),YES,,NULL,
+birth_data,apgar_1min,int(11),YES,,NULL,
+birth_data,apgar_5min,int(11),YES,,NULL,
+birth_data,apgar_10min,int(11),YES,,NULL,
+birth_data,birth_order,int(11),YES,,NULL,
+birth_data,birth_type,varchar(255),YES,,NULL,
+birth_data,birth_weight_gms,decimal(8,2),YES,,NULL,
+birth_data,complications_labor_delivery,varchar(255),YES,,NULL,
+birth_data,complications_pregnancy,varchar(255),YES,,NULL,
+birth_data,county_of_delivery,varchar(255),YES,,NULL,
+birth_data,daily_cigarette_cnt_1st_tri,int(11),YES,,NULL,
+birth_data,daily_cigarette_cnt_2nd_tri,int(11),YES,,NULL,
+birth_data,daily_cigarette_cnt_3rd_tri,int(11),YES,,NULL,
+birth_data,daily_cigarette_cnt_3mo_preconc,int(11),YES,,NULL,
+birth_data,dob,date,YES,,NULL,
+birth_data,first_name,varchar(255),YES,,NULL,
+birth_data,middle_name,varchar(255),YES,,NULL,
+birth_data,last_name,varchar(255),YES,,NULL,
+birth_data,father_industry,varchar(255),YES,,NULL,
+birth_data,father_dob,date,YES,,NULL,
+birth_data,father_hispanic_origin_code,varchar(255),YES,,NULL,
+birth_data,father_first_name,varchar(255),YES,,NULL,
+birth_data,father_middle_name,varchar(255),YES,,NULL,
+birth_data,father_last_name,varchar(255),YES,,NULL,
+birth_data,father_occupation,varchar(255),YES,,NULL,
+birth_data,father_yrs_educ,int(11),YES,,NULL,
+birth_data,fetal_presentation_at_birth,varchar(255),YES,,NULL,
+birth_data,forceps_attempt_unsuccessful,varchar(255),YES,,NULL,
+birth_data,last_live_birth_on,date,YES,,NULL,
+birth_data,last_menses_on,date,YES,,NULL,
+birth_data,last_termination_on,date,YES,,NULL,
+birth_data,length_of_gestation_days,int(11),YES,,NULL,
+birth_data,live_births_now_deceased,int(11),YES,,NULL,
+birth_data,live_births_now_living,int(11),YES,,NULL,
+birth_data,local_registrar_district,varchar(255),YES,,NULL,
+birth_data,local_registrar_no,varchar(255),YES,,NULL,
+birth_data,method_of_delivery,varchar(255),YES,,NULL,
+birth_data,month_prenatal_care_began,varchar(255),YES,,NULL,
+birth_data,mother_residence_line_1,varchar(255),YES,,NULL,
+birth_data,mother_residence_city,varchar(255),YES,,NULL,
+birth_data,mother_residence_county,varchar(255),YES,,NULL,
+birth_data,mother_residence_county_ef,varchar(255),YES,,NULL,
+birth_data,mother_residence_state,varchar(255),YES,,NULL,
+birth_data,mother_residence_zip,varchar(255),YES,,NULL,
+birth_data,mother_weight_at_delivery,int(11),YES,,NULL,
+birth_data,mother_birthplace,varchar(255),YES,,NULL,
+birth_data,mother_birthplace_state,varchar(255),YES,,NULL,
+birth_data,mother_dob,date,YES,,NULL,
+birth_data,mother_first_name,varchar(255),YES,,NULL,
+birth_data,mother_middle_name,varchar(255),YES,,NULL,
+birth_data,mother_maiden_name,varchar(255),YES,,NULL,
+birth_data,mother_height,int(11),YES,,NULL,
+birth_data,mother_hispanic_origin_code,varchar(255),YES,,NULL,
+birth_data,mother_industry,varchar(255),YES,,NULL,
+birth_data,mother_occupation,varchar(255),YES,,NULL,
+birth_data,mother_received_wic,varchar(255),YES,,NULL,
+birth_data,mother_weight_pre_pregnancy,int(11),YES,,NULL,
+birth_data,mother_yrs_educ,int(11),YES,,NULL,
+birth_data,ob_gestation_estimate_at_delivery,int(11),YES,,NULL,
+birth_data,prenatal_care_visit_count,int(11),YES,,NULL,
+birth_data,sex,varchar(255),YES,,NULL,
+birth_data,state_registrar_no,varchar(255),YES,,NULL,
+birth_data,term_count_20_plus_weeks,int(11),YES,,NULL,
+birth_data,term_count_pre_20_weeks,int(11),YES,,NULL,
+birth_data,vacuum_attempt_unsuccessful,varchar(255),YES,,NULL,
+birth_data,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+birth_data,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+birth_data,control_number,int(11),YES,,NULL,
+birth_data,father_ssn,varchar(255),YES,,NULL,
+birth_data,mother_ssn,varchar(255),YES,,NULL,
+birth_data,birth_data_file_name,varchar(255),YES,,NULL,
+birth_data,childid,int(11),YES,,NULL,
+birth_data,deceased,varchar(255),YES,,NULL,
+birth_data,case_dob,date,YES,,NULL,
+birth_data,ccls_import_notes,text,YES,,NULL,
+birth_data,study_subject_changes,text,YES,,NULL,Changes to subject from import created by rails app
+birth_data,derived_state_file_no_last6,varchar(6),YES,,NULL,
+birth_data,derived_local_file_no_last6,varchar(6),YES,,NULL,
+blood_spot_requests,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+blood_spot_requests,study_subject_id,int(11),YES,,NULL,MySQL database foreign key reference id
+blood_spot_requests,sent_on,date,YES,,NULL,
+blood_spot_requests,returned_on,date,YES,,NULL,
+blood_spot_requests,is_found,tinyint(1),YES,,NULL,
+blood_spot_requests,status,varchar(255),YES,,NULL,
+blood_spot_requests,notes,text,YES,,NULL,
+blood_spot_requests,request_type,varchar(255),YES,,NULL,
+blood_spot_requests,created_at,datetime,YES,,NULL,Rails field set when record was created (could've been overridden)
+blood_spot_requests,updated_at,datetime,YES,,NULL,Rails field set when record was last updated (could've been overridden)
+candidate_controls,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+candidate_controls,birth_datum_id,int(11),YES,,NULL,MySQL database foreign key reference id
+candidate_controls,related_patid,varchar(5),YES,,NULL,
+candidate_controls,study_subject_id,int(11),YES,,NULL,MySQL database foreign key reference id
+candidate_controls,assigned_on,date,YES,,NULL,
+candidate_controls,reject_candidate,tinyint(1),NO,,0,
+candidate_controls,rejection_reason,varchar(255),YES,,NULL,
+candidate_controls,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+candidate_controls,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+counties,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+counties,name,varchar(255),YES,,NULL,
+counties,fips_code,varchar(5),YES,,NULL,
+counties,state_abbrev,varchar(2),YES,MUL,NULL,
+counties,usc_code,varchar(2),YES,,NULL,
+counties,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+counties,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+enrollments,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+enrollments,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+enrollments,project_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+enrollments,is_candidate,int(11),YES,,NULL,
+enrollments,is_eligible,int(11),YES,,NULL,
+enrollments,ineligible_reason_id,int(11),YES,,NULL,MySQL database foreign key reference id
+enrollments,other_ineligible_reason,varchar(255),YES,,NULL,
+enrollments,consented,int(11),YES,,NULL,
+enrollments,consented_on,date,YES,,NULL,
+enrollments,refusal_reason_id,int(11),YES,,NULL,MySQL database foreign key reference id
+enrollments,other_refusal_reason,varchar(255),YES,,NULL,
+enrollments,is_chosen,int(11),YES,,NULL,
+enrollments,reason_not_chosen,varchar(255),YES,,NULL,
+enrollments,terminated_participation,int(11),YES,,NULL,
+enrollments,terminated_reason,varchar(255),YES,,NULL,
+enrollments,is_complete,int(11),YES,,NULL,
+enrollments,completed_on,date,YES,,NULL,
+enrollments,notes,text,YES,,NULL,
+enrollments,use_smp_future_rsrch,int(11),YES,,NULL,
+enrollments,use_smp_future_cancer_rsrch,int(11),YES,,NULL,
+enrollments,use_smp_future_other_rsrch,int(11),YES,,NULL,
+enrollments,share_smp_with_others,int(11),YES,,NULL,
+enrollments,contact_for_related_study,int(11),YES,,NULL,
+enrollments,provide_saliva_smp,int(11),YES,,NULL,
+enrollments,receive_study_findings,int(11),YES,,NULL,
+enrollments,refused_by_physician,tinyint(1),YES,,NULL,
+enrollments,refused_by_family,tinyint(1),YES,,NULL,
+enrollments,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+enrollments,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+enrollments,assigned_for_interview_at,datetime,YES,,NULL,
+enrollments,interview_completed_on,date,YES,,NULL,
+enrollments,tracing_status,varchar(255),YES,,NULL,
+enrollments,vaccine_authorization_received_at,datetime,YES,,NULL,
+guides,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+guides,controller,varchar(255),YES,MUL,NULL,
+guides,action,varchar(255),YES,,NULL,
+guides,body,text,YES,,NULL,
+guides,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+guides,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+hospitals,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+hospitals,organization_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+hospitals,has_irb_waiver,tinyint(1),NO,,0,
+hospitals,is_active,tinyint(1),NO,,1,
+hospitals,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+hospitals,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+icf_master_ids,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+icf_master_ids,icf_master_id,varchar(9),YES,UNI,NULL,
+icf_master_ids,assigned_on,date,YES,,NULL,
+icf_master_ids,study_subject_id,int(11),YES,UNI,NULL,MySQL database foreign key reference id
+icf_master_ids,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+icf_master_ids,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+ineligible_reasons,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+ineligible_reasons,position,int(11),YES,,NULL,Rails field used for sorting
+ineligible_reasons,key,varchar(255),NO,UNI,NULL,Very short description
+ineligible_reasons,description,varchar(255),YES,UNI,NULL,
+ineligible_reasons,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+ineligible_reasons,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+languages,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+languages,position,int(11),YES,,NULL,Rails field used for sorting
+languages,key,varchar(255),NO,UNI,NULL,Very short description
+languages,description,varchar(255),YES,,NULL,
+languages,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+languages,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+languages,code,int(11),YES,UNI,NULL,
+medical_record_requests,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+medical_record_requests,study_subject_id,int(11),YES,,NULL,MySQL database foreign key reference id
+medical_record_requests,sent_on,date,YES,,NULL,
+medical_record_requests,returned_on,date,YES,,NULL,
+medical_record_requests,is_found,tinyint(1),YES,,NULL,
+medical_record_requests,status,varchar(255),YES,,NULL,
+medical_record_requests,notes,text,YES,,NULL,
+medical_record_requests,created_at,datetime,YES,,NULL,Rails field set when record was created (could've been overridden)
+medical_record_requests,updated_at,datetime,YES,,NULL,Rails field set when record was last updated (could've been overridden)
+operational_event_types,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+operational_event_types,position,int(11),YES,,NULL,Rails field used for sorting
+operational_event_types,key,varchar(255),NO,UNI,NULL,Very short description
+operational_event_types,description,varchar(255),YES,UNI,NULL,
+operational_event_types,event_category,varchar(255),YES,,NULL,
+operational_event_types,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+operational_event_types,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+operational_events,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+operational_events,operational_event_type_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+operational_events,occurred_at,datetime,YES,,NULL,
+operational_events,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+operational_events,project_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+operational_events,description,varchar(255),YES,,NULL,
+operational_events,notes,text,YES,,NULL,
+operational_events,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+operational_events,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+organizations,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+organizations,position,int(11),YES,,NULL,Rails field used for sorting
+organizations,key,varchar(255),NO,UNI,NULL,Very short name
+organizations,name,varchar(255),YES,UNI,NULL,
+organizations,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+organizations,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+pages,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+pages,position,int(11),YES,,NULL,Rails field used for sorting
+pages,parent_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+pages,hide_menu,tinyint(1),YES,,0,
+pages,path,varchar(255),YES,UNI,NULL,
+pages,title_en,varchar(255),YES,,NULL,
+pages,title_es,varchar(255),YES,,NULL,
+pages,menu_en,varchar(255),YES,,NULL,
+pages,menu_es,varchar(255),YES,,NULL,
+pages,body_en,text,YES,,NULL,
+pages,body_es,text,YES,,NULL,
+pages,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+pages,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+patients,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+patients,study_subject_id,int(11),YES,UNI,NULL,MySQL database foreign key reference id
+patients,diagnosis_date,date,YES,,NULL,
+patients,organization_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+patients,admit_date,date,YES,,NULL,
+patients,sample_was_collected,int(11),YES,,NULL,
+patients,admitting_oncologist,varchar(255),YES,,NULL,
+patients,was_ca_resident_at_diagnosis,int(11),YES,,NULL,
+patients,was_previously_treated,int(11),YES,,NULL,
+patients,was_under_15_at_dx,int(11),YES,,NULL,
+patients,raf_zip,varchar(10),YES,,NULL,
+patients,raf_county,varchar(255),YES,,NULL,
+patients,hospital_no,varchar(25),YES,MUL,NULL,
+patients,other_diagnosis,varchar(255),YES,,NULL,
+patients,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+patients,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+patients,diagnosis,varchar(255),YES,,NULL,
+phone_numbers,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+phone_numbers,position,int(11),YES,,NULL,Rails field used for sorting
+phone_numbers,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+phone_numbers,phone_number,varchar(255),YES,,NULL,
+phone_numbers,is_primary,tinyint(1),YES,,NULL,
+phone_numbers,current_phone,int(11),YES,,1,
+phone_numbers,other_data_source,varchar(255),YES,,NULL,
+phone_numbers,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+phone_numbers,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+phone_numbers,phone_type,varchar(255),YES,,NULL,
+phone_numbers,data_source,varchar(255),YES,,NULL,
+projects,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+projects,position,int(11),YES,,NULL,Rails field used for sorting
+projects,began_on,date,YES,,NULL,
+projects,ended_on,date,YES,,NULL,
+projects,key,varchar(255),NO,UNI,NULL,Very short description
+projects,description,varchar(255),YES,UNI,NULL,
+projects,eligibility_criteria,text,YES,,NULL,
+projects,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+projects,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+projects,label,varchar(255),YES,,NULL,
+races,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+races,position,int(11),YES,,NULL,Rails field used for sorting
+races,key,varchar(255),NO,UNI,NULL,Very short description
+races,description,varchar(255),YES,UNI,NULL,
+races,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+races,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+races,code,int(11),YES,UNI,NULL,
+refusal_reasons,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+refusal_reasons,position,int(11),YES,,NULL,Rails field used for sorting
+refusal_reasons,key,varchar(255),NO,UNI,NULL,Very short description
+refusal_reasons,description,varchar(255),YES,UNI,NULL,
+refusal_reasons,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+refusal_reasons,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+roles,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+roles,position,int(11),YES,,NULL,Rails field used for sorting
+roles,name,varchar(255),YES,UNI,NULL,
+roles,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+roles,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+roles_users,role_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+roles_users,user_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+sample_locations,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+sample_locations,organization_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+sample_locations,is_active,tinyint(1),NO,,1,
+sample_locations,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+sample_locations,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+sample_transfers,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+sample_transfers,sample_id,int(11),YES,,NULL,MySQL database foreign key reference id
+sample_transfers,source_org_id,int(11),YES,,NULL,MySQL database foreign key reference id
+sample_transfers,destination_org_id,int(11),YES,,NULL,MySQL database foreign key reference id
+sample_transfers,sent_on,date,YES,,NULL,
+sample_transfers,status,varchar(255),YES,,NULL,
+sample_transfers,notes,text,YES,,NULL,
+sample_transfers,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+sample_transfers,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+sample_types,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+sample_types,position,int(11),YES,,NULL,Rails field used for sorting
+sample_types,parent_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+sample_types,key,varchar(255),NO,UNI,NULL,Very short description
+sample_types,description,varchar(255),YES,UNI,NULL,
+sample_types,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+sample_types,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+sample_types,for_new_sample,tinyint(1),NO,,1,
+sample_types,t2k_sample_type_id,int(11),YES,,NULL,
+sample_types,gegl_sample_type_id,varchar(255),YES,,NULL,
+samples,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+samples,parent_sample_id,int(11),YES,,NULL,MySQL database foreign key reference id
+samples,sample_type_id,int(11),YES,,NULL,MySQL database foreign key reference id
+samples,project_id,int(11),YES,,NULL,MySQL database foreign key reference id
+samples,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+samples,location_id,int(11),YES,,NULL,MySQL database foreign key reference id
+samples,aliquot_or_sample_on_receipt,varchar(255),YES,,NULL,
+samples,sent_to_subject_at,datetime,YES,,NULL,
+samples,collected_from_subject_at,datetime,YES,,NULL,
+samples,shipped_to_ccls_at,datetime,YES,,NULL,
+samples,received_by_ccls_at,datetime,YES,,NULL,
+samples,sent_to_lab_at,datetime,YES,,NULL,
+samples,received_by_lab_at,datetime,YES,,NULL,
+samples,external_id,varchar(255),YES,,NULL,
+samples,external_id_source,varchar(255),YES,,NULL,
+samples,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+samples,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+samples,notes,text,YES,,NULL,
+samples,sample_format,varchar(255),YES,,NULL,
+samples,sample_temperature,varchar(255),YES,,NULL,
+states,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+states,position,int(11),YES,,NULL,Rails field used for sorting
+states,code,varchar(255),NO,UNI,NULL,
+states,name,varchar(255),NO,UNI,NULL,
+states,fips_country_code,varchar(2),NO,MUL,NULL,
+states,fips_state_code,varchar(2),NO,UNI,NULL,
+states,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+states,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+study_subjects,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+study_subjects,hispanicity,int(11),YES,,NULL,
+study_subjects,reference_date,date,YES,,NULL,
+study_subjects,sex,varchar(255),YES,,NULL,
+study_subjects,do_not_contact,tinyint(1),NO,,0,
+study_subjects,mother_yrs_educ,int(11),YES,,NULL,
+study_subjects,father_yrs_educ,int(11),YES,,NULL,
+study_subjects,birth_type,varchar(255),YES,,NULL,
+study_subjects,mother_hispanicity,int(11),YES,,NULL,
+study_subjects,father_hispanicity,int(11),YES,,NULL,
+study_subjects,mother_hispanicity_mex,int(11),YES,,NULL,
+study_subjects,father_hispanicity_mex,int(11),YES,,NULL,
+study_subjects,mom_is_biomom,int(11),YES,,NULL,
+study_subjects,dad_is_biodad,int(11),YES,,NULL,
+study_subjects,first_name,varchar(255),YES,,NULL,
+study_subjects,middle_name,varchar(255),YES,,NULL,
+study_subjects,last_name,varchar(255),YES,,NULL,
+study_subjects,dob,date,YES,,NULL,
+study_subjects,died_on,date,YES,,NULL,
+study_subjects,mother_first_name,varchar(255),YES,,NULL,
+study_subjects,mother_middle_name,varchar(255),YES,,NULL,
+study_subjects,mother_maiden_name,varchar(255),YES,,NULL,
+study_subjects,mother_last_name,varchar(255),YES,,NULL,
+study_subjects,father_first_name,varchar(255),YES,,NULL,
+study_subjects,father_middle_name,varchar(255),YES,,NULL,
+study_subjects,father_last_name,varchar(255),YES,,NULL,
+study_subjects,guardian_first_name,varchar(255),YES,,NULL,
+study_subjects,guardian_middle_name,varchar(255),YES,,NULL,
+study_subjects,guardian_last_name,varchar(255),YES,,NULL,
+study_subjects,other_guardian_relationship,varchar(255),YES,,NULL,
+study_subjects,mother_race_code,int(11),YES,,NULL,
+study_subjects,father_race_code,int(11),YES,,NULL,
+study_subjects,maiden_name,varchar(255),YES,,NULL,
+study_subjects,birth_year,varchar(4),YES,,NULL,
+study_subjects,birth_city,varchar(255),YES,,NULL,
+study_subjects,birth_state,varchar(255),YES,,NULL,
+study_subjects,birth_country,varchar(255),YES,,NULL,
+study_subjects,other_mother_race,varchar(255),YES,,NULL,
+study_subjects,other_father_race,varchar(255),YES,,NULL,
+study_subjects,childid,int(11),YES,UNI,NULL,
+study_subjects,patid,varchar(4),YES,MUL,NULL,
+study_subjects,case_control_type,varchar(1),YES,,NULL,
+study_subjects,orderno,int(11),YES,,NULL,
+study_subjects,related_childid,varchar(255),YES,,NULL,
+study_subjects,related_case_childid,varchar(255),YES,,NULL,
+study_subjects,subjectid,varchar(6),YES,UNI,NULL,
+study_subjects,matchingid,varchar(6),YES,MUL,NULL,
+study_subjects,familyid,varchar(6),YES,MUL,NULL,
+study_subjects,state_id_no,varchar(255),YES,UNI,NULL,
+study_subjects,childidwho,varchar(10),YES,,NULL,
+study_subjects,studyid,varchar(14),YES,UNI,NULL,
+study_subjects,newid,varchar(6),YES,,NULL,
+study_subjects,icf_master_id,varchar(9),YES,UNI,NULL,
+study_subjects,state_registrar_no,varchar(255),YES,UNI,NULL,
+study_subjects,local_registrar_no,varchar(255),YES,UNI,NULL,
+study_subjects,is_matched,tinyint(1),YES,,NULL,
+study_subjects,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+study_subjects,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+study_subjects,phase,int(11),YES,MUL,NULL,
+study_subjects,hispanicity_mex,int(11),YES,,NULL,
+study_subjects,case_icf_master_id,varchar(9),YES,,NULL,
+study_subjects,mother_icf_master_id,varchar(9),YES,,NULL,
+study_subjects,subject_type,varchar(20),YES,MUL,NULL,
+study_subjects,vital_status,varchar(20),YES,MUL,NULL,
+study_subjects,cdcid,int(11),YES,,NULL,
+study_subjects,samples_count,int(11),YES,,0,
+study_subjects,operational_events_count,int(11),YES,,0,
+study_subjects,addresses_count,int(11),YES,,0,
+study_subjects,phone_numbers_count,int(11),YES,,0,
+study_subjects,interviews_count,int(11),YES,,0,
+study_subjects,needs_reindexed,tinyint(1),YES,MUL,0,
+study_subjects,abstracts_count,int(11),YES,,0,
+study_subjects,enrollments_count,int(11),YES,,0,
+study_subjects,replication_id,int(11),YES,MUL,NULL,
+study_subjects,guardian_relationship,varchar(255),YES,,NULL,
+subject_languages,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+subject_languages,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+subject_languages,language_code,int(11),YES,,NULL,
+subject_languages,other_language,varchar(255),YES,,NULL,
+subject_languages,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+subject_languages,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+subject_races,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+subject_races,study_subject_id,int(11),YES,MUL,NULL,MySQL database foreign key reference id
+subject_races,race_code,int(11),YES,,NULL,
+subject_races,is_primary,tinyint(1),NO,,0,
+subject_races,other_race,varchar(255),YES,,NULL,
+subject_races,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+subject_races,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+users,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+users,uid,varchar(255),YES,UNI,NULL,
+users,sn,varchar(255),YES,MUL,NULL,
+users,displayname,varchar(255),YES,,NULL,
+users,mail,varchar(255),YES,,NULL,
+users,telephonenumber,varchar(255),YES,,NULL,
+users,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+users,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
+zip_codes,id,int(11),NO,PRI,NULL,MySQL database identifier used for relational references
+zip_codes,zip_code,varchar(5),NO,UNI,NULL,
+zip_codes,city,varchar(255),NO,,NULL,
+zip_codes,state,varchar(255),NO,,NULL,
+zip_codes,zip_class,varchar(255),NO,,NULL,
+zip_codes,county_id,int(11),YES,,NULL,MySQL database foreign key reference id
+zip_codes,created_at,datetime,NO,,NULL,Rails field set when record was created (could've been overridden)
+zip_codes,updated_at,datetime,NO,,NULL,Rails field set when record was last updated (could've been overridden)
