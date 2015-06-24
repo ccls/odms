@@ -225,10 +225,15 @@ base.class_eval do
 	add_sunspot_column( :current_address_at_dx, :facetable => true,
 		:meth => ->(s){ YNDK[s.addresses.current.order('created_at DESC').first.try(:address_at_diagnosis)]||'NULL' })
 
-	add_sunspot_column( :medical_record_request_sent, :facetable => true,
+	add_sunspot_column( :med_record_request_sent, :facetable => true,
 		:meth => ->(s){ ( s.medical_record_requests.collect(&:sent_on).any? ) ? 'Yes' : 'No' } )
-	add_sunspot_column( :medical_record_request_received, :facetable => true,
+	add_sunspot_column( :med_record_request_received, :facetable => true,
 		:meth => ->(s){ ( s.medical_record_requests.collect(&:returned_on).any? ) ? 'Yes' : 'No' } )
+
+	add_sunspot_column( :birth_record_request_sent, :facetable => true,
+		:meth => ->(s){ ( s.bc_requests.collect(&:sent_on).any? ) ? 'Yes' : 'No' } )
+	add_sunspot_column( :birth_record_request_received, :facetable => true,
+		:meth => ->(s){ ( s.bc_requests.collect(&:returned_on).any? ) ? 'Yes' : 'No' } )
 
 	add_sunspot_column( :replicated, :facetable => true, :label => "Possibly Replicated?",
 		:meth => ->(s){ s.replication_id.present? ? 'Yes' : 'No' } )
