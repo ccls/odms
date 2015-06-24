@@ -272,12 +272,14 @@ state_registrar_no
 		assert_difference('BcRequest.active.count',1){
 			study_subject.bc_requests.create(:status => 'active')
 		}
+		assert_difference('BirthDatum.count',2){
 		assert_difference('BcRequest.count',0){
 		assert_difference('BcRequest.active.count',-1){
 		assert_difference('BcRequest.complete.count',1){
 			create_test_file_and_birth_datum_update
-		} } }
-		bcr = study_subject.bc_requests.first
+		} } } }
+		#	20150624 - for some reason, must now reload?
+		bcr = study_subject.bc_requests.first.reload
 		assert_not_nil bcr.is_found
 		assert_not_nil bcr.returned_on
 		assert_equal Date.current, bcr.returned_on
