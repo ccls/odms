@@ -762,6 +762,17 @@ And we've changed to use mariadb, so start that manually as well ...
 
  c ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; nice +20 bundle exec autotest -v --no-full-after-failed
 
+
+
+
+---
+== FULL PRODUCTION GEM REINSTALLATION
+
+ gem uninstall --executables --ignore-dependencies --all
+ gem install bundler
+ cd  /my/ruby/clic; bundler install
+ cd  /my/ruby/odms; bundler install
+
 ---
 == Quick Production Notes
 
