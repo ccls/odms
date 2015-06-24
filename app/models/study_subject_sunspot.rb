@@ -234,6 +234,7 @@ base.class_eval do
 		:meth => ->(s){ ( s.bc_requests.collect(&:sent_on).any? ) ? 'Yes' : 'No' } )
 	add_sunspot_column( :birth_record_request_received, :facetable => true,
 		:meth => ->(s){ ( s.bc_requests.collect(&:returned_on).any? ) ? 'Yes' : 'No' } )
+	add_sunspot_column( :birth_state, :facetable => true )
 
 	add_sunspot_column( :replicated, :facetable => true, :label => "Possibly Replicated?",
 		:meth => ->(s){ s.replication_id.present? ? 'Yes' : 'No' } )
