@@ -16,6 +16,32 @@ namespace :data do
 #		raise "#{options[:fail_message]} :\n #{caller[0]}" unless expression
 #	end
 
+	task :dump_to_csv => :environment do
+		outdir = "#{Rails.root.to_s}/csv_dump.#{Time.current.strftime('%Y%m%d%H%M%S')}"
+		FileUtils.mkdir( outdir, :mode => 0777 ) unless Dir.exists?( outdir )
+		FileUtils.chmod( 0777, outdir )
+		ActiveRecord::Base.connection.execute('show tables;').to_a.flatten.each do |table|
+			next if table == "schema_migrations"
+			puts "Table:#{table}:"
+			columns = ActiveRecord::Base.connection.execute("show columns from #{table};"
+				).to_a.collect(&:first)
+			puts "Columns:#{columns.to_s}:"
+
+			#	we use the column name "key" on many occassions.
+			#	This is a reserved word so must be quoted, so quote all columns.
+			statement="(SELECT '#{columns.join('\',\'')}')
+				UNION
+				(SELECT `#{columns.join('`,`')}`
+				FROM #{table}
+				INTO OUTFILE '#{outdir}/#{table}.csv'
+				FIELDS ENCLOSED BY '\"' TERMINATED BY ',' ESCAPED BY '\"'
+				LINES TERMINATED BY '\n');"
+			puts statement;
+			ActiveRecord::Base.connection.execute(statement)
+
+		end
+	end	#	task :dump_to_csv => :environment do
+
 	task :checkup => :environment do
 
 		StudySubject.all.each do |study_subject| 
