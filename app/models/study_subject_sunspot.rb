@@ -56,12 +56,6 @@ base.class_eval do
 		YNDK[ccls_enrollment.try(:is_eligible)]
 	end
 
-	#
-	#	NOTE what about 
-	#
-	#	matchingid,familyid,case_subjectid?
-	#
-
 	include ActiveRecordSunspotter::Sunspotability
 
 	#		default_options = {
@@ -178,6 +172,8 @@ base.class_eval do
 	add_sunspot_column( :patid )
 	add_sunspot_column( :childid )
 	add_sunspot_column( :subjectid )
+	add_sunspot_column( :familyid )
+	add_sunspot_column( :matchingid )
 	add_sunspot_column( :hospital_key )
 	add_sunspot_column( :hospital_no )
 	add_sunspot_column( :state_id_no )
