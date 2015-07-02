@@ -165,7 +165,7 @@ DatabaseCleaner.strategy = :truncation
 #	we can use both webrat and capybara.  We only use capybara now.
 class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 
-	setup :block_unknown_urls
+#	setup :block_unknown_urls
 
 	#	20150212 - Recent versions of capybara start emitting lots of
 	#	external URL complaints. This seems to silence them all.
@@ -200,10 +200,10 @@ class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 	#
 	#	NEED to allow the googleapis as that is where we get our jquery.
 
-	def block_unknown_urls
-		page.driver.block_unknown_urls
-		page.driver.allow_url("ajax.googleapis.com")
-	end
+#	def block_unknown_urls
+#		page.driver.block_unknown_urls
+#		page.driver.allow_url("ajax.googleapis.com")
+#	end
 
 
 #	NOTE
@@ -281,6 +281,12 @@ class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 
 	include Capybara::DSL
 
+	Capybara::Webkit.configure do |config|
+		config.block_unknown_urls
+		config.allow_url("ajax.googleapis.com")
+	end
+
+
 	fixtures :all
 
 	#	Special login_as for integration testing.
@@ -355,18 +361,18 @@ class ActionDispatch::CapybaraIntegrationTest < ActionDispatch::IntegrationTest
 end
 
 #	/opt/local/lib/ruby2.0/gems/2.0.0/gems/capybara-2.4.1/lib/capybara/node/finders.rb
-module Capybara
-	module Node
-		module Finders
-			#	redefining as newer version allows options, some of which are kinda required in the new version
-			#	and I don't want to delete them all now and have to put them back when I try again.
-			#	find_field's ":visible => false" means ignore visibility, not that it is not visible!
-			def find_field(locator, options={})
-				find(:field, locator, options)
-			end
-		end
-	end
-end
+#module Capybara
+#	module Node
+#		module Finders
+#			#	redefining as newer version allows options, some of which are kinda required in the new version
+#			#	and I don't want to delete them all now and have to put them back when I try again.
+#			#	find_field's ":visible => false" means ignore visibility, not that it is not visible!
+#			def find_field(locator, options={})
+#				find(:field, locator, options)
+#			end
+#		end
+#	end
+#end
 
 
 __END__
