@@ -93,7 +93,7 @@ MAILTO='jwendt@genepi.berkeley.edu'
 #	every WEEKday at 8PM
 #	Changed mounting using fstab (more unixy).  Should never lose mount now.
 #	Also, fyi "abort" calls from rake task will send email.
-0 20 * * 1,2,3,4,5 cd /my/ruby/odms/ ; bundle exec rake automate:updates_from_icf_master_tracker >> /my/ruby/odms/log/automate_updates_from_icf_master_tracker.log
+#0 20 * * 1,2,3,4,5 cd /my/ruby/odms/ ; bundle exec rake automate:updates_from_icf_master_tracker >> /my/ruby/odms/log/automate_updates_from_icf_master_tracker.log
 
 
 
@@ -103,7 +103,7 @@ MAILTO='jwendt@genepi.berkeley.edu'
 #
 #	can't really do the "OTHER" with just cron
 #
-0 19 * * 3 cd /my/ruby/odms/ ; bundle exec rake automate:import_screening_data >> /my/ruby/odms/log/automate_import_screening_data.log
+#0 19 * * 3 cd /my/ruby/odms/ ; bundle exec rake automate:import_screening_data >> /my/ruby/odms/log/automate_import_screening_data.log
 
 
 
