@@ -47,28 +47,14 @@ namespace :data do
 
 		end
 
-		puts
-		puts "Be advised that these files are still not perfect."
-		puts "They still contain ^M's for carriage returns,"
-		puts "escaped double quotes which could be problematic,"
-		puts "add \N's where NULLs used to be."
-		puts "And they belong to _mysql so that needs changed."
-		puts
-
-#	alas, that is not perfect.
-#	need to vi *.csv
-#	:bufdo :%s///g |:up				#	somehow this makes the csv invalid?
-#	:bufdo :%s/\\"/'/g |:up			#	somehow this makes the csv invalid?
-#	:bufdo :%s/\\N//g |:up
-#	could probably use sed so its scriptable
-
-		#	running this sed actually chown's from _mysql to me
-		#	because of the -i,  I imagine.
-		#	so many \s
-		#	These work!
-		system("sed -i '' 's/\\\\N//g' #{outdir}/*.csv")	#	gotta get these out
-		system("sed -i '' 's///g' #{outdir}/*.csv")	#	necessary?
-		#system("sed -i '' 's/\\\\"/\\\\'/g' #{outdir}/*.csv") # DOES NOT WORK
+#		system("sed -i '' 's/\\\\N//g' #{outdir}/*.csv")	#	gotta get these out
+#		system("sed -i '' 's///g' #{outdir}/*.csv")	#	necessary?
+#		system("sed -i '' 's/\\\\\\"/'"'"'/g' #{outdir}/*.csv") # DOES NOT WORK
+		#	The double quotes used by system make this difficult.
+		#	Backticks work well.
+		`sed -i '' 's/\\\\N//g' #{outdir}/*.csv`
+		`sed -i '' 's///g' #{outdir}/*.csv`
+		`sed -i '' 's/\\\\"/'"'"'/g' #{outdir}/*.csv`
 
 		system("chmod a-w #{outdir}/*.csv")
 		system("chmod 755 #{outdir}")
