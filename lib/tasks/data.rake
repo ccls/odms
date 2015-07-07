@@ -18,6 +18,7 @@ namespace :data do
 
 	task :dump_to_csv => :environment do
 		outdir = "#{Rails.root.to_s}/csv_dump.#{Time.current.strftime('%Y%m%d%H%M%S')}"
+		#	the directory NEEDS to exist and be writable by user _mysql
 		FileUtils.mkdir( outdir, :mode => 0777 ) unless Dir.exists?( outdir )
 		FileUtils.chmod( 0777, outdir )
 		ActiveRecord::Base.connection.execute('show tables;').to_a.flatten.each do |table|
@@ -29,17 +30,49 @@ namespace :data do
 
 			#	we use the column name "key" on many occassions.
 			#	This is a reserved word so must be quoted, so quote all columns.
+			#	DON'T DO THIS .... ESCAPED BY '\"'
+			#	Changes NULL to "N which makes no sense to me as it mucks up parsing.
+			#	Perhaps '\\', which escapes " in fields, but converts NULL to \N (better)
 			statement="(SELECT '#{columns.join('\',\'')}')
 				UNION
 				(SELECT `#{columns.join('`,`')}`
 				FROM #{table}
 				INTO OUTFILE '#{outdir}/#{table}.csv'
-				FIELDS ENCLOSED BY '\"' TERMINATED BY ',' ESCAPED BY '\"'
+				FIELDS ENCLOSED BY '\"' 
+				TERMINATED BY ',' 
+				ESCAPED BY '\\\\'
 				LINES TERMINATED BY '\n');"
 			puts statement;
 			ActiveRecord::Base.connection.execute(statement)
 
 		end
+
+		puts
+		puts "Be advised that these files are still not perfect."
+		puts "They still contain ^M's for carriage returns,"
+		puts "escaped double quotes which could be problematic,"
+		puts "add \N's where NULLs used to be."
+		puts "And they belong to _mysql so that needs changed."
+		puts
+
+#	alas, that is not perfect.
+#	need to vi *.csv
+#	:bufdo :%s///g |:up				#	somehow this makes the csv invalid?
+#	:bufdo :%s/\\"/'/g |:up			#	somehow this makes the csv invalid?
+#	:bufdo :%s/\\N//g |:up
+#	could probably use sed so its scriptable
+
+		#	running this sed actually chown's from _mysql to me
+		#	because of the -i,  I imagine.
+		#	so many \s
+		#	These work!
+		system("sed -i '' 's/\\\\N//g' #{outdir}/*.csv")	#	gotta get these out
+		#system("sed -i '' 's///g' #{outdir}/*.csv")	#	necessary?
+		#system("sed -i '' 's/\\\\"/\\\\'/g' #{outdir}/*.csv") # DOES NOT WORK
+
+		system("chmod a-w #{outdir}/*.csv")
+		system("chmod 755 #{outdir}")
+
 	end	#	task :dump_to_csv => :environment do
 
 	task :checkup => :environment do
