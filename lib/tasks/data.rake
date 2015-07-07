@@ -67,7 +67,7 @@ namespace :data do
 		#	so many \s
 		#	These work!
 		system("sed -i '' 's/\\\\N//g' #{outdir}/*.csv")	#	gotta get these out
-		#system("sed -i '' 's///g' #{outdir}/*.csv")	#	necessary?
+		system("sed -i '' 's///g' #{outdir}/*.csv")	#	necessary?
 		#system("sed -i '' 's/\\\\"/\\\\'/g' #{outdir}/*.csv") # DOES NOT WORK
 
 		system("chmod a-w #{outdir}/*.csv")
