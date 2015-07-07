@@ -321,7 +321,6 @@ Table: birth_data
 | Field                             | Type         | Null | Key | Default | Extra          |
 +-----------------------------------+--------------+------+-----+---------+----------------+
 | id                                | int(11)      | NO   | PRI | NULL    | auto_increment |
-| birth_datum_update_id             | int(11)      | YES  |     | NULL    |                |
 | study_subject_id                  | int(11)      | YES  | MUL | NULL    |                |
 | master_id                         | varchar(255) | YES  |     | NULL    |                |
 | found_in_state_db                 | varchar(255) | YES  |     | NULL    |                |
