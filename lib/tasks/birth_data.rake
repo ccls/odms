@@ -331,6 +331,40 @@ namespace :birth_data do
 #	task :import_birth_datum_files => :import_birth_data
 #	task :import_birth_datum_update_files => :import_birth_data
 
+
+
+	task :replace_birth_data => :environment do
+
+		puts;puts;puts
+		puts "Begin.(#{Time.now})"
+		puts "In app:birth_data:replace_birth_data"
+
+		#	DON'T WANT this one.
+		BirthDatum.skip_callback(:create,:after,:post_processing)
+
+		#	Want this one.
+		#BirthDatum.skip_callback(:create,:before,:cleanup_data)
+
+		env_required('csv_file')
+		file_required(ENV['csv_file'])
+		f=CSV.open( ENV['csv_file'], 'rb:bom|utf-8',{ :headers => true })
+		f.each do |line|
+
+			bda = line.dup.to_hash
+			["id","birth_datum_update_id","subjectid","childid","ss_icf_master_id",
+				"ss_subjectid","ss_interview_completed_on","ss_reference_date",
+				"ss_mother_icf_master_id","ss_mother_subjectid","ss_birth_data_count",
+				"ss_phase"].each {|attr| bda.delete(attr) }
+
+			puts bda
+			BirthDatum.create(bda)
+
+		end	#	f.each
+		puts; puts "Done.(#{Time.now})"
+		puts "----------------------------------------------------------------------"
+
+	end	#	task :replace_birth_data => :environment do
+
 end	#	namespace :birth_data do
 end	#	namespace :app do
 
