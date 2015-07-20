@@ -117,7 +117,7 @@ namespace :samples do
 
 			sample = subject.samples.create!(
 				:project_id => Project[:ccls].id,
-				:location_id => Organization['GEGL'].id,
+				:organization_id => Organization['GEGL'].id,
 				:sample_type_id => SampleType[:guthrie].id,
 				:sample_format => "Guthrie Card",
 				:sample_temperature => "Refrigerated",
@@ -174,7 +174,7 @@ namespace :samples do
 #
 #			sample = subject.samples.create!(
 #				:project_id => Project[:ccls].id,
-#				:location_id => Organization['GEGL'].id,
+#				:organization_id => Organization['GEGL'].id,
 #				:sample_type_id => SampleType[:guthrie].id,
 #				:sample_format => "Guthrie Card",
 #				:sample_temperature => "Refrigerated",
@@ -235,7 +235,7 @@ namespace :samples do
 #
 #			sample = subject.samples.create!(
 #				:project_id => Project[:ccls].id,
-#				:location_id => Organization['GEGL'].id,
+#				:organization_id => Organization['GEGL'].id,
 #				:sample_type_id => SampleType[:guthrie].id,
 #				:sample_format => "Guthrie Card",
 #				:sample_temperature => "Refrigerated",
@@ -293,7 +293,7 @@ namespace :samples do
 #
 #			sample = subject.samples.create!(
 #				:project_id => Project[:ccls].id,
-#				:location_id => Organization['GEGL'].id,
+#				:organization_id => Organization['GEGL'].id,
 #				:sample_type_id => SampleType[:guthrie].id,
 #				:sample_format => "Guthrie Card",
 #				:sample_temperature => "Refrigerated",
@@ -370,7 +370,7 @@ namespace :samples do
 					else
 						puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
 						updates = {}
-						updates[:location_id] = Organization['gegl'].id if sample.location_id != Organization['gegl'].id
+						updates[:organization_id] = Organization['gegl'].id if sample.organization_id != Organization['gegl'].id
 						#	many dates as 9999-01-01
 						#	some dates as 2015-07-29
 						if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
@@ -447,7 +447,7 @@ namespace :samples do
 
 				puts "Preparing to update"
 				updates = {}
-				updates[:location_id] = Organization['gegl'].id if sample.location_id != Organization['gegl'].id
+				updates[:organization_id] = Organization['gegl'].id if sample.organization_id != Organization['gegl'].id
 				#	many dates as 9999-01-01
 				#	some dates as 2015-07-29
 				if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
@@ -575,7 +575,7 @@ namespace :samples do
 
 	#	20140916
 	task :gegl_expected_sampleid_comparison_by_location_and_date => :environment do
-		odms_sampleids = Sample.where(:location_id => 17).where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
+		odms_sampleids = Sample.where(:organization_id => 17).where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
 		gegl_sampleids = []
 		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
 			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
@@ -600,7 +600,7 @@ namespace :samples do
 
 	#	20140916
 	task :gegl_expected_sampleid_comparison_by_location => :environment do
-		odms_sampleids = Sample.where(:location_id => 17).collect(&:sampleid).collect(&:to_i).sort
+		odms_sampleids = Sample.where(:organization_id => 17).collect(&:sampleid).collect(&:to_i).sort
 		gegl_sampleids = []
 		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
 			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
@@ -733,7 +733,7 @@ namespace :samples do
 			#	icf_master_id,DOB,SFN,pull,barcode,blindid,c_dob,birth_year,combo_id
 			sample = subject.samples.create!(
 				:project_id => Project[:ccls].id,
-				:location_id => Organization['GEGL'].id,
+				:organization_id => Organization['GEGL'].id,
 				:sample_type_id => SampleType[:guthrie].id,
 				:sample_format => "Guthrie Card",
 				:sample_temperature => "Refrigerated",

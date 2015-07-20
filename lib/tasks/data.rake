@@ -278,7 +278,7 @@ namespace :data do
 		printf "%-45s %5d\n", "PhoneNumber.count:", PhoneNumber.count
 		puts
 		printf "%-45s %5d\n", "Sample.count:", Sample.count
-		%w{ aliquot_or_sample_on_receipt sample_temperature_id sample_format_id project_id location_id sample_type_id }.each do |field|
+		%w{ aliquot_or_sample_on_receipt sample_temperature_id sample_format_id project_id organization_id sample_type_id }.each do |field|
 			Sample.select( "#{field}, COUNT(*) AS count"
 					).group( field ).each do |e|
 				printf "%-45s %5d\n", "#{field} = #{e.send(field)}:", e.count
