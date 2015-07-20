@@ -9,8 +9,8 @@ jQuery(function(){
 
 toggle_location = function(date) {
 	if( date ){
-		$('.location_id.field_wrapper').css('visibility','visible')
+		$('.organization_id.field_wrapper').css('visibility','visible')
 	} else {
-		$('.location_id.field_wrapper').css('visibility','hidden')
+		$('.organization_id.field_wrapper').css('visibility','hidden')
 	}
 }
