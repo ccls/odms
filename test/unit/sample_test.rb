@@ -251,12 +251,12 @@ class SampleTest < ActiveSupport::TestCase
 #		end
 #	end
 #
-#	test "should require location_id be after sent_to_lab_on" do
+#	test "should require organization_id be after sent_to_lab_on" do
 #		assert_difference( 'Sample.count', 0 ) do
 #			sample = create_sample(
 #				:sent_to_lab_on => Date.yesterday
 #			)
-#			assert sample.errors.matching?(:location_id,"can't be blank")
+#			assert sample.errors.matching?(:organization_id,"can't be blank")
 #		end
 #	end
 #
