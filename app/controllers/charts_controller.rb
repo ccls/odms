@@ -219,8 +219,8 @@ class ChartsController < ApplicationController
 	def samples_locations
 		@samples = Sample
 			.joins(:organization)
-			.group('location_id')
-			.select('location_id, count(*) as count, organizations.*')
+			.group('organization_id')
+			.select('organization_id, count(*) as count, organizations.*')
 	end
 	def samples_projects
 		@samples = Sample

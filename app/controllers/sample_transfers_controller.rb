@@ -66,7 +66,7 @@ class SampleTransfersController < ApplicationController
 					:description => "Sample ID #{t.sample.sampleid}, " <<
 						"#{t.sample.sample_type}, " <<
 						"transferred to #{@organization.try(:key)} " <<
-						"from #{Organization.where(:id => t.sample.location_id).first.try(:key)}",
+						"from #{Organization.where(:id => t.sample.organization_id).first.try(:key)}",
 					:occurred_at => DateTime.current
 				}) unless t.sample.study_subject.nil?
 				#	Sample does not require study subject, so 
@@ -75,7 +75,7 @@ class SampleTransfersController < ApplicationController
 
 
 				t.sample.update_attributes!({
-					:location_id    => params[:organization_id],
+					:organization_id    => params[:organization_id],
 					:sent_to_lab_at => DateTime.current
 				})
 			end
@@ -84,7 +84,7 @@ class SampleTransfersController < ApplicationController
 			#		and so will probably never raise an error.
 #	
 #	The source_org_id should be correct as it is set to the 
-#	sample's location_id on create.
+#	sample's organization_id on create.
 #
 			SampleTransfer.active.update_all({
 				:destination_org_id => params[:organization_id],

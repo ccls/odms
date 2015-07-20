@@ -3,7 +3,7 @@
 class Sample < ActiveRecord::Base
 
 	belongs_to :sample_type
-	belongs_to :organization, :foreign_key => 'location_id'
+	belongs_to :organization
 	has_many :sample_transfers
 	belongs_to :project
 	belongs_to :study_subject, :counter_cache => true
@@ -36,7 +36,7 @@ class Sample < ActiveRecord::Base
 	def set_defaults
 		# ||= doesn't work with ''
 		self.aliquot_or_sample_on_receipt ||= 'Sample'
-		self.location_id ||= Organization['CCLS'].id
+		self.organization_id ||= Organization['CCLS'].id
 	end
 
 	def sampleid

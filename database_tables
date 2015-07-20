@@ -758,7 +758,7 @@ Table: samples
 | sample_type_id               | int(11)      | YES  |     | NULL    |                |
 | project_id                   | int(11)      | YES  |     | NULL    |                |
 | study_subject_id             | int(11)      | YES  | MUL | NULL    |                |
-| location_id                  | int(11)      | YES  |     | NULL    |                |
+| organization_id              | int(11)      | YES  |     | NULL    |                |
 | aliquot_or_sample_on_receipt | varchar(255) | YES  |     | NULL    |                |
 | sent_to_subject_at           | datetime     | YES  |     | NULL    |                |
 | collected_from_subject_at    | datetime     | YES  |     | NULL    |                |

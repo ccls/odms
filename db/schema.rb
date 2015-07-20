@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706223621) do
+ActiveRecord::Schema.define(version: 20150720214643) do
 
   create_table "abstracts", force: true do |t|
     t.string   "entry_1_by_uid"
@@ -745,7 +745,7 @@ ActiveRecord::Schema.define(version: 20150706223621) do
     t.integer  "sample_type_id"
     t.integer  "project_id"
     t.integer  "study_subject_id"
-    t.integer  "location_id"
+    t.integer  "organization_id"
     t.string   "aliquot_or_sample_on_receipt"
     t.datetime "sent_to_subject_at"
     t.datetime "collected_from_subject_at"

@@ -43,7 +43,7 @@ class StudySubject::SamplesController < StudySubjectController
 		Sample.transaction do
 			@sample.save!
 			@sample.sample_transfers.create!(
-				:source_org_id => @sample.location_id,
+				:source_org_id => @sample.organization_id,
 				:status        => 'waitlist')
 		end
 
@@ -82,7 +82,7 @@ protected
 	def sample_params
 		params.require(:sample).permit( :project_id, :sample_type_id, :sent_to_subject_at,
 			:collected_from_subject_at, :shipped_to_ccls_at, :received_by_ccls_at,
-			:sent_to_lab_at, :location_id, :received_by_lab_at, :sample_format, 
+			:sent_to_lab_at, :organization_id, :received_by_lab_at, :sample_format, 
 			:sample_temperature, :external_id, :external_id_source, :notes )
 	end
 

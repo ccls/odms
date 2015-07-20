@@ -141,6 +141,7 @@ birth_data_test/
 birth_data_tmp/
 birth_data_updates_that_may_have_truncated_names.csv
 birth_datum_update_20120712.csv
+csv_dump*/
 development/
 field_check.orig.csv
 icf_master_ids_20130515.txt

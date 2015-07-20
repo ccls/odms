@@ -170,8 +170,8 @@ class SampleTransfersControllerTest < ActionController::TestCase
 #		end
 
 		test "confirm should work with locationless sample and #{cu} login" do
-			prep_confirm_test(:active_sample => { :location_id => nil })
-			SampleTransfer.active.each { |st| assert_nil st.sample.location_id }
+			prep_confirm_test(:active_sample => { :organization_id => nil })
+			SampleTransfer.active.each { |st| assert_nil st.sample.organization_id }
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
@@ -193,16 +193,16 @@ class SampleTransfersControllerTest < ActionController::TestCase
 			assert_match /Active sample transfers required to confirm/, flash[:error]
 		end
 
-		test "confirm should set each sample location_id with #{cu} login" do
+		test "confirm should set each sample organization_id with #{cu} login" do
 			prep_confirm_test
 			active_transfers = SampleTransfer.active	#.all	#	must do before as status changes
 			assert_equal 3.times.collect{Organization['CCLS'].id},
-				active_transfers.collect(&:reload).collect(&:sample).collect(&:location_id)
+				active_transfers.collect(&:reload).collect(&:sample).collect(&:organization_id)
 			login_as send(cu)
 			put :confirm, :organization_id => Organization['GEGL'].id
 			assert_redirected_to sample_transfers_path
 			assert_equal 3.times.collect{Organization['GEGL'].id},
-				active_transfers.collect(&:reload).collect(&:sample).collect(&:location_id)
+				active_transfers.collect(&:reload).collect(&:sample).collect(&:organization_id)
 		end
 
 		test "confirm should set each sample sent_to_lab_at with #{cu} login" do

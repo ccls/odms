@@ -51,7 +51,7 @@ class ReceiveSamplesController < ApplicationController
 		Sample.transaction do
 			@sample.save!
 			@sample.sample_transfers.create!(
-				:source_org_id => @sample.location_id,
+				:source_org_id => @sample.organization_id,
 				:status        => 'waitlist')
 			@sample_for_subject.operational_events.create!(
 				:description               => "Sample received: #{@sample.sample_type}",

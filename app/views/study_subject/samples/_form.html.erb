@@ -34,7 +34,7 @@
 <%= f.wrapped_datetime_text_field :sent_to_lab_at,
 	:label_text => 'Sent to Lab at:' %>
 
-<%= f.wrapped_collection_select( :location_id,
+<%= f.wrapped_collection_select( :organization_id,
 	Organization.all, :id, :to_s,
 	{ :include_blank => true }
 ) %>

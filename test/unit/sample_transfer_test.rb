@@ -46,7 +46,7 @@ class SampleTransferTest < ActiveSupport::TestCase
 
 	test "active sample transfer factory should create sample at CCLS" do
 		sample_transfer = FactoryGirl.create(:active_sample_transfer)
-		assert_equal sample_transfer.sample.location_id, Organization['CCLS'].id
+		assert_equal sample_transfer.sample.organization_id, Organization['CCLS'].id
 	end
 
 	test "waitlist sample transfer factory should create waitlist sample transfer" do
@@ -56,7 +56,7 @@ class SampleTransferTest < ActiveSupport::TestCase
 
 	test "waitlist sample transfer factory should create sample at CCLS" do
 		sample_transfer = FactoryGirl.create(:waitlist_sample_transfer)
-		assert_equal sample_transfer.sample.location_id, Organization['CCLS'].id
+		assert_equal sample_transfer.sample.organization_id, Organization['CCLS'].id
 	end
 
 protected

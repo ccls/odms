@@ -462,7 +462,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			transfer = assigns(:sample).sample_transfers.first
 			assert_equal   transfer.status, 'waitlist'
 			assert_not_nil transfer.source_org_id
-			assert_equal   transfer.source_org_id, assigns(:sample).location_id
+			assert_equal   transfer.source_org_id, assigns(:sample).organization_id
 		end
 
 		test "should create new operational event with sample and #{cu} login for case" do

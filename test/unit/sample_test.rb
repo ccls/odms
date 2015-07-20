@@ -8,7 +8,7 @@ class SampleTest < ActiveSupport::TestCase
 
 	attributes = %w( aliquot_or_sample_on_receipt 
 		collected_from_subject_at external_id 
-		external_id_source location_id parent_sample_id 
+		external_id_source organization_id parent_sample_id 
 		received_by_ccls_at received_by_lab_at 
 		sample_format sample_temperature 
 		sent_to_lab_at sent_to_subject_at
@@ -118,14 +118,14 @@ class SampleTest < ActiveSupport::TestCase
 		assert  sample.errors.matching?(:project,"can't be blank")
 	end
 
-	test "should default location_id to 19" do
+	test "should default organization_id to 19" do
 		assert_equal 19, Organization['CCLS'].id
 		sample = Sample.new
-		assert_equal 19, sample.location_id
-		sample = Sample.new(:location_id => '')
-		assert_equal 19, sample.location_id
-		sample = Sample.new(:location_id => 1)
-		assert_equal 1, sample.location_id
+		assert_equal 19, sample.organization_id
+		sample = Sample.new(:organization_id => '')
+		assert_equal 19, sample.organization_id
+		sample = Sample.new(:organization_id => 1)
+		assert_equal 1, sample.organization_id
 	end
 
 	test "should default aliquot_or_sample_on_receipt to 'Sample'" do
@@ -135,11 +135,11 @@ class SampleTest < ActiveSupport::TestCase
 		assert_equal 'something', sample.aliquot_or_sample_on_receipt
 	end
 
-	test "should belong to organization through location_id" do
+	test "should belong to organization through organization_id" do
 		sample = Sample.new
 		assert_not_nil sample.organization
 		assert_equal   sample.organization, Organization['ccls']
-		assert_equal   sample.location_id,  Organization['ccls'].id
+		assert_equal   sample.organization_id,  Organization['ccls'].id
 	end
 
 	test "sampleid should return 7 digit id with leading 0s" do
