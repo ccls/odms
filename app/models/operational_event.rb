@@ -7,7 +7,6 @@ class OperationalEvent < ActiveRecord::Base
 	validations_from_yaml_file
 
 	belongs_to :study_subject, :counter_cache => true
-#	attr_protected :study_subject_id, :study_subject
 
 	belongs_to :project
 
@@ -29,7 +28,6 @@ class OperationalEvent < ActiveRecord::Base
 	def self.valid_order(query_order=nil)
 		col,dir = (query_order||'').split()
 		dir ||= 'ASC'
-#		( valid_orders.include?(col.downcase) and %w(ASC DESC).include?(dir.upcase) ) ?
 		( valid_column?(col) and %w(ASC DESC).include?(dir.upcase) ) ?
 			order( [col,dir].join(' ') ) : all
 	end

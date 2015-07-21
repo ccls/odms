@@ -1,7 +1,6 @@
 class MedicalRecordRequest < ActiveRecord::Base
 
 	belongs_to     :study_subject
-#	attr_protected :study_subject_id, :study_subject
 
 	def self.statuses
 		%w( active waitlist pending abstracted completed )

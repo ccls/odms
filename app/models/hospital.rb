@@ -1,7 +1,5 @@
 class Hospital < ActiveRecord::Base
 
-#	attr_accessible :organization_id, :has_irb_waiver, :is_active
-
 	belongs_to :organization
 
 	validations_from_yaml_file

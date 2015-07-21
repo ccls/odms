@@ -2,10 +2,6 @@
 class Address < ActiveRecord::Base
 
 	belongs_to :study_subject, :counter_cache => true
-#	attr_protected :study_subject_id, :study_subject
-
-#	has_many :interviews	#	interviews.address_id
-
 
 	#	flag used in study_subject's nested attributes for address
 	#		to not reject if address fields are blank.

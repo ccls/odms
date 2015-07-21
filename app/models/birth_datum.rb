@@ -1,7 +1,6 @@
 class BirthDatum < ActiveRecord::Base
 
 	belongs_to :study_subject		#, :counter_cache => true
-#	attr_protected :study_subject_id, :study_subject
 	has_one :candidate_control
 	before_create :cleanup_data
 	after_create :post_processing

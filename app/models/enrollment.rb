@@ -8,8 +8,6 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :refusal_reason
 	belongs_to :project
 
-#	attr_protected :study_subject_id, :study_subject
-
 	delegate :is_other?, :to => :ineligible_reason, :allow_nil => true, :prefix => true
 	delegate :is_other?, :to => :refusal_reason,    :allow_nil => true, :prefix => true
 
