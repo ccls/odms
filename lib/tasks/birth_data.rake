@@ -360,6 +360,18 @@ namespace :birth_data do
 			BirthDatum.create(bda)
 
 		end	#	f.each
+
+		puts; puts "Re-syncing the candidate control's birth_datum_id's ..."
+		#	the candidate control points to both the study_subject and birth_datum, so ...
+		CandidateControl.find_each do |cc|
+			#puts cc.study_subject_id
+			#puts cc.birth_datum_id
+			new_bdid = BirthDatum.where(:study_subject_id => cc.study_subject_id).first.id
+			#puts new_bdid
+			#puts
+			cc.update_column(:birth_datum_id, new_bdid)
+		end
+
 		puts; puts "Done.(#{Time.now})"
 		puts "----------------------------------------------------------------------"
 
