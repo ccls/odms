@@ -34,9 +34,13 @@ guides_004:
   action: edit
   body: |-
     Addresses and phone numbers are edited on the "Address/Contact" screen.
+
     
+
     Consent information is modified on the "Eligibility/Enrollments" screen.
+
     
+
     To access the menu bar to go to those screens, exit this one by pressing the back button to cancel or pressing Save if you have made changes.  
   controller: study_subjects
   id: 4
@@ -58,15 +62,25 @@ guides_006:
   action: show
   body: |-
     Hospital/Medical information exists for case subjects only.  
+
     
+
     To find medical data for a control's associated case subject, click on "Related Subjects" at left and click on the case subject listed there.  Once in the case subject's record, you can navigate to their hospital/medical screen for more information.
+
     
+
     For patients...
+
     
+
     *Admit/Reference Date*
+
     Only Case Subjects have an Admit Date.  However, this date is used as a point of reference for many study operations regardless of subject type so a Reference Date exists for all subjects.  Admit date and Reference date are always identical.
+
     
+
     *Diagnosis Date*
+
     Diagnosis date is provided during medical record abstracting.  It may or may not be the same as the admit date.  
   controller: patients
   id: 6
