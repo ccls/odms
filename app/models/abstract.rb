@@ -11,11 +11,6 @@ class Abstract  < ActiveRecord::Base
 
 	validations_from_yaml_file
 
-#	attr_protected :study_subject_id, :study_subject
-#	attr_protected :entry_1_by_uid
-#	attr_protected :entry_2_by_uid
-#	attr_protected :merged_by_uid
-
 	attr_accessor :current_user_uid
 	attr_accessor :merging	#	flag to be used to skip 2 abstract limitation
 

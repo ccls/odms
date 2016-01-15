@@ -15,7 +15,6 @@ class StudySubject < ActiveRecord::Base
 	has_many :abstracts
 	has_many :addresses
 	has_many :alternate_contacts
-#	has_many :birth_data
 	has_one  :birth_datum
 	has_many :bc_requests
 	has_many :blood_spot_requests
@@ -44,12 +43,6 @@ class StudySubject < ActiveRecord::Base
 			"Subject's grandparent", 
 			"Subject's foster parent", "Subject's twin", "Other relationship to Subject", 
 			"Subject's sibling", "Subject's step parent", "Unknown relationship to subject"]
-
-	#	Very cool that this doesn't stop factory girl from using them.
-	#	it will stop the study_subject nested_attribute tests though
-#	attr_protected :studyid, :studyid_nohyphen, :studyid_intonly_nohyphen,
-#		:familyid, :childid, :subjectid, :patid, :orderno,
-#		:matchingid, :case_control_type, :subject_type, :icf_master_id
 
 	attr_accessor :language_required
 

@@ -1,7 +1,6 @@
 class AlternateContact < ActiveRecord::Base
 
 	belongs_to :study_subject
-#	attr_protected :study_subject_id, :study_subject
 
 	validations_from_yaml_file
 

@@ -8,8 +8,6 @@
 #	*	telephonenumber
 class User < ActiveRecord::Base
 
-#	attr_accessible :uid, :sn, :displayname, :mail, :telephonenumber
-
 	has_and_belongs_to_many :roles, -> { uniq }
 
 	validations_from_yaml_file

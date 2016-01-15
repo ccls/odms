@@ -1,7 +1,6 @@
 class SubjectLanguage < ActiveRecord::Base
 
 	belongs_to :study_subject
-#	attr_protected :study_subject_id, :study_subject
 	belongs_to :language, :primary_key => "code", :foreign_key => "language_code"
 
 #	be advised. the custom association keys cause the following

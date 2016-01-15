@@ -15,17 +15,15 @@
 class Page < ActiveRecord::Base
 #	default_scope :order => 'position ASC'
 #	This is odd.
-#	Create a page and it get position 1
-#	Create another page and it get position 2
-#	Create yet another page and it get position 2 also????
-#	Create yet another page and it get position 2 also????
+#	Create a page and it gets position 1
+#	Create another page and it gets position 2
+#	Create yet another page and it gets position 2 also????
+#	Create yet another page and it gets position 2 also????
 #	remove the default scope and it works.
 #	I'm quickly learning that default scopes suck (in rails 3).
 
 	acts_as_list :scope => :parent_id
 #	acts_as_list :scope => "parent_id \#{(parent_id.nil?)?'IS NULL':'= parent_id'} AND locale = '\#{locale}'"
-
-#	attr_accessible :parent_id, :hide_menu, :path, :title_en, :title_es, :menu_en, :menu_es, :body_en, :body_es  #	position ?
 
 	validations_from_yaml_file
 

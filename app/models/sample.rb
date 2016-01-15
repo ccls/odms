@@ -8,8 +8,6 @@ class Sample < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :study_subject, :counter_cache => true
 
-#	attr_protected :study_subject_id, :study_subject
-
 	#	unfortunately, there are a few samples that do not have a subject????
 	delegate :subject_type, :vital_status, :subjectid, :childid, :studyid,
 		:first_name, :last_name, :icf_master_id, :patid, :cdcid, :sex,
@@ -19,10 +17,6 @@ class Sample < ActiveRecord::Base
 	#	prefix is required as sample has a parent too (well, it will eventually)
 	delegate :parent, :to => :sample_type, :allow_nil => true, :prefix => true
 
-#	delegate :super_type, :to => :sample_type, :allow_nil => true
-#		super_type	#	no
-#	delegate :super_type, :to => :sample_type, :allow_nil => true, :prefix => true
-#		sample_type_super_type	#	no
 	#
 	#	this is the parent of the sample_type, NOT the sample's parent's sample type.
 	#

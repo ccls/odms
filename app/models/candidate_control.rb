@@ -1,11 +1,7 @@
 class CandidateControl < ActiveRecord::Base
 
 	belongs_to :study_subject
-#	attr_protected :study_subject_id, :study_subject
 	belongs_to :birth_datum
-#	attr_protected :birth_datum_id, :birth_datum
-
-#	has_many :odms_exceptions, :as => :exceptable
 
 	validations_from_yaml_file
 
