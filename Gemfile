@@ -117,7 +117,7 @@ group :test do
 	gem 'jakewendt-html_test'
 
 	gem 'capybara'
-	gem 'capybara-webkit'
+	gem 'capybara-webkit'	#	will require qt4-mac
 
 	gem 'jakewendt-test_with_verbosity'
 end
