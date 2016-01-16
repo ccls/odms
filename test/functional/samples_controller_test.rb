@@ -498,11 +498,16 @@ class SamplesControllerTest < ActionController::TestCase
 			assert_equal samples, assigns(:samples)
 		end
 
+#	for some reason this isn't always true?
 		test "should find samples and order by project desc with #{cu} login" do
 			samples = 3.times.collect{|i| FactoryGirl.create(:sample) }
+#puts 'before'
+#puts samples.collect(&:id)
 			login_as send(cu)
 			get :index, :order => :project, :dir => :desc
 			assert_response :success
+#puts 'after'
+#puts assigns(:samples).collect(&:id)
 			assert_equal samples, assigns(:samples).reverse
 		end
 
