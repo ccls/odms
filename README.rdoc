@@ -780,7 +780,7 @@ Added a "sleep" after starting sunspot as it just seems to take a moment.
 
 
 
-DO NOT KEEP OLD FILES IN DB/MIGRATE/.  They will be included when the test db is migrated.
+DO NOT KEEP OLD FILES IN DB or DB/MIGRATE/.  They will be included when the test db is migrated.
 
 
 
