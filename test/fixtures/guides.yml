@@ -117,8 +117,11 @@ guides_009:
     The most common action options are:
     
     *index* -- often list-like or "landing" pages
+
     *new* -- for new entries
+
     *show* -- for showing information in existing entries
+
     *edit* -- for editing existing entries
     
     Controller names are usually be found in the URL.  The are most often plural nouns and are often found in the last section before (e.g. *subjects*/new, *subjects*/3/edit, etc. or the last section itself (e.g., /*subjects*)
