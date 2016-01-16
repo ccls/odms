@@ -285,12 +285,15 @@ guides_019:
     Eligibility & Consent data are related to the subject's participation in the larger CCLS Leukemia study as a whole.  For information on eligibility or consent to participate in a later sub-study (e.g., EMF, Home Exposures, etc.), please refer to the Subject's Enrollments page.
     
     *Eligibility*
+
     For case subjects, eligibilty is initially determined based upon data provided at hospital notification.  Eligibility may change later based upon other data collected during screening, birth data evaluation, etc.
     
     *show/hide RAF eligibility*
+
     This section only appears for case subjects.  
     
     *Consent Opt-Outs*
+
     Different hospitals have different consent opt-outs in their consent forms.  Only opt-outs from the consent form signed by the subject's parent or guardian should be entered.
   controller: consents
   id: 19
@@ -298,12 +301,15 @@ guides_020:
   action: edit
   body: |-
     *Eligibility*
+
     For case subjects, eligibilty is initially determined based upon data provided at hospital notification.  Eligibility may change later based upon other data collected during screening, birth data evaluation, etc.
     
     *show/hide RAF eligibility*
+
     This section only appears for case subjects.  
     
     *Consent Opt-Outs*
+
     Different hospitals have different consent opt-outs in their consent forms.  Only answer the opt-outs on the consent form signed by the subject's parent or guardian.
   controller: consents
   id: 20
