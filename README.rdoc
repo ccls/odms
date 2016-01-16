@@ -776,6 +776,8 @@ If sunspot is not running, you'll see a LOT of ...
 
 Added a "sleep" after starting sunspot as it just seems to take a moment.
 
+ bundle exec rake db:drop:all ; bundle exec rake db:create:all ; bundle exec rake db:migrate ; bundle exec rake db:test:prepare
+
  c ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; sleep 120 ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; bundle exec autotest -v --no-full-after-failed
 
 
