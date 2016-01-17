@@ -220,6 +220,10 @@ class BirthDatum < ActiveRecord::Base
 			:project_id                => Project['ccls'].id,
 			:operational_event_type_id => OperationalEventType['birthDataReceived'].id )
 
+		#	The above will change the operational_events_count which will
+		#	make the model dirty and constitute a change.
+		study_subject.reload	#	added for rails 4.2
+
 		#	using "a" as a synonym for "new_attributes" since is a Hash (pointer)
 		a = new_attributes = HWIA.new
 
