@@ -48,7 +48,7 @@ gem 'american_date'
 
 #	rails-4.2.0 causes the production web server to always 
 #		give 503 Service Unavailable errors??????
-gem 'rails', '~>4.1.8'
+gem 'rails'	#, '~>4.1.8'
 #
 #	upgrading will require changing deliver to deliver_now
 #	upgrading will require mods to config/initializer/string.rb#to_html_document
@@ -71,8 +71,7 @@ gem 'sass-rails'	#, '~> 4.0'
 gem 'rack-ssl', :require => 'rack/ssl'
 
 gem "mysql"
-gem "mysql2", '~> 0.3.18'
-#gem "mysql2"	#, < rails 4.2 requires '~> 0.3.18'
+gem "mysql2"	#, '~> 0.3.18'	#	< rails 4.2 requires
 gem "RedCloth"
 
 gem "chronic"
@@ -118,8 +117,8 @@ group :test do
 	gem 'jakewendt-html_test'
 
 	gem 'capybara'
-	gem 'capybara-webkit', '~>1.6.0'	#	will require qt4-mac
-#	gem 'capybara-webkit'	#	=> 1.7 will require qt5-mac
+#	gem 'capybara-webkit', '~>1.6.0'	#	will require qt4-mac
+	gem 'capybara-webkit'	#	=> 1.7 will require qt5-mac
 
 	gem 'jakewendt-test_with_verbosity'
 end
@@ -148,3 +147,6 @@ otherwise will get many "Errno::ECONNREFUSED: Connection refused" errors.
 # Test database is occassionally being created wrong? Non-null constraint being added?
 #ActiveRecord::StatementInvalid: Mysql2::Error: Column 'mail' cannot be null: UPDATE `users` SET `displayname` = 'Mr. Jake Wendt, BA', `sn` = 'Wendt', `mail` = NULL, `telephonenumber` = '+1 510 642-9749', `updated_at` = '2016-01-15 14:25:11' WHERE `users`.`id` = 69
 
+
+
+assert_select does not work the same with regular expressions in 4.2 as 4.1 did.

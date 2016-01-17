@@ -13,21 +13,21 @@
 
 ActiveRecord::Schema.define(version: 20150720214643) do
 
-  create_table "abstracts", force: true do |t|
-    t.string   "entry_1_by_uid"
-    t.string   "entry_2_by_uid"
-    t.string   "merged_by_uid"
-    t.integer  "study_subject_id"
+  create_table "abstracts", force: :cascade do |t|
+    t.string   "entry_1_by_uid",                          limit: 255
+    t.string   "entry_2_by_uid",                          limit: 255
+    t.string   "merged_by_uid",                           limit: 255
+    t.integer  "study_subject_id",                        limit: 4
     t.integer  "bmb_report_found",                        limit: 2
     t.date     "bmb_test_date"
     t.integer  "bmb_percentage_blasts_known",             limit: 2
     t.string   "bmb_percentage_blasts",                   limit: 25
-    t.text     "bmb_comments"
+    t.text     "bmb_comments",                            limit: 65535
     t.integer  "bma_report_found",                        limit: 2
     t.date     "bma_test_date"
     t.integer  "bma_percentage_blasts_known",             limit: 2
     t.string   "bma_percentage_blasts",                   limit: 25
-    t.text     "bma_comments"
+    t.text     "bma_comments",                            limit: 65535
     t.integer  "ccs_report_found",                        limit: 2
     t.date     "ccs_test_date"
     t.string   "ccs_peroxidase",                          limit: 25
@@ -85,8 +85,8 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.string   "marker_igm",                              limit: 25
     t.string   "marker_sig",                              limit: 25
     t.string   "marker_tdt",                              limit: 25
-    t.text     "other_markers"
-    t.text     "marker_comments"
+    t.text     "other_markers",                           limit: 65535
+    t.text     "marker_comments",                         limit: 65535
     t.integer  "tdt_report_found",                        limit: 2
     t.date     "tdt_test_date"
     t.string   "tdt_found_where",                         limit: 25
@@ -100,11 +100,11 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.string   "ploidy_hyperdiploid",                     limit: 25
     t.string   "ploidy_diploid",                          limit: 25
     t.string   "ploidy_dna_index",                        limit: 25
-    t.text     "ploidy_other_dna_measurement"
-    t.text     "ploidy_notes"
+    t.text     "ploidy_other_dna_measurement",            limit: 65535
+    t.text     "ploidy_notes",                            limit: 65535
     t.integer  "hla_report_found",                        limit: 2
     t.date     "hla_test_date"
-    t.text     "hla_results"
+    t.text     "hla_results",                             limit: 65535
     t.integer  "cgs_report_found",                        limit: 2
     t.date     "cgs_test_date"
     t.integer  "cgs_normal",                              limit: 2
@@ -135,10 +135,10 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.integer  "cgs_trisomy_18",                          limit: 2
     t.integer  "cgs_monosomy_7",                          limit: 2
     t.integer  "cgs_deletion_16_q22",                     limit: 2
-    t.text     "cgs_others"
-    t.text     "cgs_conventional_karyotyping_results"
-    t.text     "cgs_hospital_fish_results"
-    t.text     "cgs_comments"
+    t.text     "cgs_others",                              limit: 65535
+    t.text     "cgs_conventional_karyotyping_results",    limit: 65535
+    t.text     "cgs_hospital_fish_results",               limit: 65535
+    t.text     "cgs_comments",                            limit: 65535
     t.integer  "omg_abnormalities_found",                 limit: 2
     t.date     "omg_test_date"
     t.string   "omg_p16",                                 limit: 25
@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.string   "omg_fish",                                limit: 25
     t.integer  "em_report_found",                         limit: 2
     t.date     "em_test_date"
-    t.text     "em_comments"
+    t.text     "em_comments",                             limit: 65535
     t.integer  "cbc_report_found",                        limit: 2
     t.date     "cbc_test_date"
     t.string   "cbc_hemoglobin",                          limit: 25
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.integer  "csf_report_found",                        limit: 2
     t.date     "csf_test_date"
     t.integer  "csf_blasts_present",                      limit: 2
-    t.text     "csf_cytology"
+    t.text     "csf_cytology",                            limit: 65535
     t.string   "csf_number_of_blasts",                    limit: 25
     t.integer  "csf_pb_contamination",                    limit: 2
     t.string   "csf_rbc",                                 limit: 25
@@ -179,16 +179,16 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.integer  "ob_liver_leukemic_cells_present",         limit: 2
     t.integer  "ob_other_report_found",                   limit: 2
     t.date     "ob_other_date"
-    t.string   "ob_other_site_organ"
+    t.string   "ob_other_site_organ",                     limit: 255
     t.integer  "ob_other_leukemic_cells_present",         limit: 2
     t.integer  "cxr_report_found",                        limit: 2
     t.date     "cxr_test_date"
     t.string   "cxr_result",                              limit: 25
-    t.text     "cxr_mediastinal_mass_description"
+    t.text     "cxr_mediastinal_mass_description",        limit: 65535
     t.integer  "cct_report_found",                        limit: 2
     t.date     "cct_test_date"
     t.string   "cct_result",                              limit: 25
-    t.text     "cct_mediastinal_mass_description"
+    t.text     "cct_mediastinal_mass_description",        limit: 65535
     t.integer  "as_report_found",                         limit: 2
     t.date     "as_test_date"
     t.integer  "as_normal",                               limit: 2
@@ -197,10 +197,10 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.integer  "as_lymphadenopathy",                      limit: 2
     t.integer  "as_other_abdominal_masses",               limit: 2
     t.integer  "as_ascities",                             limit: 2
-    t.text     "as_other_abnormal_findings"
+    t.text     "as_other_abnormal_findings",              limit: 65535
     t.integer  "ts_report_found",                         limit: 2
     t.date     "ts_test_date"
-    t.text     "ts_findings"
+    t.text     "ts_findings",                             limit: 65535
     t.integer  "hpr_report_found",                        limit: 2
     t.date     "hpr_test_date"
     t.integer  "hpr_hepatomegaly",                        limit: 2
@@ -212,11 +212,11 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.string   "weight_units",                            limit: 5
     t.integer  "ds_report_found",                         limit: 2
     t.date     "ds_test_date"
-    t.text     "ds_clinical_diagnosis"
+    t.text     "ds_clinical_diagnosis",                   limit: 65535
     t.integer  "cp_report_found",                         limit: 2
     t.integer  "cp_induction_protocol_used",              limit: 2
-    t.string   "cp_induction_protocol_name_and_number"
-    t.text     "cp_therapeutic_agents"
+    t.string   "cp_induction_protocol_name_and_number",   limit: 255
+    t.text     "cp_therapeutic_agents",                   limit: 65535
     t.integer  "bma07_report_found",                      limit: 2
     t.date     "bma07_test_date"
     t.string   "bma07_classification",                    limit: 25
@@ -237,212 +237,212 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.string   "other_all_leukemia_class",                limit: 25
     t.string   "other_aml_leukemia_class",                limit: 25
     t.string   "icdo_classification_number",              limit: 25
-    t.text     "icdo_classification_description"
+    t.text     "icdo_classification_description",         limit: 65535
     t.string   "leukemia_lineage",                        limit: 25
     t.integer  "pe_report_found",                         limit: 2
     t.date     "pe_test_date"
     t.integer  "pe_gingival_infiltrates",                 limit: 2
     t.integer  "pe_leukemic_skin_infiltrates",            limit: 2
     t.integer  "pe_lymphadenopathy",                      limit: 2
-    t.text     "pe_lymphadenopathy_description"
+    t.text     "pe_lymphadenopathy_description",          limit: 65535
     t.integer  "pe_splenomegaly",                         limit: 2
-    t.string   "pe_splenomegaly_size"
+    t.string   "pe_splenomegaly_size",                    limit: 255
     t.integer  "pe_hepatomegaly",                         limit: 2
-    t.string   "pe_hepatomegaly_size"
+    t.string   "pe_hepatomegaly_size",                    limit: 255
     t.integer  "pe_testicular_mass",                      limit: 2
     t.integer  "pe_other_soft_tissue",                    limit: 2
-    t.string   "pe_other_soft_tissue_location"
-    t.string   "pe_other_soft_tissue_size"
-    t.text     "pe_neurological_abnormalities"
-    t.text     "pe_other_abnormal_findings"
-    t.string   "abstracted_by"
+    t.string   "pe_other_soft_tissue_location",           limit: 255
+    t.string   "pe_other_soft_tissue_size",               limit: 255
+    t.text     "pe_neurological_abnormalities",           limit: 65535
+    t.text     "pe_other_abnormal_findings",              limit: 65535
+    t.string   "abstracted_by",                           limit: 255
     t.date     "abstracted_on"
-    t.string   "reviewed_by"
+    t.string   "reviewed_by",                             limit: 255
     t.date     "reviewed_on"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "addresses", force: true do |t|
-    t.integer  "study_subject_id"
-    t.integer  "current_address",                 default: 1
-    t.integer  "address_at_diagnosis"
-    t.string   "other_data_source"
+  create_table "addresses", force: :cascade do |t|
+    t.integer  "study_subject_id",     limit: 4
+    t.integer  "current_address",      limit: 4,     default: 1
+    t.integer  "address_at_diagnosis", limit: 4
+    t.string   "other_data_source",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "notes"
-    t.string   "data_source"
-    t.string   "line_1"
-    t.string   "line_2"
-    t.string   "city"
-    t.string   "state"
+    t.text     "notes",                limit: 65535
+    t.string   "data_source",          limit: 255
+    t.string   "line_1",               limit: 255
+    t.string   "line_2",               limit: 255
+    t.string   "city",                 limit: 255
+    t.string   "state",                limit: 255
     t.string   "zip",                  limit: 10
-    t.integer  "external_address_id"
-    t.string   "county"
-    t.string   "unit"
-    t.string   "country"
-    t.boolean  "needs_geocoded",                  default: true
-    t.boolean  "geocoding_failed",                default: false
+    t.integer  "external_address_id",  limit: 4
+    t.string   "county",               limit: 255
+    t.string   "unit",                 limit: 255
+    t.string   "country",              limit: 255
+    t.boolean  "needs_geocoded",                     default: true
+    t.boolean  "geocoding_failed",                   default: false
     t.float    "longitude",            limit: 24
     t.float    "latitude",             limit: 24
-    t.text     "geocoding_response"
-    t.string   "address_type"
+    t.text     "geocoding_response",   limit: 65535
+    t.string   "address_type",         limit: 255
   end
 
   add_index "addresses", ["external_address_id"], name: "index_addresses_on_external_address_id", unique: true, using: :btree
   add_index "addresses", ["needs_geocoded", "geocoding_failed"], name: "index_addresses_on_needs_geocoded_and_geocoding_failed", using: :btree
   add_index "addresses", ["study_subject_id"], name: "index_addresses_on_study_subject_id", using: :btree
 
-  create_table "alternate_contacts", force: true do |t|
-    t.integer  "study_subject_id"
-    t.string   "name"
-    t.string   "relation"
-    t.string   "line_1"
-    t.string   "line_2"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.string   "phone_number_1"
-    t.string   "phone_number_2"
-    t.text     "notes"
+  create_table "alternate_contacts", force: :cascade do |t|
+    t.integer  "study_subject_id", limit: 4
+    t.string   "name",             limit: 255
+    t.string   "relation",         limit: 255
+    t.string   "line_1",           limit: 255
+    t.string   "line_2",           limit: 255
+    t.string   "city",             limit: 255
+    t.string   "state",            limit: 255
+    t.string   "zip",              limit: 255
+    t.string   "phone_number_1",   limit: 255
+    t.string   "phone_number_2",   limit: 255
+    t.text     "notes",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "alternate_contacts", ["study_subject_id"], name: "index_alternate_contacts_on_study_subject_id", using: :btree
 
-  create_table "bc_requests", force: true do |t|
-    t.integer  "study_subject_id"
+  create_table "bc_requests", force: :cascade do |t|
+    t.integer  "study_subject_id", limit: 4
     t.date     "sent_on"
-    t.string   "status"
-    t.text     "notes"
+    t.string   "status",           limit: 255
+    t.text     "notes",            limit: 65535
     t.boolean  "is_found"
     t.date     "returned_on"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "birth_data", force: true do |t|
-    t.integer  "study_subject_id"
-    t.string   "master_id"
-    t.string   "found_in_state_db"
-    t.string   "birth_state"
-    t.string   "match_confidence"
-    t.string   "case_control_flag"
-    t.integer  "length_of_gestation_weeks"
-    t.integer  "father_race_ethn_1"
-    t.integer  "father_race_ethn_2"
-    t.integer  "father_race_ethn_3"
-    t.integer  "mother_race_ethn_1"
-    t.integer  "mother_race_ethn_2"
-    t.integer  "mother_race_ethn_3"
-    t.string   "abnormal_conditions"
-    t.integer  "apgar_1min"
-    t.integer  "apgar_5min"
-    t.integer  "apgar_10min"
-    t.integer  "birth_order"
-    t.string   "birth_type"
-    t.decimal  "birth_weight_gms",                            precision: 8, scale: 2
-    t.string   "complications_labor_delivery"
-    t.string   "complications_pregnancy"
-    t.string   "county_of_delivery"
-    t.integer  "daily_cigarette_cnt_1st_tri"
-    t.integer  "daily_cigarette_cnt_2nd_tri"
-    t.integer  "daily_cigarette_cnt_3rd_tri"
-    t.integer  "daily_cigarette_cnt_3mo_preconc"
+  create_table "birth_data", force: :cascade do |t|
+    t.integer  "study_subject_id",                  limit: 4
+    t.string   "master_id",                         limit: 255
+    t.string   "found_in_state_db",                 limit: 255
+    t.string   "birth_state",                       limit: 255
+    t.string   "match_confidence",                  limit: 255
+    t.string   "case_control_flag",                 limit: 255
+    t.integer  "length_of_gestation_weeks",         limit: 4
+    t.integer  "father_race_ethn_1",                limit: 4
+    t.integer  "father_race_ethn_2",                limit: 4
+    t.integer  "father_race_ethn_3",                limit: 4
+    t.integer  "mother_race_ethn_1",                limit: 4
+    t.integer  "mother_race_ethn_2",                limit: 4
+    t.integer  "mother_race_ethn_3",                limit: 4
+    t.string   "abnormal_conditions",               limit: 255
+    t.integer  "apgar_1min",                        limit: 4
+    t.integer  "apgar_5min",                        limit: 4
+    t.integer  "apgar_10min",                       limit: 4
+    t.integer  "birth_order",                       limit: 4
+    t.string   "birth_type",                        limit: 255
+    t.decimal  "birth_weight_gms",                                precision: 8, scale: 2
+    t.string   "complications_labor_delivery",      limit: 255
+    t.string   "complications_pregnancy",           limit: 255
+    t.string   "county_of_delivery",                limit: 255
+    t.integer  "daily_cigarette_cnt_1st_tri",       limit: 4
+    t.integer  "daily_cigarette_cnt_2nd_tri",       limit: 4
+    t.integer  "daily_cigarette_cnt_3rd_tri",       limit: 4
+    t.integer  "daily_cigarette_cnt_3mo_preconc",   limit: 4
     t.date     "dob"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
-    t.string   "father_industry"
+    t.string   "first_name",                        limit: 255
+    t.string   "middle_name",                       limit: 255
+    t.string   "last_name",                         limit: 255
+    t.string   "father_industry",                   limit: 255
     t.date     "father_dob"
-    t.string   "father_hispanic_origin_code"
-    t.string   "father_first_name"
-    t.string   "father_middle_name"
-    t.string   "father_last_name"
-    t.string   "father_occupation"
-    t.integer  "father_yrs_educ"
-    t.string   "fetal_presentation_at_birth"
-    t.string   "forceps_attempt_unsuccessful"
+    t.string   "father_hispanic_origin_code",       limit: 255
+    t.string   "father_first_name",                 limit: 255
+    t.string   "father_middle_name",                limit: 255
+    t.string   "father_last_name",                  limit: 255
+    t.string   "father_occupation",                 limit: 255
+    t.integer  "father_yrs_educ",                   limit: 4
+    t.string   "fetal_presentation_at_birth",       limit: 255
+    t.string   "forceps_attempt_unsuccessful",      limit: 255
     t.date     "last_live_birth_on"
     t.date     "last_menses_on"
     t.date     "last_termination_on"
-    t.integer  "length_of_gestation_days"
-    t.integer  "live_births_now_deceased"
-    t.integer  "live_births_now_living"
-    t.string   "local_registrar_district"
-    t.string   "local_registrar_no"
-    t.string   "method_of_delivery"
-    t.string   "month_prenatal_care_began"
-    t.string   "mother_residence_line_1"
-    t.string   "mother_residence_city"
-    t.string   "mother_residence_county"
-    t.string   "mother_residence_county_ef"
-    t.string   "mother_residence_state"
-    t.string   "mother_residence_zip"
-    t.integer  "mother_weight_at_delivery"
-    t.string   "mother_birthplace"
-    t.string   "mother_birthplace_state"
+    t.integer  "length_of_gestation_days",          limit: 4
+    t.integer  "live_births_now_deceased",          limit: 4
+    t.integer  "live_births_now_living",            limit: 4
+    t.string   "local_registrar_district",          limit: 255
+    t.string   "local_registrar_no",                limit: 255
+    t.string   "method_of_delivery",                limit: 255
+    t.string   "month_prenatal_care_began",         limit: 255
+    t.string   "mother_residence_line_1",           limit: 255
+    t.string   "mother_residence_city",             limit: 255
+    t.string   "mother_residence_county",           limit: 255
+    t.string   "mother_residence_county_ef",        limit: 255
+    t.string   "mother_residence_state",            limit: 255
+    t.string   "mother_residence_zip",              limit: 255
+    t.integer  "mother_weight_at_delivery",         limit: 4
+    t.string   "mother_birthplace",                 limit: 255
+    t.string   "mother_birthplace_state",           limit: 255
     t.date     "mother_dob"
-    t.string   "mother_first_name"
-    t.string   "mother_middle_name"
-    t.string   "mother_maiden_name"
-    t.integer  "mother_height"
-    t.string   "mother_hispanic_origin_code"
-    t.string   "mother_industry"
-    t.string   "mother_occupation"
-    t.string   "mother_received_wic"
-    t.integer  "mother_weight_pre_pregnancy"
-    t.integer  "mother_yrs_educ"
-    t.integer  "ob_gestation_estimate_at_delivery"
-    t.integer  "prenatal_care_visit_count"
-    t.string   "sex"
-    t.string   "state_registrar_no"
-    t.integer  "term_count_20_plus_weeks"
-    t.integer  "term_count_pre_20_weeks"
-    t.string   "vacuum_attempt_unsuccessful"
-    t.integer  "control_number"
-    t.string   "father_ssn"
-    t.string   "mother_ssn"
+    t.string   "mother_first_name",                 limit: 255
+    t.string   "mother_middle_name",                limit: 255
+    t.string   "mother_maiden_name",                limit: 255
+    t.integer  "mother_height",                     limit: 4
+    t.string   "mother_hispanic_origin_code",       limit: 255
+    t.string   "mother_industry",                   limit: 255
+    t.string   "mother_occupation",                 limit: 255
+    t.string   "mother_received_wic",               limit: 255
+    t.integer  "mother_weight_pre_pregnancy",       limit: 4
+    t.integer  "mother_yrs_educ",                   limit: 4
+    t.integer  "ob_gestation_estimate_at_delivery", limit: 4
+    t.integer  "prenatal_care_visit_count",         limit: 4
+    t.string   "sex",                               limit: 255
+    t.string   "state_registrar_no",                limit: 255
+    t.integer  "term_count_20_plus_weeks",          limit: 4
+    t.integer  "term_count_pre_20_weeks",           limit: 4
+    t.string   "vacuum_attempt_unsuccessful",       limit: 255
+    t.integer  "control_number",                    limit: 4
+    t.string   "father_ssn",                        limit: 255
+    t.string   "mother_ssn",                        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "birth_data_file_name"
-    t.integer  "childid"
-    t.string   "deceased"
+    t.string   "birth_data_file_name",              limit: 255
+    t.integer  "childid",                           limit: 4
+    t.string   "deceased",                          limit: 255
     t.date     "case_dob"
-    t.text     "ccls_import_notes"
-    t.text     "study_subject_changes"
+    t.text     "ccls_import_notes",                 limit: 65535
+    t.text     "study_subject_changes",             limit: 65535
     t.string   "derived_state_file_no_last6",       limit: 6
     t.string   "derived_local_file_no_last6",       limit: 6
   end
 
   add_index "birth_data", ["study_subject_id"], name: "index_birth_data_on_study_subject_id", using: :btree
 
-  create_table "blood_spot_requests", force: true do |t|
-    t.integer  "study_subject_id"
+  create_table "blood_spot_requests", force: :cascade do |t|
+    t.integer  "study_subject_id", limit: 4
     t.date     "sent_on"
     t.date     "returned_on"
     t.boolean  "is_found"
-    t.string   "status"
-    t.text     "notes"
-    t.string   "request_type"
+    t.string   "status",           limit: 255
+    t.text     "notes",            limit: 65535
+    t.string   "request_type",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "candidate_controls", force: true do |t|
-    t.integer  "birth_datum_id"
+  create_table "candidate_controls", force: :cascade do |t|
+    t.integer  "birth_datum_id",   limit: 4
     t.string   "related_patid",    limit: 5
-    t.integer  "study_subject_id"
+    t.integer  "study_subject_id", limit: 4
     t.date     "assigned_on"
-    t.boolean  "reject_candidate",           default: false, null: false
-    t.string   "rejection_reason"
+    t.boolean  "reject_candidate",             default: false, null: false
+    t.string   "rejection_reason", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "counties", force: true do |t|
-    t.string   "name"
+  create_table "counties", force: :cascade do |t|
+    t.string   "name",         limit: 255
     t.string   "fips_code",    limit: 5
     t.string   "state_abbrev", limit: 2
     t.string   "usc_code",     limit: 2
@@ -452,68 +452,68 @@ ActiveRecord::Schema.define(version: 20150720214643) do
 
   add_index "counties", ["state_abbrev"], name: "index_counties_on_state_abbrev", using: :btree
 
-  create_table "enrollments", force: true do |t|
-    t.integer  "study_subject_id"
-    t.integer  "project_id"
-    t.integer  "is_candidate"
-    t.integer  "is_eligible"
-    t.integer  "ineligible_reason_id"
-    t.string   "other_ineligible_reason"
-    t.integer  "consented"
+  create_table "enrollments", force: :cascade do |t|
+    t.integer  "study_subject_id",                  limit: 4
+    t.integer  "project_id",                        limit: 4
+    t.integer  "is_candidate",                      limit: 4
+    t.integer  "is_eligible",                       limit: 4
+    t.integer  "ineligible_reason_id",              limit: 4
+    t.string   "other_ineligible_reason",           limit: 255
+    t.integer  "consented",                         limit: 4
     t.date     "consented_on"
-    t.integer  "refusal_reason_id"
-    t.string   "other_refusal_reason"
-    t.integer  "is_chosen"
-    t.string   "reason_not_chosen"
-    t.integer  "terminated_participation"
-    t.string   "terminated_reason"
-    t.integer  "is_complete"
+    t.integer  "refusal_reason_id",                 limit: 4
+    t.string   "other_refusal_reason",              limit: 255
+    t.integer  "is_chosen",                         limit: 4
+    t.string   "reason_not_chosen",                 limit: 255
+    t.integer  "terminated_participation",          limit: 4
+    t.string   "terminated_reason",                 limit: 255
+    t.integer  "is_complete",                       limit: 4
     t.date     "completed_on"
-    t.text     "notes"
-    t.integer  "use_smp_future_rsrch"
-    t.integer  "use_smp_future_cancer_rsrch"
-    t.integer  "use_smp_future_other_rsrch"
-    t.integer  "share_smp_with_others"
-    t.integer  "contact_for_related_study"
-    t.integer  "provide_saliva_smp"
-    t.integer  "receive_study_findings"
+    t.text     "notes",                             limit: 65535
+    t.integer  "use_smp_future_rsrch",              limit: 4
+    t.integer  "use_smp_future_cancer_rsrch",       limit: 4
+    t.integer  "use_smp_future_other_rsrch",        limit: 4
+    t.integer  "share_smp_with_others",             limit: 4
+    t.integer  "contact_for_related_study",         limit: 4
+    t.integer  "provide_saliva_smp",                limit: 4
+    t.integer  "receive_study_findings",            limit: 4
     t.boolean  "refused_by_physician"
     t.boolean  "refused_by_family"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "assigned_for_interview_at"
     t.date     "interview_completed_on"
-    t.string   "tracing_status"
+    t.string   "tracing_status",                    limit: 255
     t.datetime "vaccine_authorization_received_at"
   end
 
   add_index "enrollments", ["project_id", "study_subject_id"], name: "index_enrollments_on_project_id_and_study_subject_id", unique: true, using: :btree
   add_index "enrollments", ["study_subject_id"], name: "index_enrollments_on_study_subject_id", using: :btree
 
-  create_table "guides", force: true do |t|
-    t.string   "controller"
-    t.string   "action"
-    t.text     "body"
+  create_table "guides", force: :cascade do |t|
+    t.string   "controller", limit: 255
+    t.string   "action",     limit: 255
+    t.text     "body",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "guides", ["controller", "action"], name: "index_guides_on_controller_and_action", unique: true, using: :btree
 
-  create_table "hospitals", force: true do |t|
-    t.integer  "organization_id"
-    t.boolean  "has_irb_waiver",  default: false, null: false
-    t.boolean  "is_active",       default: true,  null: false
+  create_table "hospitals", force: :cascade do |t|
+    t.integer  "organization_id", limit: 4
+    t.boolean  "has_irb_waiver",            default: false, null: false
+    t.boolean  "is_active",                 default: true,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "hospitals", ["organization_id"], name: "index_hospitals_on_organization_id", using: :btree
 
-  create_table "icf_master_ids", force: true do |t|
+  create_table "icf_master_ids", force: :cascade do |t|
     t.string   "icf_master_id",    limit: 9
     t.date     "assigned_on"
-    t.integer  "study_subject_id"
+    t.integer  "study_subject_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -521,10 +521,10 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "icf_master_ids", ["icf_master_id"], name: "index_icf_master_ids_on_icf_master_id", unique: true, using: :btree
   add_index "icf_master_ids", ["study_subject_id"], name: "index_icf_master_ids_on_study_subject_id", unique: true, using: :btree
 
-  create_table "ineligible_reasons", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.string   "description"
+  create_table "ineligible_reasons", force: :cascade do |t|
+    t.integer  "position",    limit: 4
+    t.string   "key",         limit: 255, null: false
+    t.string   "description", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -532,11 +532,11 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "ineligible_reasons", ["description"], name: "index_ineligible_reasons_on_description", unique: true, using: :btree
   add_index "ineligible_reasons", ["key"], name: "index_ineligible_reasons_on_key", unique: true, using: :btree
 
-  create_table "languages", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.integer  "code"
-    t.string   "description"
+  create_table "languages", force: :cascade do |t|
+    t.integer  "position",    limit: 4
+    t.string   "key",         limit: 255, null: false
+    t.integer  "code",        limit: 4
+    t.string   "description", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -544,22 +544,22 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "languages", ["code"], name: "index_languages_on_code", unique: true, using: :btree
   add_index "languages", ["key"], name: "index_languages_on_key", unique: true, using: :btree
 
-  create_table "medical_record_requests", force: true do |t|
-    t.integer  "study_subject_id"
+  create_table "medical_record_requests", force: :cascade do |t|
+    t.integer  "study_subject_id", limit: 4
     t.date     "sent_on"
     t.date     "returned_on"
     t.boolean  "is_found"
-    t.string   "status"
-    t.text     "notes"
+    t.string   "status",           limit: 255
+    t.text     "notes",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "operational_event_types", force: true do |t|
-    t.integer  "position"
-    t.string   "key",            null: false
-    t.string   "description"
-    t.string   "event_category"
+  create_table "operational_event_types", force: :cascade do |t|
+    t.integer  "position",       limit: 4
+    t.string   "key",            limit: 255, null: false
+    t.string   "description",    limit: 255
+    t.string   "event_category", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -567,13 +567,13 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "operational_event_types", ["description"], name: "index_operational_event_types_on_description", unique: true, using: :btree
   add_index "operational_event_types", ["key"], name: "index_operational_event_types_on_key", unique: true, using: :btree
 
-  create_table "operational_events", force: true do |t|
-    t.integer  "operational_event_type_id"
+  create_table "operational_events", force: :cascade do |t|
+    t.integer  "operational_event_type_id", limit: 4
     t.datetime "occurred_at"
-    t.integer  "study_subject_id"
-    t.integer  "project_id"
-    t.string   "description"
-    t.text     "notes"
+    t.integer  "study_subject_id",          limit: 4
+    t.integer  "project_id",                limit: 4
+    t.string   "description",               limit: 255
+    t.text     "notes",                     limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -582,10 +582,10 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "operational_events", ["project_id"], name: "oe_pi", using: :btree
   add_index "operational_events", ["study_subject_id"], name: "oe_ssi", using: :btree
 
-  create_table "organizations", force: true do |t|
-    t.integer  "position"
-    t.string   "key",        null: false
-    t.string   "name"
+  create_table "organizations", force: :cascade do |t|
+    t.integer  "position",   limit: 4
+    t.string   "key",        limit: 255, null: false
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -593,17 +593,17 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "organizations", ["key"], name: "index_organizations_on_key", unique: true, using: :btree
   add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
 
-  create_table "pages", force: true do |t|
-    t.integer  "position"
-    t.integer  "parent_id"
-    t.boolean  "hide_menu",  default: false
-    t.string   "path"
-    t.string   "title_en"
-    t.string   "title_es"
-    t.string   "menu_en"
-    t.string   "menu_es"
-    t.text     "body_en"
-    t.text     "body_es"
+  create_table "pages", force: :cascade do |t|
+    t.integer  "position",   limit: 4
+    t.integer  "parent_id",  limit: 4
+    t.boolean  "hide_menu",                default: false
+    t.string   "path",       limit: 255
+    t.string   "title_en",   limit: 255
+    t.string   "title_es",   limit: 255
+    t.string   "menu_en",    limit: 255
+    t.string   "menu_es",    limit: 255
+    t.text     "body_en",    limit: 65535
+    t.text     "body_es",    limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -611,52 +611,52 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
   add_index "pages", ["path"], name: "index_pages_on_path", unique: true, using: :btree
 
-  create_table "patients", force: true do |t|
-    t.integer  "study_subject_id"
+  create_table "patients", force: :cascade do |t|
+    t.integer  "study_subject_id",             limit: 4
     t.date     "diagnosis_date"
-    t.integer  "organization_id"
+    t.integer  "organization_id",              limit: 4
     t.date     "admit_date"
-    t.integer  "sample_was_collected"
-    t.string   "admitting_oncologist"
-    t.integer  "was_ca_resident_at_diagnosis"
-    t.integer  "was_previously_treated"
-    t.integer  "was_under_15_at_dx"
+    t.integer  "sample_was_collected",         limit: 4
+    t.string   "admitting_oncologist",         limit: 255
+    t.integer  "was_ca_resident_at_diagnosis", limit: 4
+    t.integer  "was_previously_treated",       limit: 4
+    t.integer  "was_under_15_at_dx",           limit: 4
     t.string   "raf_zip",                      limit: 10
-    t.string   "raf_county"
+    t.string   "raf_county",                   limit: 255
     t.string   "hospital_no",                  limit: 25
-    t.string   "other_diagnosis"
+    t.string   "other_diagnosis",              limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "diagnosis"
+    t.string   "diagnosis",                    limit: 255
   end
 
   add_index "patients", ["hospital_no", "organization_id"], name: "hosp_org", unique: true, using: :btree
   add_index "patients", ["organization_id"], name: "index_patients_on_organization_id", using: :btree
   add_index "patients", ["study_subject_id"], name: "index_patients_on_study_subject_id", unique: true, using: :btree
 
-  create_table "phone_numbers", force: true do |t|
-    t.integer  "position"
-    t.integer  "study_subject_id"
-    t.string   "phone_number"
+  create_table "phone_numbers", force: :cascade do |t|
+    t.integer  "position",          limit: 4
+    t.integer  "study_subject_id",  limit: 4
+    t.string   "phone_number",      limit: 255
     t.boolean  "is_primary"
-    t.integer  "current_phone",     default: 1
-    t.string   "other_data_source"
+    t.integer  "current_phone",     limit: 4,   default: 1
+    t.string   "other_data_source", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "phone_type"
-    t.string   "data_source"
+    t.string   "phone_type",        limit: 255
+    t.string   "data_source",       limit: 255
   end
 
   add_index "phone_numbers", ["study_subject_id"], name: "index_phone_numbers_on_study_subject_id", using: :btree
 
-  create_table "projects", force: true do |t|
-    t.integer  "position"
+  create_table "projects", force: :cascade do |t|
+    t.integer  "position",             limit: 4
     t.date     "began_on"
     t.date     "ended_on"
-    t.string   "key",                  null: false
-    t.string   "description"
-    t.text     "eligibility_criteria"
-    t.string   "label"
+    t.string   "key",                  limit: 255,   null: false
+    t.string   "description",          limit: 255
+    t.text     "eligibility_criteria", limit: 65535
+    t.string   "label",                limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -664,11 +664,11 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "projects", ["description"], name: "index_projects_on_description", unique: true, using: :btree
   add_index "projects", ["key"], name: "index_projects_on_key", unique: true, using: :btree
 
-  create_table "races", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.integer  "code"
-    t.string   "description"
+  create_table "races", force: :cascade do |t|
+    t.integer  "position",    limit: 4
+    t.string   "key",         limit: 255, null: false
+    t.integer  "code",        limit: 4
+    t.string   "description", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -677,10 +677,10 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "races", ["description"], name: "index_races_on_description", unique: true, using: :btree
   add_index "races", ["key"], name: "index_races_on_key", unique: true, using: :btree
 
-  create_table "refusal_reasons", force: true do |t|
-    t.integer  "position"
-    t.string   "key",         null: false
-    t.string   "description"
+  create_table "refusal_reasons", force: :cascade do |t|
+    t.integer  "position",    limit: 4
+    t.string   "key",         limit: 255, null: false
+    t.string   "description", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -688,51 +688,51 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "refusal_reasons", ["description"], name: "index_refusal_reasons_on_description", unique: true, using: :btree
   add_index "refusal_reasons", ["key"], name: "index_refusal_reasons_on_key", unique: true, using: :btree
 
-  create_table "roles", force: true do |t|
-    t.integer  "position"
-    t.string   "name"
+  create_table "roles", force: :cascade do |t|
+    t.integer  "position",   limit: 4
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "roles", ["name"], name: "index_roles_on_name", unique: true, using: :btree
 
-  create_table "roles_users", id: false, force: true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
+  create_table "roles_users", id: false, force: :cascade do |t|
+    t.integer "role_id", limit: 4
+    t.integer "user_id", limit: 4
   end
 
   add_index "roles_users", ["role_id"], name: "index_roles_users_on_role_id", using: :btree
   add_index "roles_users", ["user_id"], name: "index_roles_users_on_user_id", using: :btree
 
-  create_table "sample_locations", force: true do |t|
-    t.integer  "organization_id"
-    t.boolean  "is_active",       default: true, null: false
+  create_table "sample_locations", force: :cascade do |t|
+    t.integer  "organization_id", limit: 4
+    t.boolean  "is_active",                 default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "sample_locations", ["organization_id"], name: "index_sample_locations_on_organization_id", using: :btree
 
-  create_table "sample_transfers", force: true do |t|
-    t.integer  "sample_id"
-    t.integer  "source_org_id"
-    t.integer  "destination_org_id"
+  create_table "sample_transfers", force: :cascade do |t|
+    t.integer  "sample_id",          limit: 4
+    t.integer  "source_org_id",      limit: 4
+    t.integer  "destination_org_id", limit: 4
     t.date     "sent_on"
-    t.string   "status"
-    t.text     "notes"
+    t.string   "status",             limit: 255
+    t.text     "notes",              limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "sample_types", force: true do |t|
-    t.integer  "position"
-    t.integer  "parent_id"
-    t.string   "key",                                null: false
-    t.string   "description"
-    t.boolean  "for_new_sample",      default: true, null: false
-    t.integer  "t2k_sample_type_id"
-    t.string   "gegl_sample_type_id"
+  create_table "sample_types", force: :cascade do |t|
+    t.integer  "position",            limit: 4
+    t.integer  "parent_id",           limit: 4
+    t.string   "key",                 limit: 255,                null: false
+    t.string   "description",         limit: 255
+    t.boolean  "for_new_sample",                  default: true, null: false
+    t.integer  "t2k_sample_type_id",  limit: 4
+    t.string   "gegl_sample_type_id", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -741,36 +741,36 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "sample_types", ["key"], name: "index_sample_types_on_key", unique: true, using: :btree
   add_index "sample_types", ["parent_id"], name: "index_sample_types_on_parent_id", using: :btree
 
-  create_table "samples", force: true do |t|
-    t.integer  "parent_sample_id"
-    t.integer  "sample_type_id"
-    t.integer  "project_id"
-    t.integer  "study_subject_id"
-    t.integer  "organization_id"
-    t.string   "aliquot_or_sample_on_receipt"
+  create_table "samples", force: :cascade do |t|
+    t.integer  "parent_sample_id",             limit: 4
+    t.integer  "sample_type_id",               limit: 4
+    t.integer  "project_id",                   limit: 4
+    t.integer  "study_subject_id",             limit: 4
+    t.integer  "organization_id",              limit: 4
+    t.string   "aliquot_or_sample_on_receipt", limit: 255
     t.datetime "sent_to_subject_at"
     t.datetime "collected_from_subject_at"
     t.datetime "shipped_to_ccls_at"
     t.datetime "received_by_ccls_at"
     t.datetime "sent_to_lab_at"
     t.datetime "received_by_lab_at"
-    t.string   "external_id"
-    t.string   "external_id_source"
+    t.string   "external_id",                  limit: 255
+    t.string   "external_id_source",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "sample_format"
-    t.string   "sample_temperature"
-    t.text     "notes"
+    t.string   "sample_format",                limit: 255
+    t.string   "sample_temperature",           limit: 255
+    t.text     "notes",                        limit: 65535
   end
 
   add_index "samples", ["study_subject_id"], name: "index_samples_on_study_subject_id", using: :btree
 
-  create_table "states", force: true do |t|
-    t.integer  "position"
-    t.string   "code",                        null: false
-    t.string   "name",                        null: false
-    t.string   "fips_country_code", limit: 2, null: false
-    t.string   "fips_state_code",   limit: 2, null: false
+  create_table "states", force: :cascade do |t|
+    t.integer  "position",          limit: 4
+    t.string   "code",              limit: 255, null: false
+    t.string   "name",              limit: 255, null: false
+    t.string   "fips_country_code", limit: 2,   null: false
+    t.string   "fips_state_code",   limit: 2,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -780,81 +780,81 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "states", ["fips_state_code"], name: "index_states_on_fips_state_code", unique: true, using: :btree
   add_index "states", ["name"], name: "index_states_on_name", unique: true, using: :btree
 
-  create_table "study_subjects", force: true do |t|
-    t.integer  "hispanicity"
+  create_table "study_subjects", force: :cascade do |t|
+    t.integer  "hispanicity",                 limit: 4
     t.date     "reference_date"
-    t.string   "sex"
-    t.boolean  "do_not_contact",                         default: false, null: false
-    t.integer  "mother_yrs_educ"
-    t.integer  "father_yrs_educ"
-    t.string   "birth_type"
-    t.integer  "mother_hispanicity"
-    t.integer  "father_hispanicity"
-    t.integer  "mother_hispanicity_mex"
-    t.integer  "father_hispanicity_mex"
-    t.integer  "mom_is_biomom"
-    t.integer  "dad_is_biodad"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
+    t.string   "sex",                         limit: 255
+    t.boolean  "do_not_contact",                          default: false, null: false
+    t.integer  "mother_yrs_educ",             limit: 4
+    t.integer  "father_yrs_educ",             limit: 4
+    t.string   "birth_type",                  limit: 255
+    t.integer  "mother_hispanicity",          limit: 4
+    t.integer  "father_hispanicity",          limit: 4
+    t.integer  "mother_hispanicity_mex",      limit: 4
+    t.integer  "father_hispanicity_mex",      limit: 4
+    t.integer  "mom_is_biomom",               limit: 4
+    t.integer  "dad_is_biodad",               limit: 4
+    t.string   "first_name",                  limit: 255
+    t.string   "middle_name",                 limit: 255
+    t.string   "last_name",                   limit: 255
     t.date     "dob"
     t.date     "died_on"
-    t.string   "mother_first_name"
-    t.string   "mother_middle_name"
-    t.string   "mother_maiden_name"
-    t.string   "mother_last_name"
-    t.string   "father_first_name"
-    t.string   "father_middle_name"
-    t.string   "father_last_name"
-    t.string   "guardian_first_name"
-    t.string   "guardian_middle_name"
-    t.string   "guardian_last_name"
-    t.string   "other_guardian_relationship"
-    t.integer  "mother_race_code"
-    t.integer  "father_race_code"
-    t.string   "maiden_name"
+    t.string   "mother_first_name",           limit: 255
+    t.string   "mother_middle_name",          limit: 255
+    t.string   "mother_maiden_name",          limit: 255
+    t.string   "mother_last_name",            limit: 255
+    t.string   "father_first_name",           limit: 255
+    t.string   "father_middle_name",          limit: 255
+    t.string   "father_last_name",            limit: 255
+    t.string   "guardian_first_name",         limit: 255
+    t.string   "guardian_middle_name",        limit: 255
+    t.string   "guardian_last_name",          limit: 255
+    t.string   "other_guardian_relationship", limit: 255
+    t.integer  "mother_race_code",            limit: 4
+    t.integer  "father_race_code",            limit: 4
+    t.string   "maiden_name",                 limit: 255
     t.string   "birth_year",                  limit: 4
-    t.string   "birth_city"
-    t.string   "birth_state"
-    t.string   "birth_country"
-    t.string   "other_mother_race"
-    t.string   "other_father_race"
-    t.integer  "childid"
+    t.string   "birth_city",                  limit: 255
+    t.string   "birth_state",                 limit: 255
+    t.string   "birth_country",               limit: 255
+    t.string   "other_mother_race",           limit: 255
+    t.string   "other_father_race",           limit: 255
+    t.integer  "childid",                     limit: 4
     t.string   "patid",                       limit: 4
     t.string   "case_control_type",           limit: 1
-    t.integer  "orderno"
-    t.string   "related_childid"
-    t.string   "related_case_childid"
+    t.integer  "orderno",                     limit: 4
+    t.string   "related_childid",             limit: 255
+    t.string   "related_case_childid",        limit: 255
     t.string   "subjectid",                   limit: 6
     t.string   "matchingid",                  limit: 6
     t.string   "familyid",                    limit: 6
-    t.string   "state_id_no"
+    t.string   "state_id_no",                 limit: 255
     t.string   "childidwho",                  limit: 10
     t.string   "studyid",                     limit: 14
     t.string   "newid",                       limit: 6
     t.string   "icf_master_id",               limit: 9
-    t.string   "state_registrar_no"
-    t.string   "local_registrar_no"
+    t.string   "state_registrar_no",          limit: 255
+    t.string   "local_registrar_no",          limit: 255
     t.boolean  "is_matched"
-    t.integer  "phase"
-    t.integer  "hispanicity_mex"
+    t.integer  "phase",                       limit: 4
+    t.integer  "hispanicity_mex",             limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "vital_status",                limit: 20
-    t.integer  "addresses_count",                        default: 0
-    t.integer  "abstracts_count",                        default: 0
+    t.integer  "addresses_count",             limit: 4,   default: 0
+    t.integer  "abstracts_count",             limit: 4,   default: 0
     t.string   "case_icf_master_id",          limit: 9
     t.string   "mother_icf_master_id",        limit: 9
     t.string   "subject_type",                limit: 20
-    t.integer  "samples_count",                          default: 0
-    t.integer  "cdcid"
-    t.integer  "operational_events_count",               default: 0
-    t.integer  "phone_numbers_count",                    default: 0
-    t.integer  "interviews_count",                       default: 0
-    t.boolean  "needs_reindexed",                        default: false
-    t.integer  "enrollments_count",                      default: 0
-    t.integer  "replication_id"
-    t.string   "guardian_relationship"
+    t.integer  "samples_count",               limit: 4,   default: 0
+    t.integer  "cdcid",                       limit: 4
+    t.integer  "operational_events_count",    limit: 4,   default: 0
+    t.integer  "phone_numbers_count",         limit: 4,   default: 0
+    t.integer  "interviews_count",            limit: 4,   default: 0
+    t.boolean  "needs_reindexed",                         default: false
+    t.integer  "enrollments_count",           limit: 4,   default: 0
+    t.integer  "replication_id",              limit: 4
+    t.string   "guardian_relationship",       limit: 255
   end
 
   add_index "study_subjects", ["childid"], name: "index_study_subjects_on_childid", unique: true, using: :btree
@@ -874,33 +874,33 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "study_subjects", ["subjectid"], name: "index_study_subjects_on_subjectid", unique: true, using: :btree
   add_index "study_subjects", ["vital_status"], name: "index_study_subjects_on_vital_status", using: :btree
 
-  create_table "subject_languages", force: true do |t|
-    t.integer  "study_subject_id"
-    t.integer  "language_code"
-    t.string   "other_language"
+  create_table "subject_languages", force: :cascade do |t|
+    t.integer  "study_subject_id", limit: 4
+    t.integer  "language_code",    limit: 4
+    t.string   "other_language",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "subject_languages", ["study_subject_id"], name: "index_subject_languages_on_study_subject_id", using: :btree
 
-  create_table "subject_races", force: true do |t|
-    t.integer  "study_subject_id"
-    t.integer  "race_code"
-    t.boolean  "is_primary",       default: false, null: false
-    t.string   "other_race"
+  create_table "subject_races", force: :cascade do |t|
+    t.integer  "study_subject_id", limit: 4
+    t.integer  "race_code",        limit: 4
+    t.boolean  "is_primary",                   default: false, null: false
+    t.string   "other_race",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "subject_races", ["study_subject_id"], name: "index_subject_races_on_study_subject_id", using: :btree
 
-  create_table "users", force: true do |t|
-    t.string   "uid"
-    t.string   "sn"
-    t.string   "displayname"
-    t.string   "mail"
-    t.string   "telephonenumber"
+  create_table "users", force: :cascade do |t|
+    t.string   "uid",             limit: 255
+    t.string   "sn",              limit: 255
+    t.string   "displayname",     limit: 255
+    t.string   "mail",            limit: 255
+    t.string   "telephonenumber", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -908,12 +908,12 @@ ActiveRecord::Schema.define(version: 20150720214643) do
   add_index "users", ["sn"], name: "index_users_on_sn", using: :btree
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
-  create_table "zip_codes", force: true do |t|
-    t.string   "zip_code",   limit: 5, null: false
-    t.string   "city",                 null: false
-    t.string   "state",                null: false
-    t.string   "zip_class",            null: false
-    t.integer  "county_id"
+  create_table "zip_codes", force: :cascade do |t|
+    t.string   "zip_code",   limit: 5,   null: false
+    t.string   "city",       limit: 255, null: false
+    t.string   "state",      limit: 255, null: false
+    t.string   "zip_class",  limit: 255, null: false
+    t.integer  "county_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
