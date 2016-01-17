@@ -79,44 +79,39 @@ class RafsControllerTest < ActionController::TestCase
 				assert_select( "div#languages" ){
 					assert_select( "div.subject_language.creator", :count => 3 ).each do |sl|
 
-#						assert_select( sl, "input[type='hidden'][value='']" <<
-#							":match('name',?)",
-#								/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
-#							:count => 1 )
-
-#puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input[type='hidden'][value='']" ) {
 						#	assert_select( "[name=?]",
 						#		/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
 						#		:count => 1 ) }
-
-#						assert_select( sl, "input[type='checkbox']" <<
-#							":not([checked='checked'])" <<
-#							":match('name',?):match('value',?)",
-#								/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
-#								/\d+/,
-#							:count => 1 )
-
-#puts "Rails 4.2 will fail this regex test."
 						#assert_select( sl, "input[type='checkbox']" <<
 						#	":not([checked='checked'])" ) {
 						#	assert_select( "[name=?][value=?]",
 						#		/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
 						#		/\d+/,
 						#	:count => 1 ) }
+						#	Rails >= 4.2
+						assert_select( sl, "input[type='hidden'][value='']" <<
+							"[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][language_code]']",
+								:count => 1 )
+						assert_select( sl, "input[type='checkbox']:not([checked='checked'])" <<
+							"[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][language_code]']",
+								:count => 1 )
 
-#						assert_select( sl, "input" <<
-#							":match('name',?)",
-#								/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
-#							:count => 2 )
-
-#puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input" ) {
 						#	assert_select( "[name=?]",
 						#		/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
 						#	:count => 2 ) }
+						#	Rails >= 4.2
+						assert_select( sl, "input[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][language_code]']",
+							:count => 2 )
 
-					end
+					end	#	assert_select( "div.subject_language.creator", :count => 3 ).each do |sl|
+
 #
 #	with the each, passes "each" match individually to the block
 #	withOUT the each, passes ALL matches at once to the block
@@ -148,28 +143,28 @@ class RafsControllerTest < ActionController::TestCase
 
 						#	value is the language_code (could test each but iffy)
 						#	should not be checked
-						assert_select( "input[type='checkbox'][checked='checked']",
-							:count => 0 )
+						assert_select( "input[type='checkbox'][checked='checked']", :count => 0 )
 
 						#	this is the important check
-#						assert_select( sl, "input[type='checkbox']:not([checked=checked])" <<
-#							":match('value',?)", /\d+/,
-#							:count => 3 )	
-#puts "Rails 4.2 will fail this regex test."
-						#assert_select( "input[type='checkbox']:not([checked=checked])" ) {
-						#	assert_select( "[value=?]", /\d+/, :count => 3 )	}
-
+						assert_select( "input[type='checkbox']:not([checked=checked])", :count => 3 )
 					end
 					assert_select("div.subject_language > div#other_language " <<
-							"> div#specify_other_language", 1 ){
-#							"[name='study_subject[subject_languages_attributes][0][other_language]']",
-#						assert_select("input[type='text']:match('name',?)",
-#puts "Rails 4.2 will fail this regex test."
-						#assert_select("input[type='text'][name=?]",
-						#		/study_subject\[subject_languages_attributes\]\[\d+\]\[other_language\]/,
-						#	:count => 1 )
+							"> div#specify_other_language", :count => 1 ){
+
+						assert_select("input#other_other_language[type='text']", :count => 1)
+
+						#	Rails < 4.2
+						#assert_select("input[type='text']" <<
+						#	"[name='study_subject[subject_languages_attributes][2][other_language]']",
+						#		:count => 1 )
+						#	Rails >= 4.2
+						assert_select("input[type='text']" <<
+							"[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][other_language]']",
+								:count => 1 )
 					}
-			} }
+				}	#	assert_select( "div#languages" ){
+			}	#	assert_select( "div#study_subject_languages" ){
 		end
 
 

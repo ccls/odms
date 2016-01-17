@@ -66,20 +66,23 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 					assert_select( "div.subject_language.creator", :count => 3 ).each do |sl|
 						#	checkbox and hidden share the same name
 
-#						assert_select( sl, "input:match('name',?)",
-
-puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input" ) {
 						#	assert_select( "[name=?]",
 						#	/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
 						#	:count => 2 ) }
+						#	Rails >= 4.2
+						assert_select( sl, "input[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][language_code]']",
+								:count => 2 )
 
 						assert_select( sl, "input[type='hidden'][value='']", :count => 1 )
-#						assert_select( sl, "input[type='checkbox']:match('value',?)", 
 
-puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input[type='checkbox']" ){
 						#	assert_select( "[value=?]", /\d+/, :count => 1 ) }
+						#	Rails >= 4.2
+						assert_select( sl, "input[type='checkbox']", :count => 1 )
 
 							#	value is the language_id (could test each but iffy)
 						#	should not be checked
@@ -89,19 +92,16 @@ puts "Rails 4.2 will fail this regex test."
 						assert_select( sl, ":not([checked=checked])" )	
 					end
 					assert_select("div#specify_other_language", :count => 1 ){
-#						assert_select("input[type='text']:match('name',?)",
 
-#puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select("input[type='text']"){ 
 						#	assert_select( "[name=?]",
 						#	/study_subject\[subject_languages_attributes\]\[\d+\]\[other_language\]/,
 						#	:count => 1 ) }
-
-						#	hard coded other language id of 2
-						assert_select("input[type='text']"){ 
-							assert_select( "[name='study_subject[subject_languages_attributes][2][other_language]']",
-							:count => 1 ) }
-
+						#	Rails >= 4.2
+						assert_select("input[type='text'][name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][other_language]']",
+								:count => 1 )
 					}
 			} }
 		end
@@ -117,45 +117,29 @@ puts "Rails 4.2 will fail this regex test."
 			} ) }
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
-#puts @response.body
-
-
-#<div id="study_subject_languages"><div class='languages_label'>Language of parent or caretaker:</div>
-#<div id='languages'>
-#<div class='subject_language destroyer'><input value="1" type="hidden" name="study_subject[subject_languages_attributes][0][language_code]" id="study_subject_subject_languages_attributes_0_language_code" /><input name="study_subject[subject_languages_attributes][0][_destroy]" type="hidden" value="1" /><input id="english__destroy" type="checkbox" value="0" checked="checked" name="study_subject[subject_languages_attributes][0][_destroy]" />
-#<label for="english__destroy">English (eligible)</label>
-#<input type="hidden" value="136" name="study_subject[subject_languages_attributes][0][id]" id="study_subject_subject_languages_attributes_0_id" /></div>
-#<div class='subject_language creator'><input name="study_subject[subject_languages_attributes][1][language_code]" type="hidden" value="" /><input id="spanish_language_code" type="checkbox" value="2" name="study_subject[subject_languages_attributes][1][language_code]" />
-#<label for="spanish_language_code">Spanish (eligible)</label>
-#</div>
-#<div class='subject_language creator'><div id='other_language'><input name="study_subject[subject_languages_attributes][2][language_code]" type="hidden" value="" /><input id="other_language_code" type="checkbox" value="3" name="study_subject[subject_languages_attributes][2][language_code]" />
-#<label for="other_language_code">Other (not eligible)</label>
-#<div id='specify_other_language'><label for="other_other_language">specify:</label>
-#<input size="12" id="other_other_language" type="text" name="study_subject[subject_languages_attributes][2][other_language]" />
-#</div></div></div>
-
-
-
 			assert_select( "div#study_subject_languages" ){
 				assert_select( "div.languages_label" )
 				assert_select( "div#languages" ){
 					assert_select( "div.subject_language.creator", :count => 2 ).each do |sl|
 						#	checkbox and hidden share the same name
-#						assert_select( sl, "input:match('name',?)",
 
-puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input" ){
 						#	assert_select( "[name=?]",
 						#	/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
 						#	:count => 2 ) }
-
+						#	Rails >= 4.2
+						assert_select( sl, "input[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][language_code]']",
+								:count => 2 )
 
 						assert_select( sl, "input[type='hidden'][value='']", :count => 1 )
-#						assert_select( sl, "input[type='checkbox']:match('value',?)", 
 
-puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input[type='checkbox']" ){
 						#	assert_select( "[value=?]", /\d+/, :count => 1 )	}
+						#	Rails >= 4.2
+						assert_select( sl, "input[type='checkbox']", :count => 1 )
 
 							#	value is the language_code (could test it, but would be complicated)
 						#	should not be checked
@@ -163,56 +147,45 @@ puts "Rails 4.2 will fail this regex test."
 						assert_select( sl, ":not([checked=checked])" )	#	this is the important check
 					end
 					assert_select( "div.subject_language.destroyer", :count => 1 ).each do |sl|
-#						assert_select( sl, "input[type='hidden'][value='#{language.code}']" <<
-#							":match('name',?)",
 
-
-#puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input[type='hidden'][value='#{language.code}']" ){
 						#	assert_select( "[name=?]",
 						#	/study_subject\[subject_languages_attributes\]\[\d+\]\[language_code\]/,
 						#	:count => 1 ) }
-
-						#	hard coded english id
-						assert_select( sl, "input[type='hidden'][value='#{language.code}']" ){
-							assert_select( "[name='study_subject[subject_languages_attributes][0][language_code]']",
-							:count => 1 ) }
-
+						#	Rails >= 4.2
+						assert_select( sl, "input[type='hidden'][value='#{language.code}']" <<
+							"[name^='study_subject[subject_languages_attributes][']" << 
+							"[name$='][language_code]']",
+								:count => 1 )
 
 						#	destroy checkbox and hidden share the same name
-#						assert_select( sl, "input:match('name',?)",
-
-#puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select( sl, "input" ){
 						#	assert_select( "[name=?]",
 						#	/study_subject\[subject_languages_attributes\]\[\d+\]\[_destroy\]/,
 						#	:count => 2 ){
-
-						#	hard coded english id
-						assert_select( sl, "input" ){
-							assert_select( "[name='study_subject[subject_languages_attributes][0][_destroy]']",
+						#	Rails >= 4.2
+						assert_select( sl, "input[name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][_destroy]']",
 								:count => 2 ){
 
 							assert_select( "input[type='hidden'][value='1']", :count => 1 )
 							assert_select( "input[type='checkbox'][value='0']", :count => 1 )
 							assert_select( "input[type='checkbox'][checked='checked']", :count => 1 )
-						} }
+						}
 
 					end
 					assert_select("div#specify_other_language",1 ){
-#						assert_select("input[type='text']" <<
-#							":match('name',?)",
-
-#puts "Rails 4.2 will fail this regex test."
+						#	Rails < 4.2
 						#assert_select("input[type='text']" ){
 						#	assert_select( "[name=?]", 
 						#	/study_subject\[subject_languages_attributes\]\[\d+\]\[other_language\]/,
 						#	:count => 1 ) }
-
-						#	hard coded other id
-						assert_select("input[type='text']" ){
-							assert_select( "[name='study_subject[subject_languages_attributes][2][other_language]']",
-							:count => 1 ) }
+						#	Rails >= 4.2
+						assert_select("input[type='text'][name^='study_subject[subject_languages_attributes][']" <<
+							"[name$='][other_language]']",
+								:count => 1 )
 					}
 			} }
 		end
@@ -229,19 +202,17 @@ puts "Rails 4.2 will fail this regex test."
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
 			assert_select("div#specify_other_language", :count => 1 ){
-#				assert_select("input[type='text'][value='redneck']" <<
-#					":match('name', ?)", 
 
-#puts "Rails 4.2 will fail this regex test."
+				#	Rails < 4.2
 				#assert_select("input[type='text'][value='redneck']" ){
 				#	assert_select( "[name=?]",
 				#	/study_subject\[subject_languages_attributes\]\[.+\]\[other_language\]/,
 				#	:count => 1 ) }
-
-				#	Hard coded other language id of 2
-				assert_select("input[type='text'][value='redneck']" ){
-					assert_select( "[name='study_subject[subject_languages_attributes][2][other_language]']",
-					:count => 1 ) }
+				#	Rails >= 4.2
+				assert_select("input[type='text'][value='redneck']" <<
+					"[name^='study_subject[subject_languages_attributes][']" <<
+					"[name$='][other_language]']", 
+						:count => 1 )
 
 			}
 		end
