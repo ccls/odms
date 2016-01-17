@@ -143,6 +143,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_enrollment_path(first_study_subject,
 				first_study_subject.enrollments.by_project_key('ccls').first)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(last_study_subject)
 		end
@@ -156,6 +158,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_contacts_path(study_subject)
 			assert_equal current_path, study_subject_contacts_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_contacts_path(other_study_subject)
 		end
@@ -167,6 +171,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_interviews_path(study_subject)
 			assert_equal current_path, study_subject_interviews_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_interviews_path(other_study_subject)
 		end
@@ -178,6 +184,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_related_subjects_path(study_subject)
 			assert_equal current_path, study_subject_related_subjects_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
 		end
@@ -189,6 +197,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_related_subjects_path(study_subject)
 			assert_equal current_path, study_subject_related_subjects_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_related_subjects_path(other_study_subject)
 		end
@@ -200,6 +210,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit new_study_subject_phone_number_path(study_subject)
 			assert_equal current_path, new_study_subject_phone_number_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, new_study_subject_phone_number_path(other_study_subject)
 		end
@@ -212,6 +224,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_phone_number_path(study_subject,phone_number)
 			assert_equal current_path, edit_study_subject_phone_number_path(study_subject,phone_number)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_phone_numbers_path(other_study_subject)
 		end
@@ -223,6 +237,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_addresses_path(study_subject)
 			assert_equal current_path, study_subject_addresses_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
@@ -234,6 +250,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit new_study_subject_address_path(study_subject)
 			assert_equal current_path, new_study_subject_address_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, new_study_subject_address_path(other_study_subject)
 		end
@@ -246,6 +264,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_address_path(study_subject.reload,address)
 			assert_equal current_path, edit_study_subject_address_path(study_subject,address)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_addresses_path(other_study_subject)
 		end
@@ -257,6 +277,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_consent_path(study_subject)
 			assert_equal current_path, study_subject_consent_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_consent_path(other_study_subject)
 		end
@@ -268,6 +290,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_consent_path(study_subject)
 			assert_equal current_path, edit_study_subject_consent_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, edit_study_subject_consent_path(other_study_subject)
 		end
@@ -279,6 +303,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_enrollments_path(study_subject)
 			assert_equal current_path, study_subject_enrollments_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
@@ -290,6 +316,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit new_study_subject_enrollment_path(study_subject)
 			assert_equal current_path, new_study_subject_enrollment_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, new_study_subject_enrollment_path(other_study_subject)
 		end
@@ -301,6 +329,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
 			assert_equal current_path, study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
@@ -312,6 +342,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
 			assert_equal current_path, edit_study_subject_enrollment_path(study_subject,study_subject.enrollments.first)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_enrollments_path(other_study_subject)
 		end
@@ -323,6 +355,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_events_path(study_subject)
 			assert_equal current_path, study_subject_events_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
@@ -334,6 +368,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit new_study_subject_event_path(study_subject)
 			assert_equal current_path, new_study_subject_event_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, new_study_subject_event_path(other_study_subject)
 		end
@@ -345,6 +381,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_event_path(study_subject, study_subject.operational_events.first)
 			assert_equal current_path, study_subject_event_path(study_subject, study_subject.operational_events.first)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
@@ -357,6 +395,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
 			assert_equal current_path, edit_study_subject_event_path(study_subject, study_subject.operational_events.first)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_events_path(other_study_subject)
 		end
@@ -368,6 +408,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_samples_path(study_subject)
 			assert_equal current_path, study_subject_samples_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
@@ -379,6 +421,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit new_study_subject_sample_path(study_subject)
 			assert_equal current_path, new_study_subject_sample_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, new_study_subject_sample_path(other_study_subject)
 		end
@@ -391,6 +435,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_sample_path(study_subject, sample)
 			assert_equal current_path, study_subject_sample_path(study_subject, sample)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
@@ -403,6 +449,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_sample_path(study_subject,sample)
 			assert_equal current_path, edit_study_subject_sample_path(study_subject,sample)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_samples_path(other_study_subject)
 		end
@@ -420,6 +468,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_patient_path(study_subject)
 			assert_equal current_path, study_subject_patient_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
@@ -431,7 +481,11 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_patient_path(study_subject)
 			assert_equal current_path, study_subject_patient_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
+			assert has_css?("div#patient > h3", :text => "Hospital data is valid for case subjects only")
+			#	doesn't redirect. renders action "not_case"
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
@@ -442,7 +496,11 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit study_subject_patient_path(study_subject)
 			assert_equal current_path, study_subject_patient_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
+			assert has_css?("div#patient > h3", :text => "Hospital data is valid for case subjects only")
+			#	doesn't redirect. renders action "not_case"
 			assert_equal current_path, study_subject_patient_path(other_study_subject)
 		end
 
@@ -454,6 +512,8 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_patient_path(study_subject)
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
 			assert_equal current_path, edit_study_subject_patient_path(other_study_subject)
 		end
@@ -465,8 +525,10 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_patient_path(study_subject)
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
-#	flash error
+			assert has_css?("p.flash.error", :text => "StudySubject must be Case to have patient data!")
 			assert_equal current_path, study_subject_path(other_study_subject)
 		end
 
@@ -477,8 +539,10 @@ class StudySubjectIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			visit edit_study_subject_patient_path(study_subject)
 			assert_equal current_path, edit_study_subject_patient_path(study_subject)
 			fill_in 'by_id', :with => 'FINDME'
+#	request.referrer not being correctly reset in testing.  Remains that of last test?
+Capybara.current_session.driver.header 'Referer', current_path	#	added for rails 4.2
 			click_button 'go'
-#	flash error
+			assert has_css?("p.flash.error", :text => "StudySubject must be Case to have patient data!")
 			assert_equal current_path, study_subject_path(other_study_subject)
 		end
 
