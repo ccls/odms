@@ -116,7 +116,13 @@ require Rails.root.join('test/app/controllers/fake_sessions_controller').to_s
 #  Capybara::Driver::Webkit.new(app, :ignore_ssl_errors => true)
 #end
 Capybara.default_driver = :webkit
-Capybara.default_wait_time = 1	#	set this small for testing leftovers
+
+
+#	Rails < 4.2
+#Capybara.default_wait_time = 1	#	set this small for testing leftovers
+#	Rails >= 4.2 (what do I mean by a 'leftover'?)
+Capybara.default_max_wait_time = 1	#	set this small for testing leftovers
+
 
 #	Using class_attribute instead of mattr_accessor so that
 #	each subclass (read model) has its own value as we have
