@@ -6,7 +6,7 @@ This is a README, so READ ME!
  #	Starting from scratch?
  #	You will need 'git' installed.  If using a Mac, probably best
  #	installed via MacPorts' 'port' command, which you may need
- #	to install as well.  You may also need to install qt4 or qt4-mac.
+ #	to install as well.  You may also need to install qt5 or qt5-mac.
  #	Installation of these binaries, ruby and rubygems is beyond
  #	the scope of this README file.
 
@@ -31,6 +31,7 @@ This is a README, so READ ME!
  #	(Not really sure if this is actually necessary in 1.9.3,
  #	 but I did it and everything still seems to work.)
  #	Using ruby 2.1 (as of 20141203)
+ #	Using ruby 2.3 (as of 20150117)
  gem update --system
 
  #	Install bundler which will be managing all of the gems
@@ -473,7 +474,7 @@ ActiveRecord::StatementInvalid: Mysql2::Error: You have an error in your SQL syn
 ---
 == Testing requirements
 
-* port qt4-mac (for capybara-webkit gem)
+* port qt5-mac (for capybara-webkit gem)
 * gem webkit (not used anymore so should remove from Gemfile) REMOVED!
 * gem capybara
 * gem selenium-webdriver (not used anymore but seems required by others)
@@ -606,6 +607,12 @@ command will need to be executed...
 == ruby 2.1
 
 As of 20141203, we are using ruby 2.1.5
+
+
+---
+== ruby 2.3
+
+As of 20150117, we are using ruby 2.3
 
 
 
