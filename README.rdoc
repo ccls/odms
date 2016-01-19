@@ -26,6 +26,11 @@ This is a README, so READ ME!
  cp config/initializers/mail.rb.example config/initializers/mail.rb
 
 
+ #	you may have to copy some other example files like ...
+ cp config/secrets.yml.example config/secrets.yml
+ #	This will also require that you use 'rake secret' to populate it.
+
+
  #	Assuming that ruby 1.9.3 is installed which now includes rubygems.
  #	Should probably update to the latest rubygems (1.8.24 as of 20120619)
  #	(Not really sure if this is actually necessary in 1.9.3,
@@ -785,7 +790,7 @@ Added a "sleep" after starting sunspot as it just seems to take a moment.
 
  bundle exec rake db:drop:all ; bundle exec rake db:create:all ; bundle exec rake db:migrate ; bundle exec rake db:test:prepare
 
- c ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; sleep 120 ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; bundle exec autotest -v --no-full-after-failed
+ c ; bundle exec rake sunspot:solr:stop RAILS_ENV=test ; /bin/rm -rf coverage* ; bundle exec rake sunspot:solr:start RAILS_ENV=test ; sleep 180 ; bundle exec rake ; mv coverage coverage-one-run ; open coverage-one-run/index.html ; bundle exec autotest -v --no-full-after-failed
 
 
 
