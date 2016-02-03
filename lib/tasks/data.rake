@@ -45,6 +45,32 @@ namespace :data do
 			puts statement;
 			ActiveRecord::Base.connection.execute(statement)
 
+
+
+
+#	20160203
+#	Sadly, no one wants to yield permissions to do the above.
+#	The following will create a tab separated file.
+#	It will not escape anything however.  One tab in the actual data and fail.
+#	Actually, the tabs are escaped.   tab\ttest
+#	However, converting to csv would require some effort.
+#	mysql -u root DBNAME -e "select * from TABLENAME;" > TABLENAME.tsv
+
+#	These seem to work and properly quote double quotes and commas in fields.
+#	mysql -u root chirp -e "select * from identifiers;" | ruby -rcsv -n -e "puts chomp.split(\"\t\").to_csv"
+#	mysql -u root chirp -e "select * from identifiers;" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv'
+
+#	.gsub(/NULL/,"")
+#	.gsub(/^M/,"") or .gsub(/^M/,"\n")
+
+
+#	Problem now becomes do I include passwords in script.
+#	Or can I leverage the Rails connection somehow????????
+#		`mysql -u root chirp -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv' > '#{outdir}/#{table}.csv`
+
+
+
+
 		end
 
 #		system("sed -i '' 's/\\\\N//g' #{outdir}/*.csv")	#	gotta get these out
@@ -52,8 +78,14 @@ namespace :data do
 #		system("sed -i '' 's/\\\\\\"/'"'"'/g' #{outdir}/*.csv") # DOES NOT WORK
 		#	The double quotes used by system make this difficult.
 		#	Backticks work well.
+
+		#	20160203 - Using the new technique from the command line
+		#			I'm not sure if these are needed.  Perhaps the Control-M, but I can do in command?
+		#	Meant to remove SQL's \N which represents NULL
 		`sed -i '' 's/\\\\N//g' #{outdir}/*.csv`
+		#	Meant to remove any stray Microsoft carriage return - line feeds.
 		`sed -i '' 's///g' #{outdir}/*.csv`
+		#	Meant to swap double quotes for single quotes in the data. Somehow was corrupt?
 		`sed -i '' 's/\\\\"/'"'"'/g' #{outdir}/*.csv`
 
 		system("chmod a-w #{outdir}/*.csv")
