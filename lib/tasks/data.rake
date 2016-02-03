@@ -64,9 +64,42 @@ namespace :data do
 #	.gsub(/^M/,"") or .gsub(/^M/,"\n")
 
 
-#	Problem now becomes do I include passwords in script.
-#	Or can I leverage the Rails connection somehow????????
-#		`mysql -u root chirp -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv' > '#{outdir}/#{table}.csv`
+
+
+#config   = Rails.configuration.database_configuration
+#host     = config[Rails.env]["host"]
+#database = config[Rails.env]["database"]
+#username = config[Rails.env]["username"]
+#password = config[Rails.env]["password"]
+#
+#	OR
+#
+#require 'YAML'
+#info = YAML::load(IO.read("database.yml"))
+#print info["production"]["host"]
+#print info["production"]["database"]
+#...
+
+
+#	username = Rails.configuration.database_configuration[Rails.env]['username']
+#	password = Rails.configuration.database_configuration[Rails.env]['password']
+#	database = Rails.configuration.database_configuration[Rails.env]['database']
+#	host = Rails.configuration.database_configuration[Rails.env]['host']
+#	port = Rails.configuration.database_configuration[Rails.env]['port']
+
+#		`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv' > '#{outdir}/#{table}.csv`
+
+
+
+#irb(main):004:0> Rails.configuration.database_configuration['test']
+#=> {"adapter"=>"mysql", "encoding"=>"utf8", "database"=>"odms_test", "username"=>"root", "password"=>nil, "host"=>"localhost"}
+#irb(main):005:0> Rails.configuration.database_configuration['test']['username']
+#=> "root"
+#irb(main):006:0> Rails.env
+#=> "development"
+
+#	username = Rails.configuration.database_configuration[Rails.env]['username']
+#	password = Rails.configuration.database_configuration[Rails.env]['password']
 
 
 
