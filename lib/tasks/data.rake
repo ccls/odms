@@ -96,7 +96,7 @@ namespace :data do
 #	host = Rails.configuration.database_configuration[Rails.env]['host']
 #	port = Rails.configuration.database_configuration[Rails.env]['port']
 
-			`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv' > #{outdir}/#{table}.csv`
+			`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.gsub(/NULL/,"").gsub(//,"\n").split("\t").to_csv > #{outdir}/#{table}.csv`
 
 
 
