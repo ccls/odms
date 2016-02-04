@@ -19,31 +19,40 @@ namespace :data do
 	task :dump_to_csv => :environment do
 		outdir = "#{Rails.root.to_s}/csv_dump.#{Time.current.strftime('%Y%m%d%H%M%S')}"
 		#	the directory NEEDS to exist and be writable by user _mysql
-		FileUtils.mkdir( outdir, :mode => 0777 ) unless Dir.exists?( outdir )
-		FileUtils.chmod( 0777, outdir )
+		FileUtils.mkdir( outdir ) unless Dir.exists?( outdir )
+#		FileUtils.chmod( 0777, outdir )
+#		FileUtils.mkdir( outdir, :mode => 0777 ) unless Dir.exists?( outdir )
+#		FileUtils.chmod( 0777, outdir )
+
+		config = Rails.configuration.database_configuration
+		username = config[Rails.env]['username']
+		password = config[Rails.env]['password']
+		database = config[Rails.env]['database']
+		host = config[Rails.env]['host']
+		port = config[Rails.env]['port']
 		ActiveRecord::Base.connection.execute('show tables;').to_a.flatten.each do |table|
 			next if table == "schema_migrations"
 			puts "Table:#{table}:"
-			columns = ActiveRecord::Base.connection.execute("show columns from #{table};"
-				).to_a.collect(&:first)
-			puts "Columns:#{columns.to_s}:"
-
-			#	we use the column name "key" on many occassions.
-			#	This is a reserved word so must be quoted, so quote all columns.
-			#	DON'T DO THIS .... ESCAPED BY '\"'
-			#	Changes NULL to "N which makes no sense to me as it mucks up parsing.
-			#	Perhaps '\\', which escapes " in fields, but converts NULL to \N (better)
-			statement="(SELECT '#{columns.join('\',\'')}')
-				UNION
-				(SELECT `#{columns.join('`,`')}`
-				FROM #{table}
-				INTO OUTFILE '#{outdir}/#{table}.csv'
-				FIELDS ENCLOSED BY '\"' 
-				TERMINATED BY ',' 
-				ESCAPED BY '\\\\'
-				LINES TERMINATED BY '\n');"
-			puts statement;
-			ActiveRecord::Base.connection.execute(statement)
+#			columns = ActiveRecord::Base.connection.execute("show columns from #{table};"
+#				).to_a.collect(&:first)
+#			puts "Columns:#{columns.to_s}:"
+#
+#			#	we use the column name "key" on many occassions.
+#			#	This is a reserved word so must be quoted, so quote all columns.
+#			#	DON'T DO THIS .... ESCAPED BY '\"'
+#			#	Changes NULL to "N which makes no sense to me as it mucks up parsing.
+#			#	Perhaps '\\', which escapes " in fields, but converts NULL to \N (better)
+#			statement="(SELECT '#{columns.join('\',\'')}')
+#				UNION
+#				(SELECT `#{columns.join('`,`')}`
+#				FROM #{table}
+#				INTO OUTFILE '#{outdir}/#{table}.csv'
+#				FIELDS ENCLOSED BY '\"' 
+#				TERMINATED BY ',' 
+#				ESCAPED BY '\\\\'
+#				LINES TERMINATED BY '\n');"
+#			puts statement;
+#			ActiveRecord::Base.connection.execute(statement)
 
 
 
@@ -87,7 +96,7 @@ namespace :data do
 #	host = Rails.configuration.database_configuration[Rails.env]['host']
 #	port = Rails.configuration.database_configuration[Rails.env]['port']
 
-#		`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv' > '#{outdir}/#{table}.csv`
+			`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv' > #{outdir}/#{table}.csv`
 
 
 
@@ -112,17 +121,17 @@ namespace :data do
 		#	The double quotes used by system make this difficult.
 		#	Backticks work well.
 
-		#	20160203 - Using the new technique from the command line
-		#			I'm not sure if these are needed.  Perhaps the Control-M, but I can do in command?
-		#	Meant to remove SQL's \N which represents NULL
-		`sed -i '' 's/\\\\N//g' #{outdir}/*.csv`
-		#	Meant to remove any stray Microsoft carriage return - line feeds.
-		`sed -i '' 's///g' #{outdir}/*.csv`
-		#	Meant to swap double quotes for single quotes in the data. Somehow was corrupt?
-		`sed -i '' 's/\\\\"/'"'"'/g' #{outdir}/*.csv`
+#		#	20160203 - Using the new technique from the command line
+#		#			I'm not sure if these are needed.  Perhaps the Control-M, but I can do in command?
+#		#	Meant to remove SQL's \N which represents NULL
+#		`sed -i '' 's/\\\\N//g' #{outdir}/*.csv`
+#		#	Meant to remove any stray Microsoft carriage return - line feeds.
+#		`sed -i '' 's///g' #{outdir}/*.csv`
+#		#	Meant to swap double quotes for single quotes in the data. Somehow was corrupt?
+#		`sed -i '' 's/\\\\"/'"'"'/g' #{outdir}/*.csv`
 
-		system("chmod a-w #{outdir}/*.csv")
-		system("chmod 755 #{outdir}")
+#		system("chmod a-w #{outdir}/*.csv")
+#		system("chmod 755 #{outdir}")
 
 	end	#	task :dump_to_csv => :environment do
 
