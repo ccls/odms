@@ -763,6 +763,13 @@ Add passenger to Gemfile
  bundle exec passenger start
 
 Could it really be that simple.
+I had to rename nginx.conf.erb and passenger-standalone.json, but yes.
+
+
+
+No more ...
+
+ script/rails server -d -p 3000 -e production
 
 
 ---
@@ -855,8 +862,9 @@ Maybe try brand new empty rails app if no joy?
  git pull
  bundle install
  bundle exec rake db:migrate
+
  bundle exec rake sunspot:solr:start
- script/rails server -d -p 3000 -e production
+ bundle exec passenger start
 
 
 
