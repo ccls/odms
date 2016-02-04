@@ -70,7 +70,6 @@ namespace :data do
 #	mysql -u root chirp -e "select * from identifiers;" | ruby -rcsv -n -e 'puts chomp.split("\t").to_csv'
 
 #	.gsub(/NULL/,"")
-#	.gsub(/^M/,"") or .gsub(/^M/,"\n")
 
 
 
@@ -96,7 +95,33 @@ namespace :data do
 #	host = Rails.configuration.database_configuration[Rails.env]['host']
 #	port = Rails.configuration.database_configuration[Rails.env]['port']
 
-			`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.gsub(/NULL/,"").gsub(//,"\n").split("\t").to_csv > #{outdir}/#{table}.csv`
+#			`mysql --user=#{username} --password=#{password} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.gsub(/NULL/,"").gsub(//,"\n").split("\t").to_csv' > #{outdir}/#{table}.csv`
+#	using .my.cnf to hold password
+#			`mysql --user=#{username} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: "").gsub(/NULL/,"").gsub(//,"\n").split("\t").to_csv' > #{outdir}/#{table}.csv`
+
+
+#	Since I'm forced to use encoding, add the universal_newline option.
+#	unpack("C*").pack("U*") seems to work and preserve the values!
+#	Keeping the encode(universal_newline: true) instead of the gsub() as it doesn't complain ...
+#		-e:1: warning: encountered \r in middle of line, treated as a mere space
+
+
+			`mysql --user=#{username} #{database} --host=#{host} --port=#{port} -e "select * from #{table};" | ruby -rcsv -n -e 'puts chomp.unpack("C*").pack("U*").encode(universal_newline: true).gsub(/NULL/,"").split("\t").to_csv' > #{outdir}/#{table}.csv`
+
+
+#	On my mac, "Montañez" works just fine.
+
+
+#	on occassion get ... so had to add encode to the chain. (so far only in addresses and study_subjects)
+#-e:1:in `gsub': invalid byte sequence in UTF-8 (ArgumentError)
+#	ruby seems to crash on these occassions and results in truncation of the csv.
+#		Monta?ez 
+#		V?a Cristobal
+#	Simplest solution is to remove the chars.
+
+#	Oddly, from the rails console, this isn't a problem?
+
+#	.encode(universal_newline: true)
 
 
 
