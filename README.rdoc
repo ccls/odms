@@ -725,7 +725,7 @@ mysql_config to see what its output is.
 
 
 ---
-== Passenger Notes
+== Passenger Standalone Notes
 
 gem install passenger (don't put in Gemfile, for some reason)
 
@@ -748,6 +748,22 @@ Seems Gary found a fix for the poodle vulnerability
 making the usage of Passenger unnecessary.
 
 (poodle was that ssl vulnerability)
+
+
+
+---
+== Passenger (New version) Notes
+
+Add passenger to Gemfile
+
+ gem "passenger"
+
+ bundle install
+
+ bundle exec passenger start
+
+Could it really be that simple.
+
 
 ---
 == Sunspot Notes
@@ -832,6 +848,7 @@ Maybe try brand new empty rails app if no joy?
 
 
  dump_database
+ bundle exec rake app:data:dump_to_csv
  cd /my/ruby/odms
  bundle exec rake sunspot:solr:stop
  kill -9 `cat tmp/pids/server.pid`
