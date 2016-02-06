@@ -40,6 +40,17 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 	end
 
 
+	test "should properly display control M" do
+		create_case_for_bc_info_update
+		FileUtils.stubs(:mkdir_p).returns(true) 
+		File.stubs(:exists?).returns(false)
+		FileUtils.stubs(:move).returns(true)
+		bc_info_update = BcInfoUpdate.new('test/assets/control_m_bc_info_update_test_file.csv',
+			:verbose => true)
+
+		#	This goes to STDOUT.  Not sure how to actually test.
+
+	end
 
 
 #	test "should require expected column names in csv file" do
@@ -128,13 +139,13 @@ protected
 		assert !File.exists?(csv_test_file_name)
 	end
 
-#	def create_case_for_bc_info_update
-#		icf_master_id = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345FAKE')
-#		study_subject = FactoryGirl.create(:complete_case_study_subject)
-#		study_subject.assign_icf_master_id
-#		assert_equal '12345FAKE', study_subject.icf_master_id
-#		study_subject
-#	end
+	def create_case_for_bc_info_update
+		icf_master_id = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345FAKE')
+		study_subject = FactoryGirl.create(:complete_case_study_subject)
+		study_subject.assign_icf_master_id
+		assert_equal '12345FAKE', study_subject.icf_master_id
+		study_subject
+	end
 
 
 

@@ -73,10 +73,15 @@ class BcInfoUpdate < CSVFile
 		(f=CSV.open( csv_file, 'rb',{ :headers => true })).each do |line|
 			puts '' if verbose
 			puts "Processing line #{f.lineno} of #{total_lines}" if verbose
+
 			#	some of these lines have Control Ms in them?
 			#	There's nothing wrong with that, but it doesn't print correctly
 			#	as it is a carriage return without a line feed.
-			puts line.to_s.gsub(//,'') if verbose	
+			#	Lines containing an actual Control-M generate this annoying warning.
+			#	warning: encountered \r in middle of line, treated as a mere space
+			#	puts line.to_s.gsub(//,'') if verbose	
+			#	This does the same thing, without the warning.
+			puts line.to_s.encode(universal_newline: true) if verbose
 
 			bc_info = BcInfo.new(line.to_hash.merge(
 				:bc_info_file => csv_file, :verbose => verbose ) )
