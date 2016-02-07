@@ -48,32 +48,18 @@ gem 'prawnto'
 #	format Month/Day/Year Date.parse('12/31/2000')
 gem 'american_date'
 
-#	rails-4.2.0 causes the production web server to always 
-#		give 503 Service Unavailable errors??????
-gem 'rails'	#, '~>4.1.8'
-#
-#	upgrading will require changing deliver to deliver_now
-#	upgrading will require mods to config/initializer/string.rb#to_html_document
-#
-
-
-#	20150320 - Changing to strong parameters
-#	sadly, this is all or nothing.
-#gem 'protected_attributes'	#	to keep rails 3 style
-
-#	to keep rails 3 style	... going back to cookies so removed
-#gem 'activerecord-session_store'	
+gem 'rails'
 
 gem 'json'
 
 gem 'sass'
 # Use SCSS for stylesheets
-gem 'sass-rails'	#, '~> 4.0'
+gem 'sass-rails'
 
 gem 'rack-ssl', :require => 'rack/ssl'
 
 gem "mysql"
-gem "mysql2"	#, '~> 0.3.18'	#	< rails 4.2 requires
+gem "mysql2"
 gem "RedCloth"
 
 gem "chronic"
@@ -93,8 +79,6 @@ gem 'ucb_ldap', "~> 2.0.0.pre"
 #	usage of the new ucb_ldap gem downgrades the net-ldap gem.
 gem 'net-ldap'
 
-#gem "mongrel"	#	not install in ruby19 world
-#	suggested to use --pre option for 1.2.0
 
 group :test do
 
@@ -110,7 +94,7 @@ group :test do
 	gem "mocha", :require => 'mocha/setup'
 
 	gem "autotest-rails", :require => 'autotest/rails'
-#	gem "redgreen"
+#	gem "redgreen"	#	never seems to work
 
 	gem 'ZenTest'
 
@@ -127,28 +111,7 @@ end
 
 gem 'ccls-common_lib', ">0.9"
 
-
-#	1.1.9 will raise error ...
-#	use_ssl value changed, but session already started
-#	geocoder-1.1.9/lib/geocoder/lookups/base.rb line 230ish
-#	WHERE? WHEN? rake task? testing? ... "bundle exec rake app:addresses:geocode"
-#	1.2.1 is working so far
 gem 'geocoder'
 
 __END__
 
-
-
-Remaining 4.2 update issues
-
-Sunspot not starting right away on my MacBook.  Need to wait a minute or so
-otherwise will get many "Errno::ECONNREFUSED: Connection refused" errors.
-
-
-#	Old "versions" migration files being run somehow causing this.
-# Test database is occassionally being created wrong? Non-null constraint being added?
-#ActiveRecord::StatementInvalid: Mysql2::Error: Column 'mail' cannot be null: UPDATE `users` SET `displayname` = 'Mr. Jake Wendt, BA', `sn` = 'Wendt', `mail` = NULL, `telephonenumber` = '+1 510 642-9749', `updated_at` = '2016-01-15 14:25:11' WHERE `users`.`id` = 69
-
-
-
-assert_select does not work the same with regular expressions in 4.2 as 4.1 did.

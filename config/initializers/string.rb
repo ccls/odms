@@ -26,15 +26,21 @@ class String
 	end
 
 	def to_html_document
-		v = Rails.version.split('.')
-#=> ["4", "1", "14"]
-		if( ( v[0].to_i > 4 ) or ( ( v[0].to_i == 4 ) and ( v[1].to_i > 1 ) ) )
-			#	rails 4.2.0
-			Nokogiri::HTML::DocumentFragment.parse( self )
-		else
-			#	pre rails 4.2.0
-			HTML::Document.new( self ).root
-		end
+		Nokogiri::HTML::DocumentFragment.parse( self )
 	end
+#
+#	20160206 - Now that we've permanently upgraded rails, this is unnecessary.
+#
+#	def to_html_document
+#		v = Rails.version.split('.')
+#		#=> ["4", "1", "14"]
+#		if( ( v[0].to_i > 4 ) or ( ( v[0].to_i == 4 ) and ( v[1].to_i > 1 ) ) )
+#			#	rails 4.2.0
+#			Nokogiri::HTML::DocumentFragment.parse( self )
+#		else
+#			#	pre rails 4.2.0
+#			HTML::Document.new( self ).root
+#		end
+#	end
 
 end	
