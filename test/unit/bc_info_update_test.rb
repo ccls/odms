@@ -35,8 +35,12 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 		FileUtils.stubs(:mkdir_p).returns(true) 
 		File.stubs(:exists?).returns(false)
 		FileUtils.stubs(:move).returns(true)
-		bc_info_update = BcInfoUpdate.new('test/assets/empty_bc_info_update_test_file.csv',:verbose => true)
-		bc_info_update.archive
+		out, err = capture_io do
+			bc_info_update = BcInfoUpdate.new('test/assets/empty_bc_info_update_test_file.csv',:verbose => true)
+			bc_info_update.archive
+		end
+		assert_match "Processing test/assets/empty_bc_info_update_test_file.csv...", out
+		assert_match "Archiving test/assets/empty_bc_info_update_test_file.csv", out
 	end
 
 
@@ -45,11 +49,14 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 		FileUtils.stubs(:mkdir_p).returns(true) 
 		File.stubs(:exists?).returns(false)
 		FileUtils.stubs(:move).returns(true)
-		bc_info_update = BcInfoUpdate.new('test/assets/control_m_bc_info_update_test_file.csv',
-			:verbose => true)
-
-		#	This goes to STDOUT.  Not sure how to actually test.
-
+		out, err = capture_io do
+			bc_info_update = BcInfoUpdate.new('test/assets/control_m_bc_info_update_test_file.csv',
+				:verbose => true)
+		end
+		assert_match "Processing test/assets/control_m_bc_info_update_test_file.csv...", out
+		assert_match "Processing line 2 of 2", out
+		assert_match %r%^12345FAKE,,,,,,,,"Control-%, out
+		assert_match %r%^-M",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,%, out
 	end
 
 
@@ -72,8 +79,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 		#	real data and won't be in repository
 		real_data_file = "data/bc_info_20120822.csv"
 		unless File.exists?(real_data_file)
-			puts
-			puts "-- Real data test file does not exist. Skipping."
+			puts "\n\n-- Real data test file does not exist. Skipping.\n\n"
 		else
 
 			#	Create subjects to update based on the file

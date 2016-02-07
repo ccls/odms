@@ -16,15 +16,18 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 
 	test "should send email on missing required column" do
 		birth_datum_update = create_test_file_and_birth_datum_update
-		assert_raises(SystemExit){
-		assert_difference('ActionMailer::Base.deliveries.length',1) {
-			birth_datum_update.required_column('fake_column')
-		} }
+		out, err = capture_io do
+			assert_raises(SystemExit){
+			assert_difference('ActionMailer::Base.deliveries.length',1) {
+				birth_datum_update.required_column('fake_column')
+			} }
+		end
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/Birth Data missing (.*) column/) }
 		assert mail.to.include?('jakewendt@berkeley.edu')
 		assert_match 'Birth Data missing', mail.body.encoded
 		cleanup_birth_datum_update_and_test_file(birth_datum_update)
+		assert_match "Birth Data missing fake_column column.", err
 	end
 
 
@@ -32,9 +35,13 @@ class BirthDatumUpdateTest < ActiveSupport::TestCase
 		FileUtils.stubs(:mkdir_p).returns(true) 
 		File.stubs(:exists?).returns(false)
 		FileUtils.stubs(:move).returns(true)
+		out, err = capture_io do
 		birth_datum_update = BirthDatumUpdate.new(
 				'test/assets/empty_birth_datum_update_test_file.csv',:verbose => true)
-		birth_datum_update.archive
+			birth_datum_update.archive
+		end
+		assert_match "Processing test/assets/empty_birth_datum_update_test_file.csv...", out
+		assert_match "Archiving test/assets/empty_birth_datum_update_test_file.csv", out
 	end
 
 
@@ -187,8 +194,7 @@ state_registrar_no
 		#real_data_file = "birth_data/CLS Cases 22JAN2015.csv"	#59, 0
 		real_data_file = "birth_data/20130716/Control Matches -- 15JUL2013.csv"
 		unless File.exists?(real_data_file)
-			puts
-			puts "-- Real data test file does not exist. Skipping."
+			puts "\n\n-- Real data test file does not exist. Skipping.\n\n"
 		else
 			#	case must exist for candidate controls to be created
 			s = FactoryGirl.create(:case_study_subject,:sex => 'M',

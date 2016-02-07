@@ -6,46 +6,56 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 
 	test "should send email on missing required column" do
 		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-		assert_raises(SystemExit){
-		assert_difference('ActionMailer::Base.deliveries.length',1) {
-			icf_master_tracker_update.required_column('fake_column')
-		} }
+		out, err = capture_io do
+			assert_raises(SystemExit){
+			assert_difference('ActionMailer::Base.deliveries.length',1) {
+				icf_master_tracker_update.required_column('fake_column')
+			} }
+		end
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/ICF Master Tracker missing (.*) column/) }
 		assert mail.to.include?('jakewendt@berkeley.edu')
 		assert_match 'ICF Master Tracker missing', mail.body.encoded
 		cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
+		assert_match "ICF Master Tracker missing fake_column column.", err
 	end
 
 	test "should send email when csv file exists" do
 		File.stubs(:exists?).returns(true)
 		icf_master_tracker_update = nil
-		assert_raises(SystemExit){
-		assert_difference('ActionMailer::Base.deliveries.length',1) {
-			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
-		} }
+		out, err = capture_io do
+			assert_raises(SystemExit){
+			assert_difference('ActionMailer::Base.deliveries.length',1) {
+				icf_master_tracker_update = create_test_file_and_icf_master_tracker_update
+			} }
+		end
 		mail = ActionMailer::Base.deliveries.detect{|m|
 			m.subject.match(/Duplicate ICF Master Tracker/) }
 		assert mail.to.include?('jakewendt@berkeley.edu')
 		assert_match 'ICF Master Tracker has the same modification time as a previously', mail.body.encoded
 		File.unstub(:exists?)
 		cleanup_icf_master_tracker_update_and_test_file(icf_master_tracker_update)
+		assert_match %r%File is not new. Mod Time is \d{8}. Not doing anything.%, err
 	end
 
 
 	test "should archive" do
 		File.stubs(:rename).returns(true)
-		icf_master_tracker_update = IcfMasterTrackerUpdate.new(
+		out, err = capture_io do
+			icf_master_tracker_update = IcfMasterTrackerUpdate.new(
 				'test/assets/empty_icf_master_tracker_update_test_file.csv',:verbose => true)
-		icf_master_tracker_update.archive
+			icf_master_tracker_update.archive
+		end
+		assert_match 'Processing 20120406...', out
+		assert_match '0 changes found.', out
+		assert_match 'Archiving ICF Master Tracker file ...', out
 	end
 
 	test "should test with real data file" do
 		#	real data and won't be in repository
 		real_data_file = 'data/ICF_Master_Tracker_20130416.csv'
 		unless File.exists?(real_data_file)
-			puts
-			puts "-- Real data test file does not exist. Skipping."
+			puts "\n\n-- Real data test file does not exist. Skipping.\n\n"
 		else
 
 	#		#	minimal semi-real case creation
@@ -94,7 +104,7 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 	test "should change subjects interview_completed_on with cati_complete value" do
 		study_subject = create_case_for_icf_master_tracker_update
 		assert_nil study_subject.ccls_enrollment.reload.interview_completed_on
-		icf_master_tracker_update = create_test_file_and_icf_master_tracker_update("cati_complete" => '12/31/2000')
+			icf_master_tracker_update = create_test_file_and_icf_master_tracker_update("cati_complete" => '12/31/2000')
 		assert_not_nil study_subject.ccls_enrollment.reload.interview_completed_on
 		assert_equal Date.parse('12/31/2000'),study_subject.ccls_enrollment.reload.interview_completed_on
 	end
