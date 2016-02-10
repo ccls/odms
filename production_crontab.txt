@@ -39,9 +39,15 @@ SHELL=/bin/bash
 #	Odd.  I thought that it was sourcing .tcshrc when using tcsh?
 
 #	20150120 - Changed to ruby 2.1 so changed dirs here too.
-PATH=/my/ruby/gems/2.1/bin:/my/ruby/bin:/my/home/jwendt/my/scripts:/usr/local/bin:/bin:/usr/bin:.
-GEM_HOME=/my/ruby/gems/2.1
-GEM_PATH=/my/ruby/gems/2.1
+#PATH=/my/ruby/gems/2.1/bin:/my/ruby/bin:/my/home/jwendt/my/scripts:/usr/local/bin:/bin:/usr/bin:.
+#GEM_HOME=/my/ruby/gems/2.1
+#GEM_PATH=/my/ruby/gems/2.1
+
+#	20160202 - New IS&T setup
+PATH=/home/app_odms/gems/2.3/bin:/home/app_odms/local/bin:/usr/local/bin:/bin:/usr/bin:.
+GEM_HOME=/home/app_odms/gems/2.3
+GEM_PATH=/home/app_odms/gems/2.3
+
 
 #	I believe that the contents of /etc/bashrc on brg does a check for $PS1 or something
 #	and as cron jobs are non-interactive, it quits?  Possibly?
@@ -66,7 +72,12 @@ RAILS_ENV=production
 #MAILTO='jakewendt@berkeley.edu'
 #	As of 20140120-ish, the cron daemon would send error emails
 #	The setting of MAILTO='jwendt@genepi.berkeley.edu' has stopped them.
-MAILTO='jwendt@genepi.berkeley.edu'
+#MAILTO='jwendt@genepi.berkeley.edu'
+
+
+#	20160202
+MAILTO='odms@jakewendt.com'
+
 #	apparently genepi1 isn't set to send external email
 #
 #   ----- The following addresses had permanent fatal errors -----
@@ -132,11 +143,30 @@ MAILTO='jwendt@genepi.berkeley.edu'
 
 
 #	every 30 minutes
-15,45 * * * * cd /my/ruby/odms/ ; bundle exec rake app:study_subjects:sync_related_icf_master_ids >> /my/ruby/odms/log/study_subjects_sync_related_icf_master_ids.log
-20,50 * * * * cd /my/ruby/odms/ ; bundle exec rake app:addresses:geocode >> /my/ruby/odms/log/addresses_geocode.log
-0,30 * * * * cd /my/ruby/odms/ ; bundle exec rake app:study_subjects:reindex >> /my/ruby/odms/log/study_subjects_reindex.log
+15,45 * * * * cd /home/app_odms/odms/ ; bundle exec rake app:study_subjects:sync_related_icf_master_ids >> /home/app_odms/odms/log/study_subjects_sync_related_icf_master_ids.log
 
 
-@daily cd /my/ruby/odms/ ; bundle exec rake app:medical_record_requests:create_waitlist_requests >> /my/ruby/odms/log/create_medical_record_requests.log
+#	every 30 minutes
+20,50 * * * * cd /home/app_odms/odms/ ; bundle exec rake app:addresses:geocode >> /home/app_odms/odms/log/addresses_geocode.log
+
+
+#	every 30 minutes
+0,30 * * * * cd /home/app_odms/odms/ ; bundle exec rake app:study_subjects:reindex >> /home/app_odms/odms/log/study_subjects_reindex.log
+
+
+@daily cd /home/app_odms/odms/ ; bundle exec rake app:medical_record_requests:create_waitlist_requests >> /home/app_odms/odms/log/create_medical_record_requests.log
+
+
+
+#	Append 'test' to file every minute.  Works.
+#	* * * * * echo "test" >> /home/app_odms/testing_cron
+
+#	Testing mailing on error.  Works.
+#	from:	Cron Daemon <root@ccls-web-prod-01.ist.berkeley.edu>
+#	to:	odms@jakewendt.com
+#	date:	Fri, Feb 5, 2016 at 8:29 PM
+#	subject:	Cron <app_odms@ccls-web-prod-01> missingecho "test" >> /home/app_odms/testing_cron
+#	/bin/bash: missingecho: command not found
+#	* * * * * missingecho "test" >> /home/app_odms/testing_cron
 
 
