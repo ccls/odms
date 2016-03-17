@@ -823,7 +823,7 @@ DO NOT KEEP OLD FILES IN DB or DB/MIGRATE/.  They will be included when the test
 
 
 ---
-== FULL PRODUCTION GEM REINSTALLATION
+== Full Production Gem Reinstallation for Genepi
 
  gem uninstall --executables --ignore-dependencies --all
  gem install bundler
@@ -831,7 +831,7 @@ DO NOT KEEP OLD FILES IN DB or DB/MIGRATE/.  They will be included when the test
  cd  /my/ruby/odms; bundler install
 
 ---
-== Quick Production Notes
+== Old Genepi Production Notes, no longer used
 
 Unfortunately, killing the server could result in lost data that
 may be cached in memory.  At least in theory.  I don't think that
@@ -851,9 +851,6 @@ Not sure if I can on production as don't have root priveleges.
 Maybe try brand new empty rails app if no joy?
 	no joy for new empty rails 4.2.0 app
 
-
-
-
  dump_database
  bundle exec rake app:data:dump_to_csv
  cd /my/ruby/odms
@@ -868,5 +865,19 @@ Maybe try brand new empty rails app if no joy?
 
 
 
+---
+== New Production Server Update Procedure
+
+ dump_database
+ cd /home/app_odms/odms/
+ bundle exec rake app:data:dump_to_csv
+ sudo /sbin/service httpd status
+ sudo /sbin/service sunspot-solr stop
+ sudo /sbin/service passenger-odms stop
+ git pull
+ bundle install
+ bundle exec rake db:migrate
+ sudo /sbin/service sunspot-solr start
+ sudo /sbin/service passenger-odms start
 
 Copyright (c) 2011 [Jake Wendt], released under the MIT license
