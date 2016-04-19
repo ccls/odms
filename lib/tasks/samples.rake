@@ -3,6 +3,46 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
+
+	task :reassociate_samples_for_alice_20160418 => :environment do
+		CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv', 'rb', { :headers => true }).each do |line|
+			#	UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag
+
+			puts line['UCSF_item_no']
+			puts line['subjectid']
+			puts line['sampleid']
+			puts line['UCB_labno']
+			puts line['UCB_Biospecimen_Flag']
+
+#			samples = Sample.where(:id => line['sampleid'])
+#			raise "No sample found with sampleid #{line['sampleid']}" if samples.empty?
+#			sample = samples.first	#	id is unique so can be only 1
+
+#			puts "Current #{sample.subject.subjectid} : #{line['subjectid']} New"
+
+#			subjects = StudySubject.where(:subjectid => line['subjectid'])
+#			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
+#			new_subject = subjects.first	#	subjectid is unique so can be only 1
+
+#			sample.ucsf_item_no = line['UCSF_item_no']
+#			sample.ucb_labno = line['UCB_labno']
+#			sample.ucb_biospecimen_flag = line['UCB_Biospecimen_Flag']
+
+#			notes = sample.notes
+#			( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+#			notes << "Sample moved from subjectid #{sample.subject.subjectid} to #{line['subjectid']} (20160418)."
+
+#			sample.study_subject = new_subject
+
+#			sample.save
+
+
+#		DO NOT SAVE YET!
+
+		end	#	CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv'
+	end	#	task :reassociate_samples_for_alice_20160418 => :environment do
+
+
 #	20160418 - Commented out to avoid accidental usage.
 #	#	20141208
 #	task :report_bloodspot_date_received => :environment do
