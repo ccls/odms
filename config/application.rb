@@ -110,5 +110,18 @@ module Odms
 		# Do not swallow errors in after_commit/after_rollback callbacks.
 #	fails in testing?
 #		config.active_record.raise_in_transactional_callbacks = true
+
+
+
+
+		#	20160418
+		#	DEPRECATION WARNING: Currently, Active Record suppresses errors raised within `after_rollback`/`after_commit` callbacks and only print them to the logs. In the next version, these errors will no longer be suppressed. Instead, the errors will propagate normally just like in other Active Record callbacks.
+		#	You can opt into the new behavior and remove this warning by setting:
+		#
+		config.active_record.raise_in_transactional_callbacks = true
+		#
+		#	This seems to be inspired by "acts_as_list" calls
+		#
+
 	end
 end
