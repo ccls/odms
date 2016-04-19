@@ -3,155 +3,158 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-	#	20141208
-	task :report_bloodspot_date_received => :environment do
-		dupe_dates = {}
-		CSV.open('data/dbs_replenish_alternate_ids.csv','rb',{ 
-				:headers => true }).each do |line|
-			#	subjectid,state_id_no,group,external_id
-			if( line['external_id'] == 'NA' )
-				#				puts "Skipping NA"
-				next
-			end
-
-			samples = Sample.where(:external_id => line['external_id'])
-			puts line['external_id']
-				#			puts samples.collect(&:received_by_ccls_at).inspect
-			puts samples.collect(&:received_by_lab_at).inspect
-			puts samples.collect(&:subjectid).inspect
-
-			if samples.collect(&:subjectid).uniq.length > 1
-				#	NONE
-				puts "---- Multiple subjects with samples with that external_id!"
-			end
-
-			dates = samples.collect(&:received_by_lab_at).compact
-
-			if dates.collect{|d|d.to_date}.uniq.length > 1
-				#	Several with differing dates (3 actually)
-				puts "---- Multiple dates with samples with that external_id!"
-				dupe_dates[ line['external_id'] ] = samples
-			end unless dates.empty?
-
-			if samples.length > 1
-				#	Several (but all same subject)
-				puts "Multiple found with external_id #{line['external_id']}" 
-				#raise "Multiple found with external_id #{line['external_id']}"
-			end
-			raise "None found with external_id #{line['external_id']}" if samples.empty?
-
-		end	#	CSV.open('dbs_replenish_alternate_ids.csv
-		dupe_dates.each{|k,v| puts k; puts v.inspect; puts v.collect(&:notes) }
-	end	#	task :report_bloodspot_date_received => :environment do
-
-
-
-
-	#	20141007
-	task :update_collected_at_datetimes => :environment do
-		raise "This task has been run and disabled."
-		CSV.open('gegl/Child Leukemia Age at Blood Collection - col_age.csv','rb',{ :headers => true }).each do |line|
-			#Barcode,SPCMN_COLCTN_DT,SPCMN_COLTD_HR (24 hour),AGE_AT_COLCTN (hours)
-			samples = Sample.where(:external_id => line['Barcode'])
-			raise "Multiple found with external_id #{line['Barcode']}" if samples.length > 1
-			raise "None found with external_id #{line['Barcode']}" if samples.empty?
-			sample = samples.first
-
-			time = sprintf('%04d', line['SPCMN_COLTD_HR (24 hour)'])
-			#	puts Time.parse("#{time[0..1]}:#{time[2..3]} #{line['SPCMN_COLCTN_DT']}")
-			#puts sample.collected_from_subject_at
-			sample.update_attributes!(:collected_from_subject_at => "#{time[0..1]}:#{time[2..3]} #{line['SPCMN_COLCTN_DT']}")
-			#puts sample.reload.collected_from_subject_at
-		end	#	CSV.open
-	end
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20141208
+#	task :report_bloodspot_date_received => :environment do
+#		dupe_dates = {}
+#		CSV.open('data/dbs_replenish_alternate_ids.csv','rb',{ 
+#				:headers => true }).each do |line|
+#			#	subjectid,state_id_no,group,external_id
+#			if( line['external_id'] == 'NA' )
+#				#				puts "Skipping NA"
+#				next
+#			end
+#
+#			samples = Sample.where(:external_id => line['external_id'])
+#			puts line['external_id']
+#				#			puts samples.collect(&:received_by_ccls_at).inspect
+#			puts samples.collect(&:received_by_lab_at).inspect
+#			puts samples.collect(&:subjectid).inspect
+#
+#			if samples.collect(&:subjectid).uniq.length > 1
+#				#	NONE
+#				puts "---- Multiple subjects with samples with that external_id!"
+#			end
+#
+#			dates = samples.collect(&:received_by_lab_at).compact
+#
+#			if dates.collect{|d|d.to_date}.uniq.length > 1
+#				#	Several with differing dates (3 actually)
+#				puts "---- Multiple dates with samples with that external_id!"
+#				dupe_dates[ line['external_id'] ] = samples
+#			end unless dates.empty?
+#
+#			if samples.length > 1
+#				#	Several (but all same subject)
+#				puts "Multiple found with external_id #{line['external_id']}" 
+#				#raise "Multiple found with external_id #{line['external_id']}"
+#			end
+#			raise "None found with external_id #{line['external_id']}" if samples.empty?
+#
+#		end	#	CSV.open('dbs_replenish_alternate_ids.csv
+#		dupe_dates.each{|k,v| puts k; puts v.inspect; puts v.collect(&:notes) }
+#	end	#	task :report_bloodspot_date_received => :environment do
 
 
-	#	20150205
-	task :validate_manifest_bloodspots_20150203 => :environment do
-		raise "This task has been run and disabled."
-		CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest_paste.csv','rb',
-				{ :headers => true }).each do |line|
-			#	icf_master_id,subjectid,sex,sampleid,gegl_sample_type_id,
-			#	collected_from_subject_at,received_by_ccls_at,storage_temperature,
-			#	sent_to_lab_at,SFN,YOB,Barcode,Comment
-
-			sample = Sample.find( line['sampleid'] )
-
-			if sample.external_id != line['Barcode']
-				puts sample.external_id
-				puts line['Barcode']
-				raise 'barcode mismatch'
-			end
-
-			subject = StudySubject.where( 
-				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
-			if subject.subjectid != line['subjectid'].squish
-				puts subject.subjectid
-				puts line['subjectid']
-				raise 'subjectid mismatch'
-			end
-		end	#	CSV.open
-	end	#	task :validate_manifest_bloodspots_20150203 => :environment do
-
-
-	#	20150225
-	task :import_and_manifest_bloodspots_20150225 => :environment do
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20141007
+#	task :update_collected_at_datetimes => :environment do
 #		raise "This task has been run and disabled."
-		manifest = CSV.open('gegl/old_spots_transfered_from_joes_lab_10202014_with_ids_manifest.csv','w')
+#		CSV.open('gegl/Child Leukemia Age at Blood Collection - col_age.csv','rb',{ :headers => true }).each do |line|
+#			#Barcode,SPCMN_COLCTN_DT,SPCMN_COLTD_HR (24 hour),AGE_AT_COLCTN (hours)
+#			samples = Sample.where(:external_id => line['Barcode'])
+#			raise "Multiple found with external_id #{line['Barcode']}" if samples.length > 1
+#			raise "None found with external_id #{line['Barcode']}" if samples.empty?
+#			sample = samples.first
+#
+#			time = sprintf('%04d', line['SPCMN_COLTD_HR (24 hour)'])
+#			#	puts Time.parse("#{time[0..1]}:#{time[2..3]} #{line['SPCMN_COLCTN_DT']}")
+#			#puts sample.collected_from_subject_at
+#			sample.update_attributes!(:collected_from_subject_at => "#{time[0..1]}:#{time[2..3]} #{line['SPCMN_COLCTN_DT']}")
+#			#puts sample.reload.collected_from_subject_at
+#		end	#	CSV.open
+#	end
 
-		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
-			collected_from_subject_at received_by_ccls_at 
-			storage_temperature sent_to_lab_at )
-		CSV.open('gegl/old_spots_transfered_from_joes_lab_10202014_with_ids.csv','rb',
-				{ :headers => true }).each do |line|
 
-			#ID From Adam,childid,patid,phase,subjectid,NOTES
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20150205
+#	task :validate_manifest_bloodspots_20150203 => :environment do
+#		raise "This task has been run and disabled."
+#		CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest_paste.csv','rb',
+#				{ :headers => true }).each do |line|
+#			#	icf_master_id,subjectid,sex,sampleid,gegl_sample_type_id,
+#			#	collected_from_subject_at,received_by_ccls_at,storage_temperature,
+#			#	sent_to_lab_at,SFN,YOB,Barcode,Comment
+#
+#			sample = Sample.find( line['sampleid'] )
+#
+#			if sample.external_id != line['Barcode']
+#				puts sample.external_id
+#				puts line['Barcode']
+#				raise 'barcode mismatch'
+#			end
+#
+#			subject = StudySubject.where( 
+#				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
+#			if subject.subjectid != line['subjectid'].squish
+#				puts subject.subjectid
+#				puts line['subjectid']
+#				raise 'subjectid mismatch'
+#			end
+#		end	#	CSV.open
+#	end	#	task :validate_manifest_bloodspots_20150203 => :environment do
 
-			puts line
-			subject = StudySubject.with_subjectid( line['subjectid'] ).first
-			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
-			raise "subject not found" unless subject.present?
-			raise "childid mismatch:#{subject.childid}" unless subject.childid.to_s == line['childid']
-			raise "patid mismatch:#{subject.patid}" unless subject.patid.to_s == sprintf("%04d",line['patid'].to_i)
-			raise "phase mismatch:#{subject.phase}" unless subject.phase.to_s == line['phase']
 
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:organization_id => Organization['GEGL'].id,
-				:sample_type_id => SampleType[:guthrie].id,
-				:sample_format => "Guthrie Card",
-				:sample_temperature => "Refrigerated",
-				:received_by_ccls_at => "10/20/2014",
-				:shipped_to_ccls_at => "10/20/2014",
-				:sent_to_lab_at => "10/20/2014",
-				:received_by_lab_at => "10/20/2014",
-				:external_id => line['ID From Adam'],
-				:external_id_source => "old_spots_transfered_from_joes_lab_10202014_with_ids.csv",
-				:notes => "Imported from old_spots_transfered_from_joes_lab_10202014_with_ids.csv"
-			)
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20150225
+#	task :import_and_manifest_bloodspots_20150225 => :environment do
+##		raise "This task has been run and disabled."
+#		manifest = CSV.open('gegl/old_spots_transfered_from_joes_lab_10202014_with_ids_manifest.csv','w')
+#
+#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
+#			collected_from_subject_at received_by_ccls_at 
+#			storage_temperature sent_to_lab_at )
+#		CSV.open('gegl/old_spots_transfered_from_joes_lab_10202014_with_ids.csv','rb',
+#				{ :headers => true }).each do |line|
+#
+#			#ID From Adam,childid,patid,phase,subjectid,NOTES
+#
+#			puts line
+#			subject = StudySubject.with_subjectid( line['subjectid'] ).first
+#			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
+#			raise "subject not found" unless subject.present?
+#			raise "childid mismatch:#{subject.childid}" unless subject.childid.to_s == line['childid']
+#			raise "patid mismatch:#{subject.patid}" unless subject.patid.to_s == sprintf("%04d",line['patid'].to_i)
+#			raise "phase mismatch:#{subject.phase}" unless subject.phase.to_s == line['phase']
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:organization_id => Organization['GEGL'].id,
+#				:sample_type_id => SampleType[:guthrie].id,
+#				:sample_format => "Guthrie Card",
+#				:sample_temperature => "Refrigerated",
+#				:received_by_ccls_at => "10/20/2014",
+#				:shipped_to_ccls_at => "10/20/2014",
+#				:sent_to_lab_at => "10/20/2014",
+#				:received_by_lab_at => "10/20/2014",
+#				:external_id => line['ID From Adam'],
+#				:external_id_source => "old_spots_transfered_from_joes_lab_10202014_with_ids.csv",
+#				:notes => "Imported from old_spots_transfered_from_joes_lab_10202014_with_ids.csv"
+#			)
+#
+#			subject.operational_events.create!(
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+#				:description => "manifesting of old_spots_transfered_from_joes_lab_10202014_with_ids.csv"
+#			)
+#
+#			manifest.puts [ 
+#				sample.study_subject.icf_master_id_to_s,
+#				" #{sample.subjectid}",
+#				sample.study_subject.sex,
+#				" #{sample.sampleid}",
+#				sample.sample_type.gegl_sample_type_id,
+#				mdyhm_or_nil(sample.collected_from_subject_at),
+#				mdyhm_or_nil(sample.received_by_ccls_at),
+#				sample.sample_temperature,
+#				mdyhm_or_nil(sample.sent_to_lab_at)
+#			]
+#
+#		end	#	CSV.open
+#		manifest.close
+#	end	#	task :import_and_manifest_bloodspots_20150223 => :environment do
 
-			subject.operational_events.create!(
-				:occurred_at => DateTime.current,
-				:project_id => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-				:description => "manifesting of old_spots_transfered_from_joes_lab_10202014_with_ids.csv"
-			)
-
-			manifest.puts [ 
-				sample.study_subject.icf_master_id_to_s,
-				" #{sample.subjectid}",
-				sample.study_subject.sex,
-				" #{sample.sampleid}",
-				sample.sample_type.gegl_sample_type_id,
-				mdyhm_or_nil(sample.collected_from_subject_at),
-				mdyhm_or_nil(sample.received_by_ccls_at),
-				sample.sample_temperature,
-				mdyhm_or_nil(sample.sent_to_lab_at)
-			]
-
-		end	#	CSV.open
-		manifest.close
-	end	#	task :import_and_manifest_bloodspots_20150223 => :environment do
 
 #	#	20150223
 #	task :import_and_manifest_bloodspots_20150223 => :environment do
@@ -214,6 +217,7 @@ namespace :samples do
 #		manifest.close
 #	end	#	task :import_and_manifest_bloodspots => :environment do
 
+
 #	#	20150203
 #	task :import_and_manifest_bloodspots_20150203 => :environment do
 #		raise "This task has been run and disabled."
@@ -270,6 +274,7 @@ namespace :samples do
 #		end	#	CSV.open
 #		manifest.close
 #	end	#	task :import_and_manifest_bloodspots => :environment do
+
 
 #	#	20141006
 #	task :import_and_manifest_bloodspots_20141006 => :environment do
@@ -330,148 +335,153 @@ namespace :samples do
 #	end	#	task :import_and_manifest_bloodspots => :environment do
 
 
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20140916
+#	task :gegl_oldest_date_received => :environment do
+#		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
+#		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
+#		#		"ucb_sampleid", "date_recieved", "status", "reason"]
+#		#	oldest date received 2011-08-17
+#		oldest_date_received = Date.current
+#		puts oldest_date_received
+#		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+#			#
+#			#	YES.  THE FIELD IS CORRECTLY SPELLED INCORRECTLY.
+#			#
+#			if( line['date_recieved'].present? )
+#				date=Date.parse(line['date_recieved'])
+#				oldest_date_received = date if( date < oldest_date_received )
+#			end
+#		end
+#		puts oldest_date_received
+#	end	#	task :gegl_oldest_date_received => :environment do
 
-	#	20140916
-	task :gegl_oldest_date_received => :environment do
-		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
-		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
-		#		"ucb_sampleid", "date_recieved", "status", "reason"]
-		#	oldest date received 2011-08-17
-		oldest_date_received = Date.current
-		puts oldest_date_received
-		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
-			#
-			#	YES.  THE FIELD IS CORRECTLY SPELLED INCORRECTLY.
-			#
-			if( line['date_recieved'].present? )
-				date=Date.parse(line['date_recieved'])
-				oldest_date_received = date if( date < oldest_date_received )
-			end
-		end
-		puts oldest_date_received
-	end	#	task :gegl_oldest_date_received => :environment do
 
-	#	20140917
-	task :gegl_sampleid_subjectid_check_for_GuthrieCards => :environment do
-		puts Organization['gegl'].id
-		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
-			sampleid = line['locations_sampleid']
-			next unless sampleid.match(/\d\d\d\dG$/)
-			samples = Sample.where(:external_id => sampleid)
-			puts "------ Samples not found with external_id #{sampleid}" if samples.empty?
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20140917
+#	task :gegl_sampleid_subjectid_check_for_GuthrieCards => :environment do
+#		puts Organization['gegl'].id
+#		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+#			sampleid = line['locations_sampleid']
+#			next unless sampleid.match(/\d\d\d\dG$/)
+#			samples = Sample.where(:external_id => sampleid)
+#			puts "------ Samples not found with external_id #{sampleid}" if samples.empty?
+#
+#			samples.each do |sample|
+#				subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
+#				puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
+#
+#				if sample.present? and subject.present? 
+#					if sample.study_subject.familyid != subject.familyid
+#						puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
+#					else
+#						puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
+#						updates = {}
+#						updates[:organization_id] = Organization['gegl'].id if sample.organization_id != Organization['gegl'].id
+#						#	many dates as 9999-01-01
+#						#	some dates as 2015-07-29
+#						if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
+#								line['date_recieved'].match(/^9999-01-01/).nil?  and
+#								line['date_recieved'].match(/^2015-07-29/).nil? 
+#							updates[:received_by_lab_at] = line['date_recieved']
+#						end
+#						unless updates.empty?
+#							notes = sample.notes 
+#							( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+#							notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
+#							notes << "#{updates}\n"
+#							updates[:notes] = notes
+#							sample.update_attributes!(updates)
+#						end
+#					end
+#				end
+#			end	#	samples.each do |sample|
+#
+#		end
+#	end	#	task :gegl_sampleid_subjectid_check_for_GuthrieCards => :environment do
 
-			samples.each do |sample|
-				subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
-				puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
 
-				if sample.present? and subject.present? 
-					if sample.study_subject.familyid != subject.familyid
-						puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
-					else
-						puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
-						updates = {}
-						updates[:organization_id] = Organization['gegl'].id if sample.organization_id != Organization['gegl'].id
-						#	many dates as 9999-01-01
-						#	some dates as 2015-07-29
-						if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
-								line['date_recieved'].match(/^9999-01-01/).nil?  and
-								line['date_recieved'].match(/^2015-07-29/).nil? 
-							updates[:received_by_lab_at] = line['date_recieved']
-						end
-						unless updates.empty?
-							notes = sample.notes 
-							( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
-							notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
-							notes << "#{updates}\n"
-							updates[:notes] = notes
-							sample.update_attributes!(updates)
-						end
-					end
-				end
-			end	#	samples.each do |sample|
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20140916
+#	task :gegl_sampleid_subjectid_check => :environment do
+#		#matching = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.matching.txt", 'w')
+#		#family = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.family.txt", 'w')
+#		#columns=csv_columns( 'gegl/lab_yield.merged.txt', { :col_sep => "\t" })
+#		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
+#		#		"ucb_sampleid", "date_recieved", "status", "reason"]
+#		#csv_out.puts columns
+#		#matching.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
+#		#family.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
+#		#CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|					#	all good except 1
+#		#CSV.open( 'gegl/lab_yield.ccls_smith.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	all good
+#		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
+#		#CSV.open( 'gegl/lab_yield.merged.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
+#			sampleid = line['locations_sampleid']
+#			#
+#			next if sampleid.match(/G$/)			#	kinda have to ignore as not unique
+#			#
+#			if sampleid.match(/^ccls_/i)
+#				sampleid = sampleid.split(/\D/).last
+#			end
+#			sampleid = sampleid.split(/\D/).first
+#			sampleid = sampleid.to_i
+#			sample   = Sample.where(id:sampleid).first if sampleid.present? and sampleid > 0
+#			puts "------ Sample not found with #{line['locations_sampleid']}" unless sample.present?
+#			subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
+#			puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
+#
+#			if sample.present? and subject.present? 
+#				if sample.study_subject_id == subject.id
+#
+#					puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
+#
+#				#	match familyid first as will also match matchingid
+#				elsif sample.study_subject.familyid == subject.familyid
+#					puts "------ Sample #{line['locations_sampleid']} belongs to different family member Subject / Mother"
+#
+#					#family.puts [	sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
+#					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
+#
+#				elsif sample.study_subject.matchingid == subject.matchingid
+#					puts "------ Sample #{line['locations_sampleid']} belongs to different matching member Control / Control Mother"
+#
+#					#matching.puts [ sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
+#					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
+#
+#				else
+#					puts "------ Confused"
+#					puts line
+#					raise 'hell'		#	NONE!  YAY!
+#				end
+#
+#				puts "Preparing to update"
+#				updates = {}
+#				updates[:organization_id] = Organization['gegl'].id if sample.organization_id != Organization['gegl'].id
+#				#	many dates as 9999-01-01
+#				#	some dates as 2015-07-29
+#				if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
+#						line['date_recieved'].match(/^9999-01-01/).nil?  and
+#						line['date_recieved'].match(/^2015-07-29/).nil? 
+#					updates[:received_by_lab_at] = line['date_recieved']
+#				end
+#				unless updates.empty?
+#					notes = sample.notes 
+#					( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+#					notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
+#					notes << "#{updates}\n"
+#					updates[:notes] = notes
+#					puts "Updating database with #{updates}"
+#					sample.update_attributes!(updates)
+#				end
+#
+#			end	#	if sample.present? and subject.present? 
+#		
+#		end	#	CSV.open
+#		#csv_out.close
+#		#matching.close
+#		#family.close
+#	end	#	task :gegl_sampleid_subjectid_check => :environment do
 
-		end
-	end	#	task :gegl_sampleid_subjectid_check_for_GuthrieCards => :environment do
-
-	#	20140916
-	task :gegl_sampleid_subjectid_check => :environment do
-		#matching = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.matching.txt", 'w')
-		#family = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.family.txt", 'w')
-		#columns=csv_columns( 'gegl/lab_yield.merged.txt', { :col_sep => "\t" })
-		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
-		#		"ucb_sampleid", "date_recieved", "status", "reason"]
-		#csv_out.puts columns
-		#matching.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
-		#family.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
-		#CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|					#	all good except 1
-		#CSV.open( 'gegl/lab_yield.ccls_smith.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	all good
-		CSV.open( 'gegl/lab_yield.ucsf_buffler.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
-		#CSV.open( 'gegl/lab_yield.merged.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|			#	most good
-			sampleid = line['locations_sampleid']
-			#
-			next if sampleid.match(/G$/)			#	kinda have to ignore as not unique
-			#
-			if sampleid.match(/^ccls_/i)
-				sampleid = sampleid.split(/\D/).last
-			end
-			sampleid = sampleid.split(/\D/).first
-			sampleid = sampleid.to_i
-			sample   = Sample.where(id:sampleid).first if sampleid.present? and sampleid > 0
-			puts "------ Sample not found with #{line['locations_sampleid']}" unless sample.present?
-			subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
-			puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
-
-			if sample.present? and subject.present? 
-				if sample.study_subject_id == subject.id
-
-					puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
-
-				#	match familyid first as will also match matchingid
-				elsif sample.study_subject.familyid == subject.familyid
-					puts "------ Sample #{line['locations_sampleid']} belongs to different family member Subject / Mother"
-
-					#family.puts [	sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
-					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
-
-				elsif sample.study_subject.matchingid == subject.matchingid
-					puts "------ Sample #{line['locations_sampleid']} belongs to different matching member Control / Control Mother"
-
-					#matching.puts [ sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
-					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
-
-				else
-					puts "------ Confused"
-					puts line
-					raise 'hell'		#	NONE!  YAY!
-				end
-
-				puts "Preparing to update"
-				updates = {}
-				updates[:organization_id] = Organization['gegl'].id if sample.organization_id != Organization['gegl'].id
-				#	many dates as 9999-01-01
-				#	some dates as 2015-07-29
-				if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
-						line['date_recieved'].match(/^9999-01-01/).nil?  and
-						line['date_recieved'].match(/^2015-07-29/).nil? 
-					updates[:received_by_lab_at] = line['date_recieved']
-				end
-				unless updates.empty?
-					notes = sample.notes 
-					( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
-					notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
-					notes << "#{updates}\n"
-					updates[:notes] = notes
-					puts "Updating database with #{updates}"
-					sample.update_attributes!(updates)
-				end
-
-			end	#	if sample.present? and subject.present? 
-		
-		end	#	CSV.open
-		#csv_out.close
-		#matching.close
-		#family.close
-	end	#	task :gegl_sampleid_subjectid_check => :environment do
 
 #	lab_yield.ccls.txt	(change 858007 to 585007
 #	------ Subject not found with 858007
@@ -573,195 +583,196 @@ namespace :samples do
 #	cat gegl/lab_yield.ccls.txt | awk '{print $2}' | awk -F_ '{print $1}' | sort | grep -vs location | uniq | wc -l
 #    1014
 
-	#	20140916
-	task :gegl_expected_sampleid_comparison_by_location_and_date => :environment do
-		odms_sampleids = Sample.where(:organization_id => 17).where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
-		gegl_sampleids = []
-		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
-			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
-		end
-		gegl_sampleids.uniq!
-		gegl_sampleids.sort!
-
-		puts "In ODMS"
-		puts odms_sampleids.inspect
-		puts "In GEGL"
-		puts gegl_sampleids.inspect
-
-		puts "In ODMS and not GEGL"
-		puts (odms_sampleids-gegl_sampleids).length
-		puts (odms_sampleids-gegl_sampleids).sort.inspect
-		puts "In GEGL and not ODMS"
-		puts (gegl_sampleids-odms_sampleids).length
-		puts (gegl_sampleids-odms_sampleids).sort.inspect
-	end	#	task :gegl_expected_sampleid_comparison => :environment do
-
-
-
-	#	20140916
-	task :gegl_expected_sampleid_comparison_by_location => :environment do
-		odms_sampleids = Sample.where(:organization_id => 17).collect(&:sampleid).collect(&:to_i).sort
-		gegl_sampleids = []
-		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
-			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
-		end
-		gegl_sampleids.uniq!
-		gegl_sampleids.sort!
-
-		puts "In ODMS"
-		puts odms_sampleids.inspect
-		puts "In GEGL"
-		puts gegl_sampleids.inspect
-
-		puts "In ODMS and not GEGL"
-		puts (odms_sampleids-gegl_sampleids).length
-		puts (odms_sampleids-gegl_sampleids).sort.inspect
-		puts "In GEGL and not ODMS"
-		puts (gegl_sampleids-odms_sampleids).length
-		puts (gegl_sampleids-odms_sampleids).sort.inspect
-	end	#	task :gegl_expected_sampleid_comparison => :environment do
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20140916
+#	task :gegl_expected_sampleid_comparison_by_location_and_date => :environment do
+#		odms_sampleids = Sample.where(:organization_id => 17).where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
+#		gegl_sampleids = []
+#		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+#			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
+#		end
+#		gegl_sampleids.uniq!
+#		gegl_sampleids.sort!
+#
+#		puts "In ODMS"
+#		puts odms_sampleids.inspect
+#		puts "In GEGL"
+#		puts gegl_sampleids.inspect
+#
+#		puts "In ODMS and not GEGL"
+#		puts (odms_sampleids-gegl_sampleids).length
+#		puts (odms_sampleids-gegl_sampleids).sort.inspect
+#		puts "In GEGL and not ODMS"
+#		puts (gegl_sampleids-odms_sampleids).length
+#		puts (gegl_sampleids-odms_sampleids).sort.inspect
+#	end	#	task :gegl_expected_sampleid_comparison => :environment do
 
 
-
-	#	20140916
-	task :gegl_expected_sampleid_comparison_by_date => :environment do
-		odms_sampleids = Sample.where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
-		gegl_sampleids = []
-		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
-			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
-		end
-		gegl_sampleids.uniq!
-		gegl_sampleids.sort!
-
-		puts "In ODMS"
-		puts odms_sampleids.inspect
-		puts "In GEGL"
-		puts gegl_sampleids.inspect
-
-		puts "In ODMS and not GEGL"
-		puts (odms_sampleids-gegl_sampleids).length
-		puts (odms_sampleids-gegl_sampleids).sort.inspect
-		puts "In GEGL and not ODMS"
-		puts (gegl_sampleids-odms_sampleids).length
-		puts (gegl_sampleids-odms_sampleids).sort.inspect
-	end	#	task :gegl_expected_sampleid_comparison => :environment do
-
-
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20140916
+#	task :gegl_expected_sampleid_comparison_by_location => :environment do
+#		odms_sampleids = Sample.where(:organization_id => 17).collect(&:sampleid).collect(&:to_i).sort
+#		gegl_sampleids = []
+#		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+#			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
+#		end
+#		gegl_sampleids.uniq!
+#		gegl_sampleids.sort!
+#
+#		puts "In ODMS"
+#		puts odms_sampleids.inspect
+#		puts "In GEGL"
+#		puts gegl_sampleids.inspect
+#
+#		puts "In ODMS and not GEGL"
+#		puts (odms_sampleids-gegl_sampleids).length
+#		puts (odms_sampleids-gegl_sampleids).sort.inspect
+#		puts "In GEGL and not ODMS"
+#		puts (gegl_sampleids-odms_sampleids).length
+#		puts (gegl_sampleids-odms_sampleids).sort.inspect
+#	end	#	task :gegl_expected_sampleid_comparison => :environment do
 
 
+#	20160418 - Commented out to avoid accidental usage.
+#	#	20140916
+#	task :gegl_expected_sampleid_comparison_by_date => :environment do
+#		odms_sampleids = Sample.where(Sample.arel_table[:sent_to_lab_at].gt(Date.parse("2011-08-17"))).collect(&:sampleid).collect(&:to_i).sort
+#		gegl_sampleids = []
+#		CSV.open( 'gegl/lab_yield.ccls.txt','rb',{ :col_sep => "\t", :headers => true }).each do |line|
+#			gegl_sampleids.push( line['locations_sampleid'].split(/\D/).first.to_i )
+#		end
+#		gegl_sampleids.uniq!
+#		gegl_sampleids.sort!
+#
+#		puts "In ODMS"
+#		puts odms_sampleids.inspect
+#		puts "In GEGL"
+#		puts gegl_sampleids.inspect
+#
+#		puts "In ODMS and not GEGL"
+#		puts (odms_sampleids-gegl_sampleids).length
+#		puts (odms_sampleids-gegl_sampleids).sort.inspect
+#		puts "In GEGL and not ODMS"
+#		puts (gegl_sampleids-odms_sampleids).length
+#		puts (gegl_sampleids-odms_sampleids).sort.inspect
+#	end	#	task :gegl_expected_sampleid_comparison => :environment do
 
 
+#	20160418 - Commented out to avoid accidental usage.
+#	task :correct_subject_association => :environment do
+#		raise "This task has been run and disabled."
+#		CSV.open( 'data/20140422_corrected_subject_sample.csv','rb',{ :headers => true }).each do |line|
+#			#	subjectid,corrected_subjectid,sampleid,sample_super_type,sample_type
+#			puts line
+#			sample = Sample.find(line['sampleid'].to_i)
+#			assert_string_equal( sample.sampleid, line['sampleid'], :sampleid)
+#			#	assert_string_equal( sample.subjectid, line['subjectid'], :subjectid)
+#			assert_string_equal( sample.subjectid, line['corrected_subjectid'], :subjectid)
+#			assert_string_equal( sample.sample_type, line['sample_type'], :sample_type)
+#			assert_string_equal( sample.sample_type_parent, line['sample_super_type'], :sample_type_parent)
+#
+#			if line['subjectid'] != line['corrected_subjectid']
+#				subject = StudySubject.with_subjectid(line['subjectid']).first
+#				puts subject.samples_count
+#				#	Sample will automatically reindex as it changes
+#				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
+#				#	New subject will be triggered, but not the old.
+#				#	CounterCaches are only updated in the database so won't trigger reindex.
+#				#	Triggering both.
+#				correct_subject = StudySubject.with_subjectid(line['corrected_subjectid']).first
+#				assert_string_equal( correct_subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
+#				puts correct_subject.samples_count
+#				correct_subject.samples << sample
+#				puts correct_subject.reload.samples_count
+#				correct_subject.update_column(:needs_reindexed, true)
+#
+#				subject = StudySubject.with_subjectid(line['subjectid']).first
+#				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
+#				puts subject.samples_count
+#				subject.update_column(:needs_reindexed, true)
+#
+#				notes = [sample.notes.presence].compact
+#				notes << "Sample moved from child subjectid #{line['subjectid']} to mother #{line['corrected_subjectid']} (20140422)."
+#				sample.update_attributes!(:notes => notes.join("\n"))
+#				puts sample.notes
+#			end
+#		end	#	CSV.open( 'data/corrected_subject_sample.csv'
+#	end	#	task :correct_subject_association => :environment do
 
 
-	task :correct_subject_association => :environment do
-		raise "This task has been run and disabled."
-		CSV.open( 'data/20140422_corrected_subject_sample.csv','rb',{ :headers => true }).each do |line|
-			#	subjectid,corrected_subjectid,sampleid,sample_super_type,sample_type
-			puts line
-			sample = Sample.find(line['sampleid'].to_i)
-			assert_string_equal( sample.sampleid, line['sampleid'], :sampleid)
-			#	assert_string_equal( sample.subjectid, line['subjectid'], :subjectid)
-			assert_string_equal( sample.subjectid, line['corrected_subjectid'], :subjectid)
-			assert_string_equal( sample.sample_type, line['sample_type'], :sample_type)
-			assert_string_equal( sample.sample_type_parent, line['sample_super_type'], :sample_type_parent)
+#	20160418 - Commented out to avoid accidental usage.
+#	task :merge_overlaps_with_icf_master_id => :environment do
+#		raise "This task has been run and disabled."
+#		icf_master_ids = {}
+#		CSV.open( 'data/statefileno_ccrlp.csv','rb',{ :headers => true }).each do |line|
+#			raise "ICF Master ID already used" if icf_master_ids.has_key? line['derived_state_file_no_last6']
+#			icf_master_ids[ line['derived_state_file_no_last6'] ] = line['icf_master_id']
+#		end
+#		columns=csv_columns( 'data/20140303_overlaps.csv')
+#		puts "icf_master_id,#{columns.join(',')}"
+#		CSV.open( 'data/20140303_overlaps.csv','rb',{ :headers => true }).each do |line|
+#			puts "#{icf_master_ids[ line['SFN'] ]},#{line}"
+#		end
+#	end	#	task :merge_overlaps_with_icf_master_id => :environment do
 
-			if line['subjectid'] != line['corrected_subjectid']
-				subject = StudySubject.with_subjectid(line['subjectid']).first
-				puts subject.samples_count
-				#	Sample will automatically reindex as it changes
-				#	BOTH Subjects MAY not as it doesn't change, (the counter does)
-				#	New subject will be triggered, but not the old.
-				#	CounterCaches are only updated in the database so won't trigger reindex.
-				#	Triggering both.
-				correct_subject = StudySubject.with_subjectid(line['corrected_subjectid']).first
-				assert_string_equal( correct_subject.subjectid, line['corrected_subjectid'], :corrected_subjectid)
-				puts correct_subject.samples_count
-				correct_subject.samples << sample
-				puts correct_subject.reload.samples_count
-				correct_subject.update_column(:needs_reindexed, true)
 
-				subject = StudySubject.with_subjectid(line['subjectid']).first
-				assert_string_equal( subject.subjectid, line['subjectid'], :subjectid)
-				puts subject.samples_count
-				subject.update_column(:needs_reindexed, true)
+#	20160418 - Commented out to avoid accidental usage.
+#	task :import_overlaps => :environment do
+#		raise "This task has been run and disabled."
+#		ifile = "data/20140303_overlaps_with_icf_master_ids.csv"
+#		ofile = "data/20140303_overlaps_with_icf_master_ids_subjectids_sampleids.csv"
+#		mfile = "data/20140305_manifest.csv"
+#		csv_out = CSV.open( ofile, 'w')
+#		manifest = CSV.open( mfile, 'w')
+#		manifest << %w( icf_master_id subjectid sex sampleid gegl_sample_type_id
+#			collected_from_subject_at received_by_ccls_at storage_temperature sent_to_lab_at )
+#		columns=csv_columns( 'data/20140303_overlaps_with_icf_master_ids.csv')
+#		puts "#{columns.join(',')},subjectid,sampleid"
+#		csv_out << columns + %w(subjectid sampleid)
+#		(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
+#			subjects = StudySubject.where(:icf_master_id => line['icf_master_id'])
+#			puts "Subject not found with #{sfn}" if subjects.empty?
+#			if subjects.length > 1
+#				puts "Multiple found with #{sfn}" 
+#				puts subjects.inspect
+#			end
+#			subject = subjects.first
+#			if line['DOB'] != subject.dob.strftime("%Y%m%d")
+#				puts "DOB not the same #{line['DOB']} - #{subject.dob.strftime("%Y%m%d")}"
+#			end
+#			#	icf_master_id,DOB,SFN,pull,barcode,blindid,c_dob,birth_year,combo_id
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:organization_id => Organization['GEGL'].id,
+#				:sample_type_id => SampleType[:guthrie].id,
+#				:sample_format => "Guthrie Card",
+#				:sample_temperature => "Refrigerated",
+#				:received_by_ccls_at => "3/5/2014",
+#				:sent_to_lab_at => "3/5/2014",
+#				:external_id => line['barcode'],
+#				:external_id_source => "20140303_overlaps_with_icf_master_ids.csv",
+#				:notes => "Imported from 20140303_overlaps_with_icf_master_ids.csv\n" <<
+#					"pull #{line['pull']},\n"<<
+#					"barcode #{line['barcode']},\n"<<
+#					"blindid #{line['blindid']}"
+#			)
+#			puts "#{line.to_s.chomp},#{subject.subjectid},#{sample.sampleid}"
+#			new_line = line
+#			new_line.push(subject.subjectid,sample.sampleid)
+#			csv_out << new_line
+#			manifest <<	[ sample.study_subject.icf_master_id_to_s,
+#				" #{sample.study_subject.subjectid}",
+#				sample.study_subject.sex,
+#				" #{sample.sampleid}",
+#				sample.sample_type.gegl_sample_type_id,nil,
+#				"3/5/2014",
+#				sample.sample_temperature,
+#				"3/5/2014" ]
+#		end	#	(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
+#		manifest.close
+#		csv_out.close
+#	end	#	task :overlaps => :environment do
 
-				notes = [sample.notes.presence].compact
-				notes << "Sample moved from child subjectid #{line['subjectid']} to mother #{line['corrected_subjectid']} (20140422)."
-				sample.update_attributes!(:notes => notes.join("\n"))
-				puts sample.notes
-			end
-		end	#	CSV.open( 'data/corrected_subject_sample.csv'
-	end	#	task :correct_subject_association => :environment do
-
-	task :merge_overlaps_with_icf_master_id => :environment do
-		raise "This task has been run and disabled."
-		icf_master_ids = {}
-		CSV.open( 'data/statefileno_ccrlp.csv','rb',{ :headers => true }).each do |line|
-			raise "ICF Master ID already used" if icf_master_ids.has_key? line['derived_state_file_no_last6']
-			icf_master_ids[ line['derived_state_file_no_last6'] ] = line['icf_master_id']
-		end
-		columns=csv_columns( 'data/20140303_overlaps.csv')
-		puts "icf_master_id,#{columns.join(',')}"
-		CSV.open( 'data/20140303_overlaps.csv','rb',{ :headers => true }).each do |line|
-			puts "#{icf_master_ids[ line['SFN'] ]},#{line}"
-		end
-	end	#	task :merge_overlaps_with_icf_master_id => :environment do
-
-	task :import_overlaps => :environment do
-		raise "This task has been run and disabled."
-		ifile = "data/20140303_overlaps_with_icf_master_ids.csv"
-		ofile = "data/20140303_overlaps_with_icf_master_ids_subjectids_sampleids.csv"
-		mfile = "data/20140305_manifest.csv"
-		csv_out = CSV.open( ofile, 'w')
-		manifest = CSV.open( mfile, 'w')
-		manifest << %w( icf_master_id subjectid sex sampleid gegl_sample_type_id
-			collected_from_subject_at received_by_ccls_at storage_temperature sent_to_lab_at )
-		columns=csv_columns( 'data/20140303_overlaps_with_icf_master_ids.csv')
-		puts "#{columns.join(',')},subjectid,sampleid"
-		csv_out << columns + %w(subjectid sampleid)
-		(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
-			subjects = StudySubject.where(:icf_master_id => line['icf_master_id'])
-			puts "Subject not found with #{sfn}" if subjects.empty?
-			if subjects.length > 1
-				puts "Multiple found with #{sfn}" 
-				puts subjects.inspect
-			end
-			subject = subjects.first
-			if line['DOB'] != subject.dob.strftime("%Y%m%d")
-				puts "DOB not the same #{line['DOB']} - #{subject.dob.strftime("%Y%m%d")}"
-			end
-			#	icf_master_id,DOB,SFN,pull,barcode,blindid,c_dob,birth_year,combo_id
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:organization_id => Organization['GEGL'].id,
-				:sample_type_id => SampleType[:guthrie].id,
-				:sample_format => "Guthrie Card",
-				:sample_temperature => "Refrigerated",
-				:received_by_ccls_at => "3/5/2014",
-				:sent_to_lab_at => "3/5/2014",
-				:external_id => line['barcode'],
-				:external_id_source => "20140303_overlaps_with_icf_master_ids.csv",
-				:notes => "Imported from 20140303_overlaps_with_icf_master_ids.csv\n" <<
-					"pull #{line['pull']},\n"<<
-					"barcode #{line['barcode']},\n"<<
-					"blindid #{line['blindid']}"
-			)
-			puts "#{line.to_s.chomp},#{subject.subjectid},#{sample.sampleid}"
-			new_line = line
-			new_line.push(subject.subjectid,sample.sampleid)
-			csv_out << new_line
-			manifest <<	[ sample.study_subject.icf_master_id_to_s,
-				" #{sample.study_subject.subjectid}",
-				sample.study_subject.sex,
-				" #{sample.sampleid}",
-				sample.sample_type.gegl_sample_type_id,nil,
-				"3/5/2014",
-				sample.sample_temperature,
-				"3/5/2014" ]
-		end	#	(csv_in = CSV.open( ifile, 'rb',{ :headers => true })).each do |line|
-		manifest.close
-		csv_out.close
-	end	#	task :overlaps => :environment do
 
 #	task :recheck_original_sample_types => :environment do
 #		#ID,Sample_Type_ID,Description,Position,ODMS_sample_type_id,Code,GEGL_type_code
@@ -1000,51 +1011,53 @@ namespace :samples do
 #		csv_out.close
 #	end	#	task :buccal_saliva_list_compare => :environment do
 
-	task :dematernalize => :environment do
-#		%w( momblood momurine ).each do |sample_type_key|
-		{ :momblood => :'13', :momurine => :unspecifiedurine }.each do |sample_type_key,new_type_key|
-			puts sample_type_key
-			puts SampleType[sample_type_key].samples.count
-			SampleType[sample_type_key].samples.each do |sample|
+#	20160418 - Commented out to avoid accidental usage.
+#	task :dematernalize => :environment do
+##		%w( momblood momurine ).each do |sample_type_key|
+#		{ :momblood => :'13', :momurine => :unspecifiedurine }.each do |sample_type_key,new_type_key|
+#			puts sample_type_key
+#			puts SampleType[sample_type_key].samples.count
+#			SampleType[sample_type_key].samples.each do |sample|
+#
+#				#	maternal samples are being attached to mother ( only 2 found that aren't )
+#				if sample.study_subject.mother.nil?
+#					puts "Sample's subject's mother doesn't exist in db. Creating."
+#					sample.study_subject.create_mother 
+#					raise "mother creation failed?" if sample.study_subject.mother.nil?
+#				end
+#
+##				puts sample.study_subject.subject_type
+#				if sample.study_subject.subject_type.to_s != 'Mother'
+#
+##	there are 2 maternal samples, 1 blood, 1 urine that are attached to a case subject
+##	this case subject does not have a mother subject
+##	all other maternal samples are attached to mothers and as such
+##	could easily just be retyped to the non-maternal sample type
+##	study subject id 1143
+#
+##					puts sample.study_subject.inspect
+##					puts sample.study_subject.mother.inspect
+#
+#					puts "moving sample to mother"
+#					sample.study_subject = sample.study_subject.mother
+#
+##					raise "sample move failed?" if sample.reload.study_subject.subject_type.to_s != 'Mother'
+#
+#				end
+#
+#				sample.sample_type = SampleType[new_type_key]
+#
+#				sample.save!
+#			end
+#
+#			#	momblood
+#			#	358
+#			#	momurine
+#			#	1276
+#
+#		end	#	%w( momblood momurine ).each do |sample_type_key|
+#	end	#	task :dematernalize => :environment do
 
-				#	maternal samples are being attached to mother ( only 2 found that aren't )
-				if sample.study_subject.mother.nil?
-					puts "Sample's subject's mother doesn't exist in db. Creating."
-					sample.study_subject.create_mother 
-					raise "mother creation failed?" if sample.study_subject.mother.nil?
-				end
-
-#				puts sample.study_subject.subject_type
-				if sample.study_subject.subject_type.to_s != 'Mother'
-
-#	there are 2 maternal samples, 1 blood, 1 urine that are attached to a case subject
-#	this case subject does not have a mother subject
-#	all other maternal samples are attached to mothers and as such
-#	could easily just be retyped to the non-maternal sample type
-#	study subject id 1143
-
-#					puts sample.study_subject.inspect
-#					puts sample.study_subject.mother.inspect
-
-					puts "moving sample to mother"
-					sample.study_subject = sample.study_subject.mother
-
-#					raise "sample move failed?" if sample.reload.study_subject.subject_type.to_s != 'Mother'
-
-				end
-
-				sample.sample_type = SampleType[new_type_key]
-
-				sample.save!
-			end
-
-			#	momblood
-			#	358
-			#	momurine
-			#	1276
-
-		end	#	%w( momblood momurine ).each do |sample_type_key|
-	end	#	task :dematernalize => :environment do
 
 #	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
 #		SampleTemperature.all.each do |sample_temperature|
@@ -1055,6 +1068,7 @@ namespace :samples do
 #				.update_all(:sample_temperature => sample_temperature.description.titleize )
 #		end # SampleTemperature.all
 #	end	#	task :synchronize_sample_temperature_with_sample_temperature_id => :environment do
+
 
 #	task :synchronize_sample_format_with_sample_format_id => :environment do
 #		SampleFormat.all.each do |sample_format|
