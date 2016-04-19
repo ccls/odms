@@ -15,7 +15,8 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject.id)
 #	choose ineligible
-			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? )
+			assert !( find_field('enrollment[ineligible_reason_id]', :visible => false ).visible? ),
+				"shouldn't show ineligibility reason but is (connected?)"
 			select "No", :from => 'enrollment[is_eligible]'
 			assert find_field('enrollment[ineligible_reason_id]').visible?
 #	choose other reason
@@ -255,11 +256,14 @@ class ConsentIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			assert_not_nil consent
 			login_as send(cu)
 			visit edit_study_subject_consent_path(study_subject)
-			assert has_css?('div#eligibility_criteria', :visible => false)
+			assert has_css?('div#eligibility_criteria', :visible => false),
+				"shouldn't show eligibility criteria but is (connected?)"
 			find('a.toggles_eligibility_criteria').click
-			assert has_css?('div#eligibility_criteria', :visible => true)
+			assert has_css?('div#eligibility_criteria', :visible => true),
+				"should show eligibility criteria but isn't (connected?)"
 			find('a.toggles_eligibility_criteria').click
-			assert has_css?('div#eligibility_criteria', :visible => false)
+			assert has_css?('div#eligibility_criteria', :visible => false),
+				"shouldn't show eligibility criteria but is (connected?)"
 		end
 
 		test "should show ineligible_reason selector if 'No' for is_eligible" <<
@@ -458,7 +462,8 @@ protected
 		#	Surprised that I was allowed to interact with the hidden checkboxes!!!!!
 		#	MUST, MUST, MUST show this div or the languages will always be hidden!
 		find('a.toggler.toggles_eligibility_criteria').click
-		assert self.has_css?('div#eligibility_criteria', :visible => true)
+		assert self.has_css?('div#eligibility_criteria', :visible => true),
+			"should show eligibility criteria, but isn't (connected?)"
 	end
 	def assert_subject_consented_visible
 		assert has_css?('#subject_consented', :visible => true)

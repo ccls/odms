@@ -75,7 +75,7 @@ class CaseIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			csv = page.text
 			csv_lines = csv.sub!(/\s+/,"\n").split("\n")
-			assert_equal csv_lines[0], "reference_date,case_icfmasterid,icf_master_id,mom_icfmasterid,mother_first_name,mother_maiden_name,mother_last_name,father_first_name,father_last_name,first_name,middle_name,last_name,dob,sex,vital_status,do_not_contact,is_eligible,consented,comments,language,street,unit,city,state,zip,phone,alternate_phone"
+			assert_equal csv_lines[0], "reference_date,case_icfmasterid,icf_master_id,mom_icfmasterid,mother_first_name,mother_maiden_name,mother_last_name,father_first_name,father_last_name,first_name,middle_name,last_name,dob,sex,vital_status,do_not_contact,is_eligible,consented,comments,language,street,unit,city,state,zip,phone,alternate_phone", "(connected?)"
 
 			#	reference_date is FIRST so NO LEADING COMMA!!!!
 			assert_match /^#{subject1.reference_date.strftime("%m/%d/%Y")},/, csv_lines[1],

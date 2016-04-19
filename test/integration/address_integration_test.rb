@@ -41,13 +41,17 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			address = FactoryGirl.create(:address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
-			assert !( find_field('address[other_data_source]', :visible => false).visible? )
+			assert !( find_field('address[other_data_source]', :visible => false).visible? ),
+				"address other data source is visible and shouldn't be (connected?)."
 			select "Other Source", :from => 'address[data_source]'
-			assert find_field('address[other_data_source]').visible?
+			assert find_field('address[other_data_source]').visible?,
+				"address other data source is NOT visible and should be (connected?)."
 			select "", :from => 'address[data_source]'
-			assert !( find_field('address[other_data_source]', :visible => false).visible? )
+			assert !( find_field('address[other_data_source]', :visible => false).visible? ),
+				"address other data source is visible and shouldn't be (connected?)."
 			select "Other Source", :from => 'address[data_source]'
-			assert find_field('address[other_data_source]').visible?
+			assert find_field('address[other_data_source]').visible?,
+				"address other data source is NOT visible and should be (connected?)."
 		end
 
 		test "address#edit should show subject_moved when residence address" <<
@@ -55,13 +59,17 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			address = FactoryGirl.create(:current_residence_address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
-			assert !( find_field('address[subject_moved]', :visible => false).visible? )
+			assert !( find_field('address[subject_moved]', :visible => false).visible? ),
+				"address subject moved is visible and shouldn't be (connected?)."
 			select "No", :from => 'address[current_address]'
-			assert find_field('address[subject_moved]').visible?
+			assert find_field('address[subject_moved]').visible?,
+				"address subject moved is NOT visible and should be (connected?)."
 			select "", :from => 'address[current_address]'
-			assert !( find_field('address[subject_moved]', :visible => false).visible? )
+			assert !( find_field('address[subject_moved]', :visible => false).visible? ),
+				"address subject moved is visible and shouldn't be (connected?)."
 			select "No", :from => 'address[current_address]'
-			assert find_field('address[subject_moved]').visible?
+			assert find_field('address[subject_moved]').visible?,
+				"address subject moved is NOT visible and should be (connected?)."
 		end
 
 		test "address#edit should NOT show subject_moved when residence address" <<
@@ -69,13 +77,17 @@ class AddressIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			address = FactoryGirl.create(:current_residence_address)
 			login_as send(cu)
 			visit edit_study_subject_address_path(address.study_subject,address)
-			assert !( find_field('address[subject_moved]', :visible => false).visible? )
+			assert !( find_field('address[subject_moved]', :visible => false).visible? ),
+				"address subject moved is visible and shouldn't be (connected?)."
 			select "Don't Know", :from => 'address[current_address]'
-			assert !( find_field('address[subject_moved]', :visible => false).visible? )
+			assert !( find_field('address[subject_moved]', :visible => false).visible? ),
+				"address subject moved is visible and shouldn't be (connected?)."
 			select "", :from => 'address[current_address]'
-			assert !( find_field('address[subject_moved]', :visible => false).visible? )
+			assert !( find_field('address[subject_moved]', :visible => false).visible? ),
+				"address subject moved is visible and shouldn't be (connected?)."
 			select "Don't Know", :from => 'address[current_address]'
-			assert !( find_field('address[subject_moved]', :visible => false).visible? )
+			assert !( find_field('address[subject_moved]', :visible => false).visible? ),
+				"address subject moved is visible and shouldn't be (connected?)."
 		end
 
 #	address#new
