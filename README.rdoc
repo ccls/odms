@@ -868,6 +868,13 @@ Maybe try brand new empty rails app if no joy?
 
 
 ---
+== Connect to New Production Server and Browse
+
+ ssh -L 3000:localhost:3000 cube
+ ssh -L 3000:localhost:3000 o
+ http://localhost:3000
+
+---
 == New Production Server Update Procedure
 
  dump_database
