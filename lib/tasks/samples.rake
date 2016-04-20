@@ -21,31 +21,29 @@ namespace :samples do
 			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
 			new_subject = subjects.first	#	subjectid is unique so can be only 1
 
-#			sample.ucsf_item_no = line['UCSF_item_no']
-#			sample.ucb_labno = line['UCB_labno']
-#			sample.ucb_biospecimen_flag = line['UCB_Biospecimen_Flag']
+			sample.ucsf_item_no = line['UCSF_item_no']
+			sample.ucb_labno = line['UCB_labno']
+			sample.ucb_biospecimen_flag = line['UCB_Biospecimen_Flag']
 
-#			notes = sample.notes
-#			( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
-#			if current_subject != new_subject
-#				notes << "Sample moved from subjectid #{current_subject.subjectid} to #{new_subject.subjectid} (20160420)."
-#			end
-#			notes << "\n"
-#			notes << "Assigned UCSF_item_no:#{line['UCSF_item_no']}, "
-#			notes << "UCB_labno:#{line['UCB_labno']}, "
-#			notes << "UCB_Biospeciment_Flag:#{line['UCB_Biospecimen_Flag']}."
-#			sample.notes = notes
+			notes = sample.notes
+			( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
+			if current_subject != new_subject
+				notes << "Sample moved from subjectid #{current_subject.subjectid} "
+				notes << "to #{new_subject.subjectid} (20160420)."
+			end
+			notes << "\n"
+			notes << "Assigned UCSF_item_no:#{line['UCSF_item_no']}, "
+			notes << "UCB_labno:#{line['UCB_labno']}, "
+			notes << "UCB_Biospeciment_Flag:#{line['UCB_Biospecimen_Flag']}."
+			sample.notes = notes
 
 			changed = 'No'
 			if current_subject != new_subject
 				changed = 'Yes'
-#				sample.study_subject = new_subject
+				sample.study_subject = new_subject
 			end
-
 			puts "#{line.to_s.chomp},#{current_subject.subjectid},#{changed}"
-
-#			sample.save!
-
+			sample.save!
 		end	#	CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv'
 	end	#	task :reassociate_samples_for_alice_20160418 => :environment do
 
