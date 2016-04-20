@@ -3,26 +3,27 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-
 	task :reassociate_samples_for_alice_20160418 => :environment do
+		puts "UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag,prev_subjectid,changed"
 		CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv', 'rb', { :headers => true }).each do |line|
 			#	UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag
 
-			puts line['UCSF_item_no']
-			puts line['subjectid']
-			puts line['sampleid']
-			puts line['UCB_labno']
-			puts line['UCB_Biospecimen_Flag']
+#			puts line['UCSF_item_no']
+#			puts line['subjectid']
+#			puts line['sampleid']
+#			puts line['UCB_labno']
+#			puts line['UCB_Biospecimen_Flag']
 
-#			samples = Sample.where(:id => line['sampleid'])
-#			raise "No sample found with sampleid #{line['sampleid']}" if samples.empty?
-#			sample = samples.first	#	id is unique so can be only 1
+			samples = Sample.where(:id => line['sampleid'])
+			raise "No sample found with sampleid #{line['sampleid']}" if samples.empty?
+			sample = samples.first	#	id is unique so can be only 1
+			current_subject = sample.subject
 
-#			puts "Current #{sample.subject.subjectid} : #{line['subjectid']} New"
+#			FYI: SUBJECT MAY NOT CHANGE!
 
-#			subjects = StudySubject.where(:subjectid => line['subjectid'])
-#			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
-#			new_subject = subjects.first	#	subjectid is unique so can be only 1
+			subjects = StudySubject.where(:subjectid => line['subjectid'])
+			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
+			new_subject = subjects.first	#	subjectid is unique so can be only 1
 
 #			sample.ucsf_item_no = line['UCSF_item_no']
 #			sample.ucb_labno = line['UCB_labno']
@@ -30,12 +31,24 @@ namespace :samples do
 
 #			notes = sample.notes
 #			( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
-#			notes << "Sample moved from subjectid #{sample.subject.subjectid} to #{line['subjectid']} (20160418)."
+#			if current_subject != new_subject
+#				notes << "Sample moved from subjectid #{sample.subject.subjectid} to #{line['subjectid']} (20160418)."
+#			end
+#			notes << "\n"
+#			notes << "Assigned UCSF_item_no:#{line['UCSF_item_no']}, "
+#			notes << "UCB_labno:#{line['UCB_labno']}, "
+#			notes << "UCB_Biospeciment_Flag:#{line['UCB_Biospecimen_Flag']}."
+#			sample.notes = notes
 
-#			sample.study_subject = new_subject
+			changed = 'No'
+			if current_subject != new_subject
+				changed = 'Yes'
+#				sample.study_subject = new_subject
+			end
+
+			puts "#{line.to_s.chomp},#{current_subject.subjectid},#{changed}"
 
 #			sample.save
-
 
 #		DO NOT SAVE YET!
 
