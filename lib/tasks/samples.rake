@@ -4,7 +4,7 @@ namespace :app do
 namespace :samples do
 
 	task :reassociate_samples_for_alice_20160418 => :environment do
-		puts "UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag,prev_subjectid,changed"
+#		puts "UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag,prev_subjectid,changed"
 		CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv', 'rb', { :headers => true }).each do |line|
 			#	UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag
 
@@ -47,7 +47,7 @@ puts "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
 #				sample.study_subject = new_subject
 			end
 
-			puts "#{line.to_s.chomp},#{current_subject.subjectid},#{changed}"
+#			puts "#{line.to_s.chomp},#{current_subject.subjectid},#{changed}"
 
 #			sample.save
 
