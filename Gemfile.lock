@@ -94,7 +94,7 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     mysql (2.9.1)
-    mysql2 (0.4.3)
+    mysql2 (0.4.4)
     net-ldap (0.2.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
