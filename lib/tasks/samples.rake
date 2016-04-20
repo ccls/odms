@@ -8,21 +8,16 @@ namespace :samples do
 		CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv', 'rb', { :headers => true }).each do |line|
 			#	UCSF_item_no,subjectid,sampleid,UCB_labno,UCB_Biospecimen_Flag
 
-#			puts line['UCSF_item_no']
-#			puts line['subjectid']
-#			puts line['sampleid']
-#			puts line['UCB_labno']
-#			puts line['UCB_Biospecimen_Flag']
-
 			samples = Sample.where(:id => line['sampleid'])
 			raise "No sample found with sampleid #{line['sampleid']}" if samples.empty?
 			sample = samples.first	#	id is unique so can be only 1
 			current_subject = sample.study_subject
 
-#			FYI: SUBJECT MAY NOT CHANGE!
+			#
+			#			FYI: SUBJECT MAY NOT CHANGE!
+			#
 
 			subjects = StudySubject.with_subjectid( line['subjectid'] )
-			#puts "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
 			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
 			new_subject = subjects.first	#	subjectid is unique so can be only 1
 
