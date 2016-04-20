@@ -17,7 +17,7 @@ namespace :samples do
 			samples = Sample.where(:id => line['sampleid'])
 			raise "No sample found with sampleid #{line['sampleid']}" if samples.empty?
 			sample = samples.first	#	id is unique so can be only 1
-			current_subject = sample.subject
+			current_subject = sample.study_subject
 
 #			FYI: SUBJECT MAY NOT CHANGE!
 
