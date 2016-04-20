@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720214643) do
+ActiveRecord::Schema.define(version: 20160420005232) do
 
   create_table "abstracts", force: :cascade do |t|
     t.string   "entry_1_by_uid",                          limit: 255
@@ -761,6 +761,9 @@ ActiveRecord::Schema.define(version: 20150720214643) do
     t.string   "sample_format",                limit: 255
     t.string   "sample_temperature",           limit: 255
     t.text     "notes",                        limit: 65535
+    t.integer  "ucsf_item_no",                 limit: 4
+    t.integer  "ucb_labno",                    limit: 4
+    t.boolean  "ucb_biospecimen_flag"
   end
 
   add_index "samples", ["study_subject_id"], name: "index_samples_on_study_subject_id", using: :btree
