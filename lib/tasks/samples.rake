@@ -22,7 +22,8 @@ namespace :samples do
 #			FYI: SUBJECT MAY NOT CHANGE!
 
 			subjects = StudySubject.where(:subjectid => line['subjectid'])
-			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
+puts "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
+#			raise "No subject found with subjectid #{line['subjectid']}" if subjects.empty?
 			new_subject = subjects.first	#	subjectid is unique so can be only 1
 
 #			sample.ucsf_item_no = line['UCSF_item_no']
