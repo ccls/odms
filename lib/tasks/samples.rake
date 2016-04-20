@@ -28,7 +28,7 @@ namespace :samples do
 #			notes = sample.notes
 #			( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
 #			if current_subject != new_subject
-#				notes << "Sample moved from subjectid #{sample.subject.subjectid} to #{line['subjectid']} (20160418)."
+#				notes << "Sample moved from subjectid #{current_subject.subjectid} to #{new_subject.subjectid} (20160420)."
 #			end
 #			notes << "\n"
 #			notes << "Assigned UCSF_item_no:#{line['UCSF_item_no']}, "
@@ -44,9 +44,7 @@ namespace :samples do
 
 			puts "#{line.to_s.chomp},#{current_subject.subjectid},#{changed}"
 
-#			sample.save
-
-#		DO NOT SAVE YET!
+#			sample.save!
 
 		end	#	CSV.open('FIXforJW_CCLSSampleID_Feb2016.csv'
 	end	#	task :reassociate_samples_for_alice_20160418 => :environment do
