@@ -5,12 +5,24 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 	all_test_roles.each do |cu|
 
 		test "should logout with #{cu} login" do
-			u = send(cu)
-			login_as u
-			visit root_path
-			assert_equal root_path, current_path
-			click_link "Logout"
-			assert_equal "/cas/logout", current_path
+			#	In anticipation that may not be connected to the internet,
+			#	open begin block with rescue ...
+			begin
+				u = send(cu)
+				login_as u
+				visit root_path
+				assert_equal root_path, current_path
+				click_link "Logout"
+				assert_equal "/cas/logout", current_path
+			rescue Capybara::Webkit::InvalidResponseError => e
+				#	probably not connected to the internet
+
+				#	Unable to load URL: http://127.0.0.1:53128/logout because of error loading https://auth-test.berkeley.edu/cas/logout?destination=http%3A%2F%2F127.0.0.1%3A53128%2F&gateway=true: Unknown error
+
+				assert_match /Unable to load URL: .* https:\/\/auth-test.berkeley.edu\/cas\/logout\?destination=http%3A%2F%2F\d+\.\d+\.\d+\.\d+%3A\d+%2F&gateway=true: Unknown error/, e.to_s
+				assert_match /Unable to load URL: http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/logout because of error loading https:\/\/auth-test.berkeley.edu\/cas\/logout\?destination=http%3A%2F%2F\d+\.\d+\.\d+\.\d+%3A\d+%2F&gateway=true: Unknown error/, e.to_s
+
+			end
 		end
 
 		test "should get #{cu} info with #{cu} login" do
@@ -60,7 +72,19 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			rescue Capybara::Webkit::InvalidResponseError => e
 				#	probably not connected to the internet
-				assert_match /Unable to load URL: .* https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/, e.to_s
+
+				#	Unable to load URL: http://127.0.0.1:52788/users/1 because of error loading https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A52788%2Fusers%2F1: Unknown error
+
+				#	seems that the url is now encoded
+
+#				assert_match /Unable to load URL: .* https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/, e.to_s
+#	Unable to load URL: http://127.0.0.1:53395/users/1 because of error loading https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A53395%2Fusers%2F1: Unknown error
+				assert_match /Unable to load URL: .* https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http%3A%2F%2F\d+\.\d+\.\d+\.\d+%3A\d+%2Fusers%2F\d+/, e.to_s
+				assert_match /Unable to load URL: http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/1 because of error loading https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http%3A%2F%2F\d+\.\d+\.\d+\.\d+%3A\d+%2Fusers%2F\d+/, e.to_s
+
+#
+#	Expected /Unable to load URL: .* https:\/\/auth-test.berkeley.edu\/cas\/login\?service=http:\/\/\d+\.\d+\.\d+\.\d+:\d+\/users\/\d+/ to match "Unable to load URL: http://127.0.0.1:50904/users/1 because of error loading https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50904%2Fusers%2F1: Unknown error".
+#
 
 #			rescue Capybara::Driver::Webkit::WebkitInvalidResponseError => e
 #				#	probably not connected to the internet
