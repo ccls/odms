@@ -21,6 +21,9 @@ Rails.application.config.assets.precompile += %w(
 	edit_sample.js
 	edit_study_subject.js
 	enrolls.js
+	jquery.2.0.0.min.js
+	jquery-ui.1.10.3.min.js
+	jquery-ui.1.10.1.css
 	jquery-ui-timepicker-addon.js
 	jquery.simplemodal.1.4.4.min.js
 	new_address.js
@@ -30,6 +33,5 @@ Rails.application.config.assets.precompile += %w(
 	menus.css.scss
 	scaffold.css
 	simple_modal_basic.css
-
 	sunspot.css sunspot.js
 )
