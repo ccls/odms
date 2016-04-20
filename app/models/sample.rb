@@ -125,6 +125,9 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:diagnosis_date, :type => :date)
 	add_sunspot_column(:has_study_subject, :facetable => true,
 		:meth => ->(s){ ( s.study_subject_id.present? ) ? 'Yes' : 'No'   })
+	add_sunspot_column(:ucsf_item_no, :type => :integer)
+	add_sunspot_column(:ucb_labno, :type => :integer)
+	add_sunspot_column(:ucb_biospecimen_flag, :type => :integer)
 
 	searchable_plus
 

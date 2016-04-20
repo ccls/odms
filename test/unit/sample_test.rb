@@ -12,6 +12,7 @@ class SampleTest < ActiveSupport::TestCase
 		received_by_ccls_at received_by_lab_at 
 		sample_format sample_temperature 
 		sent_to_lab_at sent_to_subject_at
+		ucsf_item_no ucb_labno ucb_biospecimen_flag
 		shipped_to_ccls_at notes )
 	assert_should_not_require( attributes )
 	assert_should_not_require_unique( attributes )
