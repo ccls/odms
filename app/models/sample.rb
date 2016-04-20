@@ -127,7 +127,7 @@ class Sample < ActiveRecord::Base
 		:meth => ->(s){ ( s.study_subject_id.present? ) ? 'Yes' : 'No'   })
 	add_sunspot_column(:ucsf_item_no, :type => :integer)
 	add_sunspot_column(:ucb_labno, :type => :integer)
-	add_sunspot_column(:ucb_biospecimen_flag, :type => :integer)
+	add_sunspot_column(:ucb_biospecimen_flag, :type => :boolean)
 
 	searchable_plus
 
