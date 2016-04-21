@@ -9,6 +9,18 @@ en:
 #  activemodel:
   activerecord:
     attributes:
+      sample:
+        sent_to_subject_at: 'Sent to Subject at'
+        collected_from_subject_at: 'Collected from Subject at'
+        shipped_to_ccls_at: 'Shipped to CCLS at'
+        received_by_ccls_at: 'Received by CCLS at'
+        sent_to_lab_at: 'Sent to Lab at'
+        received_by_lab_at: 'Received by Lab at'
+        external_id: 'External ID'
+        external_id_source: 'External ID Source'
+        ucsf_item_no: 'UCSF Item No'
+        ucb_labno: 'UCB LabNo'
+        ucb_biospecimen_flag: 'UCB Biospecimen Flag'
       patient:
         organization_id: "Treating Institution"
         hospital_no: "Hospital Record Number"

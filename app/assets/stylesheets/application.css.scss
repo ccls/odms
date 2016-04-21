@@ -319,12 +319,12 @@ form {
 	}
 
 	&.edit_sample {
-		.field_wrapper > .label { width: 150px; }
+		.field_wrapper > .label { width: 180px; }
 		.organization_id.field_wrapper {
 			float:left;
 			clear:none;
 			padding-left: 10px;
-			label { width:70px; }
+			label { width:90px; }
 		}
 	}
 

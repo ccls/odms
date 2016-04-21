@@ -19,28 +19,18 @@
 		SampleType.roots, :children, :to_s, :id, :to_s,
 	{ :include_blank => true }) %>
 
-<%= f.wrapped_datetime_text_field :sent_to_subject_at,
-	:label_text => 'Sent to Subject at:' %>
-
-<%= f.wrapped_datetime_text_field :collected_from_subject_at,
-	:label_text => 'Collected from Subject at:' %>
-
-<%= f.wrapped_datetime_text_field :shipped_to_ccls_at,
-	:label_text => 'Shipped to CCLS at:' %>
-
-<%= f.wrapped_datetime_text_field :received_by_ccls_at,
-	:label_text => 'Received by CCLS at:' %>
-
-<%= f.wrapped_datetime_text_field :sent_to_lab_at,
-	:label_text => 'Sent to Lab at:' %>
+<%= f.wrapped_datetime_text_field :sent_to_subject_at %>
+<%= f.wrapped_datetime_text_field :collected_from_subject_at %>
+<%= f.wrapped_datetime_text_field :shipped_to_ccls_at %>
+<%= f.wrapped_datetime_text_field :received_by_ccls_at %>
+<%= f.wrapped_datetime_text_field :sent_to_lab_at %>
 
 <%= f.wrapped_collection_select( :organization_id,
 	Organization.all, :id, :to_s,
 	{ :include_blank => true }
 ) %>
 
-<%= f.wrapped_datetime_text_field :received_by_lab_at,
-	:label_text => 'Received by Lab at:' %>
+<%= f.wrapped_datetime_text_field :received_by_lab_at %>
 
 <%= f.wrapped_select :sample_format, 
 	@sample.sample_formats, :include_blank => true %>
@@ -48,11 +38,11 @@
 <%= f.wrapped_select :sample_temperature, 
 	@sample.sample_temperatures, :include_blank => true %>
 
-<%= f.wrapped_text_field :external_id, :label_text => 'External ID:' %>
-<%= f.wrapped_text_field :external_id_source, :label_text => 'External ID Source:' %>
+<%= f.wrapped_text_field :external_id %>
+<%= f.wrapped_text_field :external_id_source %>
 
 <%= f.wrapped_text_field :ucsf_item_no %>
 <%= f.wrapped_text_field :ucb_labno %>
 <%= f.wrapped_text_field :ucb_biospecimen_flag %>
 
-<%= f.wrapped_text_area :notes, :rows => 3, :cols => 50 %>
+<%= f.wrapped_text_area :notes, :rows => 5, :cols => 80 %>

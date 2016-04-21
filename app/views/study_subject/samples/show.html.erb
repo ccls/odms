@@ -23,27 +23,14 @@
 <%= wrapped_spans :sample, :sample_type,
 	:label_text => 'sample subtype:' %>
 
-<%= wrapped_datetime_spans :sample, :sent_to_subject_at,
-	:label_text => 'Sent to Subject at:' %>
-
-<%= wrapped_datetime_spans :sample, :collected_from_subject_at,
-	:label_text => 'Collected from Subject at:' %>
-
-<%= wrapped_datetime_spans :sample, :shipped_to_ccls_at,
-	:label_text => 'Shipped to CCLS at:' %>
-
-<%= wrapped_datetime_spans :sample, :received_by_ccls_at,
-	:label_text => 'Received by CCLS at:' %>
-
-<%= wrapped_datetime_spans :sample, :sent_to_lab_at,
-	:label_text => 'Sent to Lab at:' %>
-
-<%= wrapped_datetime_spans :sample, :received_by_lab_at,
-	:label_text => 'Received by Lab at:' %>
-
-<%= wrapped_spans :sample, :external_id, :label_text => 'External ID:' %>
-<%= wrapped_spans :sample, :external_id_source, :label_text => 'External ID Source:' %>
-
+<%= wrapped_datetime_spans :sample, :sent_to_subject_at %>
+<%= wrapped_datetime_spans :sample, :collected_from_subject_at %>
+<%= wrapped_datetime_spans :sample, :shipped_to_ccls_at %>
+<%= wrapped_datetime_spans :sample, :received_by_ccls_at %>
+<%= wrapped_datetime_spans :sample, :sent_to_lab_at %>
+<%= wrapped_datetime_spans :sample, :received_by_lab_at %>
+<%= wrapped_spans :sample, :external_id %>
+<%= wrapped_spans :sample, :external_id_source %>
 <%= wrapped_spans :sample, :ucsf_item_no %>
 <%= wrapped_spans :sample, :ucb_labno %>
 <%= wrapped_spans :sample, :ucb_biospecimen_flag %>
