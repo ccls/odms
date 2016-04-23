@@ -59,7 +59,7 @@ GEM
     ccls-common_lib (4.1.1)
     chronic (0.10.2)
     concurrent-ruby (1.0.1)
-    database_cleaner (1.5.2)
+    database_cleaner (1.5.3)
     docile (1.1.5)
     erubis (2.7.0)
     factory_girl (4.7.0)
