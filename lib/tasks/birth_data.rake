@@ -8,41 +8,42 @@ namespace :birth_data do
 #	subjectid, patid, subject_type, state_id_no, birth_year  bd derive, regist, filename
 
 
-	task :reimport_boolean_values => :environment do
-		Dir["birth_data/*/*.csv"].each do |birth_data_file|
-			file_name = File.basename(birth_data_file)
-			puts file_name
-
-			#	match line count and record count in database with this :birth_data_file_name
-			#puts (total_lines( birth_data_file,'rb:bom|utf-8') - 1 )
-			#puts BirthDatum.where( :birth_data_file_name => file_name ).count
-
-			(f=CSV.open( birth_data_file, 'rb:bom|utf-8',{ :headers => true })).each do |line|
-
-				next if line['state_registrar_no'].blank?
-
-				count = BirthDatum.where( :birth_data_file_name => file_name,
-					:state_registrar_no => line['state_registrar_no'] ).count
-
-				raise 'hell' if count != 1
-
-				bd = BirthDatum.where( :birth_data_file_name => file_name,
-					:state_registrar_no => line['state_registrar_no'] ).first
-
-				puts "#{line['vacuum_attempt_unsuccessful']}:#{line['mother_received_wic']}:" <<
-					"#{line['forceps_attempt_unsuccessful']}:#{line['found_in_state_db']}:" <<
-					"#{bd.vacuum_attempt_unsuccessful}:#{bd.mother_received_wic}:" <<
-					"#{bd.forceps_attempt_unsuccessful}:#{bd.found_in_state_db}"
-
-				bd.update_attributes!( 
-					'vacuum_attempt_unsuccessful' => line['vacuum_attempt_unsuccessful'],
-					'mother_received_wic' => line['mother_received_wic'],
-					'forceps_attempt_unsuccessful' => line['forceps_attempt_unsuccessful'],
-					'found_in_state_db' => line['found_in_state_db'] )
-
-			end	#	(f=CSV.open( birth_data_file, 'rb:bom|utf-8',
-		end	#	Dir["birth_data/*/*.csv"].each do |birth_data_file|
-	end	#	task :reimport_boolean_values => :environment do
+#	20160504 - Commented out to avoid accidental usage.
+#	task :reimport_boolean_values => :environment do
+#		Dir["birth_data/*/*.csv"].each do |birth_data_file|
+#			file_name = File.basename(birth_data_file)
+#			puts file_name
+#
+#			#	match line count and record count in database with this :birth_data_file_name
+#			#puts (total_lines( birth_data_file,'rb:bom|utf-8') - 1 )
+#			#puts BirthDatum.where( :birth_data_file_name => file_name ).count
+#
+#			(f=CSV.open( birth_data_file, 'rb:bom|utf-8',{ :headers => true })).each do |line|
+#
+#				next if line['state_registrar_no'].blank?
+#
+#				count = BirthDatum.where( :birth_data_file_name => file_name,
+#					:state_registrar_no => line['state_registrar_no'] ).count
+#
+#				raise 'hell' if count != 1
+#
+#				bd = BirthDatum.where( :birth_data_file_name => file_name,
+#					:state_registrar_no => line['state_registrar_no'] ).first
+#
+#				puts "#{line['vacuum_attempt_unsuccessful']}:#{line['mother_received_wic']}:" <<
+#					"#{line['forceps_attempt_unsuccessful']}:#{line['found_in_state_db']}:" <<
+#					"#{bd.vacuum_attempt_unsuccessful}:#{bd.mother_received_wic}:" <<
+#					"#{bd.forceps_attempt_unsuccessful}:#{bd.found_in_state_db}"
+#
+#				bd.update_attributes!( 
+#					'vacuum_attempt_unsuccessful' => line['vacuum_attempt_unsuccessful'],
+#					'mother_received_wic' => line['mother_received_wic'],
+#					'forceps_attempt_unsuccessful' => line['forceps_attempt_unsuccessful'],
+#					'found_in_state_db' => line['found_in_state_db'] )
+#
+#			end	#	(f=CSV.open( birth_data_file, 'rb:bom|utf-8',
+#		end	#	Dir["birth_data/*/*.csv"].each do |birth_data_file|
+#	end	#	task :reimport_boolean_values => :environment do
 
 
 	task :id_number_report_2 => :environment do
@@ -57,8 +58,6 @@ namespace :birth_data do
 			puts values.to_csv(:force_quotes => true)
 		end
 	end	#	task :id_number_report => :environment do
-
-
 
 
 	task :dump_all_phase_5 => :environment do
@@ -101,6 +100,7 @@ namespace :birth_data do
 			puts out.to_csv
 		end
 	end	#	task :dump_all_phase_5 => :environment do
+
 
 	task :dob_check => :environment do
 		BirthDatum.find_each do |bd|
@@ -167,6 +167,7 @@ namespace :birth_data do
 		end
 	end	#	task :id_number_report => :environment do
 
+
 	task :check_state_registrar_no => :environment do
 		puts BirthDatum.count
 		puts "state_registrar_no,derived_state_file_no_last6,derived_local_file_no_last6"
@@ -228,103 +229,108 @@ namespace :birth_data do
 
 	end	#	task :reprocess_birth_data => :environment do
 
-	task :update_file_nos => :environment do
-		raise "This task has been disabled."
-		csv_file = "Ca_Co_6_Digit_State_Local.csv"
-		raise "CSV File :#{csv_file}: not found" unless File.exists?(csv_file)
-		not_found = []
-		CSV.open(csv_file,'rb:bom|utf-8', { :headers => true }).each do |line|
-			#	master_id,match_confidence,case_control_flag,state_registrar_no,derived_state_file_no_last6,control_number,
-			#	dob,last_name,first_name,middle_name,local_registrar_no,derived_local_file_no_last6
-			#
-			#	If created an actual birth datum record for a control, it would create a control. 
-			#	These controls have already been created.
-			#	So.  Create one WITHOUT a master_id, which will stop the post_processing.
-			#	Basically, create a blank one.
-			#	Manually find by state_registrar_no?  and attach study subject
-			#	add derived_local_file_no_last6 and derived_state_file_no_last6
-			#
-			puts line['state_registrar_no']
-			next if line['state_registrar_no'].blank?
 
-			birth_data = BirthDatum.where(:state_registrar_no => line['state_registrar_no'] )
-			if birth_data.length == 0
-				puts "Found #{birth_data.length} subjects matching" 
-				not_found.push line
-				next
-			end
-
-			birth_data.each do |birth_datum| 
-				derived_state_file_no_last6 = sprintf("%06d",line['derived_state_file_no_last6'].to_i)
-				birth_datum.update_column(:derived_state_file_no_last6, derived_state_file_no_last6)
-
-				derived_local_file_no_last6 = sprintf("%06d",line['derived_local_file_no_last6'].to_i)
-				birth_datum.update_column(:derived_local_file_no_last6, derived_local_file_no_last6)
-
-				if birth_datum.study_subject
-
-					birth_datum.study_subject.update_column(:needs_reindexed, true)
-
-					birth_datum.study_subject.operational_events.create(
-						:occurred_at => DateTime.current,
-						:project_id => Project['ccls'].id,
-						:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
-						:description => "Birth Record data changes from #{csv_file}",
-						:notes => "Added derived_state_file_no_last6 #{derived_state_file_no_last6} and "<<
-							"derived_local_file_no_last6 #{derived_local_file_no_last6} to birth data records.")
-
-				end
-			end
-		end
-		puts "#{not_found.length} state registrar nos not found."
-		puts not_found
-	end
-
-	task :import_birth_data => :environment do
-
-		puts;puts;puts
-		puts "Begin.(#{Time.now})"
-		puts "In app:birth_data:import_birth_data"
-
-		local_birth_data_dir = 'birth_data'
-		FileUtils.mkdir_p(local_birth_data_dir) unless File.exists?(local_birth_data_dir)
-
-
+#	20160504 - Commented out to avoid accidental usage.
+#	task :update_file_nos => :environment do
+#		raise "This task has been disabled."
+#		csv_file = "Ca_Co_6_Digit_State_Local.csv"
+#		raise "CSV File :#{csv_file}: not found" unless File.exists?(csv_file)
+#		not_found = []
+#		CSV.open(csv_file,'rb:bom|utf-8', { :headers => true }).each do |line|
+#			#	master_id,match_confidence,case_control_flag,state_registrar_no,derived_state_file_no_last6,control_number,
+#			#	dob,last_name,first_name,middle_name,local_registrar_no,derived_local_file_no_last6
+#			#
+#			#	If created an actual birth datum record for a control, it would create a control. 
+#			#	These controls have already been created.
+#			#	So.  Create one WITHOUT a master_id, which will stop the post_processing.
+#			#	Basically, create a blank one.
+#			#	Manually find by state_registrar_no?  and attach study subject
+#			#	add derived_local_file_no_last6 and derived_state_file_no_last6
+#			#
+#			puts line['state_registrar_no']
+#			next if line['state_registrar_no'].blank?
 #
-#	Where are the birth data files?
-#	Naming convention?
+#			birth_data = BirthDatum.where(:state_registrar_no => line['state_registrar_no'] )
+#			if birth_data.length == 0
+#				puts "Found #{birth_data.length} subjects matching" 
+#				not_found.push line
+#				next
+#			end
 #
+#			birth_data.each do |birth_datum| 
+#				derived_state_file_no_last6 = sprintf("%06d",line['derived_state_file_no_last6'].to_i)
+#				birth_datum.update_column(:derived_state_file_no_last6, derived_state_file_no_last6)
+#
+#				derived_local_file_no_last6 = sprintf("%06d",line['derived_local_file_no_last6'].to_i)
+#				birth_datum.update_column(:derived_local_file_no_last6, derived_local_file_no_last6)
+#
+#				if birth_datum.study_subject
+#
+#					birth_datum.study_subject.update_column(:needs_reindexed, true)
+#
+#					birth_datum.study_subject.operational_events.create(
+#						:occurred_at => DateTime.current,
+#						:project_id => Project['ccls'].id,
+#						:operational_event_type_id => OperationalEventType['birthDataConflict'].id,
+#						:description => "Birth Record data changes from #{csv_file}",
+#						:notes => "Added derived_state_file_no_last6 #{derived_state_file_no_last6} and "<<
+#							"derived_local_file_no_last6 #{derived_local_file_no_last6} to birth data records.")
+#
+#				end
+#			end
+#		end
+#		puts "#{not_found.length} state registrar nos not found."
+#		puts not_found
+#	end
 
-#		puts "About to scp -p birth_data files"
-#	S:\CCLS\FieldOperations\ICF\DataTransfers\USC_control_matches\Birth_Certificate_Match_Files
-#		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_birth_data/birth_data_*.csv ./#{local_birth_data_dir}/")
-#		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/USC_control_matches/birth_data_*.csv ./#{local_birth_data_dir}/")
-	
-		Dir.chdir( local_birth_data_dir )
-		birth_data_files = Dir["*.csv"]
 
-		unless birth_data_files.empty?
+#	20160504 - Commented out to avoid accidental usage.
+#	task :import_birth_data => :environment do
+#
+#		puts;puts;puts
+#		puts "Begin.(#{Time.now})"
+#		puts "In app:birth_data:import_birth_data"
+#
+#		local_birth_data_dir = 'birth_data'
+#		FileUtils.mkdir_p(local_birth_data_dir) unless File.exists?(local_birth_data_dir)
+#
+#
+##
+##	Where are the birth data files?
+##	Naming convention?
+##
+#
+##		puts "About to scp -p birth_data files"
+##	S:\CCLS\FieldOperations\ICF\DataTransfers\USC_control_matches\Birth_Certificate_Match_Files
+##		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/ICF_birth_data/birth_data_*.csv ./#{local_birth_data_dir}/")
+##		system("scp -p jakewendt@dev.sph.berkeley.edu:/Users/jakewendt/Mounts/SharedFiles/CCLS/FieldOperations/ICF/DataTransfers/USC_control_matches/birth_data_*.csv ./#{local_birth_data_dir}/")
+#	
+#		Dir.chdir( local_birth_data_dir )
+#		birth_data_files = Dir["*.csv"]
+#
+#		unless birth_data_files.empty?
+#
+#			birth_data_files.each do |birth_data_file|
+#
+#				bdu = BirthDatumUpdate.new(birth_data_file,:verbose => true)
+#				bdu.archive
+#
+#			end	#	birth_data_files.each do |birth_data_file|
+#	
+#			puts; puts "Commiting changes to Sunspot"
+#			Sunspot.commit
+#
+#		else	#	unless birth_data_files.empty?
+#			puts "No birth_data files found"
+#			Notification.plain("No Birth Data Files Found",
+#					:subject => "ODMS: No Birth Data Files Found"
+#			).deliver
+#		end	#	unless birth_data_files.empty?
+#		puts; puts "Done.(#{Time.now})"
+#		puts "----------------------------------------------------------------------"
+#
+#	end	#	task :import_birth_data => :environment do
 
-			birth_data_files.each do |birth_data_file|
-
-				bdu = BirthDatumUpdate.new(birth_data_file,:verbose => true)
-				bdu.archive
-
-			end	#	birth_data_files.each do |birth_data_file|
-	
-			puts; puts "Commiting changes to Sunspot"
-			Sunspot.commit
-
-		else	#	unless birth_data_files.empty?
-			puts "No birth_data files found"
-			Notification.plain("No Birth Data Files Found",
-					:subject => "ODMS: No Birth Data Files Found"
-			).deliver
-		end	#	unless birth_data_files.empty?
-		puts; puts "Done.(#{Time.now})"
-		puts "----------------------------------------------------------------------"
-
-	end	#	task :import_birth_data => :environment do
 
 #	task :import_birth_data_files => :import_birth_data
 #	task :import_birth_data_update_files => :import_birth_data
@@ -332,50 +338,50 @@ namespace :birth_data do
 #	task :import_birth_datum_update_files => :import_birth_data
 
 
-
-	task :replace_birth_data => :environment do
-
-		puts;puts;puts
-		puts "Begin.(#{Time.now})"
-		puts "In app:birth_data:replace_birth_data"
-
-		#	DON'T WANT this one.
-		BirthDatum.skip_callback(:create,:after,:post_processing)
-
-		#	Want this one.
-		#BirthDatum.skip_callback(:create,:before,:cleanup_data)
-
-		env_required('csv_file')
-		file_required(ENV['csv_file'])
-		f=CSV.open( ENV['csv_file'], 'rb:bom|utf-8',{ :headers => true })
-		f.each do |line|
-
-			bda = line.dup.to_hash
-			["id","birth_datum_update_id","subjectid","childid","ss_icf_master_id",
-				"ss_subjectid","ss_interview_completed_on","ss_reference_date",
-				"ss_mother_icf_master_id","ss_mother_subjectid","ss_birth_data_count",
-				"ss_phase"].each {|attr| bda.delete(attr) }
-
-			puts bda
-			BirthDatum.create(bda)
-
-		end	#	f.each
-
-		puts; puts "Re-syncing the candidate control's birth_datum_id's ..."
-		#	the candidate control points to both the study_subject and birth_datum, so ...
-		CandidateControl.find_each do |cc|
-			#puts cc.study_subject_id
-			#puts cc.birth_datum_id
-			new_bdid = BirthDatum.where(:study_subject_id => cc.study_subject_id).first.id
-			#puts new_bdid
-			#puts
-			cc.update_column(:birth_datum_id, new_bdid)
-		end
-
-		puts; puts "Done.(#{Time.now})"
-		puts "----------------------------------------------------------------------"
-
-	end	#	task :replace_birth_data => :environment do
+#	20160504 - Commented out to avoid accidental usage.
+#	task :replace_birth_data => :environment do
+#
+#		puts;puts;puts
+#		puts "Begin.(#{Time.now})"
+#		puts "In app:birth_data:replace_birth_data"
+#
+#		#	DON'T WANT this one.
+#		BirthDatum.skip_callback(:create,:after,:post_processing)
+#
+#		#	Want this one.
+#		#BirthDatum.skip_callback(:create,:before,:cleanup_data)
+#
+#		env_required('csv_file')
+#		file_required(ENV['csv_file'])
+#		f=CSV.open( ENV['csv_file'], 'rb:bom|utf-8',{ :headers => true })
+#		f.each do |line|
+#
+#			bda = line.dup.to_hash
+#			["id","birth_datum_update_id","subjectid","childid","ss_icf_master_id",
+#				"ss_subjectid","ss_interview_completed_on","ss_reference_date",
+#				"ss_mother_icf_master_id","ss_mother_subjectid","ss_birth_data_count",
+#				"ss_phase"].each {|attr| bda.delete(attr) }
+#
+#			puts bda
+#			BirthDatum.create(bda)
+#
+#		end	#	f.each
+#
+#		puts; puts "Re-syncing the candidate control's birth_datum_id's ..."
+#		#	the candidate control points to both the study_subject and birth_datum, so ...
+#		CandidateControl.find_each do |cc|
+#			#puts cc.study_subject_id
+#			#puts cc.birth_datum_id
+#			new_bdid = BirthDatum.where(:study_subject_id => cc.study_subject_id).first.id
+#			#puts new_bdid
+#			#puts
+#			cc.update_column(:birth_datum_id, new_bdid)
+#		end
+#
+#		puts; puts "Done.(#{Time.now})"
+#		puts "----------------------------------------------------------------------"
+#
+#	end	#	task :replace_birth_data => :environment do
 
 end	#	namespace :birth_data do
 end	#	namespace :app do

@@ -1,66 +1,73 @@
 namespace :app do
 namespace :users do
 
-	desc "Load some default users with roles to application"
-	task :add_default => :environment do
-		puts "Adding users"
-		admin_uids = []
-		admin_uids.push(859908)	#	Jake
-#		admin_uids.push(228181)	#	Magee
-		editor_uids = []
-		editor_uids.push(930799)	#	Pagan
-		editor_uids.push(721353)	#	Nadia
-		editor_uids.push(979072)	#	Jennifer
+#	20160504 - Commented out to avoid accidental usage.
+#	desc "Load some default users with roles to application"
+#	task :add_default => :environment do
+#		puts "Adding users"
+#		admin_uids = []
+#		admin_uids.push(859908)	#	Jake
+##		admin_uids.push(228181)	#	Magee
+#		editor_uids = []
+#		editor_uids.push(930799)	#	Pagan
+#		editor_uids.push(721353)	#	Nadia
+#		editor_uids.push(979072)	#	Jennifer
+#
+#		( admin_uids + editor_uids ).each do |uid|
+#			puts " - Adding user with uid:#{uid}:"
+#			ENV['uid'] = "#{uid}"
+#			Rake::Task["app:users:add_by_uid"].invoke
+#			Rake::Task["app:users:add_by_uid"].reenable
+#		end
+#		
+#		admin_uids.each do |uid|
+#			puts " - Assigning administrator role to user with uid:#{uid}:"
+#			ENV['uid'] = "#{uid}"
+#			Rake::Task["app:users:assign_administrator_by_uid"].invoke
+#			Rake::Task["app:users:assign_administrator_by_uid"].reenable
+#		end
+#		editor_uids.each do |uid|
+#			puts " - Assigning editor role to user with uid:#{uid}:"
+#			ENV['uid'] = "#{uid}"
+#			Rake::Task["app:users:assign_editor_by_uid"].invoke
+#			Rake::Task["app:users:assign_editor_by_uid"].reenable
+#		end
+#	end
 
-		( admin_uids + editor_uids ).each do |uid|
-			puts " - Adding user with uid:#{uid}:"
-			ENV['uid'] = "#{uid}"
-			Rake::Task["app:users:add_by_uid"].invoke
-			Rake::Task["app:users:add_by_uid"].reenable
-		end
-		
-		admin_uids.each do |uid|
-			puts " - Assigning administrator role to user with uid:#{uid}:"
-			ENV['uid'] = "#{uid}"
-			Rake::Task["app:users:assign_administrator_by_uid"].invoke
-			Rake::Task["app:users:assign_administrator_by_uid"].reenable
-		end
-		editor_uids.each do |uid|
-			puts " - Assigning editor role to user with uid:#{uid}:"
-			ENV['uid'] = "#{uid}"
-			Rake::Task["app:users:assign_editor_by_uid"].invoke
-			Rake::Task["app:users:assign_editor_by_uid"].reenable
-		end
-	end
 
-	desc "Add user by UID"
-	task :add_by_uid => :environment do
-		puts
-		env_uid_required
-		if !User.exists?(:uid => ENV['uid'])
-			puts "No user found with uid=#{ENV['uid']}. Adding..."
-			User.find_create_and_update_by_uid(ENV['uid'])
-		else
-			puts "User with uid #{ENV['uid']} already exists."
-		end
-		puts
-	end
+#	20160504 - Commented out to avoid accidental usage.
+#	desc "Add user by UID"
+#	task :add_by_uid => :environment do
+#		puts
+#		env_uid_required
+#		if !User.exists?(:uid => ENV['uid'])
+#			puts "No user found with uid=#{ENV['uid']}. Adding..."
+#			User.find_create_and_update_by_uid(ENV['uid'])
+#		else
+#			puts "User with uid #{ENV['uid']} already exists."
+#		end
+#		puts
+#	end
 
-	desc "Assign administrator role to user by UID"
-	task :assign_administrator_by_uid => :environment do
-		puts
-		env_uid_required
-		assign_user_role(ENV['uid'],'administrator')
-		puts
-	end
 
-	desc "Assign editor role to user by UID"
-	task :assign_editor_by_uid => :environment do
-		puts
-		env_uid_required
-		assign_user_role(ENV['uid'],'editor')
-		puts
-	end
+#	20160504 - Commented out to avoid accidental usage.
+#	desc "Assign administrator role to user by UID"
+#	task :assign_administrator_by_uid => :environment do
+#		puts
+#		env_uid_required
+#		assign_user_role(ENV['uid'],'administrator')
+#		puts
+#	end
+
+
+#	20160504 - Commented out to avoid accidental usage.
+#	desc "Assign editor role to user by UID"
+#	task :assign_editor_by_uid => :environment do
+#		puts
+#		env_uid_required
+#		assign_user_role(ENV['uid'],'editor')
+#		puts
+#	end
 
 end	#	namespace :users do
 end	#	namespace :app do

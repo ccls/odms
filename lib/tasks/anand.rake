@@ -218,8 +218,6 @@ namespace :anand do
 	end	#	task :verify_maternal_last_batch => :environment do
 
 
-
-
 	#	20130402
 	task :output_mothers_with_their_own_childids => :environment do
 		csv_out = CSV.open('anand/mothers_with_their_own_childids.csv','w')
@@ -236,6 +234,7 @@ namespace :anand do
 		end
 		csv_out.close
 	end
+
 
 	#	20130402
 	task :verify_childid_subjectid_in_original_samples_is_same_subject => :environment do
@@ -274,6 +273,7 @@ namespace :anand do
 		error_file.close
 	end	#	task :verify_childid_subjectid_in_original_samples_is_same_subject => :environment do
 
+
 	#	20130401
 	#	check that all samples with an external_id matching the cdcid
 	#	belong to the subject with the given childid
@@ -304,61 +304,63 @@ namespace :anand do
 		error_file.close
 	end	#	task :verify_cdcid_childid_sample_link => :environment do
 
-	#	20130402
-	#	
-	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
-		raise "This task has been disabled."
-		csv_out = CSV.open('anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest-OUTPUT.csv','w')
-		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type','Amount (mL)',
-			'Box','Group','Pos','Container']
-		total_lines = total_lines('anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv')
-		(csv_in = CSV.open( 'anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
-				'rb',{ :headers => true })).each do |line|
-			puts "Processing line #{csv_in.lineno}/#{total_lines}"
-			#	,"DLSSampleID","AstroID","smp_type","Box","Group","Pos","Amount (mL)",
-			#		"Amount Full","Container","Sample Type"
-			#1,"05-57-0042-R1","0019UJNP","RBC",,"NCCLS07C11",1,0.75,,"2.0 mL cryo","R1 RBC Folate"
 
-			cdcid = line['DLSSampleID'].gsub(/^05-57-/,'').gsub(/-\w+$/,'').to_i
-			childid = childid_cdcid.invert[cdcid]
+#	20160504 - Commented out to avoid accidental usage.
+#	#	20130402
+#	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
+#		raise "This task has been disabled."
+#		csv_out = CSV.open('anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest-OUTPUT.csv','w')
+#		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type','Amount (mL)',
+#			'Box','Group','Pos','Container']
+#		total_lines = total_lines('anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv')
+#		(csv_in = CSV.open( 'anand/20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
+#				'rb',{ :headers => true })).each do |line|
+#			puts "Processing line #{csv_in.lineno}/#{total_lines}"
+#			#	,"DLSSampleID","AstroID","smp_type","Box","Group","Pos","Amount (mL)",
+#			#		"Amount Full","Container","Sample Type"
+#			#1,"05-57-0042-R1","0019UJNP","RBC",,"NCCLS07C11",1,0.75,,"2.0 mL cryo","R1 RBC Folate"
+#
+#			cdcid = line['DLSSampleID'].gsub(/^05-57-/,'').gsub(/-\w+$/,'').to_i
+#			childid = childid_cdcid.invert[cdcid]
+#
+#			subject = StudySubject.where(:childid => childid).first.mother
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:sample_type_id => 1003,
+#				:external_id_source => '20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
+#				:external_id => line['DLSSampleID'],
+#				:notes => "Imported from 20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv\n" <<
+#					"DLSSampleID #{line['DLSSampleID']},\n" <<
+#					"AstroID #{line['AstroID']},\n" <<
+#					"smp_type #{line['smp_type']},\n" <<
+#					"Box #{line['Box']},\n" <<
+#					"Group #{line['Group']},\n" <<
+#					"Pos #{line['Pos']},\n" <<
+#					"Amount (mL) #{line['Amount (mL)']},\n" <<
+#					"Amount Full #{line['Amount Full']},\n" <<
+#					"Container #{line['Container']}" )
+#
+#			out = []
+#			out << line['DLSSampleID']
+#			out << subject.subjectid
+#			out << sample.sampleid
+#			out << 'CCLS'
+#			out << 'F'
+#			out << sample.sample_type.gegl_sample_type_id
+#			out << line['Amount (mL)']
+#			out << line['Box']
+#			out << line['Group']
+#			out << line['Pos']
+#			out << line['Container']
+#			puts out.join(',')
+#			csv_out << out
+#		end	#	CSV.open( '20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
+#		csv_out.close
+#		puts "Commiting to Sunspot index."
+#		Sunspot.commit
+#	end	#	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
 
-			subject = StudySubject.where(:childid => childid).first.mother
-
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:sample_type_id => 1003,
-				:external_id_source => '20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
-				:external_id => line['DLSSampleID'],
-				:notes => "Imported from 20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv\n" <<
-					"DLSSampleID #{line['DLSSampleID']},\n" <<
-					"AstroID #{line['AstroID']},\n" <<
-					"smp_type #{line['smp_type']},\n" <<
-					"Box #{line['Box']},\n" <<
-					"Group #{line['Group']},\n" <<
-					"Pos #{line['Pos']},\n" <<
-					"Amount (mL) #{line['Amount (mL)']},\n" <<
-					"Amount Full #{line['Amount Full']},\n" <<
-					"Container #{line['Container']}" )
-
-			out = []
-			out << line['DLSSampleID']
-			out << subject.subjectid
-			out << sample.sampleid
-			out << 'CCLS'
-			out << 'F'
-			out << sample.sample_type.gegl_sample_type_id
-			out << line['Amount (mL)']
-			out << line['Box']
-			out << line['Group']
-			out << line['Pos']
-			out << line['Container']
-			puts out.join(',')
-			csv_out << out
-		end	#	CSV.open( '20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
-		csv_out.close
-		puts "Commiting to Sunspot index."
-		Sunspot.commit
-	end	#	task :import_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
 
 	#	20130401
 	#	check if samples with the given external_id exist
@@ -391,6 +393,7 @@ namespace :anand do
 
 		end	#	CSV.open( '20111114_CDC_UrinePlasmaRBC_SampleInventory.NotOnGeglManifest.csv',
 	end	#	task :verify_cdc_biospecimens_inventory_not_on_gegl_manifest => :environment do
+
 
 	#	20130328
 	task :verify_cdc_biospecimens_inventory => :environment do
@@ -447,141 +450,144 @@ namespace :anand do
 		error_file.close
 	end	#	task :check_maternal_biospecimens_inventory
 
-	#	20130401
-	task :import_maternal_biospecimens_inventory => :environment do
-		raise "This task has been disabled."
-		error_file = File.open('anand/CDC Maternal Inventory 11_10_08.txt','w')
-		csv_out = CSV.open('anand/UCSF Maternal Samples.csv','w') 
-		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type',
-			'Date Collected','Date Received','Vol(ml)','Freezer','Rack','Box','Position']
-		total_lines = total_lines('anand/CDC Maternal Inventory 11_10_08.csv')
 
-		childid_cdcid_out = HWIA.new
+#	20160504 - Commented out to avoid accidental usage.
+#	#	20130401
+#	task :import_maternal_biospecimens_inventory => :environment do
+#		raise "This task has been disabled."
+#		error_file = File.open('anand/CDC Maternal Inventory 11_10_08.txt','w')
+#		csv_out = CSV.open('anand/UCSF Maternal Samples.csv','w') 
+#		csv_out << ['LabelID','SubjectID','SampleID','ProjectID','Gender','smp_type',
+#			'Date Collected','Date Received','Vol(ml)','Freezer','Rack','Box','Position']
+#		total_lines = total_lines('anand/CDC Maternal Inventory 11_10_08.csv')
+#
+#		childid_cdcid_out = HWIA.new
+#
+#		(csv_in = CSV.open( 'anand/CDC Maternal Inventory 11_10_08.csv', 
+#				'rb',{ :headers => true })).each do |line|
+#			puts "Processing line #{csv_in.lineno}/#{total_lines}"
+#
+#			if line['Assigned Location'] != '1 Wiencke Lab'
+#				puts "Location is not Wiencke Lab.  It is '#{line['Assigned Location']}'. Skipping."
+#				next
+#			end
+#			if line['Spec Type'] == 'VOC(gray top)'	#	irrelevant as only location '11 CDC'
+#				puts "Spec Type is VOC(gray top).  Skipping."
+#				next
+#			end
+#			if line['Spec Type'] == 'VOC(gray tube)'	#	irrelevant as only location '11 CDC'
+#				puts "Spec Type is VOC(gray tube).  Skipping."
+#				next
+#			end
+#			puts line
+#
+#			#
+#			# "Item#","Assigned Location","Child ID","CDC ID","2-Digit CDC ID","Spec Type",
+#			#	"Freezer","Rack","Box","Position","Vol (ml)","Date Collected","Date Received",
+#			#	"Date Shipped to CDC","Studycode","Comments","UsedUp?","Hematocrit",
+#			#	"First Morning Void?"
+#			#
+#			subject = StudySubject.where(:childid => line['Child ID']).first.mother
+#			raise "No subject found with childid #{line['Child ID']}" if subject.nil?
+#
+#			cdcid = line['CDC ID'].gsub(/05-57-/,'').to_i
+#			if childid_cdcid_out.has_key? line['Child ID'].to_i
+#				if childid_cdcid_out[line['Child ID'].to_i] != cdcid	#	line['CDC ID'].to_i
+#					puts "Child ID CDC ID Mismatch"
+#					puts "Have CDC ID :#{childid_cdcid_out[line['Child ID'].to_i]}:"
+#					puts "This CDC ID :#{cdcid}:"		#	line['CDC ID'].to_i}:"
+#					raise "Child ID CDC ID Mismatch"
+#				end
+#			else
+#				childid_cdcid_out[line['Child ID'].to_i] = cdcid	#	line['CDC ID'].to_i
+#			end
+#
+#			cdcid = childid_cdcid[line['Child ID'].to_i]
+#			if cdcid.blank?
+#				error_file.puts line['CDC ID'] 
+#				error_file.puts line['Child ID'] 
+#				error_file.puts "No comparison cdc id"
+#				error_file.puts
+#			elsif line['CDC ID'] != "05-57-#{sprintf('%04d',cdcid)}"
+#				error_file.puts "CDC ID Mismatch" 
+#				error_file.puts line['CDC ID'] 
+#				error_file.puts "05-57-#{sprintf('%04d',cdcid)}"
+#				error_file.puts
+#			end
+#
+#			sample_type = case line['Spec Type']
+#				when 'Serum Cotinine' then SampleType.find 1002
+#				when 'Plasma Folate' then SampleType.find 1000
+#				when 'RBC Folate' then SampleType.find 1003
+#				when 'Urine Cup' then SampleType.find 25
+#				when 'SAA' then SampleType.find 1002
+#				when 'SE' then SampleType.find 1002
+#				when 'PL' then SampleType.find 1000
+#				when 'RBC' then SampleType.find 1003
+#				when 'CL' then SampleType.find 1001
+#				when 'Urine Archive' then SampleType.find 25
+#				when 'Clot' then SampleType.find 1001
+#				when 'PA' then SampleType.find 1000
+#				else
+#					raise "All hell. Unexpected spec type :#{line['Spec Type']}:"
+#			end
+#
+#			labelid = "#{line['CDC ID']}-#{line['2-Digit CDC ID']}"
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:sample_type_id => sample_type.id,
+#				:external_id_source => 'CDC Maternal Inventory 11_10_08.csv',
+#				:external_id => labelid,
+#				:collected_from_subject_at => line['Date Collected'],
+#				:received_by_ccls_at => line['Date Received'],
+#				:notes => "Imported from CDC Maternal Inventory 11_10_08.csv\n" <<
+#					"Child ID #{line['Child ID']},\n" <<
+#					"CDC ID #{line['CDC ID']},\n" <<
+#					"2-Digit CDC ID #{line['2-Digit CDC ID']},\n" <<
+#					"Spec Type #{line['Spec Type']},\n" <<
+#					"Freezer #{line['Freezer']},\n" <<
+#					"Rack #{line['Rack']},\n" <<
+#					"Box #{line['Box']},\n" <<
+#					"Position #{line['Position']},\n" <<
+#					"Vol (ml) #{line['Vol (ml)']},\n" <<
+#					"UsedUp? #{line['UsedUp?']},\n" <<
+#					"Hematocrit #{line['Hematocrit']},\n" <<
+#					"First Morning Void? #{line['First Morning Void?']}" )
+#
+#			out = []
+#
+#			out << labelid
+#			out << subject.subjectid
+#			out << sample.sampleid
+#			out << 'CCLS'
+#			out << 'F'
+#			out << sample.sample_type.gegl_sample_type_id
+#			out << line['Date Collected']
+#			out << line['Date Received']
+#			out << line['Vol (ml)']
+#			out << line['Freezer']
+#			out << line['Rack']
+#			out << line['Box']
+#			out << line['Position']
+#
+#			puts out.join(',')
+#
+#			csv_out << out
+#
+#		end	#	CSV.open
+#		csv_out.close
+#		error_file.close
+#
+#		childid_cdcid_csv_out = CSV.open('anand/CDC Maternal Inventory 11_10_08-childid-cdcid.csv','w')
+#		childid_cdcid_csv_out << ["CHILDID","CDC_ID"]
+#		childid_cdcid_out.each { |childid,cdcid| childid_cdcid_csv_out << [childid,cdcid] }
+#		childid_cdcid_csv_out.close
+#
+#		puts "Commiting to Sunspot index."
+#		Sunspot.commit
+#	end	#	task :import_maternal_biospecimens_inventory
 
-		(csv_in = CSV.open( 'anand/CDC Maternal Inventory 11_10_08.csv', 
-				'rb',{ :headers => true })).each do |line|
-			puts "Processing line #{csv_in.lineno}/#{total_lines}"
-
-			if line['Assigned Location'] != '1 Wiencke Lab'
-				puts "Location is not Wiencke Lab.  It is '#{line['Assigned Location']}'. Skipping."
-				next
-			end
-			if line['Spec Type'] == 'VOC(gray top)'	#	irrelevant as only location '11 CDC'
-				puts "Spec Type is VOC(gray top).  Skipping."
-				next
-			end
-			if line['Spec Type'] == 'VOC(gray tube)'	#	irrelevant as only location '11 CDC'
-				puts "Spec Type is VOC(gray tube).  Skipping."
-				next
-			end
-			puts line
-
-			#
-			# "Item#","Assigned Location","Child ID","CDC ID","2-Digit CDC ID","Spec Type",
-			#	"Freezer","Rack","Box","Position","Vol (ml)","Date Collected","Date Received",
-			#	"Date Shipped to CDC","Studycode","Comments","UsedUp?","Hematocrit",
-			#	"First Morning Void?"
-			#
-			subject = StudySubject.where(:childid => line['Child ID']).first.mother
-			raise "No subject found with childid #{line['Child ID']}" if subject.nil?
-
-			cdcid = line['CDC ID'].gsub(/05-57-/,'').to_i
-			if childid_cdcid_out.has_key? line['Child ID'].to_i
-				if childid_cdcid_out[line['Child ID'].to_i] != cdcid	#	line['CDC ID'].to_i
-					puts "Child ID CDC ID Mismatch"
-					puts "Have CDC ID :#{childid_cdcid_out[line['Child ID'].to_i]}:"
-					puts "This CDC ID :#{cdcid}:"		#	line['CDC ID'].to_i}:"
-					raise "Child ID CDC ID Mismatch"
-				end
-			else
-				childid_cdcid_out[line['Child ID'].to_i] = cdcid	#	line['CDC ID'].to_i
-			end
-
-			cdcid = childid_cdcid[line['Child ID'].to_i]
-			if cdcid.blank?
-				error_file.puts line['CDC ID'] 
-				error_file.puts line['Child ID'] 
-				error_file.puts "No comparison cdc id"
-				error_file.puts
-			elsif line['CDC ID'] != "05-57-#{sprintf('%04d',cdcid)}"
-				error_file.puts "CDC ID Mismatch" 
-				error_file.puts line['CDC ID'] 
-				error_file.puts "05-57-#{sprintf('%04d',cdcid)}"
-				error_file.puts
-			end
-
-			sample_type = case line['Spec Type']
-				when 'Serum Cotinine' then SampleType.find 1002
-				when 'Plasma Folate' then SampleType.find 1000
-				when 'RBC Folate' then SampleType.find 1003
-				when 'Urine Cup' then SampleType.find 25
-				when 'SAA' then SampleType.find 1002
-				when 'SE' then SampleType.find 1002
-				when 'PL' then SampleType.find 1000
-				when 'RBC' then SampleType.find 1003
-				when 'CL' then SampleType.find 1001
-				when 'Urine Archive' then SampleType.find 25
-				when 'Clot' then SampleType.find 1001
-				when 'PA' then SampleType.find 1000
-				else
-					raise "All hell. Unexpected spec type :#{line['Spec Type']}:"
-			end
-
-			labelid = "#{line['CDC ID']}-#{line['2-Digit CDC ID']}"
-
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:sample_type_id => sample_type.id,
-				:external_id_source => 'CDC Maternal Inventory 11_10_08.csv',
-				:external_id => labelid,
-				:collected_from_subject_at => line['Date Collected'],
-				:received_by_ccls_at => line['Date Received'],
-				:notes => "Imported from CDC Maternal Inventory 11_10_08.csv\n" <<
-					"Child ID #{line['Child ID']},\n" <<
-					"CDC ID #{line['CDC ID']},\n" <<
-					"2-Digit CDC ID #{line['2-Digit CDC ID']},\n" <<
-					"Spec Type #{line['Spec Type']},\n" <<
-					"Freezer #{line['Freezer']},\n" <<
-					"Rack #{line['Rack']},\n" <<
-					"Box #{line['Box']},\n" <<
-					"Position #{line['Position']},\n" <<
-					"Vol (ml) #{line['Vol (ml)']},\n" <<
-					"UsedUp? #{line['UsedUp?']},\n" <<
-					"Hematocrit #{line['Hematocrit']},\n" <<
-					"First Morning Void? #{line['First Morning Void?']}" )
-
-			out = []
-
-			out << labelid
-			out << subject.subjectid
-			out << sample.sampleid
-			out << 'CCLS'
-			out << 'F'
-			out << sample.sample_type.gegl_sample_type_id
-			out << line['Date Collected']
-			out << line['Date Received']
-			out << line['Vol (ml)']
-			out << line['Freezer']
-			out << line['Rack']
-			out << line['Box']
-			out << line['Position']
-
-			puts out.join(',')
-
-			csv_out << out
-
-		end	#	CSV.open
-		csv_out.close
-		error_file.close
-
-		childid_cdcid_csv_out = CSV.open('anand/CDC Maternal Inventory 11_10_08-childid-cdcid.csv','w')
-		childid_cdcid_csv_out << ["CHILDID","CDC_ID"]
-		childid_cdcid_out.each { |childid,cdcid| childid_cdcid_csv_out << [childid,cdcid] }
-		childid_cdcid_csv_out.close
-
-		puts "Commiting to Sunspot index."
-		Sunspot.commit
-	end	#	task :import_maternal_biospecimens_inventory
 
 	#	20130321
 	#	Just confirm that the childids in this csv file exist.
@@ -600,62 +606,65 @@ namespace :anand do
 		end	#	CSV.open
 	end	#	task :check_maternal_biospecimens_inventory
 
-	#	20130321
-	#	Loop over the guthrie card inventory and create new samples
-	#	and then output a combination of the input and the new sample data.
-	task :import_guthrie_card_inventory => :environment do
-		raise "This task has been disabled."
-		csv_out = CSV.open('anand/Guthrie cards inventory 02_05_13- OUTPUT.csv','w') 
-		csv_out << %w(
-			guthrieid subjectid sampleid projectid gender smp_type book page pocket
-		)
-		total_lines = total_lines('anand/Guthrie cards inventory 02_05_13-APC CHECKED- for import.csv')
-		(csv_in = CSV.open( 'anand/Guthrie cards inventory 02_05_13-APC CHECKED- for import.csv', 
-				'rb',{ :headers => true })).each do |line|
-			puts "Processing line #{csv_in.lineno}/#{total_lines}"
-			#
-			# "SubjectID","GuthrieID","Book","Page","Pocket"
-			#
-			out = []
-			subject = StudySubject.with_subjectid(line['SubjectID']).first
-			raise "No subject found with #{line['SubjectID']}" if subject.nil?
 
-			#
-			#	Create Sample and get sampleid
-			#		sample_type = Blood Spot ( id: 16 ... archive newborn blood )
-			#		external_id_source = 'Guthrie' ( perhaps with book, page and pocket? )
-			#		external_id = line['GuthrieID']
-			#	
+#	20160504 - Commented out to avoid accidental usage.
+#	#	20130321
+#	#	Loop over the guthrie card inventory and create new samples
+#	#	and then output a combination of the input and the new sample data.
+#	task :import_guthrie_card_inventory => :environment do
+#		raise "This task has been disabled."
+#		csv_out = CSV.open('anand/Guthrie cards inventory 02_05_13- OUTPUT.csv','w') 
+#		csv_out << %w(
+#			guthrieid subjectid sampleid projectid gender smp_type book page pocket
+#		)
+#		total_lines = total_lines('anand/Guthrie cards inventory 02_05_13-APC CHECKED- for import.csv')
+#		(csv_in = CSV.open( 'anand/Guthrie cards inventory 02_05_13-APC CHECKED- for import.csv', 
+#				'rb',{ :headers => true })).each do |line|
+#			puts "Processing line #{csv_in.lineno}/#{total_lines}"
+#			#
+#			# "SubjectID","GuthrieID","Book","Page","Pocket"
+#			#
+#			out = []
+#			subject = StudySubject.with_subjectid(line['SubjectID']).first
+#			raise "No subject found with #{line['SubjectID']}" if subject.nil?
+#
+#			#
+#			#	Create Sample and get sampleid
+#			#		sample_type = Blood Spot ( id: 16 ... archive newborn blood )
+#			#		external_id_source = 'Guthrie' ( perhaps with book, page and pocket? )
+#			#		external_id = line['GuthrieID']
+#			#	
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:sample_type_id => 16,
+#				:sample_format_id => SampleFormat[:guthrie].id,
+#				:external_id_source => "Guthrie cards inventory 02_05_13-APC CHECKED- for import",
+#				:external_id => line['GuthrieID'],
+#				:notes => "Imported from Guthrie cards inventory 02_05_13-APC CHECKED- for import\n" <<
+#					"SubjectID #{line['SubjectID']},\n" <<
+#					"GuthrieID #{line['GuthrieID']},\n" <<
+#					"Book #{line['Book']},\n" <<
+#					"Page #{line['Page']},\n" <<
+#					"Pocket #{line['Pocket']}" )
+#
+#			out << line['GuthrieID']
+#			out << line['SubjectID']
+#			out << sample.sampleid
+#			out << 'CCLS'
+#			out << subject.sex
+#			out << 'bg'
+#			out << line['Book']
+#			out << line['Page']
+#			out << line['Pocket']
+#			puts out.join(', ')
+#			csv_out << out
+#		end	#	CSV.open( 'Guthrie cards in
+#		csv_out.close
+#		puts "Commiting to Sunspot index."
+#		Sunspot.commit
+#	end	#	task :import_guthrie_card_inventory 
 
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:sample_type_id => 16,
-				:sample_format_id => SampleFormat[:guthrie].id,
-				:external_id_source => "Guthrie cards inventory 02_05_13-APC CHECKED- for import",
-				:external_id => line['GuthrieID'],
-				:notes => "Imported from Guthrie cards inventory 02_05_13-APC CHECKED- for import\n" <<
-					"SubjectID #{line['SubjectID']},\n" <<
-					"GuthrieID #{line['GuthrieID']},\n" <<
-					"Book #{line['Book']},\n" <<
-					"Page #{line['Page']},\n" <<
-					"Pocket #{line['Pocket']}" )
-
-			out << line['GuthrieID']
-			out << line['SubjectID']
-			out << sample.sampleid
-			out << 'CCLS'
-			out << subject.sex
-			out << 'bg'
-			out << line['Book']
-			out << line['Page']
-			out << line['Pocket']
-			puts out.join(', ')
-			csv_out << out
-		end	#	CSV.open( 'Guthrie cards in
-		csv_out.close
-		puts "Commiting to Sunspot index."
-		Sunspot.commit
-	end	#	task :import_guthrie_card_inventory 
 
 	#	20130321
 	#	Loop over guthrie card inventory and confirm that any samples with an 
@@ -682,6 +691,7 @@ namespace :anand do
 			end
 		end	#	CSV.open
 	end	#	task :check_guthrie_card_inventory
+
 
 	#	20130313
 	task :add_sample_external_ids_to_csv => :environment do
