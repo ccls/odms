@@ -67,10 +67,10 @@ class Abstract  < ActiveRecord::Base
 	#		:facetable => false
 	#		:orderable => true
 
-	add_sunspot_column(:id, :default => true, :type => :integer)
-	add_sunspot_column(:icf_master_id, :default => true )
-	add_sunspot_column(:subjectid, :default => true )
-	add_sunspot_column(:patid, :default => true )
+	add_sunspot_column( :id, :default => true, :type => :integer)
+	add_sunspot_column( :icf_master_id, :default => true )
+	add_sunspot_column( :subjectid, :default => true )
+	add_sunspot_column( :patid, :default => true )
 	add_sunspot_column( :merged, :default => true,
 		:meth => ->(s){ ( s.merged? )? 'Yes' : 'No' },
 		:facetable => true )
@@ -503,6 +503,37 @@ class Abstract  < ActiveRecord::Base
 		:facetable => true )
 	add_sunspot_column( :pe_other_soft_tissue_location )
 	add_sunspot_column( :pe_other_soft_tissue_size )
+
+	add_sunspot_column( :abstracted_by )
+	add_sunspot_column( :abstracted_on )
+	add_sunspot_column( :as_other_abnormal_findings )
+	add_sunspot_column( :bma_comments )
+	add_sunspot_column( :bmb_comments )
+	add_sunspot_column( :cct_mediastinal_mass_description )
+	add_sunspot_column( :cgs_comments )
+	add_sunspot_column( :cgs_conventional_karyotyping_results )
+	add_sunspot_column( :cgs_hospital_fish_results )
+	add_sunspot_column( :cgs_others )
+	add_sunspot_column( :cp_therapeutic_agents )
+	add_sunspot_column( :csf_cytology )
+	add_sunspot_column( :cxr_mediastinal_mass_description )
+	add_sunspot_column( :ds_clinical_diagnosis )
+	add_sunspot_column( :em_comments )
+	add_sunspot_column( :entry_1_by_uid )
+	add_sunspot_column( :entry_2_by_uid )
+	add_sunspot_column( :hla_results )
+	add_sunspot_column( :marker_comments )
+	add_sunspot_column( :merged_by_uid )
+	add_sunspot_column( :other_markers )
+	add_sunspot_column( :pe_lymphadenopathy_description )
+	add_sunspot_column( :pe_neurological_abnormalities )
+	add_sunspot_column( :pe_other_abnormal_findings )
+	add_sunspot_column( :ploidy_notes )
+	add_sunspot_column( :ploidy_other_dna_measurement )
+	add_sunspot_column( :reviewed_by )
+	add_sunspot_column( :reviewed_on )
+	add_sunspot_column( :ts_findings )
+
 
 	searchable_plus
 
