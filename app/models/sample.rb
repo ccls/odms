@@ -129,7 +129,43 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:ucb_labno, :type => :integer)
 	add_sunspot_column(:ucb_biospecimen_flag, :type => :boolean)
 
-	searchable_plus
+	searchable_plus do
+		text :subject_type
+		text :vital_status
+		text :subjectid
+		text :childid
+		text :studyid
+		text :first_name
+		text :last_name
+		text :icf_master_id
+		text :patid
+		text :cdcid
+		text :sex
+		text :dob
+		text :died_on
+		text :admit_date
+		text :reference_date
+		text :diagnosis_date
+
+		text :aliquot_or_sample_on_receipt
+		text :collected_from_subject_at
+		text :external_id
+		text :external_id_source
+		text :notes
+		text :organization_id
+		text :parent_sample_id
+		text :received_by_ccls_at
+		text :received_by_lab_at
+		text :sample_format
+		text :sample_temperature
+		text :sample_type_id
+		text :sent_to_lab_at
+		text :sent_to_subject_at
+		text :shipped_to_ccls_at
+		text :ucb_biospecimen_flag
+		text :ucb_labno
+		text :ucsf_item_no
+	end
 
 protected
 

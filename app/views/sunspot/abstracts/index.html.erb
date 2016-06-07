@@ -7,7 +7,9 @@
 		<%= hidden_field_tag :order, params[:order] %>
 		<%= hidden_field_tag :dir, params[:dir] %>
 
-		<%#= text_field_tag :q, params[:q] %>
+		<div class='field_wrapper'><span>query</span>
+			<%= text_field_tag :q, params[:q], :class => :autosize, :title => 'This text is searched for in all abstract fields, plus subject fields: icf_master_id, patid, subjectid, vital status, dob, hospital, diagnosis and phase' %>
+		</div>
 
 		<%= render 'facets' %>
 		<%= render 'per_page' %>
