@@ -545,6 +545,8 @@ class Abstract  < ActiveRecord::Base
 		text :diagnosis
 		text :phase
 
+		text :abstracted_by
+		text :abstracted_on
 		text :as_ascities
 		text :as_hepatomegaly
 		text :as_lymphadenopathy
@@ -772,6 +774,8 @@ class Abstract  < ActiveRecord::Base
 		text :ploidy_pseudodiploid
 		text :ploidy_report_found
 		text :ploidy_test_date
+		text :reviewed_by
+		text :reviewed_on
 		text :tdt_found_where
 		text :tdt_numerical_result
 		text :tdt_report_found
