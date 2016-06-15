@@ -34,7 +34,16 @@ namespace :samples do
 #				:received_by_lab_at => "10/20/2014",
 				:external_id => line['CDC Barcode ID'],
 				:external_id_source => "CDC Barcode from Maternal_Urine_ListForODMS_06-04-2016ak.csv",
-				:notes => "Imported from Maternal_Urine_ListForODMS_06-04-2016ak.csv"
+				:notes => "Imported from Maternal_Urine_ListForODMS_06-04-2016ak.csv,\n" <<
+#		manifest.puts ["sampleid","Box","Pos","CDC Barcode ID","Sample Type","CDCID","2-digit CDC Specimen ID","Specimen type","VOL","Date collected","Date Received","First morning void","Storage temperature","UCSF Study code","UCSF Item#","note:","subjectid","idlink_familyid"].to_csv({:force_quotes=>true})
+#         "Box #{line['Box']},\n" <<
+#         "Pos #{line['Pos']},\n" <<
+#         "CDC Barcode ID #{line['CDC Barcode ID']},\n" <<
+#         "Sample Type #{line['Sample Type']},\n" <<
+#         "Specimen Type #{line['Specimen type']},\n" <<
+#         "UCSF Study code #{line['UCSF Study code']},\n" <<
+#         "UCSF Item# #{line['UCSF Item#']},\n" <<
+#         "idlink_familyid #{line['idlink_familyid']}" )
 			)
 #
 #			subject.operational_events.create!(
