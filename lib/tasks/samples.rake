@@ -3,16 +3,116 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-#==> /home/app_odms/Maternal_Urine_Blood/Maternal_Blood_ListForODMS_06-04-2016ak.csv <==
-#"Box","Position","CDC Barcode ID","Sample Type","CDC ID","2-digit CDC Specimen ID","Volume","Date Collected","Date Received","Hematocrit","Storage Temp","UCSF Study Code","UCSF Item#","subjectid","idlink_familyid"
+	#	20160614
+	task :import_and_manifest_maternal_blood_samples_20160614 => :environment do
+		path = "/home/app_odms/Maternal_Urine_Blood/"
+		base = "Maternal_Blood_ListForODMS_06-04-2016ak"
+		manifest = File.open("#{path}#{base}.OUT.csv",'w')
+		manifest.puts ["sampleid","Box","Position","CDC Barcode ID","Sample Type","CDC ID",
+			"2-digit CDC Specimen ID","Volume","Date Collected","Date Received","Hematocrit",
+			"Storage Temp","UCSF Study Code","UCSF Item#","subjectid","idlink_familyid"
+			].to_csv({:force_quotes=>true})
+			#	Box - ##
+			#	Position - ##
+			#	CDC Barcode ID - ##-##-####-??
+			#	Sample Type - 
+			#	CDC ID - ##-##-####
+			#	2-digit CDC Specimen ID - 
+			#	Volume - 10
+			#	Date Collected - date
+			#	Date Received - date
+			#	Hematocrit - 
+			#	Storage Temp -
+			#	UCSF Study Code -
+			#	UCSF Item# - ####
+			#	subjectid - ######
+			#	idlink_familyid - ######
+		CSV.open("#{path}#{base}.csv",'rb',
+				{ :headers => true }).each do |line|
+
+			puts line
+			subject = StudySubject.with_subjectid( line['subjectid'] ).first
+			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
+			raise "subject not found" unless subject.present?
+
+#			sample = subject.samples.create!(
+			puts Sample.new(
+				:project_id => Project[:ccls].id,
+				:organization_id => Organization['GEGL'].id,
+				:sample_type_id => SampleType[:momblood].id,
+				:sample_format => "Other Source",
+				:sample_temperature => line["Storage Temp"],
+				:collected_from_subject_at => line["Date Collected"],
+				:received_by_ccls_at => line["Date Received"],
+#				:shipped_to_ccls_at => "10/20/2014",
+#				:sent_to_lab_at => "10/20/2014",
+#				:received_by_lab_at => "10/20/2014",
+				:external_id => line['CDC Barcode ID'],
+				:external_id_source => "CDC Barcode from #{base}.csv",
+				:notes => "Imported from #{base}.csv,\n" <<
+
+#		manifest.puts ["sampleid","Box","Position","CDC Barcode ID","Sample Type","CDC ID","2-digit CDC Specimen ID","Volume","Date Collected","Date Received","Hematocrit","Storage Temp","UCSF Study Code","UCSF Item#","subjectid","idlink_familyid"].to_csv({:force_quotes=>true})
+
+#         "Box #{line['Box']},\n" <<
+#         "Position #{line['Position']},\n" <<
+#         "CDC Barcode ID #{line['CDC Barcode ID']},\n" <<
+#         "Sample Type #{line['Sample Type']},\n" <<
+#         "Specimen Type #{line['Specimen type']},\n" <<
+#         "UCSF Study Code #{line['UCSF Study Code']},\n" <<
+#         "UCSF Item# #{line['UCSF Item#']},\n" <<
+#         "Hematocrit #{line['Hematocrit']},\n" <<
+#         "idlink_familyid #{line['idlink_familyid']}"
+			)
+#
+#			subject.operational_events.create!(
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+#				:description => "manifesting of #{base}.csv"
+#			)
+#
+#			manifest.puts [ 
+#				sample.study_subject.icf_master_id_to_s,
+#				" #{sample.subjectid}",
+#				sample.study_subject.sex,
+#				" #{sample.sampleid}",
+#				sample.sample_type.gegl_sample_type_id,
+#				mdyhm_or_nil(sample.collected_from_subject_at),
+#				mdyhm_or_nil(sample.received_by_ccls_at),
+#				sample.sample_temperature,
+#				mdyhm_or_nil(sample.sent_to_lab_at)
+#			]
+
+		end	#	CSV.open
+		manifest.close
+	end	#	task :import_and_manifest_maternal_blood_samples_20160614 => :environment do
+
 
 
 	#	20160614
 	task :import_and_manifest_maternal_urine_samples_20160614 => :environment do
-		manifest = File.open('/home/app_odms/Maternal_Urine_Blood/Maternal_Urine_ListForODMS_06-04-2016ak.OUT.csv','w')
+		path = "/home/app_odms/Maternal_Urine_Blood/"
+		base = "Maternal_Urine_ListForODMS_06-04-2016ak"
+		manifest = File.open("#{path}#{base}.OUT.csv",'w')
 		manifest.puts ["sampleid","Box","Pos","CDC Barcode ID","Sample Type","CDCID","2-digit CDC Specimen ID","Specimen type","VOL","Date collected","Date Received","First morning void","Storage temperature","UCSF Study code","UCSF Item#","note:","subjectid","idlink_familyid"].to_csv({:force_quotes=>true})
-
-		CSV.open('/home/app_odms/Maternal_Urine_Blood/Maternal_Urine_ListForODMS_06-04-2016ak.csv','rb',
+			#	Box - ##
+			#	Pos - ##
+			#	CDC Barcode ID - ##-##-####-U1
+			#	Sample Type - Urine Archive
+			#	CDCID - ##-##-####
+			#	2-digit CDC Specimen ID - U1 or X6
+			#	Specimen Type - Urine
+			#	VOL - 10
+			#	Date collected - date
+			#	Date Received - date
+			#	First morning void - 0 or 1
+			#	Storage temperature - -80C
+			#	UCSF Study code - BCL
+			#	UCSF Item# - ####
+			#	note: - notes
+			#	subjectid - ######
+			#	idlink_familyid - ######
+		CSV.open("#{path}#{base}.csv",'rb',
 				{ :headers => true }).each do |line|
 
 			puts line
@@ -33,9 +133,10 @@ namespace :samples do
 #				:sent_to_lab_at => "10/20/2014",
 #				:received_by_lab_at => "10/20/2014",
 				:external_id => line['CDC Barcode ID'],
-				:external_id_source => "CDC Barcode from Maternal_Urine_ListForODMS_06-04-2016ak.csv",
-				:notes => "Imported from Maternal_Urine_ListForODMS_06-04-2016ak.csv,\n" <<
+				:external_id_source => "CDC Barcode from #{base}.csv",
+				:notes => "Imported from #{base}.csv,\n" <<
 #		manifest.puts ["sampleid","Box","Pos","CDC Barcode ID","Sample Type","CDCID","2-digit CDC Specimen ID","Specimen type","VOL","Date collected","Date Received","First morning void","Storage temperature","UCSF Study code","UCSF Item#","note:","subjectid","idlink_familyid"].to_csv({:force_quotes=>true})
+
 #         "Box #{line['Box']},\n" <<
 #         "Pos #{line['Pos']},\n" <<
 #         "CDC Barcode ID #{line['CDC Barcode ID']},\n" <<
@@ -43,14 +144,15 @@ namespace :samples do
 #         "Specimen Type #{line['Specimen type']},\n" <<
 #         "UCSF Study code #{line['UCSF Study code']},\n" <<
 #         "UCSF Item# #{line['UCSF Item#']},\n" <<
-#         "idlink_familyid #{line['idlink_familyid']}" )
+#         "First morning void #{line['First morning void']},\n" <<
+#         "idlink_familyid #{line['idlink_familyid']}"
 			)
 #
 #			subject.operational_events.create!(
 #				:occurred_at => DateTime.current,
 #				:project_id => Project['ccls'].id,
 #				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-#				:description => "manifesting of Maternal_Urine_ListForODMS_06-04-2016ak.csv"
+#				:description => "manifesting of #{base}.csv"
 #			)
 #
 #			manifest.puts [ 
