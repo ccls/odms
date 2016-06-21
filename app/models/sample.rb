@@ -43,7 +43,7 @@ class Sample < ActiveRecord::Base
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	VALID_SAMPLE_TEMPERATURES = ["Room Temperature", "Refrigerated"]
+	VALID_SAMPLE_TEMPERATURES = ["Room Temperature", "Refrigerated", "-80C"]
 
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
@@ -128,6 +128,8 @@ class Sample < ActiveRecord::Base
 	add_sunspot_column(:ucsf_item_no, :type => :integer)
 	add_sunspot_column(:ucb_labno, :type => :integer)
 	add_sunspot_column(:ucb_biospecimen_flag, :type => :boolean)
+	add_sunspot_column(:cdc_id)
+	add_sunspot_column(:cdc_barcode_id)
 
 	searchable_plus do
 		text :subject_type
@@ -165,6 +167,8 @@ class Sample < ActiveRecord::Base
 		text :ucb_biospecimen_flag
 		text :ucb_labno
 		text :ucsf_item_no
+		text :cdc_id
+		text :cdc_barcode_id
 	end
 
 protected
