@@ -39,7 +39,7 @@ namespace :samples do
 				:organization_id => Organization['GEGL'].id,
 				:sample_type_id => SampleType[:momblood].id,
 				:sample_format => "Other Source",
-				:sample_temperature => line["Storage Temp"],
+				:sample_temperature => "Refrigerated",		#line["Storage Temp"],
 				:collected_from_subject_at => line["Date Collected"],
 				:received_by_ccls_at => line["Date Received"],
 				:shipped_to_ccls_at => "12/2/2015",
@@ -56,6 +56,7 @@ namespace :samples do
 					"Position #{line['Position']},\n" <<
 					"Volume #{line['Volume']},\n" <<
 					"Sample Type #{line['Sample Type']},\n" <<
+					"Storage Temp #{line['Storage Temp']},\n" <<
 					"Specimen Type #{line['Specimen type']},\n" <<
 					"UCSF Study Code #{line['UCSF Study Code']},\n" <<
 					"Hematocrit #{line['Hematocrit']},\n" <<
@@ -115,7 +116,7 @@ namespace :samples do
 				:organization_id => Organization['GEGL'].id,
 				:sample_type_id => SampleType[:momurine].id,
 				:sample_format => "Other Source",
-				:sample_temperature => line["Storage temperature"],
+				:sample_temperature => "Refrigerated",		#line["Storage temperature"],
 				:collected_from_subject_at => line["Date collected"],
 				:received_by_ccls_at => line["Date Received"],
 				:shipped_to_ccls_at => "12/2/2015",
@@ -132,6 +133,7 @@ namespace :samples do
 					"Pos #{line['Pos']},\n" <<
 					"VOL #{line['VOL']},\n" <<
 					"Sample Type #{line['Sample Type']},\n" <<
+					"Storage temperature #{line['Storage temperature']},\n" <<
 					"Specimen Type #{line['Specimen type']},\n" <<
 					"UCSF Study code #{line['UCSF Study code']},\n" <<
 					"First morning void #{line['First morning void']},\n" <<
