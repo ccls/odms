@@ -43,7 +43,8 @@ class Sample < ActiveRecord::Base
 	end
 
 	#	Used in validations_from_yaml_file, so must be defined BEFORE its calling
-	VALID_SAMPLE_TEMPERATURES = ["Room Temperature", "Refrigerated", "-80C"]
+	VALID_SAMPLE_TEMPERATURES = ["Room Temperature", "Refrigerated"]
+	#, "-80C"]
 
 	#	This method is predominantly for a form selector.
 	#	It will show the existing value first followed by the other valid values.
