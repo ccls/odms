@@ -3,169 +3,169 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-	#	20160620
-	task :import_and_manifest_maternal_blood_samples_20160614 => :environment do
-		path = "/home/app_odms/Maternal_Urine_Blood/"
-		base = "Maternal_Blood_ListForODMS_06-04-2016ak"
-		manifest = File.open("#{path}#{base}.OUT.csv",'w')
-		f=File.open("#{path}#{base}.csv",'rb')
-		manifest.puts "\"sampleid\",#{f.gets}"
-			#	Box - ##
-			#	Position - ##
-			#	CDC Barcode ID - ##-##-####-??
-			#	Sample Type -
-			#	CDC ID - ##-##-####
-			#	2-digit CDC Specimen ID -
-			#	Volume - 10
-			#	Date Collected - date
-			#	Date Received - date
-			#	Hematocrit -
-			#	Storage Temp -
-			#	UCSF Study Code -
-			#	UCSF Item# - ####
-			#	subjectid - ######
-			#	idlink_familyid - ######
-		f.close
-		CSV.open("#{path}#{base}.csv",'rb',
-				{ :headers => true }).each do |line|
-
-#			puts line
-
-			if line['subjectid'].blank?
-				puts "------ No subjectid provided."
-				puts line
-				next
-			end
-
-			subject = StudySubject.with_subjectid( line['subjectid'] ).first
-			unless subject.present?
-				puts "------ Subject not found with subjectid '#{line['subjectid']}'"
-				next
-			end
-
-#			raise "subject not found" unless subject.present?
-
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:organization_id => Organization['GEGL'].id,
-				:sample_type_id => SampleType[:momblood].id,
-#				:sample_format => "Other Source",
-				:sample_temperature => "Refrigerated",		#line["Storage Temp"],
-				:collected_from_subject_at => line["Date Collected"],
-				:received_by_ccls_at => line["Date Received"],
-				:shipped_to_ccls_at => "12/2/2015",
-				:sent_to_lab_at => "12/2/2015",
-				:received_by_lab_at => "12/2/2015",
-				:ucsf_item_no => line['UCSF Item#'],
-				:cdc_id => line['CDC ID'],
-				:cdc_barcode_id => line['CDC Barcode ID'],
-				:external_id => line['CDC Barcode ID'],
-				:external_id_source => "CDC Barcode from #{base}.csv",
-				:notes => "Imported from #{base}.csv,\n" <<
-					"Received by CCLS is received from UCSF/CDC,\n" <<
-					"Box #{line['Box']},\n" <<
-					"Position #{line['Position']},\n" <<
-					"Volume #{line['Volume']},\n" <<
-					"Sample Type #{line['Sample Type']},\n" <<
-					"Storage Temp #{line['Storage Temp']},\n" <<
-					"Specimen Type #{line['Specimen type']},\n" <<
-					"UCSF Study Code #{line['UCSF Study Code']},\n" <<
-					"Hematocrit #{line['Hematocrit']},\n" <<
-					"idlink_familyid #{line['idlink_familyid']}"
-			) if subject.present?
-
-			subject.operational_events.create!(
-				:occurred_at => DateTime.current,
-				:project_id => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-				:description => "manifesting of #{base}.csv"
-			) if subject.present?
-
-			manifest.puts " #{sample.sampleid},#{line}" if subject.present?
-
-		end	#	CSV.open
-		manifest.close
-	end	#	task :import_and_manifest_maternal_blood_samples_20160614 => :environment do
-
-
-
-	#	20160620
-	task :import_and_manifest_maternal_urine_samples_20160614 => :environment do
-		path = "/home/app_odms/Maternal_Urine_Blood/"
-		base = "Maternal_Urine_ListForODMS_06-04-2016ak"
-		manifest = File.open("#{path}#{base}.OUT.csv",'w')
-		f=File.open("#{path}#{base}.csv",'rb')
-		manifest.puts "\"sampleid\",#{f.gets}"
-			#	Box - ##
-			#	Pos - ##
-			#	CDC Barcode ID - ##-##-####-U1
-			#	Sample Type - Urine Archive
-			#	CDCID - ##-##-####
-			#	2-digit CDC Specimen ID - U1 or X6
-			#	Specimen Type - Urine
-			#	VOL - 10
-			#	Date collected - date
-			#	Date Received - date
-			#	First morning void - 0 or 1
-			#	Storage temperature - -80C
-			#	UCSF Study code - BCL
-			#	UCSF Item# - ####
-			#	note: - notes
-			#	subjectid - ######
-			#	idlink_familyid - ######
-		f.close
-		CSV.open("#{path}#{base}.csv",'rb',
-				{ :headers => true }).each do |line|
-
-#			puts line
-			subject = StudySubject.with_subjectid( line['subjectid'] ).first
-			unless subject.present?
-				puts "------ Subject not found with #{line['subjectid']}"
-				raise "subject not found"
-			end
-
-			sample = subject.samples.create!(
-				:project_id => Project[:ccls].id,
-				:organization_id => Organization['GEGL'].id,
-				:sample_type_id => SampleType[:momurine].id,
-#				:sample_format => "Other Source",
-				:sample_temperature => "Refrigerated",		#line["Storage temperature"],
-				:collected_from_subject_at => line["Date collected"],
-				:received_by_ccls_at => line["Date Received"],
-				:shipped_to_ccls_at => "12/2/2015",
-				:sent_to_lab_at => "12/2/2015",
-				:received_by_lab_at => "12/2/2015",
-				:ucsf_item_no => line['UCSF Item#'],
-				:cdc_id => line['CDCID'],
-				:cdc_barcode_id => line['CDC Barcode ID'],
-				:external_id => line['CDC Barcode ID'],
-				:external_id_source => "CDC Barcode from #{base}.csv",
-				:notes => "Imported from #{base}.csv,\n" <<
-					"Received by CCLS is received from UCSF/CDC ,\n" <<
-					"Box #{line['Box']},\n" <<
-					"Pos #{line['Pos']},\n" <<
-					"VOL #{line['VOL']},\n" <<
-					"Sample Type #{line['Sample Type']},\n" <<
-					"Storage temperature #{line['Storage temperature']},\n" <<
-					"Specimen Type #{line['Specimen type']},\n" <<
-					"UCSF Study code #{line['UCSF Study code']},\n" <<
-					"First morning void #{line['First morning void']},\n" <<
-					"idlink_familyid #{line['idlink_familyid']},\n" <<
-					"notes #{line['note:']}"
-			)
-
-			subject.operational_events.create!(
-				:occurred_at => DateTime.current,
-				:project_id => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-				:description => "manifesting of #{base}.csv"
-			)
-
-			manifest.puts " #{sample.sampleid},#{line}"
-
-		end	#	CSV.open
-		manifest.close
-	end	#	task :import_and_manifest_maternal_urine_samples_20160614 => :environment do
+#	#	20160620
+#	task :import_and_manifest_maternal_blood_samples_20160614 => :environment do
+#		path = "/home/app_odms/Maternal_Urine_Blood/"
+#		base = "Maternal_Blood_ListForODMS_06-04-2016ak"
+#		manifest = File.open("#{path}#{base}.OUT.csv",'w')
+#		f=File.open("#{path}#{base}.csv",'rb')
+#		manifest.puts "\"sampleid\",#{f.gets}"
+#			#	Box - ##
+#			#	Position - ##
+#			#	CDC Barcode ID - ##-##-####-??
+#			#	Sample Type -
+#			#	CDC ID - ##-##-####
+#			#	2-digit CDC Specimen ID -
+#			#	Volume - 10
+#			#	Date Collected - date
+#			#	Date Received - date
+#			#	Hematocrit -
+#			#	Storage Temp -
+#			#	UCSF Study Code -
+#			#	UCSF Item# - ####
+#			#	subjectid - ######
+#			#	idlink_familyid - ######
+#		f.close
+#		CSV.open("#{path}#{base}.csv",'rb',
+#				{ :headers => true }).each do |line|
+#
+##			puts line
+#
+#			if line['subjectid'].blank?
+#				puts "------ No subjectid provided."
+#				puts line
+#				next
+#			end
+#
+#			subject = StudySubject.with_subjectid( line['subjectid'] ).first
+#			unless subject.present?
+#				puts "------ Subject not found with subjectid '#{line['subjectid']}'"
+#				next
+#			end
+#
+##			raise "subject not found" unless subject.present?
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:organization_id => Organization['GEGL'].id,
+#				:sample_type_id => SampleType[:momblood].id,
+##				:sample_format => "Other Source",
+#				:sample_temperature => "Refrigerated",		#line["Storage Temp"],
+#				:collected_from_subject_at => line["Date Collected"],
+#				:received_by_ccls_at => line["Date Received"],
+#				:shipped_to_ccls_at => "12/2/2015",
+#				:sent_to_lab_at => "12/2/2015",
+#				:received_by_lab_at => "12/2/2015",
+#				:ucsf_item_no => line['UCSF Item#'],
+#				:cdc_id => line['CDC ID'],
+#				:cdc_barcode_id => line['CDC Barcode ID'],
+#				:external_id => line['CDC Barcode ID'],
+#				:external_id_source => "CDC Barcode from #{base}.csv",
+#				:notes => "Imported from #{base}.csv,\n" <<
+#					"Received by CCLS is received from UCSF/CDC,\n" <<
+#					"Box #{line['Box']},\n" <<
+#					"Position #{line['Position']},\n" <<
+#					"Volume #{line['Volume']},\n" <<
+#					"Sample Type #{line['Sample Type']},\n" <<
+#					"Storage Temp #{line['Storage Temp']},\n" <<
+#					"Specimen Type #{line['Specimen type']},\n" <<
+#					"UCSF Study Code #{line['UCSF Study Code']},\n" <<
+#					"Hematocrit #{line['Hematocrit']},\n" <<
+#					"idlink_familyid #{line['idlink_familyid']}"
+#			) if subject.present?
+#
+#			subject.operational_events.create!(
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+#				:description => "manifesting of #{base}.csv"
+#			) if subject.present?
+#
+#			manifest.puts " #{sample.sampleid},#{line}" if subject.present?
+#
+#		end	#	CSV.open
+#		manifest.close
+#	end	#	task :import_and_manifest_maternal_blood_samples_20160614 => :environment do
+#
+#
+#
+#	#	20160620
+#	task :import_and_manifest_maternal_urine_samples_20160614 => :environment do
+#		path = "/home/app_odms/Maternal_Urine_Blood/"
+#		base = "Maternal_Urine_ListForODMS_06-04-2016ak"
+#		manifest = File.open("#{path}#{base}.OUT.csv",'w')
+#		f=File.open("#{path}#{base}.csv",'rb')
+#		manifest.puts "\"sampleid\",#{f.gets}"
+#			#	Box - ##
+#			#	Pos - ##
+#			#	CDC Barcode ID - ##-##-####-U1
+#			#	Sample Type - Urine Archive
+#			#	CDCID - ##-##-####
+#			#	2-digit CDC Specimen ID - U1 or X6
+#			#	Specimen Type - Urine
+#			#	VOL - 10
+#			#	Date collected - date
+#			#	Date Received - date
+#			#	First morning void - 0 or 1
+#			#	Storage temperature - -80C
+#			#	UCSF Study code - BCL
+#			#	UCSF Item# - ####
+#			#	note: - notes
+#			#	subjectid - ######
+#			#	idlink_familyid - ######
+#		f.close
+#		CSV.open("#{path}#{base}.csv",'rb',
+#				{ :headers => true }).each do |line|
+#
+##			puts line
+#			subject = StudySubject.with_subjectid( line['subjectid'] ).first
+#			unless subject.present?
+#				puts "------ Subject not found with #{line['subjectid']}"
+#				raise "subject not found"
+#			end
+#
+#			sample = subject.samples.create!(
+#				:project_id => Project[:ccls].id,
+#				:organization_id => Organization['GEGL'].id,
+#				:sample_type_id => SampleType[:momurine].id,
+##				:sample_format => "Other Source",
+#				:sample_temperature => "Refrigerated",		#line["Storage temperature"],
+#				:collected_from_subject_at => line["Date collected"],
+#				:received_by_ccls_at => line["Date Received"],
+#				:shipped_to_ccls_at => "12/2/2015",
+#				:sent_to_lab_at => "12/2/2015",
+#				:received_by_lab_at => "12/2/2015",
+#				:ucsf_item_no => line['UCSF Item#'],
+#				:cdc_id => line['CDCID'],
+#				:cdc_barcode_id => line['CDC Barcode ID'],
+#				:external_id => line['CDC Barcode ID'],
+#				:external_id_source => "CDC Barcode from #{base}.csv",
+#				:notes => "Imported from #{base}.csv,\n" <<
+#					"Received by CCLS is received from UCSF/CDC ,\n" <<
+#					"Box #{line['Box']},\n" <<
+#					"Pos #{line['Pos']},\n" <<
+#					"VOL #{line['VOL']},\n" <<
+#					"Sample Type #{line['Sample Type']},\n" <<
+#					"Storage temperature #{line['Storage temperature']},\n" <<
+#					"Specimen Type #{line['Specimen type']},\n" <<
+#					"UCSF Study code #{line['UCSF Study code']},\n" <<
+#					"First morning void #{line['First morning void']},\n" <<
+#					"idlink_familyid #{line['idlink_familyid']},\n" <<
+#					"notes #{line['note:']}"
+#			)
+#
+#			subject.operational_events.create!(
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+#				:description => "manifesting of #{base}.csv"
+#			)
+#
+#			manifest.puts " #{sample.sampleid},#{line}"
+#
+#		end	#	CSV.open
+#		manifest.close
+#	end	#	task :import_and_manifest_maternal_urine_samples_20160614 => :environment do
 
 
 
