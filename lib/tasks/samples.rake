@@ -32,13 +32,16 @@ namespace :samples do
 #			puts line
 			subject = StudySubject.with_subjectid( line['subjectid'] ).first
 			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
+
+			next unless subject.present?
+
 #			raise "subject not found" unless subject.present?
 
 			sample = subject.samples.create!(
 				:project_id => Project[:ccls].id,
 				:organization_id => Organization['GEGL'].id,
 				:sample_type_id => SampleType[:momblood].id,
-				:sample_format => "Other Source",
+#				:sample_format => "Other Source",
 				:sample_temperature => line["Storage Temp"],
 				:collected_from_subject_at => line["Date Collected"],
 				:received_by_ccls_at => line["Date Received"],
@@ -114,7 +117,7 @@ namespace :samples do
 				:project_id => Project[:ccls].id,
 				:organization_id => Organization['GEGL'].id,
 				:sample_type_id => SampleType[:momurine].id,
-				:sample_format => "Other Source",
+#				:sample_format => "Other Source",
 				:sample_temperature => line["Storage temperature"],
 				:collected_from_subject_at => line["Date collected"],
 				:received_by_ccls_at => line["Date Received"],
