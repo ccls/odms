@@ -13,13 +13,13 @@ namespace :samples do
 			#	Box - ##
 			#	Position - ##
 			#	CDC Barcode ID - ##-##-####-??
-			#	Sample Type - 
+			#	Sample Type -
 			#	CDC ID - ##-##-####
-			#	2-digit CDC Specimen ID - 
+			#	2-digit CDC Specimen ID -
 			#	Volume - 10
 			#	Date Collected - date
 			#	Date Received - date
-			#	Hematocrit - 
+			#	Hematocrit -
 			#	Storage Temp -
 			#	UCSF Study Code -
 			#	UCSF Item# - ####
@@ -30,10 +30,18 @@ namespace :samples do
 				{ :headers => true }).each do |line|
 
 #			puts line
-			subject = StudySubject.with_subjectid( line['subjectid'] ).first
-			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
 
-			next unless subject.present?
+			if line['subjectid'].blank?
+				puts "------ No subjectid provided."
+				puts line
+				next
+			end
+
+			subject = StudySubject.with_subjectid( line['subjectid'] ).first
+			unless subject.present?
+				puts "------ Subject not found with subjectid '#{line['subjectid']}'"
+				next
+			end
 
 #			raise "subject not found" unless subject.present?
 
@@ -110,8 +118,10 @@ namespace :samples do
 
 #			puts line
 			subject = StudySubject.with_subjectid( line['subjectid'] ).first
-			puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
-			raise "subject not found" unless subject.present?
+			unless subject.present?
+				puts "------ Subject not found with #{line['subjectid']}"
+				raise "subject not found"
+			end
 
 			sample = subject.samples.create!(
 				:project_id => Project[:ccls].id,
@@ -207,7 +217,7 @@ namespace :samples do
 #	#	20141208
 #	task :report_bloodspot_date_received => :environment do
 #		dupe_dates = {}
-#		CSV.open('data/dbs_replenish_alternate_ids.csv','rb',{ 
+#		CSV.open('data/dbs_replenish_alternate_ids.csv','rb',{
 #				:headers => true }).each do |line|
 #			#	subjectid,state_id_no,group,external_id
 #			if( line['external_id'] == 'NA' )
@@ -236,7 +246,7 @@ namespace :samples do
 #
 #			if samples.length > 1
 #				#	Several (but all same subject)
-#				puts "Multiple found with external_id #{line['external_id']}" 
+#				puts "Multiple found with external_id #{line['external_id']}"
 #				#raise "Multiple found with external_id #{line['external_id']}"
 #			end
 #			raise "None found with external_id #{line['external_id']}" if samples.empty?
@@ -284,7 +294,7 @@ namespace :samples do
 #				raise 'barcode mismatch'
 #			end
 #
-#			subject = StudySubject.where( 
+#			subject = StudySubject.where(
 #				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
 #			if subject.subjectid != line['subjectid'].squish
 #				puts subject.subjectid
@@ -301,8 +311,8 @@ namespace :samples do
 ##		raise "This task has been run and disabled."
 #		manifest = CSV.open('gegl/old_spots_transfered_from_joes_lab_10202014_with_ids_manifest.csv','w')
 #
-#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
-#			collected_from_subject_at received_by_ccls_at 
+#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id
+#			collected_from_subject_at received_by_ccls_at
 #			storage_temperature sent_to_lab_at )
 #		CSV.open('gegl/old_spots_transfered_from_joes_lab_10202014_with_ids.csv','rb',
 #				{ :headers => true }).each do |line|
@@ -339,7 +349,7 @@ namespace :samples do
 #				:description => "manifesting of old_spots_transfered_from_joes_lab_10202014_with_ids.csv"
 #			)
 #
-#			manifest.puts [ 
+#			manifest.puts [
 #				sample.study_subject.icf_master_id_to_s,
 #				" #{sample.subjectid}",
 #				sample.study_subject.sex,
@@ -361,8 +371,8 @@ namespace :samples do
 #		raise "This task has been run and disabled."
 #		manifest = CSV.open('gegl/Request_26_group_B_SFN_to_Barcode_Link_manifest.csv','w')
 #
-#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
-#			collected_from_subject_at received_by_ccls_at 
+#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id
+#			collected_from_subject_at received_by_ccls_at
 #			storage_temperature sent_to_lab_at Barcode state_id_no Group Comment )
 #		CSV.open('gegl/Request_26_group_B_SFN_to_Barcode_Link.csv','rb',
 #				{ :headers => true }).each do |line|
@@ -397,7 +407,7 @@ namespace :samples do
 #				:description => "manifesting of Request_26_group_B_SFN_to_Barcode_Link.csv"
 #			)
 #
-#			manifest.puts [ 
+#			manifest.puts [
 #				sample.study_subject.icf_master_id_to_s,
 #				" #{sample.subjectid}",
 #				sample.study_subject.sex,
@@ -423,8 +433,8 @@ namespace :samples do
 #		raise "This task has been run and disabled."
 #		manifest = CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link_manifest.csv','w')
 #
-#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id 
-#			collected_from_subject_at received_by_ccls_at 
+#		manifest.puts %w( icf_master_id subjectid sex sampleid gegl_sample_type_id
+#			collected_from_subject_at received_by_ccls_at
 #			storage_temperature sent_to_lab_at )
 #		CSV.open('gegl/Request_26_group_A_SFN_to_Barcode_Link.csv','rb',
 #				{ :headers => true }).each do |line|
@@ -432,7 +442,7 @@ namespace :samples do
 #			#SFN,YOB,Barcode,Comment
 #
 #			puts line
-#			subject = StudySubject.where( 
+#			subject = StudySubject.where(
 #				:state_id_no => "#{line['YOB'][2,2]}-#{sprintf('%06d', line['SFN'])}" ).first
 #			puts "------ Subject not found with #{line['SFN']}" unless subject.present?
 #			raise 'hell' unless subject.present?
@@ -459,7 +469,7 @@ namespace :samples do
 #				:description => "manifesting of Request_26_group_A_SFN_to_Barcode_Link.csv"
 #			)
 #
-#			manifest.puts [ 
+#			manifest.puts [
 #				sample.study_subject.icf_master_id_to_s,
 #				" #{sample.subjectid}",
 #				sample.study_subject.sex,
@@ -491,9 +501,9 @@ namespace :samples do
 #			#puts "------ Subject not found with #{line['subjectid']}" unless subject.present?
 #
 #			#	They are always the same
-#			#	raise "derived_state_file_no_last6 and Birth SFN differ in csv" if( 
+#			#	raise "derived_state_file_no_last6 and Birth SFN differ in csv" if(
 #			#		line['derived_state_file_no_last6'] != line['Birth SFN'] )
-#			#	raise "Birth Year different :#{line['Birth Year']}:#{subject.birth_year}" if( 
+#			#	raise "Birth Year different :#{line['Birth Year']}:#{subject.birth_year}" if(
 #			#		line['Birth Year'] != subject.birth_year )
 #
 #			sample = subject.samples.create!(
@@ -518,7 +528,7 @@ namespace :samples do
 #				:description => "manifesting of bloodspot_receipt_10062014.csv"
 #			)
 #
-#			manifest.puts [ 
+#			manifest.puts [
 #				sample.study_subject.icf_master_id_to_s,
 #				" #{sample.subjectid}",
 #				sample.study_subject.sex,
@@ -539,7 +549,7 @@ namespace :samples do
 #	#	20140916
 #	task :gegl_oldest_date_received => :environment do
 #		#columns=csv_columns( 'gegl/lab_yield.ccls.txt', { :col_sep => "\t" })
-#		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
+#		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc",
 #		#		"ucb_sampleid", "date_recieved", "status", "reason"]
 #		#	oldest date received 2011-08-17
 #		oldest_date_received = Date.current
@@ -571,7 +581,7 @@ namespace :samples do
 #				subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
 #				puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
 #
-#				if sample.present? and subject.present? 
+#				if sample.present? and subject.present?
 #					if sample.study_subject.familyid != subject.familyid
 #						puts "------ Sample #{line['locations_sampleid']} belongs to different Subject / Mother"
 #					else
@@ -582,11 +592,11 @@ namespace :samples do
 #						#	some dates as 2015-07-29
 #						if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
 #								line['date_recieved'].match(/^9999-01-01/).nil?  and
-#								line['date_recieved'].match(/^2015-07-29/).nil? 
+#								line['date_recieved'].match(/^2015-07-29/).nil?
 #							updates[:received_by_lab_at] = line['date_recieved']
 #						end
 #						unless updates.empty?
-#							notes = sample.notes 
+#							notes = sample.notes
 #							( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
 #							notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
 #							notes << "#{updates}\n"
@@ -607,7 +617,7 @@ namespace :samples do
 #		#matching = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.matching.txt", 'w')
 #		#family = File.open( "#{Date.current.strftime("%Y%m%d")}-gegl_errors.mismatched_samples.family.txt", 'w')
 #		#columns=csv_columns( 'gegl/lab_yield.merged.txt', { :col_sep => "\t" })
-#		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc", 
+#		#	["locations_subjectid", "locations_sampleid", "total_yield", "ratio", "wga", "type", "type_desc",
 #		#		"ucb_sampleid", "date_recieved", "status", "reason"]
 #		#csv_out.puts columns
 #		#matching.puts %w( sampleid gegl_subjectid gegl_subject_type gegl_patid odms_subjectid odms_subject_type odms_patid sample_type ).to_csv
@@ -630,7 +640,7 @@ namespace :samples do
 #			subject = StudySubject.with_subjectid(line['locations_subjectid'].to_i).first
 #			puts "------ Subject not found with #{line['locations_subjectid']}" unless subject.present?
 #
-#			if sample.present? and subject.present? 
+#			if sample.present? and subject.present?
 #				if sample.study_subject_id == subject.id
 #
 #					puts "EVERYTHING IS OK!!!  Updating sample #{sample}"
@@ -639,13 +649,13 @@ namespace :samples do
 #				elsif sample.study_subject.familyid == subject.familyid
 #					puts "------ Sample #{line['locations_sampleid']} belongs to different family member Subject / Mother"
 #
-#					#family.puts [	sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
+#					#family.puts [	sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid,
 #					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
 #
 #				elsif sample.study_subject.matchingid == subject.matchingid
 #					puts "------ Sample #{line['locations_sampleid']} belongs to different matching member Control / Control Mother"
 #
-#					#matching.puts [ sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid, 
+#					#matching.puts [ sprintf('%07d',sampleid), line['locations_subjectid'], subject.subject_type, subject.patid,
 #					#	sample.study_subject.subjectid, sample.study_subject.subject_type, sample.study_subject.patid, sample.sample_type ].to_csv
 #
 #				else
@@ -661,11 +671,11 @@ namespace :samples do
 #				#	some dates as 2015-07-29
 #				if line['date_recieved'].present?  and sample.received_by_lab_at.nil? and
 #						line['date_recieved'].match(/^9999-01-01/).nil?  and
-#						line['date_recieved'].match(/^2015-07-29/).nil? 
+#						line['date_recieved'].match(/^2015-07-29/).nil?
 #					updates[:received_by_lab_at] = line['date_recieved']
 #				end
 #				unless updates.empty?
-#					notes = sample.notes 
+#					notes = sample.notes
 #					( notes.present? ) ? ( notes << "\n" ) : ( notes = "" )
 #					notes << "#{Date.current.strftime("%-m/%-d/%-Y")}: Synchronizing location and date received with lab db.\n"
 #					notes << "#{updates}\n"
@@ -674,7 +684,7 @@ namespace :samples do
 #					sample.update_attributes!(updates)
 #				end
 #
-#			end	#	if sample.present? and subject.present? 
+#			end	#	if sample.present? and subject.present?
 #		
 #		end	#	CSV.open
 #		#csv_out.close
@@ -933,7 +943,7 @@ namespace :samples do
 #			subjects = StudySubject.where(:icf_master_id => line['icf_master_id'])
 #			puts "Subject not found with #{sfn}" if subjects.empty?
 #			if subjects.length > 1
-#				puts "Multiple found with #{sfn}" 
+#				puts "Multiple found with #{sfn}"
 #				puts subjects.inspect
 #			end
 #			subject = subjects.first
@@ -1014,7 +1024,7 @@ namespace :samples do
 #			# sample_subtype_id_orig seem to be bogus
 #
 #			#	Not all of the samples that are missing the sample_type are Buccal/Salival
-#			#		so can't confirm what these sample types are so can't change them to 
+#			#		so can't confirm what these sample types are so can't change them to
 #			#		buccal or salival.  Leaving them as is.
 #			#		MAYBE leave them as is but add a comment?
 #
@@ -1088,12 +1098,12 @@ namespace :samples do
 ##	sbj_key = not unique
 ##	sbj_extr_key = CCLS_ child's subjectid or mother's subjectid
 ##	smp_type = gegl sample type
-##	smp_recvd_date = 
+##	smp_recvd_date =
 ##	smp_collected_date =
 ##	smp_from_location = 14?
 ##	sbj_sex = 1 or 2
 ##	____ = nothing?
-##	Count = 
+##	Count =
 ##	
 #
 #	task :buccal_saliva_list_check_and_update => :environment do
@@ -1173,9 +1183,9 @@ namespace :samples do
 #			new_line << sample.sample_type.gegl_sample_type_id
 #			csv_subjectid = line['sbj_extr_key'].to_s.split(/_/)[1]
 #			new_line << ( ( csv_subjectid == subject.subjectid ) ? 'SAME' : (
-#				( StudySubject.with_familyid(subject.familyid).collect(&:subjectid).include?(csv_subjectid) ) ? 
+#				( StudySubject.with_familyid(subject.familyid).collect(&:subjectid).include?(csv_subjectid) ) ?
 #					'FAMILYDIFFER' : (
-#				( StudySubject.with_matchingid(subject.matchingid).collect(&:subjectid).include?(csv_subjectid) ) ? 
+#				( StudySubject.with_matchingid(subject.matchingid).collect(&:subjectid).include?(csv_subjectid) ) ?
 #					'MATCHINGDIFFER' : 'UNKNOWN' ) )
 #			)
 #			csv_subject = StudySubject.with_subjectid(csv_subjectid).first
@@ -1222,7 +1232,7 @@ namespace :samples do
 #				#	maternal samples are being attached to mother ( only 2 found that aren't )
 #				if sample.study_subject.mother.nil?
 #					puts "Sample's subject's mother doesn't exist in db. Creating."
-#					sample.study_subject.create_mother 
+#					sample.study_subject.create_mother
 #					raise "mother creation failed?" if sample.study_subject.mother.nil?
 #				end
 #
