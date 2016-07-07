@@ -48,7 +48,7 @@ gem 'prawnto'
 #	format Month/Day/Year Date.parse('12/31/2000')
 gem 'american_date'
 
-gem 'rails'
+gem 'rails', '~>4'
 
 gem 'json'
 
