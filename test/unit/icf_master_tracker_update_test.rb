@@ -46,6 +46,8 @@ class IcfMasterTrackerUpdateTest < ActiveSupport::TestCase
 				'test/assets/empty_icf_master_tracker_update_test_file.csv',:verbose => true)
 			icf_master_tracker_update.archive
 		end
+		#	This is the date stamp of the file.
+		#	touch --date=20120406  test/assets/empty_icf_master_tracker_update_test_file.csv 
 		assert_match 'Processing 20120406...', out
 		assert_match '0 changes found.', out
 		assert_match 'Archiving ICF Master Tracker file ...', out
