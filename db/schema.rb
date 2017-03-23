@@ -259,8 +259,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.date     "abstracted_on"
     t.string   "reviewed_by",                             limit: 255
     t.date     "reviewed_on"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -268,8 +268,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "current_address",      limit: 4,     default: 1
     t.integer  "address_at_diagnosis", limit: 4
     t.string   "other_data_source",    limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text     "notes",                limit: 65535
     t.string   "data_source",          limit: 255
     t.string   "line_1",               limit: 255
@@ -289,8 +289,9 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "address_type",         limit: 255
   end
 
-  add_index "addresses", ["needs_geocoded", "geocoding_failed"], name: "index_addressings_on_needs_geocoded_and_geocoding_failed", using: :btree
-  add_index "addresses", ["study_subject_id"], name: "index_addressings_on_study_subject_id", using: :btree
+  add_index "addresses", ["external_address_id"], name: "index_addresses_on_external_address_id", unique: true, using: :btree
+  add_index "addresses", ["needs_geocoded", "geocoding_failed"], name: "index_addresses_on_needs_geocoded_and_geocoding_failed", using: :btree
+  add_index "addresses", ["study_subject_id"], name: "index_addresses_on_study_subject_id", using: :btree
 
   create_table "alternate_contacts", force: :cascade do |t|
     t.integer  "study_subject_id", limit: 4
@@ -315,10 +316,10 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.date     "sent_on"
     t.string   "status",           limit: 255
     t.text     "notes",            limit: 65535
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
     t.boolean  "is_found"
     t.date     "returned_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "birth_data", force: :cascade do |t|
@@ -400,11 +401,11 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "term_count_20_plus_weeks",          limit: 4
     t.integer  "term_count_pre_20_weeks",           limit: 4
     t.string   "vacuum_attempt_unsuccessful",       limit: 255
-    t.datetime "created_at",                                                              null: false
-    t.datetime "updated_at",                                                              null: false
     t.integer  "control_number",                    limit: 4
     t.string   "father_ssn",                        limit: 255
     t.string   "mother_ssn",                        limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "birth_data_file_name",              limit: 255
     t.integer  "childid",                           limit: 4
     t.string   "deceased",                          limit: 255
@@ -436,8 +437,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.date     "assigned_on"
     t.boolean  "reject_candidate",             default: false, null: false
     t.string   "rejection_reason", limit: 255
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "counties", force: :cascade do |t|
@@ -445,8 +446,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "fips_code",    limit: 5
     t.string   "state_abbrev", limit: 2
     t.string   "usc_code",     limit: 2
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "counties", ["state_abbrev"], name: "index_counties_on_state_abbrev", using: :btree
@@ -478,8 +479,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "receive_study_findings",            limit: 4
     t.boolean  "refused_by_physician"
     t.boolean  "refused_by_family"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "assigned_for_interview_at"
     t.date     "interview_completed_on"
     t.string   "tracing_status",                    limit: 255
@@ -493,8 +494,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "controller", limit: 255
     t.string   "action",     limit: 255
     t.text     "body",       limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "guides", ["controller", "action"], name: "index_guides_on_controller_and_action", unique: true, using: :btree
@@ -503,8 +504,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "organization_id", limit: 4
     t.boolean  "has_irb_waiver",            default: false, null: false
     t.boolean  "is_active",                 default: true,  null: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "hospitals", ["organization_id"], name: "index_hospitals_on_organization_id", using: :btree
@@ -513,8 +514,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "icf_master_id",    limit: 9
     t.date     "assigned_on"
     t.integer  "study_subject_id", limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "icf_master_ids", ["icf_master_id"], name: "index_icf_master_ids_on_icf_master_id", unique: true, using: :btree
@@ -524,8 +525,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "position",    limit: 4
     t.string   "key",         limit: 255, null: false
     t.string   "description", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "ineligible_reasons", ["description"], name: "index_ineligible_reasons_on_description", unique: true, using: :btree
@@ -534,10 +535,10 @@ ActiveRecord::Schema.define(version: 20160621031021) do
   create_table "languages", force: :cascade do |t|
     t.integer  "position",    limit: 4
     t.string   "key",         limit: 255, null: false
-    t.string   "description", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
     t.integer  "code",        limit: 4
+    t.string   "description", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "languages", ["code"], name: "index_languages_on_code", unique: true, using: :btree
@@ -559,8 +560,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "key",            limit: 255, null: false
     t.string   "description",    limit: 255
     t.string   "event_category", limit: 255
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "operational_event_types", ["description"], name: "index_operational_event_types_on_description", unique: true, using: :btree
@@ -573,20 +574,20 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "project_id",                limit: 4
     t.string   "description",               limit: 255
     t.text     "notes",                     limit: 65535
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "operational_events", ["operational_event_type_id"], name: "index_operational_events_on_operational_event_type_id", using: :btree
-  add_index "operational_events", ["project_id"], name: "index_operational_events_on_project_id", using: :btree
-  add_index "operational_events", ["study_subject_id"], name: "index_operational_events_on_study_subject_id", using: :btree
+  add_index "operational_events", ["operational_event_type_id"], name: "oe_oeti", using: :btree
+  add_index "operational_events", ["project_id"], name: "oe_pi", using: :btree
+  add_index "operational_events", ["study_subject_id"], name: "oe_ssi", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.integer  "position",   limit: 4
     t.string   "key",        limit: 255, null: false
     t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "organizations", ["key"], name: "index_organizations_on_key", unique: true, using: :btree
@@ -603,8 +604,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "menu_es",    limit: 255
     t.text     "body_en",    limit: 65535
     t.text     "body_es",    limit: 65535
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
@@ -624,8 +625,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "raf_county",                   limit: 255
     t.string   "hospital_no",                  limit: 25
     t.string   "other_diagnosis",              limit: 255
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "diagnosis",                    limit: 255
   end
 
@@ -640,8 +641,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.boolean  "is_primary"
     t.integer  "current_phone",     limit: 4,   default: 1
     t.string   "other_data_source", limit: 255
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "phone_type",        limit: 255
     t.string   "data_source",       limit: 255
   end
@@ -655,9 +656,9 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "key",                  limit: 255,   null: false
     t.string   "description",          limit: 255
     t.text     "eligibility_criteria", limit: 65535
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
     t.string   "label",                limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "projects", ["description"], name: "index_projects_on_description", unique: true, using: :btree
@@ -666,10 +667,10 @@ ActiveRecord::Schema.define(version: 20160621031021) do
   create_table "races", force: :cascade do |t|
     t.integer  "position",    limit: 4
     t.string   "key",         limit: 255, null: false
-    t.string   "description", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
     t.integer  "code",        limit: 4
+    t.string   "description", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "races", ["code"], name: "index_races_on_code", unique: true, using: :btree
@@ -680,8 +681,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "position",    limit: 4
     t.string   "key",         limit: 255, null: false
     t.string   "description", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "refusal_reasons", ["description"], name: "index_refusal_reasons_on_description", unique: true, using: :btree
@@ -690,8 +691,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
   create_table "roles", force: :cascade do |t|
     t.integer  "position",   limit: 4
     t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "roles", ["name"], name: "index_roles_on_name", unique: true, using: :btree
@@ -707,8 +708,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
   create_table "sample_locations", force: :cascade do |t|
     t.integer  "organization_id", limit: 4
     t.boolean  "is_active",                 default: true, null: false
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "sample_locations", ["organization_id"], name: "index_sample_locations_on_organization_id", using: :btree
@@ -720,8 +721,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.date     "sent_on"
     t.string   "status",             limit: 255
     t.text     "notes",              limit: 65535
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sample_types", force: :cascade do |t|
@@ -729,11 +730,11 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "parent_id",           limit: 4
     t.string   "key",                 limit: 255,                null: false
     t.string   "description",         limit: 255
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
     t.boolean  "for_new_sample",                  default: true, null: false
     t.integer  "t2k_sample_type_id",  limit: 4
     t.string   "gegl_sample_type_id", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "sample_types", ["description"], name: "index_sample_types_on_description", unique: true, using: :btree
@@ -755,11 +756,11 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.datetime "received_by_lab_at"
     t.string   "external_id",                  limit: 255
     t.string   "external_id_source",           limit: 255
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.text     "notes",                        limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "sample_format",                limit: 255
     t.string   "sample_temperature",           limit: 255
+    t.text     "notes",                        limit: 65535
     t.integer  "ucsf_item_no",                 limit: 4
     t.integer  "ucb_labno",                    limit: 4
     t.boolean  "ucb_biospecimen_flag"
@@ -775,8 +776,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "name",              limit: 255, null: false
     t.string   "fips_country_code", limit: 2,   null: false
     t.string   "fips_state_code",   limit: 2,   null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "states", ["code"], name: "index_states_on_code", unique: true, using: :btree
@@ -840,22 +841,22 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "state_registrar_no",          limit: 255
     t.string   "local_registrar_no",          limit: 255
     t.boolean  "is_matched"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
     t.integer  "phase",                       limit: 4
     t.integer  "hispanicity_mex",             limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "vital_status",                limit: 20
+    t.integer  "addresses_count",             limit: 4,   default: 0
+    t.integer  "abstracts_count",             limit: 4,   default: 0
     t.string   "case_icf_master_id",          limit: 9
     t.string   "mother_icf_master_id",        limit: 9
     t.string   "subject_type",                limit: 20
-    t.string   "vital_status",                limit: 20
-    t.integer  "cdcid",                       limit: 4
     t.integer  "samples_count",               limit: 4,   default: 0
+    t.integer  "cdcid",                       limit: 4
     t.integer  "operational_events_count",    limit: 4,   default: 0
-    t.integer  "addresses_count",             limit: 4,   default: 0
     t.integer  "phone_numbers_count",         limit: 4,   default: 0
     t.integer  "interviews_count",            limit: 4,   default: 0
     t.boolean  "needs_reindexed",                         default: false
-    t.integer  "abstracts_count",             limit: 4,   default: 0
     t.integer  "enrollments_count",           limit: 4,   default: 0
     t.integer  "replication_id",              limit: 4
     t.string   "guardian_relationship",       limit: 255
@@ -882,8 +883,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "study_subject_id", limit: 4
     t.integer  "language_code",    limit: 4
     t.string   "other_language",   limit: 255
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "subject_languages", ["study_subject_id"], name: "index_subject_languages_on_study_subject_id", using: :btree
@@ -893,8 +894,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.integer  "race_code",        limit: 4
     t.boolean  "is_primary",                   default: false, null: false
     t.string   "other_race",       limit: 255
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "subject_races", ["study_subject_id"], name: "index_subject_races_on_study_subject_id", using: :btree
@@ -905,8 +906,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "displayname",     limit: 255
     t.string   "mail",            limit: 255
     t.string   "telephonenumber", limit: 255
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["sn"], name: "index_users_on_sn", using: :btree
@@ -918,8 +919,8 @@ ActiveRecord::Schema.define(version: 20160621031021) do
     t.string   "state",      limit: 255, null: false
     t.string   "zip_class",  limit: 255, null: false
     t.integer  "county_id",  limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "zip_codes", ["zip_code"], name: "index_zip_codes_on_zip_code", unique: true, using: :btree
