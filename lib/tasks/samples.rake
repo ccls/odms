@@ -53,7 +53,7 @@ namespace :samples do
 			}
 			puts attributes
 
-			sample = subject.samples.create!(attributes) if subject.present?
+#			sample = subject.samples.create!(attributes) if subject.present?
 
 			attributes = {
 				:occurred_at => DateTime.current,
@@ -63,9 +63,9 @@ namespace :samples do
 			}
 			puts attributes
 
-			subject.operational_events.create!(attributes) if subject.present?
+#			subject.operational_events.create!(attributes) if subject.present?
 
-			manifest.puts " #{sample.sampleid},#{line}" if subject.present?
+#			manifest.puts " #{sample.sampleid},#{line}" if subject.present?
 
 		end	#	CSV.open
 		manifest.close
