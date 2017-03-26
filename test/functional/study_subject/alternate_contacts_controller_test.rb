@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::AlternateContactsController
+
 	#	no study_subject_id
 	assert_no_route(:get,:new)
 	assert_no_route(:post,:create)

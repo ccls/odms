@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::SamplesControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::SamplesController
+
 #	ASSERT_ACCESS_OPTIONS = {
 #		:model => 'Sample',
 #		:actions => [:edit,:update,:destroy],

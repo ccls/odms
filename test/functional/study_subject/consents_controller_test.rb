@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::ConsentsControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::ConsentsController
+
 	#	no study_subject_id
 	assert_no_route(:get, :show)
 #	assert_no_route(:get,:index)

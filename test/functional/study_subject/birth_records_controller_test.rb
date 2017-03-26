@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::BirthRecordsControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::BirthRecordsController
+
 	#	no route
 	assert_no_route(:get,:index)
 

@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::AbstractsController
+
 	def factory_attributes(options={})
 		FactoryGirl.attributes_for(:abstract,{:reviewed_by => 'Testing'}.merge(options))
 	end

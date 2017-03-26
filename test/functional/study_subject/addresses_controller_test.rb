@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::AddressesControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::AddressesController
+
 	#	no route
 	#	no study_subject_id
 	#	no id

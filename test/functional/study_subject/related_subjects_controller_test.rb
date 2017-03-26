@@ -2,6 +2,9 @@ require 'test_helper'
 
 class StudySubject::RelatedSubjectsControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests StudySubject::RelatedSubjectsController
+
 	site_editors.each do |cu|
 
 		test "should get index with case study_subject_id and #{cu} login" do

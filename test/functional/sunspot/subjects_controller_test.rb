@@ -3,6 +3,9 @@ require 'test_helper'
 
 class Sunspot::SubjectsControllerTest < ActionController::TestCase
 
+	#	First run can't first this out for some?
+	tests Sunspot::SubjectsController
+
 #
 #	Only run these test if the sunspot/solr server is running.
 #	Otherwise, it can get ugly.
