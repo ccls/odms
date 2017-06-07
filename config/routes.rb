@@ -138,6 +138,7 @@ Rails.application.routes.draw do
 
 	get 'logout', :to => 'sessions#destroy'
 
+	resource  :upload, :only => [:new,:create]
 	resources :users, :only => [:destroy,:show,:index] do
 		resources :roles, :only => [:update,:destroy]
 	end
