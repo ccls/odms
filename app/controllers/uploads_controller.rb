@@ -5,7 +5,7 @@ class UploadsController < ApplicationController
 	def new
 	end
 	def create
-		dir = File.join(Rails.root,'public','uploads')
+		dir = File.join(Rails.root,'uploads')
 		Dir.mkdir(dir) unless Dir.exists?(dir)
 		uploaded_io = params[:file]
 		infilename = Time.now.strftime("%Y%m%d%H%M%S") + "-" + uploaded_io.original_filename
