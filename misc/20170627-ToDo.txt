@@ -1,0 +1,25 @@
+
+
+
+1. Create general file upload form for passing files to me - where does it go and is it web readable?
+
+2. Import guthrie card / blood spot samples from dbs_manifest_final_ForJake_03012017.csv
+Each line represents single subject, with number of samples as no_cards_recd=#
+Use 3/1/2017 for dates
+
+3. Add prefix “do_not_use_” to the following variable names.
+Variable names …
+derived_local_no_last6
+derived_state_no_last6
+local_registrar_no
+state_id_no
+state_registrar_no
+Change labels on all screens? YES
+Remove these from sunspot? NO
+
+4. Add new variable sfn_from_cdph to study_subject as a 10 character string (string limit: 10), add validation
+Expecting 6-8 digits.
+Populate from sfn_dataset_for_ODMS_06042017.csv
+Add field to sunspot under main
+Put field on any form or screen for manually adding / editing? NO
+
