@@ -143,7 +143,7 @@ class StudySubjectsController < ApplicationController
 protected
 
 	def url_for_subject(subject)
-		referrer_params = Odms::Application.routes.recognize_path(request.referrer) || {}
+		referrer_params = Odms::Application.routes.recognize_path(request.referrer||'') || {}
 		#referrer_params returns symbolized keys
 		case
 			when referrer_params.keys.include?(:study_subject_id)
