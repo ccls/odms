@@ -371,7 +371,7 @@ ActiveRecord::Schema.define(version: 20170628030121) do
     t.integer  "live_births_now_deceased",               limit: 4
     t.integer  "live_births_now_living",                 limit: 4
     t.string   "local_registrar_district",               limit: 255
-    t.string   "local_registrar_no",                     limit: 255
+    t.string   "do_not_use_local_registrar_no",          limit: 255
     t.string   "method_of_delivery",                     limit: 255
     t.string   "month_prenatal_care_began",              limit: 255
     t.string   "mother_residence_line_1",                limit: 255
@@ -397,7 +397,7 @@ ActiveRecord::Schema.define(version: 20170628030121) do
     t.integer  "ob_gestation_estimate_at_delivery",      limit: 4
     t.integer  "prenatal_care_visit_count",              limit: 4
     t.string   "sex",                                    limit: 255
-    t.string   "state_registrar_no",                     limit: 255
+    t.string   "do_not_use_state_registrar_no",          limit: 255
     t.integer  "term_count_20_plus_weeks",               limit: 4
     t.integer  "term_count_pre_20_weeks",                limit: 4
     t.string   "vacuum_attempt_unsuccessful",            limit: 255

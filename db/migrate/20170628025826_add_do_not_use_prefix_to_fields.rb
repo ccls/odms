@@ -4,6 +4,10 @@ class AddDoNotUsePrefixToFields < ActiveRecord::Migration
 			:do_not_use_derived_local_file_no_last6
 		rename_column :birth_data, :derived_state_file_no_last6,
 			:do_not_use_derived_state_file_no_last6
+		rename_column :birth_data, :state_registrar_no,
+			:do_not_use_state_registrar_no
+		rename_column :birth_data, :local_registrar_no,
+			:do_not_use_local_registrar_no
 		rename_column :study_subjects, :local_registrar_no,
 			:do_not_use_local_registrar_no
 		rename_column :study_subjects, :state_id_no,
