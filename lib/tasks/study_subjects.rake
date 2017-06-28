@@ -1,6 +1,11 @@
 namespace :app do
 namespace :study_subjects do
 
+
+	task :load_sfn_from_cdph_20170627 => :environment do
+
+	end	#	task :load_sfn_from_cdph_20170627 => :environment do
+
 #	20160504 - Commented out to avoid accidental usage.
 #	task :update_state_id_no_from_research => :environment do
 #		CSV.open( "tracking2k/20141009_manual_stateidno_update.csv", 'rb',{ :headers => true }).each do |line|
