@@ -31,10 +31,16 @@ class EventIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			select 'operations', :from => 'category'
 
-			wait_until { 
-				all('select#operational_event_operational_event_type_id option').length > 1 }
-#				!find('select#operational_event_operational_event_type_id option'
-#				).text.blank? }
+
+#	20170628 - Occassionally creates (wait_until{ all } or wait_until{ find } )
+#				Capybara::Webkit::NodeNotAttachedError: Element at ## no longer present in the DOM
+#		    test/integration/event_integration_test.rb:1:in `each'
+#
+#			wait_until { 
+#				all('select#operational_event_operational_event_type_id option').length > 1 }
+##				!find('select#operational_event_operational_event_type_id option'
+##				).text.blank? }
+			wait_until { has_css?('select#operational_event_operational_event_type_id option') }
 
 			#	now should have some options.
 			#	by doing it this way, capybara 'reloads' the contents before comparison
@@ -55,10 +61,18 @@ class EventIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#	and can then test not cleared again.
 			#	selecting nothing will trigger the loading of nothing in the selector
 			select '', :from => 'category'
+
+
+#	20170628 - Occassionally creates (wait_until{ all } or wait_until{ find } )
+#				Capybara::Webkit::NodeNotAttachedError: Element at ## no longer present in the DOM
+#		    test/integration/event_integration_test.rb:1:in `each'
+#
+#			wait_until { 
+#				find('select#operational_event_operational_event_type_id'
+#					).all('option').length == 0
+#			}
 			wait_until { 
-				find('select#operational_event_operational_event_type_id'
-					).all('option').length == 0
-			}
+				!has_css?('select#operational_event_operational_event_type_id option') }
 			assert !has_css?('select#operational_event_operational_event_type_id option')
 
 			select 'samples', :from => 'category'
@@ -113,13 +127,22 @@ class EventIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 			#	and can then test not cleared again.
 			#	selecting nothing will trigger the loading of nothing in the selector
 			select '', :from => 'category'
+
+
+#	20170628 - Occassionally creates (wait_until{ all } or wait_until{ find } )
+#				Capybara::Webkit::NodeNotAttachedError: Element at ## no longer present in the DOM
+#		    test/integration/event_integration_test.rb:1:in `each'
+#
+#			wait_until { 
+#				find('select#operational_event_operational_event_type_id'
+#					).all('option').length == 0
+#			}
 			wait_until { 
-				find('select#operational_event_operational_event_type_id'
-					).all('option').length == 0
-			}
+				!has_css?('select#operational_event_operational_event_type_id option') }
 			assert !has_css?('select#operational_event_operational_event_type_id option')
 
 			select 'operations', :from => 'category'
+
 			wait_until { 
 				has_css?('select#operational_event_operational_event_type_id option') }
 
