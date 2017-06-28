@@ -49,9 +49,9 @@
   :attributes:
   - :other_mother_race
   - :other_father_race
-  - :state_id_no
-  - :state_registrar_no
-  - :local_registrar_no
+  - :do_not_use_state_id_no
+  - :do_not_use_state_registrar_no
+  - :do_not_use_local_registrar_no
   - :related_childid
   - :related_case_childid
   :length:
@@ -173,4 +173,10 @@
   :presence: true
   :inclusion:
     :in: <%= StudySubject.const_get :VALID_VITAL_STATUSES %>
+
+-
+  :attribute: :sfn_from_cdph
+  :length:
+    :maximum: 10
+  :allow_blank: true
 

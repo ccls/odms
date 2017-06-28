@@ -38,13 +38,13 @@
 
 <%= f.subject_races_select() %>
 
-<%= f.wrapped_text_field :state_registrar_no,
-	:label_text => 'state registrar no:' %>
-<%= f.wrapped_text_field :local_registrar_no,
-	:label_text => 'local registrar no:' %>
+<%= f.wrapped_text_field :do_not_use_state_registrar_no,
+	:label_text => 'DO NOT USE state registrar no:' %>
+<%= f.wrapped_text_field :do_not_use_local_registrar_no,
+	:label_text => 'DO NOT USE local registrar no:' %>
 
-<%= wrapped_spans :study_subject, :state_id_no,
-	:label_text => 'state id no:' %>
+<%= wrapped_spans :study_subject, :do_not_use_state_id_no,
+	:label_text => 'DO NOT USE state id no:' %>
 
 <%= wrapped_date_spans :study_subject, :reference_date,
 	:label_text => 'admit (reference) date:' %>

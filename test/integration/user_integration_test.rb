@@ -63,7 +63,8 @@ class UserIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				#	This isn't perfect, but it does test that the redirect is to CalNet
 				#	If I can't test that I've been redirected, test the page content.
 				assert_select body.to_html_document, 'title', 
-					:text => "CalNet Central Authentication Service - Single Sign-on"
+					:text => "Login - CAS – Central Authentication Service"
+#					:text => "CalNet Central Authentication Service - Single Sign-on"
 
 				#https://auth-test.berkeley.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A50510%2Fusers%2F1
 

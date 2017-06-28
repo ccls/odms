@@ -16,7 +16,7 @@ class CandidateControl < ActiveRecord::Base
 		:father_first_name, :father_middle_name, :father_last_name, 
 		:dob, :birth_type, :match_confidence, :deceased,
 		:mother_yrs_educ, :father_yrs_educ,
-		:state_registrar_no, :local_registrar_no,
+		:do_not_use_state_registrar_no, :do_not_use_local_registrar_no,
 			:to => :birth_datum, :allow_nil => true
 
 	def case_study_subject
@@ -60,8 +60,8 @@ class CandidateControl < ActiveRecord::Base
 				s.mother_maiden_name = mother_maiden_name.namerize
 
 				s.case_control_type  = grouping
-				s.state_registrar_no = state_registrar_no
-				s.local_registrar_no = local_registrar_no
+				s.do_not_use_state_registrar_no = do_not_use_state_registrar_no
+				s.do_not_use_local_registrar_no = do_not_use_local_registrar_no
 				s.orderno            = next_orderno
 				s.matchingid         = case_subject.subjectid
 				s.patid              = case_subject.patid

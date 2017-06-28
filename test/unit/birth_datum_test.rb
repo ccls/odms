@@ -757,7 +757,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	end
 
-	%w( state_registrar_no middle_name
+	%w( do_not_use_state_registrar_no middle_name
 			father_first_name father_middle_name father_last_name 
 			mother_first_name mother_middle_name mother_maiden_name
 			).each do |field|
@@ -774,7 +774,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 				{field => ''}, {field => 'iamnot blank'})
 			study_subject.reload
 			assert_equal study_subject.send(field), 'Iamnot Blank'
-		end unless field == 'state_registrar_no'	# NOTE just the one exception
+		end unless field == 'do_not_use_state_registrar_no'	# NOTE just the one exception
 
 		#	this is kinda already tested as is just success
 		test "case birth datum should create operational event if #{field} blank" do
@@ -1011,18 +1011,18 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_match /Triggerchange/, birth_datum.reload.study_subject_changes
 	end
 
-	test "should add leading zeroes to derived_state_file_no_last6 if not blank" do
-		birth_datum = FactoryGirl.build(:birth_datum, :derived_state_file_no_last6 => 123)
-		assert_not_nil birth_datum.derived_state_file_no_last6
+	test "should add leading zeroes to do_not_use_derived_state_file_no_last6 if not blank" do
+		birth_datum = FactoryGirl.build(:birth_datum, :do_not_use_derived_state_file_no_last6 => 123)
+		assert_not_nil birth_datum.do_not_use_derived_state_file_no_last6
 		birth_datum.save
-		assert_equal '000123', birth_datum.reload.derived_state_file_no_last6
+		assert_equal '000123', birth_datum.reload.do_not_use_derived_state_file_no_last6
 	end
 
-	test "should add leading zeroes to derived_local_file_no_last6 if not blank" do
-		birth_datum = FactoryGirl.build(:birth_datum, :derived_local_file_no_last6 => 123)
-		assert_not_nil birth_datum.derived_local_file_no_last6
+	test "should add leading zeroes to do_not_use_derived_local_file_no_last6 if not blank" do
+		birth_datum = FactoryGirl.build(:birth_datum, :do_not_use_derived_local_file_no_last6 => 123)
+		assert_not_nil birth_datum.do_not_use_derived_local_file_no_last6
 		birth_datum.save
-		assert_equal '000123', birth_datum.reload.derived_local_file_no_last6
+		assert_equal '000123', birth_datum.reload.do_not_use_derived_local_file_no_last6
 	end
 
 protected

@@ -13,7 +13,7 @@ OperationalEvent.where(:operational_event_type_id => 28).where(OperationalEvent.
 #	puts oe.notes
 #
 #
-#Changes:  {"father_first_name"=>["Frederico", "Federico"], "father_middle_name"=>[nil, "-"], "father_last_name"=>["Tapia", "Tapai Cortez"], "mother_middle_name"=>[nil, "-"], "mother_maiden_name"=>[nil, "Rangel Ortiz"], "state_registrar_no"=>[nil, "1052004374227"]}
+#Changes:  {"father_first_name"=>["Frederico", "Federico"], "father_middle_name"=>[nil, "-"], "father_last_name"=>["Tapia", "Tapai Cortez"], "mother_middle_name"=>[nil, "-"], "mother_maiden_name"=>[nil, "Rangel Ortiz"], "do_not_use_state_registrar_no"=>[nil, "1052004374227"]}
 #Birth Record data changes from CLS Cases 25APR2013 -- Batch 2.csv
 #
 #
@@ -55,7 +55,7 @@ BirthDatum.where(BirthDatum.arel_table[:study_subject_changes].matches('%_name%'
 #	eval bd.study_subject_changes
 #	=> should yield a hash
 
-#{"father_first_name"=>["Steven Adam", "Steven"], "state_registrar_no"=>[nil, "32108002245"]}
+#{"father_first_name"=>["Steven Adam", "Steven"], "do_not_use_state_registrar_no"=>[nil, "32108002245"]}
 #{"last_name"=>["Cordon", "Cordonlopez"]}
 #{"father_first_name"=>["Jesus", "Jesus Amado"], "first_name"=>["Gavriel", "Gavriel Luis"], "middle_name"=>[nil, "Angeles"]}
 #{"middle_name"=>[nil, "Amelie"]}

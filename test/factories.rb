@@ -360,9 +360,9 @@ FactoryGirl.define do
 		f.sequence(:sex) { random_sex }
 		f.sequence(:dob) { random_date }
 		f.sequence(:case_control_type){|n| '123456789'.split('')[n%9] }
-		f.sequence(:state_id_no){|n| "#{n}"}
-		f.sequence(:state_registrar_no){|n| "#{n}"}
-		f.sequence(:local_registrar_no){|n| "#{n}"}
+		f.sequence(:do_not_use_state_id_no){|n| "#{n}"}
+		f.sequence(:do_not_use_state_registrar_no){|n| "#{n}"}
+		f.sequence(:do_not_use_local_registrar_no){|n| "#{n}"}
 	end
 	factory :case_study_subject, :parent => :study_subject do |f|
 		f.subject_type 'Case'

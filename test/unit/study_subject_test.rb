@@ -42,16 +42,16 @@ class StudySubjectTest < ActiveSupport::TestCase
 		father_yrs_educ 
 		other_guardian_relationship hispanicity hispanicity_mex
 		is_matched 
-		local_registrar_no matchingid mom_is_biomom 
+		do_not_use_local_registrar_no matchingid mom_is_biomom 
 		mother_hispanicity mother_hispanicity_mex 
 		other_mother_race mother_yrs_educ phase
-		reference_date related_case_childid related_childid state_id_no 
-		state_registrar_no subjectid vital_status subject_type )
+		reference_date related_case_childid related_childid do_not_use_state_id_no 
+		do_not_use_state_registrar_no subjectid vital_status subject_type )
 
 #	no familyid, childid, patid, studyid, matchingid, icf_master_id ???
 
 	required = %w(  subject_type vital_status )	#	this was blank, may need to be, its complicated
-	unique   = %w( state_id_no state_registrar_no local_registrar_no
+	unique   = %w( do_not_use_state_id_no do_not_use_state_registrar_no do_not_use_local_registrar_no
 		subjectid childid )
 
 #	NOTE icf_master_id is not set, so unique test doesn't fail
@@ -69,14 +69,14 @@ class StudySubjectTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( 
 		:other_guardian_relationship,
 		:other_mother_race, :other_father_race,
-		:state_id_no,
-		:state_registrar_no,
-		:local_registrar_no,
+		:do_not_use_state_id_no,
+		:do_not_use_state_registrar_no,
+		:do_not_use_local_registrar_no,
 		:related_childid,
 		:related_case_childid,
 		:maximum => 250 )
 
-	assert_should_require_attribute_length( :childidwho, :maximum => 10 )
+	assert_should_require_attribute_length( :childidwho, :sfn_from_cdph, :maximum => 10 )
 	assert_should_require_attribute_length( :newid, :maximum => 6 )
 	assert_should_require_attribute_length( :birth_year, :maximum => 4 )
 

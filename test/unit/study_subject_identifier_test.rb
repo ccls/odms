@@ -22,7 +22,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		}
 	end
 
-	[ :state_id_no, :state_registrar_no, :local_registrar_no, 
+	[ :do_not_use_state_id_no, :do_not_use_state_registrar_no, :do_not_use_local_registrar_no, 
 		:studyid, :subjectid ].each do |attr|
 
 		#	childid is numeric, so this won't be true
@@ -215,7 +215,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 #	the user.
 #
 
-#	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '12345' for key 'index_identifiers_on_childid': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `local_registrar_no`, `patid`, `related_case_childid`) VALUES('407928', '2011-10-28 12:36:07', '3', NULL, '000000002', '2011-10-28 12:36:07', '2', NULL, '2', '2', NULL, '2', 2, NULL, 12345, NULL, '2', NULL, NULL, '2', '2', '407928', NULL, NULL, '2', NULL, NULL)
+#	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '12345' for key 'index_identifiers_on_childid': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `do_not_use_state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `do_not_use_state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `do_not_use_local_registrar_no`, `patid`, `related_case_childid`) VALUES('407928', '2011-10-28 12:36:07', '3', NULL, '000000002', '2011-10-28 12:36:07', '2', NULL, '2', '2', NULL, '2', 2, NULL, 12345, NULL, '2', NULL, NULL, '2', '2', '407928', NULL, NULL, '2', NULL, NULL)
 	test "duplicating childid should raise database error" do
 		StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
 		study_subject1 = FactoryGirl.create(:study_subject)
@@ -228,7 +228,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 		}
 	end
 
-#	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '0123-C-0' for key 'piccton': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `local_registrar_no`, `patid`, `related_case_childid`) VALUES('975152', '2011-10-28 12:36:08', 'C', NULL, '000000004', '2011-10-28 12:36:08', '4', '975152', '4', '4', NULL, '4', 4, NULL, 2, NULL, '4', 0, NULL, '4', '4', '975152', NULL, NULL, '4', '0123', NULL)
+#	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '0123-C-0' for key 'piccton': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `do_not_use_state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `do_not_use_state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `do_not_use_local_registrar_no`, `patid`, `related_case_childid`) VALUES('975152', '2011-10-28 12:36:08', 'C', NULL, '000000004', '2011-10-28 12:36:08', '4', '975152', '4', '4', NULL, '4', 4, NULL, 2, NULL, '4', 0, NULL, '4', '4', '975152', NULL, NULL, '4', '0123', NULL)
 	test "duplicating patid should raise database error" do
 		StudySubject.any_instance.stubs(:get_next_patid).returns('0123')
 		study_subject1 = FactoryGirl.create(:case_study_subject)
@@ -244,7 +244,7 @@ class StudySubjectIdentifierTest < ActiveSupport::TestCase
 	#	This should never actually happen as the code actually removes all those that exist.
 	#	But it does show that if/when creation of an identifier with an existing
 	#		is attempted, it will raise a database error.
-#	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '012345' for key 'index_identifiers_on_subjectid': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `local_registrar_no`, `patid`, `related_case_childid`) VALUES('012345', '2011-10-28 12:36:08', '5', NULL, '000000006', '2011-10-28 12:36:08', '6', NULL, '6', '6', NULL, '6', 6, NULL, 4, NULL, '6', NULL, NULL, '6', '6', '012345', NULL, NULL, '6', NULL, NULL)
+#	ActiveRecord::StatementInvalid: Mysql::Error: Duplicate entry '012345' for key 'index_identifiers_on_subjectid': INSERT INTO `identifiers` (`familyid`, `created_at`, `case_control_type`, `childidwho`, `ssn`, `updated_at`, `do_not_use_state_id_no`, `matchingid`, `gbid`, `idno_wiemels`, `related_childid`, `do_not_use_state_registrar_no`, `study_subject_id`, `studyid`, `childid`, `studyid_nohyphen`, `icf_master_id`, `orderno`, `lab_no`, `lab_no_wiemels`, `accession_no`, `subjectid`, `newid`, `studyid_intonly_nohyphen`, `do_not_use_local_registrar_no`, `patid`, `related_case_childid`) VALUES('012345', '2011-10-28 12:36:08', '5', NULL, '000000006', '2011-10-28 12:36:08', '6', NULL, '6', '6', NULL, '6', 6, NULL, 4, NULL, '6', NULL, NULL, '6', '6', '012345', NULL, NULL, '6', NULL, NULL)
 	test "duplicating subjectid should raise database error" do
 		StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
 		study_subject1 = FactoryGirl.create(:study_subject)

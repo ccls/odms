@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621031021) do
+ActiveRecord::Schema.define(version: 20170628030121) do
 
   create_table "abstracts", force: :cascade do |t|
     t.string   "entry_1_by_uid",                          limit: 255
@@ -323,97 +323,97 @@ ActiveRecord::Schema.define(version: 20160621031021) do
   end
 
   create_table "birth_data", force: :cascade do |t|
-    t.integer  "study_subject_id",                  limit: 4
-    t.string   "master_id",                         limit: 255
-    t.string   "found_in_state_db",                 limit: 255
-    t.string   "birth_state",                       limit: 255
-    t.string   "match_confidence",                  limit: 255
-    t.string   "case_control_flag",                 limit: 255
-    t.integer  "length_of_gestation_weeks",         limit: 4
-    t.integer  "father_race_ethn_1",                limit: 4
-    t.integer  "father_race_ethn_2",                limit: 4
-    t.integer  "father_race_ethn_3",                limit: 4
-    t.integer  "mother_race_ethn_1",                limit: 4
-    t.integer  "mother_race_ethn_2",                limit: 4
-    t.integer  "mother_race_ethn_3",                limit: 4
-    t.string   "abnormal_conditions",               limit: 255
-    t.integer  "apgar_1min",                        limit: 4
-    t.integer  "apgar_5min",                        limit: 4
-    t.integer  "apgar_10min",                       limit: 4
-    t.integer  "birth_order",                       limit: 4
-    t.string   "birth_type",                        limit: 255
-    t.decimal  "birth_weight_gms",                                precision: 8, scale: 2
-    t.string   "complications_labor_delivery",      limit: 255
-    t.string   "complications_pregnancy",           limit: 255
-    t.string   "county_of_delivery",                limit: 255
-    t.integer  "daily_cigarette_cnt_1st_tri",       limit: 4
-    t.integer  "daily_cigarette_cnt_2nd_tri",       limit: 4
-    t.integer  "daily_cigarette_cnt_3rd_tri",       limit: 4
-    t.integer  "daily_cigarette_cnt_3mo_preconc",   limit: 4
+    t.integer  "study_subject_id",                       limit: 4
+    t.string   "master_id",                              limit: 255
+    t.string   "found_in_state_db",                      limit: 255
+    t.string   "birth_state",                            limit: 255
+    t.string   "match_confidence",                       limit: 255
+    t.string   "case_control_flag",                      limit: 255
+    t.integer  "length_of_gestation_weeks",              limit: 4
+    t.integer  "father_race_ethn_1",                     limit: 4
+    t.integer  "father_race_ethn_2",                     limit: 4
+    t.integer  "father_race_ethn_3",                     limit: 4
+    t.integer  "mother_race_ethn_1",                     limit: 4
+    t.integer  "mother_race_ethn_2",                     limit: 4
+    t.integer  "mother_race_ethn_3",                     limit: 4
+    t.string   "abnormal_conditions",                    limit: 255
+    t.integer  "apgar_1min",                             limit: 4
+    t.integer  "apgar_5min",                             limit: 4
+    t.integer  "apgar_10min",                            limit: 4
+    t.integer  "birth_order",                            limit: 4
+    t.string   "birth_type",                             limit: 255
+    t.decimal  "birth_weight_gms",                                     precision: 8, scale: 2
+    t.string   "complications_labor_delivery",           limit: 255
+    t.string   "complications_pregnancy",                limit: 255
+    t.string   "county_of_delivery",                     limit: 255
+    t.integer  "daily_cigarette_cnt_1st_tri",            limit: 4
+    t.integer  "daily_cigarette_cnt_2nd_tri",            limit: 4
+    t.integer  "daily_cigarette_cnt_3rd_tri",            limit: 4
+    t.integer  "daily_cigarette_cnt_3mo_preconc",        limit: 4
     t.date     "dob"
-    t.string   "first_name",                        limit: 255
-    t.string   "middle_name",                       limit: 255
-    t.string   "last_name",                         limit: 255
-    t.string   "father_industry",                   limit: 255
+    t.string   "first_name",                             limit: 255
+    t.string   "middle_name",                            limit: 255
+    t.string   "last_name",                              limit: 255
+    t.string   "father_industry",                        limit: 255
     t.date     "father_dob"
-    t.string   "father_hispanic_origin_code",       limit: 255
-    t.string   "father_first_name",                 limit: 255
-    t.string   "father_middle_name",                limit: 255
-    t.string   "father_last_name",                  limit: 255
-    t.string   "father_occupation",                 limit: 255
-    t.integer  "father_yrs_educ",                   limit: 4
-    t.string   "fetal_presentation_at_birth",       limit: 255
-    t.string   "forceps_attempt_unsuccessful",      limit: 255
+    t.string   "father_hispanic_origin_code",            limit: 255
+    t.string   "father_first_name",                      limit: 255
+    t.string   "father_middle_name",                     limit: 255
+    t.string   "father_last_name",                       limit: 255
+    t.string   "father_occupation",                      limit: 255
+    t.integer  "father_yrs_educ",                        limit: 4
+    t.string   "fetal_presentation_at_birth",            limit: 255
+    t.string   "forceps_attempt_unsuccessful",           limit: 255
     t.date     "last_live_birth_on"
     t.date     "last_menses_on"
     t.date     "last_termination_on"
-    t.integer  "length_of_gestation_days",          limit: 4
-    t.integer  "live_births_now_deceased",          limit: 4
-    t.integer  "live_births_now_living",            limit: 4
-    t.string   "local_registrar_district",          limit: 255
-    t.string   "local_registrar_no",                limit: 255
-    t.string   "method_of_delivery",                limit: 255
-    t.string   "month_prenatal_care_began",         limit: 255
-    t.string   "mother_residence_line_1",           limit: 255
-    t.string   "mother_residence_city",             limit: 255
-    t.string   "mother_residence_county",           limit: 255
-    t.string   "mother_residence_county_ef",        limit: 255
-    t.string   "mother_residence_state",            limit: 255
-    t.string   "mother_residence_zip",              limit: 255
-    t.integer  "mother_weight_at_delivery",         limit: 4
-    t.string   "mother_birthplace",                 limit: 255
-    t.string   "mother_birthplace_state",           limit: 255
+    t.integer  "length_of_gestation_days",               limit: 4
+    t.integer  "live_births_now_deceased",               limit: 4
+    t.integer  "live_births_now_living",                 limit: 4
+    t.string   "local_registrar_district",               limit: 255
+    t.string   "local_registrar_no",                     limit: 255
+    t.string   "method_of_delivery",                     limit: 255
+    t.string   "month_prenatal_care_began",              limit: 255
+    t.string   "mother_residence_line_1",                limit: 255
+    t.string   "mother_residence_city",                  limit: 255
+    t.string   "mother_residence_county",                limit: 255
+    t.string   "mother_residence_county_ef",             limit: 255
+    t.string   "mother_residence_state",                 limit: 255
+    t.string   "mother_residence_zip",                   limit: 255
+    t.integer  "mother_weight_at_delivery",              limit: 4
+    t.string   "mother_birthplace",                      limit: 255
+    t.string   "mother_birthplace_state",                limit: 255
     t.date     "mother_dob"
-    t.string   "mother_first_name",                 limit: 255
-    t.string   "mother_middle_name",                limit: 255
-    t.string   "mother_maiden_name",                limit: 255
-    t.integer  "mother_height",                     limit: 4
-    t.string   "mother_hispanic_origin_code",       limit: 255
-    t.string   "mother_industry",                   limit: 255
-    t.string   "mother_occupation",                 limit: 255
-    t.string   "mother_received_wic",               limit: 255
-    t.integer  "mother_weight_pre_pregnancy",       limit: 4
-    t.integer  "mother_yrs_educ",                   limit: 4
-    t.integer  "ob_gestation_estimate_at_delivery", limit: 4
-    t.integer  "prenatal_care_visit_count",         limit: 4
-    t.string   "sex",                               limit: 255
-    t.string   "state_registrar_no",                limit: 255
-    t.integer  "term_count_20_plus_weeks",          limit: 4
-    t.integer  "term_count_pre_20_weeks",           limit: 4
-    t.string   "vacuum_attempt_unsuccessful",       limit: 255
-    t.integer  "control_number",                    limit: 4
-    t.string   "father_ssn",                        limit: 255
-    t.string   "mother_ssn",                        limit: 255
+    t.string   "mother_first_name",                      limit: 255
+    t.string   "mother_middle_name",                     limit: 255
+    t.string   "mother_maiden_name",                     limit: 255
+    t.integer  "mother_height",                          limit: 4
+    t.string   "mother_hispanic_origin_code",            limit: 255
+    t.string   "mother_industry",                        limit: 255
+    t.string   "mother_occupation",                      limit: 255
+    t.string   "mother_received_wic",                    limit: 255
+    t.integer  "mother_weight_pre_pregnancy",            limit: 4
+    t.integer  "mother_yrs_educ",                        limit: 4
+    t.integer  "ob_gestation_estimate_at_delivery",      limit: 4
+    t.integer  "prenatal_care_visit_count",              limit: 4
+    t.string   "sex",                                    limit: 255
+    t.string   "state_registrar_no",                     limit: 255
+    t.integer  "term_count_20_plus_weeks",               limit: 4
+    t.integer  "term_count_pre_20_weeks",                limit: 4
+    t.string   "vacuum_attempt_unsuccessful",            limit: 255
+    t.integer  "control_number",                         limit: 4
+    t.string   "father_ssn",                             limit: 255
+    t.string   "mother_ssn",                             limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "birth_data_file_name",              limit: 255
-    t.integer  "childid",                           limit: 4
-    t.string   "deceased",                          limit: 255
+    t.string   "birth_data_file_name",                   limit: 255
+    t.integer  "childid",                                limit: 4
+    t.string   "deceased",                               limit: 255
     t.date     "case_dob"
-    t.text     "ccls_import_notes",                 limit: 65535
-    t.text     "study_subject_changes",             limit: 65535
-    t.string   "derived_state_file_no_last6",       limit: 6
-    t.string   "derived_local_file_no_last6",       limit: 6
+    t.text     "ccls_import_notes",                      limit: 65535
+    t.text     "study_subject_changes",                  limit: 65535
+    t.string   "do_not_use_derived_state_file_no_last6", limit: 6
+    t.string   "do_not_use_derived_local_file_no_last6", limit: 6
   end
 
   add_index "birth_data", ["study_subject_id"], name: "index_birth_data_on_study_subject_id", using: :btree
@@ -786,94 +786,95 @@ ActiveRecord::Schema.define(version: 20160621031021) do
   add_index "states", ["name"], name: "index_states_on_name", unique: true, using: :btree
 
   create_table "study_subjects", force: :cascade do |t|
-    t.integer  "hispanicity",                 limit: 4
+    t.integer  "hispanicity",                   limit: 4
     t.date     "reference_date"
-    t.string   "sex",                         limit: 255
-    t.boolean  "do_not_contact",                          default: false, null: false
-    t.integer  "mother_yrs_educ",             limit: 4
-    t.integer  "father_yrs_educ",             limit: 4
-    t.string   "birth_type",                  limit: 255
-    t.integer  "mother_hispanicity",          limit: 4
-    t.integer  "father_hispanicity",          limit: 4
-    t.integer  "mother_hispanicity_mex",      limit: 4
-    t.integer  "father_hispanicity_mex",      limit: 4
-    t.integer  "mom_is_biomom",               limit: 4
-    t.integer  "dad_is_biodad",               limit: 4
-    t.string   "first_name",                  limit: 255
-    t.string   "middle_name",                 limit: 255
-    t.string   "last_name",                   limit: 255
+    t.string   "sex",                           limit: 255
+    t.boolean  "do_not_contact",                            default: false, null: false
+    t.integer  "mother_yrs_educ",               limit: 4
+    t.integer  "father_yrs_educ",               limit: 4
+    t.string   "birth_type",                    limit: 255
+    t.integer  "mother_hispanicity",            limit: 4
+    t.integer  "father_hispanicity",            limit: 4
+    t.integer  "mother_hispanicity_mex",        limit: 4
+    t.integer  "father_hispanicity_mex",        limit: 4
+    t.integer  "mom_is_biomom",                 limit: 4
+    t.integer  "dad_is_biodad",                 limit: 4
+    t.string   "first_name",                    limit: 255
+    t.string   "middle_name",                   limit: 255
+    t.string   "last_name",                     limit: 255
     t.date     "dob"
     t.date     "died_on"
-    t.string   "mother_first_name",           limit: 255
-    t.string   "mother_middle_name",          limit: 255
-    t.string   "mother_maiden_name",          limit: 255
-    t.string   "mother_last_name",            limit: 255
-    t.string   "father_first_name",           limit: 255
-    t.string   "father_middle_name",          limit: 255
-    t.string   "father_last_name",            limit: 255
-    t.string   "guardian_first_name",         limit: 255
-    t.string   "guardian_middle_name",        limit: 255
-    t.string   "guardian_last_name",          limit: 255
-    t.string   "other_guardian_relationship", limit: 255
-    t.integer  "mother_race_code",            limit: 4
-    t.integer  "father_race_code",            limit: 4
-    t.string   "maiden_name",                 limit: 255
-    t.string   "birth_year",                  limit: 4
-    t.string   "birth_city",                  limit: 255
-    t.string   "birth_state",                 limit: 255
-    t.string   "birth_country",               limit: 255
-    t.string   "other_mother_race",           limit: 255
-    t.string   "other_father_race",           limit: 255
-    t.integer  "childid",                     limit: 4
-    t.string   "patid",                       limit: 4
-    t.string   "case_control_type",           limit: 1
-    t.integer  "orderno",                     limit: 4
-    t.string   "related_childid",             limit: 255
-    t.string   "related_case_childid",        limit: 255
-    t.string   "subjectid",                   limit: 6
-    t.string   "matchingid",                  limit: 6
-    t.string   "familyid",                    limit: 6
-    t.string   "state_id_no",                 limit: 255
-    t.string   "childidwho",                  limit: 10
-    t.string   "studyid",                     limit: 14
-    t.string   "newid",                       limit: 6
-    t.string   "icf_master_id",               limit: 9
-    t.string   "state_registrar_no",          limit: 255
-    t.string   "local_registrar_no",          limit: 255
+    t.string   "mother_first_name",             limit: 255
+    t.string   "mother_middle_name",            limit: 255
+    t.string   "mother_maiden_name",            limit: 255
+    t.string   "mother_last_name",              limit: 255
+    t.string   "father_first_name",             limit: 255
+    t.string   "father_middle_name",            limit: 255
+    t.string   "father_last_name",              limit: 255
+    t.string   "guardian_first_name",           limit: 255
+    t.string   "guardian_middle_name",          limit: 255
+    t.string   "guardian_last_name",            limit: 255
+    t.string   "other_guardian_relationship",   limit: 255
+    t.integer  "mother_race_code",              limit: 4
+    t.integer  "father_race_code",              limit: 4
+    t.string   "maiden_name",                   limit: 255
+    t.string   "birth_year",                    limit: 4
+    t.string   "birth_city",                    limit: 255
+    t.string   "birth_state",                   limit: 255
+    t.string   "birth_country",                 limit: 255
+    t.string   "other_mother_race",             limit: 255
+    t.string   "other_father_race",             limit: 255
+    t.integer  "childid",                       limit: 4
+    t.string   "patid",                         limit: 4
+    t.string   "case_control_type",             limit: 1
+    t.integer  "orderno",                       limit: 4
+    t.string   "related_childid",               limit: 255
+    t.string   "related_case_childid",          limit: 255
+    t.string   "subjectid",                     limit: 6
+    t.string   "matchingid",                    limit: 6
+    t.string   "familyid",                      limit: 6
+    t.string   "do_not_use_state_id_no",        limit: 255
+    t.string   "childidwho",                    limit: 10
+    t.string   "studyid",                       limit: 14
+    t.string   "newid",                         limit: 6
+    t.string   "icf_master_id",                 limit: 9
+    t.string   "do_not_use_state_registrar_no", limit: 255
+    t.string   "do_not_use_local_registrar_no", limit: 255
     t.boolean  "is_matched"
-    t.integer  "phase",                       limit: 4
-    t.integer  "hispanicity_mex",             limit: 4
+    t.integer  "phase",                         limit: 4
+    t.integer  "hispanicity_mex",               limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "vital_status",                limit: 20
-    t.integer  "addresses_count",             limit: 4,   default: 0
-    t.integer  "abstracts_count",             limit: 4,   default: 0
-    t.string   "case_icf_master_id",          limit: 9
-    t.string   "mother_icf_master_id",        limit: 9
-    t.string   "subject_type",                limit: 20
-    t.integer  "samples_count",               limit: 4,   default: 0
-    t.integer  "cdcid",                       limit: 4
-    t.integer  "operational_events_count",    limit: 4,   default: 0
-    t.integer  "phone_numbers_count",         limit: 4,   default: 0
-    t.integer  "interviews_count",            limit: 4,   default: 0
-    t.boolean  "needs_reindexed",                         default: false
-    t.integer  "enrollments_count",           limit: 4,   default: 0
-    t.integer  "replication_id",              limit: 4
-    t.string   "guardian_relationship",       limit: 255
+    t.string   "vital_status",                  limit: 20
+    t.integer  "addresses_count",               limit: 4,   default: 0
+    t.integer  "abstracts_count",               limit: 4,   default: 0
+    t.string   "case_icf_master_id",            limit: 9
+    t.string   "mother_icf_master_id",          limit: 9
+    t.string   "subject_type",                  limit: 20
+    t.integer  "samples_count",                 limit: 4,   default: 0
+    t.integer  "cdcid",                         limit: 4
+    t.integer  "operational_events_count",      limit: 4,   default: 0
+    t.integer  "phone_numbers_count",           limit: 4,   default: 0
+    t.integer  "interviews_count",              limit: 4,   default: 0
+    t.boolean  "needs_reindexed",                           default: false
+    t.integer  "enrollments_count",             limit: 4,   default: 0
+    t.integer  "replication_id",                limit: 4
+    t.string   "guardian_relationship",         limit: 255
+    t.string   "sfn_from_cdph",                 limit: 10
   end
 
   add_index "study_subjects", ["childid"], name: "index_study_subjects_on_childid", unique: true, using: :btree
+  add_index "study_subjects", ["do_not_use_local_registrar_no"], name: "index_study_subjects_on_do_not_use_local_registrar_no", unique: true, using: :btree
+  add_index "study_subjects", ["do_not_use_state_id_no"], name: "index_study_subjects_on_do_not_use_state_id_no", unique: true, using: :btree
+  add_index "study_subjects", ["do_not_use_state_registrar_no"], name: "index_study_subjects_on_do_not_use_state_registrar_no", unique: true, using: :btree
   add_index "study_subjects", ["familyid"], name: "index_study_subjects_on_familyid", using: :btree
   add_index "study_subjects", ["icf_master_id"], name: "index_study_subjects_on_icf_master_id", unique: true, using: :btree
-  add_index "study_subjects", ["local_registrar_no"], name: "index_study_subjects_on_local_registrar_no", unique: true, using: :btree
   add_index "study_subjects", ["matchingid"], name: "index_study_subjects_on_matchingid", using: :btree
   add_index "study_subjects", ["needs_reindexed"], name: "index_study_subjects_on_needs_reindexed", using: :btree
   add_index "study_subjects", ["patid", "case_control_type", "orderno"], name: "piccton", unique: true, using: :btree
   add_index "study_subjects", ["phase", "case_icf_master_id"], name: "index_study_subjects_on_phase_and_case_icf_master_id", using: :btree
   add_index "study_subjects", ["phase", "mother_icf_master_id"], name: "index_study_subjects_on_phase_and_mother_icf_master_id", using: :btree
   add_index "study_subjects", ["replication_id"], name: "index_study_subjects_on_replication_id", using: :btree
-  add_index "study_subjects", ["state_id_no"], name: "index_study_subjects_on_state_id_no", unique: true, using: :btree
-  add_index "study_subjects", ["state_registrar_no"], name: "index_study_subjects_on_state_registrar_no", unique: true, using: :btree
   add_index "study_subjects", ["studyid"], name: "index_study_subjects_on_studyid", unique: true, using: :btree
   add_index "study_subjects", ["subject_type"], name: "index_study_subjects_on_subject_type", using: :btree
   add_index "study_subjects", ["subjectid"], name: "index_study_subjects_on_subjectid", unique: true, using: :btree

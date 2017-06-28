@@ -9,9 +9,9 @@ class BirthDatum < ActiveRecord::Base
 	alias_attribute :father_years_educ, :father_yrs_educ
 
 #	This interferes with some tests, so don't leave it live.
-	delegate :subjectid, :subject_type, :patid, :birth_year, :state_id_no, 
+	delegate :subjectid, :subject_type, :patid, :birth_year, :do_not_use_state_id_no, 
 		:to => :study_subject, :allow_nil => true
-#	delegate :subject_type, :patid, :birth_year, :state_id_no, 
+#	delegate :subject_type, :patid, :birth_year, :do_not_use_state_id_no, 
 #		:to => :study_subject, :allow_nil => true
 
 	def is_case?
@@ -29,8 +29,8 @@ class BirthDatum < ActiveRecord::Base
 		#	copy case dob to dob if it is blank
 		#
 		self.dob = case_dob if self.dob.blank?
-		self.derived_state_file_no_last6 = sprintf("%06d",derived_state_file_no_last6.to_i) unless derived_state_file_no_last6.blank?
-		self.derived_local_file_no_last6 = sprintf("%06d",derived_local_file_no_last6.to_i) unless derived_local_file_no_last6.blank?
+		self.do_not_use_derived_state_file_no_last6 = sprintf("%06d",do_not_use_derived_state_file_no_last6.to_i) unless do_not_use_derived_state_file_no_last6.blank?
+		self.do_not_use_derived_local_file_no_last6 = sprintf("%06d",do_not_use_derived_local_file_no_last6.to_i) unless do_not_use_derived_local_file_no_last6.blank?
 	end
 
 	def post_processing
@@ -237,7 +237,7 @@ class BirthDatum < ActiveRecord::Base
 		a[:dob] = self.dob
 
 		#	may not want to do this	(why namerize a number?)
-		a[:state_registrar_no] = self.state_registrar_no.to_s.squish	#.namerize	
+		a[:do_not_use_state_registrar_no] = self.do_not_use_state_registrar_no.to_s.squish	#.namerize	
 
 		new_attributes.each do |k,v|
 			#	NOTE always check if attribute is blank as don't want to delete data

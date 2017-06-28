@@ -151,7 +151,7 @@ father_last_name
 father_occupation
 fetal_presentation_at_birth
 local_registrar_district
-local_registrar_no
+do_not_use_local_registrar_no
 method_of_delivery
 month_prenatal_care_began
 mother_residence_line_1
@@ -169,7 +169,7 @@ mother_hispanic_origin_code
 mother_industry
 mother_occupation
 sex
-state_registrar_no
+do_not_use_state_registrar_no
 ).each do |field|
 
 		test "should copy #{field} from csv_file to birth_datum" do

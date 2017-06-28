@@ -138,7 +138,7 @@ class StudySubjectsControllerFindTest < ActionController::TestCase
 			assert assigns(:study_subjects).include?(subjects[1])
 		end
 
-		%w( state_id_no state_registrar_no local_registrar_no ).each do |field|
+		%w( do_not_use_state_id_no do_not_use_state_registrar_no do_not_use_local_registrar_no ).each do |field|
 	
 			test "should find study_subjects by #{field} and #{cu} login" do
 				subjects = 3.times.collect{|i| 

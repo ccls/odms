@@ -424,7 +424,7 @@ class StudySubject < ActiveRecord::Base
 	scope :living,   ->{ where(:vital_status => 'Living') }
 	scope :with_patid, ->(id){ where(:patid => sprintf("%04d",id.to_i) ) }
 	scope :with_childid, ->(id){ where(:childid => id.to_i) }
-	scope :with_state_registrar_no, ->(id){ where(:state_registrar_no => id.to_s.squish) }
+	scope :with_do_not_use_state_registrar_no, ->(id){ where(:do_not_use_state_registrar_no => id.to_s.squish) }
 	scope :with_icf_master_id, ->(id){ where(:icf_master_id => id.to_s.squish) }
 	scope :with_studyid, ->(id){ where(:studyid => id.to_s.squish) }
 	scope :with_familyid, ->(id){ where(:familyid => sprintf("%06d",id.to_i)) }
@@ -626,8 +626,8 @@ class StudySubject < ActiveRecord::Base
 	#
 	#	childid is numeric, so doesn't need to be nilified, but won't hurt
 	#
-	validates_uniqueness_of_with_nilification :state_id_no,
-		:state_registrar_no, :local_registrar_no, 
+	validates_uniqueness_of_with_nilification :do_not_use_state_id_no,
+		:do_not_use_state_registrar_no, :do_not_use_local_registrar_no, 
 		:childid, :studyid, :subjectid
 
 	#	can't really validate the has many through 

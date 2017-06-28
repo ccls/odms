@@ -205,26 +205,26 @@ class CandidateControlTest < ActiveSupport::TestCase
 		assert_equal   control_subject.patid, case_study_subject.patid
 	end
 
-	test "should create control from attributes and copy state_registrar_no" do
+	test "should create control from attributes and copy do_not_use_state_registrar_no" do
 		attribute = 'fake number'
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:state_registrar_no => attribute )
+			:do_not_use_state_registrar_no => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.state_registrar_no
-		assert_equal attribute, control_subject.state_registrar_no
+		assert_equal attribute, candidate_control.do_not_use_state_registrar_no
+		assert_equal attribute, control_subject.do_not_use_state_registrar_no
 	end
 
-	test "should create control from attributes and copy local_registrar_no" do
+	test "should create control from attributes and copy do_not_use_local_registrar_no" do
 		attribute = 'fake number'
 		case_study_subject, birth_datum = create_case_and_control_birth_datum(
-			:local_registrar_no => attribute )
+			:do_not_use_local_registrar_no => attribute )
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
 		control_subject = candidate_control.study_subject
-		assert_equal attribute, candidate_control.local_registrar_no
-		assert_equal attribute, control_subject.local_registrar_no
+		assert_equal attribute, candidate_control.do_not_use_local_registrar_no
+		assert_equal attribute, control_subject.do_not_use_local_registrar_no
 	end
 
 	test "should create control from attributes and copy sex" do

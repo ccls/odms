@@ -14,7 +14,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 #			:race_ids => [Race['white'].id]}.merge(options))
 		FactoryGirl.attributes_for(:study_subject,
 			{}.merge(options)).except(
-				:subject_type,:case_control_type,:state_id_no)
+				:subject_type,:case_control_type,:do_not_use_state_id_no)
 	end
 
 	assert_access_with_login({ 
@@ -359,12 +359,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	add_strong_parameters_tests( :study_subject,
 		[ :do_not_contact ,
 			:first_name, :middle_name, :last_name, :dob, :sex,
-			:state_registrar_no, :local_registrar_no, :reference_date, :vital_status,
+			:do_not_use_state_registrar_no, :do_not_use_local_registrar_no, :reference_date, :vital_status,
 			:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
 			:father_first_name, :father_middle_name, :father_last_name,
 			:guardian_first_name, :guardian_middle_name, :guardian_last_name,
 			:guardian_relationship, :other_guardian_relationship ],
-		[:subjectid, :subject_type, :state_id_no ])
+		[:subjectid, :subject_type, :do_not_use_state_id_no ])
 
 	[:id, :_destroy, :race_code, :other_race, :mixed_race].each do |attr|
 		test "params should permit study_subject:subject_races_attributes:#{attr} subkey" do

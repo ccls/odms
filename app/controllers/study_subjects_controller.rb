@@ -29,7 +29,7 @@ class StudySubjectsController < ApplicationController
 			conditions[1][:last_name] = "%#{params[:last_name]}%"
 		end
 		if params[:registrar_no].present?
-			conditions[0] << "( state_id_no LIKE :registrar_no OR state_registrar_no LIKE :registrar_no OR local_registrar_no LIKE :registrar_no )"
+			conditions[0] << "( do_not_use_state_id_no LIKE :registrar_no OR do_not_use_state_registrar_no LIKE :registrar_no OR do_not_use_local_registrar_no LIKE :registrar_no )"
 			conditions[1][:registrar_no] = "%#{params[:registrar_no]}%"
 		end
 		if params[:subject_type].present?
@@ -184,7 +184,7 @@ protected
 	def study_subject_params
 		params.require(:study_subject).permit( :do_not_contact ,
 			:first_name, :middle_name, :last_name, :dob, :sex,
-			:state_registrar_no, :local_registrar_no, :reference_date, :vital_status,
+			:do_not_use_state_registrar_no, :do_not_use_local_registrar_no, :reference_date, :vital_status,
 			:mother_first_name, :mother_middle_name, :mother_last_name, :mother_maiden_name,
 			:father_first_name, :father_middle_name, :father_last_name,
 			:guardian_first_name, :guardian_middle_name, :guardian_last_name,

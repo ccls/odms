@@ -20,14 +20,14 @@ base.class_eval do
 #	end
 
 	#	is indexed as text too, so NEED actual method (at least for now)
-	def derived_state_file_no_last6
-#		newest_birth_data.collect(&:derived_state_file_no_last6).compact.first
-		birth_datum.try(:derived_state_file_no_last6)
+	def do_not_use_derived_state_file_no_last6
+#		newest_birth_data.collect(&:do_not_use_derived_state_file_no_last6).compact.first
+		birth_datum.try(:do_not_use_derived_state_file_no_last6)
 	end
 	#	is text so NEED actual method (at least for now)
-	def derived_local_file_no_last6
-#		newest_birth_data.collect(&:derived_local_file_no_last6).compact.first
-		birth_datum.try(:derived_local_file_no_last6)
+	def do_not_use_derived_local_file_no_last6
+#		newest_birth_data.collect(&:do_not_use_derived_local_file_no_last6).compact.first
+		birth_datum.try(:do_not_use_derived_local_file_no_last6)
 	end
 
 
@@ -176,12 +176,13 @@ base.class_eval do
 	add_sunspot_column( :matchingid )
 	add_sunspot_column( :hospital_key )
 	add_sunspot_column( :hospital_no )
-	add_sunspot_column( :state_id_no )
-	add_sunspot_column( :state_registrar_no )
-	add_sunspot_column( :local_registrar_no )
+	add_sunspot_column( :do_not_use_state_id_no )
+	add_sunspot_column( :do_not_use_state_registrar_no )
+	add_sunspot_column( :do_not_use_local_registrar_no )
 	add_sunspot_column( :cdcid, :type => :integer )
-	add_sunspot_column( :derived_local_file_no_last6, :type => :integer )
-	add_sunspot_column( :derived_state_file_no_last6, :type => :integer )
+	add_sunspot_column( :do_not_use_derived_local_file_no_last6, :type => :integer )
+	add_sunspot_column( :do_not_use_derived_state_file_no_last6, :type => :integer )
+	add_sunspot_column( :sfn_from_cdph )
 
 
 	#
@@ -379,13 +380,13 @@ base.class_eval do
 		text :childid
 		text :patid
 		text :hospital_no
-		text :state_id_no
-		text :state_registrar_no
-		text :local_registrar_no
+		text :do_not_use_state_id_no
+		text :do_not_use_state_registrar_no
+		text :do_not_use_local_registrar_no
 		text :subjectid
 		text :cdcid
-		text :derived_local_file_no_last6
-		text :derived_state_file_no_last6
+		text :do_not_use_derived_local_file_no_last6
+		text :do_not_use_derived_state_file_no_last6
 	end
 
 end	#	class_eval

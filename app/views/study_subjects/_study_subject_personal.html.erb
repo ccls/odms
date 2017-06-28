@@ -49,8 +49,8 @@
 %>
 
 
-<%= wrapped_spans :study_subject, :state_registrar_no %>
-<%= wrapped_spans :study_subject, :local_registrar_no %>
+<%= wrapped_spans :study_subject, :do_not_use_state_registrar_no %>
+<%= wrapped_spans :study_subject, :do_not_use_local_registrar_no %>
 
 <% if current_user.may_administrate? %>
 <%= wrapped_spans :study_subject, :subjectid %>
@@ -59,10 +59,10 @@
 <%= wrapped_spans :study_subject, :studyid %>
 <% end %><%# if current_user.may_administrate? %>
 
-<%= wrapped_spans :study_subject, :state_id_no %>
+<%= wrapped_spans :study_subject, :do_not_use_state_id_no %>
 
-<%= wrapped_spans :study_subject, :derived_state_file_no_last6 %>
-<%= wrapped_spans :study_subject, :derived_local_file_no_last6 %>
+<%= wrapped_spans :study_subject, :do_not_use_derived_state_file_no_last6 %>
+<%= wrapped_spans :study_subject, :do_not_use_derived_local_file_no_last6 %>
 
 <%= wrapped_date_spans :study_subject, :reference_date,
 	:label_text => 'admit (reference) date:' %>
