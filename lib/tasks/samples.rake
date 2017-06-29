@@ -10,7 +10,7 @@ namespace :samples do
 
 	#	20170627
 	task :import_and_manifest_samples_20170627 => :environment do
-		path = "/home/app_odms/"
+		path = "/home/app_odms/archive/"
 		base = "dbs_manifest_final_ForJake_03012017"
 		manifest = File.open("#{path}#{base}.OUT.csv",'w')
 		f=File.open("#{path}#{base}.csv",'rb')
