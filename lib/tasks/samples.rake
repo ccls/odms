@@ -3,76 +3,76 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-	#	20180213
-	task :import_and_manifest_samples_20180213 => :environment do
-		path = "/home/app_odms/archive/"
-		base = "20180118144931-Req_CCLSSampleIDs_ForDBSShipmentOn01-04-2018"
-		#manifest = File.open("#{path}#{base}.OUT.csv",'w')
-		manifest = File.open("#{base}.OUT.csv",'w')
-		f=File.open("#{path}#{base}.csv",'rb')
-		manifest.puts "sampleid,#{f.gets}"
-
-		#SubjectID,ch_dob,Specimen Barcode,Container Barcode
-		#601988,1/4/1995,0000066F8645,TFB00001133423
-		#155641,1/3/2000,0000066FA296,TFB00001133423
-		#964317,1/9/1991,0000066F7608,TFB00001133423
-
-		f.close
-		CSV.open("#{path}#{base}.csv",'rb',
-				{ :headers => true }).each do |line|
-
-			puts line
-
-			if line['SubjectID'].blank?
-				puts "------ No SubjectID provided."
-				puts line
-				exit	#	next
-			end
-
-			subject = StudySubject.with_subjectid( line['SubjectID'] ).first
-			unless subject.present?
-				puts "------ Subject not found with subjectid '#{line['SubjectID']}'"
-				next
-			end
-			raise "subject not found" unless subject.present?
-
-			raise "birthdate mismatch" unless subject.dob == Date.parse(line['ch_dob'])
-
-			attributes = { :project_id => Project[:ccls].id,
-				:organization_id => Organization['GEGL'].id,
-				:sample_type_id => SampleType[:guthrie].id,
-				:sample_format => "Guthrie Card",
-				:sample_temperature => "Refrigerated",
-				:shipped_to_ccls_at  => "1/4/2018",
-				:received_by_ccls_at => "1/4/2018",
-				:sent_to_lab_at      => "1/4/2018",
-				:received_by_lab_at  => "1/4/2018",
-				:external_id => line['Specimen Barcode'],
-				:external_id_source => "Specimen barcode from #{base}.csv",
-				:notes => "Imported from #{base}.csv,\n" <<
-					"Specimen Barcode = #{line['Specimen Barcode']},\n" <<
-					"Container Barcode = #{line['Container Barcode']},\n" <<
-					"Specimen Type = Dried Blood Spot"
-			}
-			puts attributes
-
-			sample = subject.samples.create!(attributes) if subject.present?
-
-			attributes = {
-				:occurred_at => DateTime.current,
-				:project_id => Project['ccls'].id,
-				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
-				:description => "manifesting of #{base}.csv" 
-			}
-			puts attributes
-
-			subject.operational_events.create!(attributes) if subject.present?
-
-			manifest.puts " #{sample.sampleid},#{line}" if subject.present?
-
-		end	#	CSV.open
-		manifest.close
-	end	#	task :import_and_manifest_samples_20180213 => :environment do
+#	#	20180213
+#	task :import_and_manifest_samples_20180213 => :environment do
+#		path = "/home/app_odms/archive/"
+#		base = "20180118144931-Req_CCLSSampleIDs_ForDBSShipmentOn01-04-2018"
+#		#manifest = File.open("#{path}#{base}.OUT.csv",'w')
+#		manifest = File.open("#{base}.OUT.csv",'w')
+#		f=File.open("#{path}#{base}.csv",'rb')
+#		manifest.puts "sampleid,#{f.gets}"
+#
+#		#SubjectID,ch_dob,Specimen Barcode,Container Barcode
+#		#601988,1/4/1995,0000066F8645,TFB00001133423
+#		#155641,1/3/2000,0000066FA296,TFB00001133423
+#		#964317,1/9/1991,0000066F7608,TFB00001133423
+#
+#		f.close
+#		CSV.open("#{path}#{base}.csv",'rb',
+#				{ :headers => true }).each do |line|
+#
+#			puts line
+#
+#			if line['SubjectID'].blank?
+#				puts "------ No SubjectID provided."
+#				puts line
+#				exit	#	next
+#			end
+#
+#			subject = StudySubject.with_subjectid( line['SubjectID'] ).first
+#			unless subject.present?
+#				puts "------ Subject not found with subjectid '#{line['SubjectID']}'"
+#				next
+#			end
+#			raise "subject not found" unless subject.present?
+#
+#			raise "birthdate mismatch" unless subject.dob == Date.parse(line['ch_dob'])
+#
+#			attributes = { :project_id => Project[:ccls].id,
+#				:organization_id => Organization['GEGL'].id,
+#				:sample_type_id => SampleType[:guthrie].id,
+#				:sample_format => "Guthrie Card",
+#				:sample_temperature => "Refrigerated",
+#				:shipped_to_ccls_at  => "1/4/2018",
+#				:received_by_ccls_at => "1/4/2018",
+#				:sent_to_lab_at      => "1/4/2018",
+#				:received_by_lab_at  => "1/4/2018",
+#				:external_id => line['Specimen Barcode'],
+#				:external_id_source => "Specimen barcode from #{base}.csv",
+#				:notes => "Imported from #{base}.csv,\n" <<
+#					"Specimen Barcode = #{line['Specimen Barcode']},\n" <<
+#					"Container Barcode = #{line['Container Barcode']},\n" <<
+#					"Specimen Type = Dried Blood Spot"
+#			}
+#			puts attributes
+#
+#			sample = subject.samples.create!(attributes) if subject.present?
+#
+#			attributes = {
+#				:occurred_at => DateTime.current,
+#				:project_id => Project['ccls'].id,
+#				:operational_event_type_id => OperationalEventType['sample_to_lab'].id,
+#				:description => "manifesting of #{base}.csv" 
+#			}
+#			puts attributes
+#
+#			subject.operational_events.create!(attributes) if subject.present?
+#
+#			manifest.puts " #{sample.sampleid},#{line}" if subject.present?
+#
+#		end	#	CSV.open
+#		manifest.close
+#	end	#	task :import_and_manifest_samples_20180213 => :environment do
 
 
 #	#	20170627
