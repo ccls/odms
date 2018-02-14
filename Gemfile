@@ -113,5 +113,8 @@ gem 'ccls-common_lib', ">0.9"
 
 gem 'geocoder'
 
+
+gem 'ffi', '1.9.18'
+
 __END__
 
