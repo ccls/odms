@@ -13,7 +13,7 @@ class IneligibleReasonTest < ActiveSupport::TestCase
 
 	test "ineligible_reason factory should create ineligible reason" do
 		assert_difference('IneligibleReason.count',1) {
-			ineligible_reason = FactoryGirl.create(:ineligible_reason)
+			ineligible_reason = FactoryBot.create(:ineligible_reason)
 			assert_match /Key\d*/, ineligible_reason.key
 			assert_match /Desc\d*/, ineligible_reason.description
 		}

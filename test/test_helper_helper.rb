@@ -125,9 +125,9 @@ class ActiveSupport::TestCase
 #
 #	would this work for backward compatibility
 #
-#	Factory = FactoryGirl
+#	Factory = FactoryBot
 	def Factory(*args)
-		FactoryGirl.create(*args)
+		FactoryBot.create(*args)
 	end
 
 #	This would probably work, but would require I change everything!

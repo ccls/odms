@@ -5,7 +5,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	site_administrators.each do |cu|
 
 		test "should destroy with #{cu} login" do
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			login_as send(cu)
 			assert_difference('SampleTransfer.count',-1){
 				delete :destroy, :id => st.id
@@ -15,7 +15,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			login_as send(cu)
 			assert_difference('SampleTransfer.count',0){
 				delete :destroy, :id => 0
@@ -29,7 +29,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	non_site_administrators.each do |cu|
 
 		test "should NOT destroy with #{cu} login" do
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			login_as send(cu)
 			assert_difference('SampleTransfer.count',0){
 				delete :destroy, :id => st.id
@@ -43,7 +43,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should edit with #{cu} login" do
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			login_as send(cu)
 			get :edit, :id => st.id
 			assert_response :success
@@ -52,7 +52,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 		end
 
 		test "should update with #{cu} login" do
-			st = FactoryGirl.create(:sample_transfer).reload
+			st = FactoryBot.create(:sample_transfer).reload
 			login_as send(cu)
 			assert_changes("SampleTransfer.find(#{st.id}).notes") {
 				put :update, :id => st.id, :sample_transfer => {:notes => 'new notes'}
@@ -65,7 +65,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer with invalid sample_transfer #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			SampleTransfer.any_instance.stubs(:valid?).returns(false)
 			deny_changes("SampleTransfer.find(#{st.id}).notes") {
 				put :update, :id => st.id, :sample_transfer => {:notes => 'new notes'}
@@ -77,7 +77,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer with failed save and #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
 			deny_changes("SampleTransfer.find(#{st.id}).notes") {
 				put :update, :id => st.id, :sample_transfer => {:notes => 'new notes'}
@@ -298,7 +298,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer status with invalid sample_transfer #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			SampleTransfer.any_instance.stubs(:valid?).returns(false)
 			deny_changes("SampleTransfer.find(#{st.id}).status") {
 				put :update_status, :id => st.id, :status => 'waitlist'
@@ -309,7 +309,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer status with failed save and #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
 			deny_changes("SampleTransfer.find(#{st.id}).status") {
 				put :update_status, :id => st.id, :status => 'waitlist'
@@ -320,7 +320,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer status with invalid status and #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			deny_changes("SampleTransfer.find(#{st.id}).status") {
 				put :update_status, :id => st.id, :status => 'bogus'
 			}
@@ -330,7 +330,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer status with invalid id and #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			deny_changes("SampleTransfer.find(#{st.id}).status") {
 				put :update_status, :id => 0, :status => 'waitlist'
 			}
@@ -340,7 +340,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should update sample_transfer status with #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			assert_changes("SampleTransfer.find(#{st.id}).status") {
 				put :update_status, :id => st.id, :status => 'waitlist'
 			}
@@ -355,7 +355,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT edit sample_transfer with #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			get :edit, :id => st.id
 			assert_nil assigns(:sample_transfer)
 			assert_not_nil flash[:error]
@@ -364,7 +364,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer with #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer)
+			st = FactoryBot.create(:sample_transfer)
 			put :update, :id => st.id, :sample_transfer => {}
 			assert_nil assigns(:sample_transfer)
 			assert_not_nil flash[:error]
@@ -377,7 +377,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should NOT update sample_transfer status with #{cu} login" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			deny_changes("SampleTransfer.find(#{st.id}).status") {
 				put :update_status, :id => st.id, :status => 'waitlist'
 			}
@@ -403,7 +403,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should get sample transfers index with #{cu} login and no sample" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'waitlist')
+			st = FactoryBot.create(:sample_transfer, :status => 'waitlist')
 			st.sample.destroy
 			get :index
 			assert_response :success
@@ -412,7 +412,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should get sample transfers index with #{cu} login and waitlist transfers" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'waitlist')
+			st = FactoryBot.create(:sample_transfer, :status => 'waitlist')
 			get :index
 			assert_response :success
 			assert_template 'index'
@@ -425,7 +425,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should get sample transfers index with #{cu} login and active transfers" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active')
+			st = FactoryBot.create(:sample_transfer, :status => 'active')
 			get :index
 			assert_response :success
 			assert_template 'index'
@@ -438,7 +438,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 
 		test "should export sample transfers to csv with #{cu} login and active transfers" do
 			login_as send(cu)
-			st = FactoryGirl.create(:sample_transfer, :status => 'active' )
+			st = FactoryBot.create(:sample_transfer, :status => 'active' )
 			get :index, :format => 'csv'
 			assert_response :success
 			assert_not_nil @response.headers['Content-Disposition'].match(/attachment;.*csv/)
@@ -481,7 +481,7 @@ class SampleTransfersControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT update sample_transfer status without login" do
-		st = FactoryGirl.create(:sample_transfer, :status => 'active')
+		st = FactoryBot.create(:sample_transfer, :status => 'active')
 		deny_changes("SampleTransfer.find(#{st.id}).status") {
 			put :update_status, :id => st.id, :status => 'waitlist'
 		}
@@ -499,14 +499,14 @@ protected
 		assert_difference('SampleTransfer.count',6) {
 		assert_difference('Sample.count',6) {
 		3.times { 
-			study_subject = FactoryGirl.create(:study_subject)
-			active_sample = FactoryGirl.create(:sample, { :study_subject => study_subject
+			study_subject = FactoryBot.create(:study_subject)
+			active_sample = FactoryBot.create(:sample, { :study_subject => study_subject
 				}.merge(options[:active_sample]||{}))
-			waitlist_sample = FactoryGirl.create(:sample, { :study_subject => study_subject
+			waitlist_sample = FactoryBot.create(:sample, { :study_subject => study_subject
 				}.merge(options[:waitlist_sample]||{}))
-			FactoryGirl.create(:active_sample_transfer,   { :sample => active_sample
+			FactoryBot.create(:active_sample_transfer,   { :sample => active_sample
 				}.merge(options[:active_sample_transfer]||{}))
-			FactoryGirl.create(:waitlist_sample_transfer, { :sample => waitlist_sample
+			FactoryBot.create(:waitlist_sample_transfer, { :sample => waitlist_sample
 				}.merge(options[:waitlist_sample_transfer]||{}))
 		} } } } }
 	end

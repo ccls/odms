@@ -6,7 +6,7 @@ class NotificationTest < ActionMailer::TestCase
 #	in production that also go to notifyccls
 
 	test "raf_submitted for subject" do
-		study_subject = FactoryGirl.create(:complete_case_study_subject, 
+		study_subject = FactoryBot.create(:complete_case_study_subject, 
 			:first_name    => 'Anthony',
 			:middle_name   => 'Michael',
 			:last_name     => 'Hall',

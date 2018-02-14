@@ -40,7 +40,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set study_subject if given icf_master_id is used" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
 		bc_info.process
 		assert_not_nil bc_info.study_subject
@@ -73,7 +73,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	}.each do |k,v|
 
 		test "should update #{v} with corrected #{k}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 				v => "OldValue")
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 				k => "  NEWVALUE  ")
@@ -91,7 +91,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	}.each do |k,v|
 
 		test "should update #{k} with squished #{v}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 				v => "OldValue")
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 				k => "  NEWVALUE  ")
@@ -116,7 +116,7 @@ class BcInfoTest < ActiveSupport::TestCase
 		}.each do |k,v|
 
 			test "should update #{k} with ynrdk #{ynrdk} #{v}" do
-				study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+				study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 				assert_nil study_subject.send(v)
 				bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", k => ynrdk)
 				bc_info.process
@@ -131,7 +131,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	%w( new_dob_year dob_year new_child_doby child_doby ).each do |attr|
 
 		test "should update birth_year with #{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 				:dob => Date.parse('12/31/1999') )
 
 			assert_equal '1999', study_subject.birth_year
@@ -153,7 +153,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	}.each do |k,v|
 
 		test "should update #{k} with #{v}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", k => 1)
 			bc_info.process
 			assert bc_info.changes.keys.include?(v.to_s),
@@ -166,7 +166,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	%w( new_sex new_child_gender ).each do |attr|
 
 		test "should update sex with #{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST", :sex => 'DK')
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST", :sex => 'DK')
 
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", attr => 'M')
 			bc_info.process
@@ -180,7 +180,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	%w( new_dob new_child_dobfull ).each do |attr|
 
 		test "should update dob with #{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 				:dob => Date.parse('Dec 31, 1999'))
 
 			assert_equal '1999', study_subject.birth_year
@@ -196,7 +196,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set create dob from new_child_dob components if they're not blank" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 			:new_child_doby => '2000',
 			:new_child_dobm => '12',
@@ -206,7 +206,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set create dob from child_dob components if they are not blank" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 			:child_doby => '2000',
 			:child_dobm => '12',
@@ -221,7 +221,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	).each do |attr|
 
 		test "should convert coded value of 0 to 888 for #{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 			assert_nil study_subject.send(attr)
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 				attr => '0')
@@ -232,7 +232,7 @@ class BcInfoTest < ActiveSupport::TestCase
 		end
 
 		test "should convert coded value of 9 to 999 for #{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 			assert_nil study_subject.send(attr)
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", 
 				attr => '9')
@@ -246,7 +246,7 @@ class BcInfoTest < ActiveSupport::TestCase
 
 
 	test "should set hispanicity to 999 if parent's not given" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
 		bc_info.process
@@ -254,7 +254,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity to 999 if parent's do not match and neither are 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:father_hispanicity => 2,
@@ -264,7 +264,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity to parent's if match and neither are 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:father_hispanicity => 2,
@@ -274,7 +274,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity to 1 if father's is 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:father_hispanicity => 1)
@@ -283,7 +283,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity to 1 if mother's is 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:mother_hispanicity => 1)
@@ -292,7 +292,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity_mex to 999 if parent's not given" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity_mex
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
 		bc_info.process
@@ -300,7 +300,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity_mex to 999 if parent's do not match and neither are 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity_mex
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:father_hispanicity => 2,
@@ -310,7 +310,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity_mex to parent's if match and neither are 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity_mex
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:father_hispanicity_mex => 2,
@@ -320,7 +320,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity_mex to 1 if father's is 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity_mex
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:father_hispanicity_mex => 1)
@@ -329,7 +329,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should set hispanicity_mex to 1 if mother's is 1" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert_nil study_subject.hispanicity_mex
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:mother_hispanicity_mex => 1)
@@ -338,7 +338,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should not update attribute if new data is blank" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 			:middle_name => "Allen")
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:new_middle_name => '   ')
@@ -347,7 +347,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create datachanged operational event if data changed" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['datachanged'].id).empty?
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
@@ -361,7 +361,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT create datachanged operational event if data NOT changed" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 			:hispanicity => '999', :hispanicity_mex => '999')
 		assert study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['datachanged'].id).empty?
@@ -374,7 +374,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create screener_complete operational event if data changed" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['screener_complete'].id).empty?
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
@@ -387,7 +387,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create screener_complete operational event if data NOT changed" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST",
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST",
 			:hispanicity => '999', :hispanicity_mex => '999')
 		assert study_subject.operational_events.where(
 			:operational_event_type_id => OperationalEventType['screener_complete'].id).empty?
@@ -399,7 +399,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should send save failed notification if subject changed and save failed" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			:new_middle_name => 'TRIGGERCHANGE')
 		StudySubject.any_instance.stubs(:create_or_update).returns(false)
@@ -416,7 +416,7 @@ class BcInfoTest < ActiveSupport::TestCase
 
 		#	NO "NEW_" PREFIX HERE!!!!
 		test "should update mother's #{attr} with subject's mother_#{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 			study_subject.create_mother
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 				"mother_#{attr}" => "1")
@@ -429,7 +429,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	%w( first_name last_name maiden_name ).each do |attr|
 
 		test "should update mother's #{attr} with subject's new_mother_#{attr}" do
-			study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+			study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 			study_subject.create_mother
 			bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 				"new_mother_#{attr}" => "MOMSNAME")
@@ -440,7 +440,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create datachanged operational event for mother" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		assert mother.operational_events.where(
 			:operational_event_type_id => OperationalEventType['datachanged'].id).empty?
@@ -455,7 +455,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should send no race code notification if mother race code invalid" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"mother_race_code" => "123456789")
@@ -467,7 +467,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create mother other race if is other and doesn't exist" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		assert mother.races.empty?
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
@@ -479,7 +479,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create mother other race if is mixed and does not exist" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"mother_race_code" => Race[:mixed].code,
@@ -490,7 +490,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create mother other race if is other  does not exist and is unspecified" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"mother_race_code" => Race[:other].code )
@@ -500,7 +500,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create mother other race if is mixed, doesn't exist and is unspecified" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST",
 			"mother_race_code" => Race[:mixed].code )
@@ -510,7 +510,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should append mother other race if is other and exists" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		mother.subject_races.create(:race_code => Race[:other].code,
 			:other_race => "martian")
@@ -523,7 +523,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should append mother other race if is mixed and exists" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		mother.subject_races.create(:race_code => Race[:mixed].code,
 			:other_race => "martian")
@@ -536,7 +536,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT append mother other race if is other and exists and includes" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		mother.subject_races.create(:race_code => Race[:other].code,
 			:other_race => "martian")
@@ -548,7 +548,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT append mother other race if is mixed and exists and includes" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		mother.subject_races.create(:race_code => Race[:mixed].code,
 			:other_race => "martian")
@@ -560,7 +560,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create mother race if don't have it" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		assert mother.races.empty?
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST", "mother_race" => 1 )
@@ -569,7 +569,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT create mother race if already have it" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		mother = study_subject.create_mother
 		assert mother.races.empty?
 		mother.races << Race.where(:code => 1).first
@@ -580,7 +580,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should create waitlist bc_request" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		assert study_subject.bc_requests.empty?
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")
 		bc_info.process
@@ -588,7 +588,7 @@ class BcInfoTest < ActiveSupport::TestCase
 	end
 
 	test "should NOT create waitlist bc_request if incomplete bc_request exists" do
-		study_subject = FactoryGirl.create(:study_subject, :icf_master_id => "IDOEXIST")
+		study_subject = FactoryBot.create(:study_subject, :icf_master_id => "IDOEXIST")
 		study_subject.bc_requests.create(:status => 'pending')
 		assert_equal 1, study_subject.bc_requests.length
 		bc_info = BcInfo.new(:icf_master_id => "IDOEXIST")

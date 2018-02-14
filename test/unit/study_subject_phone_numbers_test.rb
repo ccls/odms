@@ -8,7 +8,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		assert_difference( 'PhoneNumber.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
+				:phone_numbers_attributes => [FactoryBot.attributes_for(:phone_number,
 					:data_source => 'Unknown Data Source',
 					:phone_type  => 'Home' )])
 			assert study_subject.persisted?, 
@@ -20,7 +20,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 		assert_difference( 'PhoneNumber.count', 0) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:phone_numbers_attributes => [FactoryGirl.attributes_for(:phone_number,
+				:phone_numbers_attributes => [FactoryBot.attributes_for(:phone_number,
 					:data_source  => 'Unknown Data Source',
 					:phone_number => '' )])
 			assert study_subject.persisted?, 
@@ -31,7 +31,7 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 	test "should NOT destroy phone_numbers with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('PhoneNumber.count',1) {
-			@study_subject = FactoryGirl.create(:phone_number).study_subject
+			@study_subject = FactoryBot.create(:phone_number).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('PhoneNumber.count',0) {
@@ -40,12 +40,12 @@ class StudySubjectPhoneNumbersTest < ActiveSupport::TestCase
 	end
 
 	test "should have a current primary phone" do
-		phone = FactoryGirl.create(:current_primary_phone_number)
+		phone = FactoryBot.create(:current_primary_phone_number)
 		assert_equal phone, phone.study_subject.current_primary_phone
 	end
 
 	test "should have a current alternate phone" do
-		phone = FactoryGirl.create(:current_alternate_phone_number)
+		phone = FactoryBot.create(:current_alternate_phone_number)
 		assert_equal phone, phone.study_subject.current_alternate_phone
 	end
 

@@ -19,7 +19,7 @@ class RafsControllerTest < ActionController::TestCase
 #
 
 		test "should show case with valid case id #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -29,7 +29,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should show complete case with valid case id #{cu} login" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -39,7 +39,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show control with #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -48,7 +48,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show mother with #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -260,7 +260,7 @@ class RafsControllerTest < ActionController::TestCase
 			assert_difference('StudySubject.count',2){
 				post :create, minimum_raf_form_attributes(
 					:study_subject => { :addresses_attributes => { 
-						'0' => FactoryGirl.attributes_for(:blank_line_1_address) } } ) 
+						'0' => FactoryBot.attributes_for(:blank_line_1_address) } } ) 
 			} } } } } }
 			assert_nil flash[:error]
 			assert_redirected_to assigns(:study_subject)
@@ -412,7 +412,7 @@ class RafsControllerTest < ActionController::TestCase
 		test "should not assign icf_master_id to mother if one exist on raf create" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456789')
+			FactoryBot.create(:icf_master_id,:icf_master_id => '123456789')
 			minimum_raf_successful_creation
 			assert_nil assigns(:study_subject).mother.icf_master_id
 			assert_not_nil flash[:warn]
@@ -421,8 +421,8 @@ class RafsControllerTest < ActionController::TestCase
 		test "should assign icf_master_id to mother if two exist on raf create" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456780')
-			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456781')
+			FactoryBot.create(:icf_master_id,:icf_master_id => '123456780')
+			FactoryBot.create(:icf_master_id,:icf_master_id => '123456781')
 			minimum_raf_successful_creation
 			assert_not_nil assigns(:study_subject).icf_master_id
 			assert_equal '123456780', assigns(:study_subject).icf_master_id
@@ -440,7 +440,7 @@ class RafsControllerTest < ActionController::TestCase
 
 		test "should assign icf_master_id if any exist on raf create with #{cu} login" do
 			login_as send(cu)
-			FactoryGirl.create(:icf_master_id,:icf_master_id => '123456789')
+			FactoryBot.create(:icf_master_id,:icf_master_id => '123456789')
 			minimum_raf_successful_creation
 			assert_not_nil assigns(:study_subject).icf_master_id
 			assert_equal '123456789', assigns(:study_subject).icf_master_id
@@ -493,7 +493,7 @@ class RafsControllerTest < ActionController::TestCase
 #
 		test "should raise a database error if patid exists with #{cu} login" do
 			StudySubject.any_instance.stubs(:get_next_patid).returns('0123')
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_not_nil study_subject.patid
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -508,7 +508,7 @@ class RafsControllerTest < ActionController::TestCase
 
 		test "should raise a database error if childid exists with #{cu} login" do
 			StudySubject.any_instance.stubs(:get_next_childid).returns(12345)
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			assert_not_nil study_subject.childid
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -523,7 +523,7 @@ class RafsControllerTest < ActionController::TestCase
 
 		test "should raise a database error if subjectid exists with #{cu} login" do
 			StudySubject.any_instance.stubs(:generate_subjectid).returns('012345')
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			assert_not_nil study_subject.subjectid
 			login_as send(cu)
 			assert_all_differences(0) do
@@ -553,7 +553,7 @@ class RafsControllerTest < ActionController::TestCase
 
 
 		test "should edit case with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :edit, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -566,7 +566,7 @@ class RafsControllerTest < ActionController::TestCase
 # This is very important for HTML validation!
 #
 		test "should edit complete case with #{cu} login" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			get :edit, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -576,7 +576,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit mother with #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			get :edit, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -585,7 +585,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit control with #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			get :edit, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -610,7 +610,7 @@ class RafsControllerTest < ActionController::TestCase
 
 
 		test "should update case with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			put :update, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -619,7 +619,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update mother with #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			put :update, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -628,7 +628,7 @@ class RafsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update control with #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			put :update, :id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -649,12 +649,12 @@ class RafsControllerTest < ActionController::TestCase
 		#
 
 		test "should update and create address with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addresses_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:address) } }
+					'0' => FactoryBot.attributes_for(:address) } }
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
@@ -664,12 +664,12 @@ class RafsControllerTest < ActionController::TestCase
 #	Defaults are now on the form
 #
 #		test "should update and create address with defaults and #{cu} login" do
-#			study_subject = FactoryGirl.create(:case_study_subject)
+#			study_subject = FactoryBot.create(:case_study_subject)
 #			login_as user = send(cu)
 #			assert_difference('Address.count',1) {
 #				put :update, :id => study_subject.id, 
 #					:study_subject => { 'addresses_attributes' => { 
-#					'0' => FactoryGirl.attributes_for(:address) } }
+#					'0' => FactoryBot.attributes_for(:address) } }
 #			}
 #			assert_not_nil assigns(:study_subject)
 #			assert_nil flash[:error]
@@ -683,8 +683,8 @@ class RafsControllerTest < ActionController::TestCase
 #		end
 
 		test "should update address with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			address = FactoryGirl.create(:address,:study_subject => study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
+			address = FactoryBot.create(:address,:study_subject => study_subject)
 			assert_not_equal "ihavebeenupdated", address.line_1
 			login_as send(cu)
 			assert_difference('Address.count',0) {
@@ -703,8 +703,8 @@ class RafsControllerTest < ActionController::TestCase
 #
 #		test "should update address and not overwrite with defaults "<<
 #			 	"with #{cu} login" do
-#			study_subject = FactoryGirl.create(:case_study_subject)
-#			address = FactoryGirl.create(:address,:study_subject => study_subject,
+#			study_subject = FactoryBot.create(:case_study_subject)
+#			address = FactoryBot.create(:address,:study_subject => study_subject,
 #				:current_address => YNDK[:no],
 #				:address_at_diagnosis => YNDK[:no] )
 #			login_as send(cu)
@@ -722,12 +722,12 @@ class RafsControllerTest < ActionController::TestCase
 #		end
 
 		test "should update and create phone number with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'phone_numbers_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:phone_number) } }
+					'0' => FactoryBot.attributes_for(:phone_number) } }
 			}
 			assert_not_nil assigns(:study_subject)
 			assert_nil flash[:error]
@@ -737,12 +737,12 @@ class RafsControllerTest < ActionController::TestCase
 #	Defaults are now on the form
 #
 #		test "should update and create phone number with defaults and #{cu} login" do
-#			study_subject = FactoryGirl.create(:case_study_subject)
+#			study_subject = FactoryBot.create(:case_study_subject)
 #			login_as user = send(cu)
 #			assert_difference('PhoneNumber.count',1) {
 #				put :update, :id => study_subject.id, 
 #					:study_subject => { 'phone_numbers_attributes' => { 
-#					'0' => FactoryGirl.attributes_for(:phone_number) } }
+#					'0' => FactoryBot.attributes_for(:phone_number) } }
 #			}
 #			assert_not_nil assigns(:study_subject)
 #			assert_nil flash[:error]
@@ -754,8 +754,8 @@ class RafsControllerTest < ActionController::TestCase
 #		end
 
 		test "should update phone number with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			phone_number = FactoryGirl.create(:phone_number,:study_subject => study_subject,
+			study_subject = FactoryBot.create(:case_study_subject)
+			phone_number = FactoryBot.create(:phone_number,:study_subject => study_subject,
 				:data_source => "RAF (CCLS Rapid Ascertainment Form)" )
 			number = phone_number.phone_number.gsub(/\D/,'')
 			login_as send(cu)
@@ -773,8 +773,8 @@ class RafsControllerTest < ActionController::TestCase
 #	Defaults are now on the form
 #
 #		test "should update phone number and not overwrite with defaults with #{cu} login" do
-#			study_subject = FactoryGirl.create(:case_study_subject)
-#			phone_number = FactoryGirl.create(:phone_number,:study_subject => study_subject,
+#			study_subject = FactoryBot.create(:case_study_subject)
+#			phone_number = FactoryBot.create(:phone_number,:study_subject => study_subject,
 #				:current_phone => YNDK[:no],
 #				:phone_type    => 'Mobile' )
 #			login_as send(cu)
@@ -792,12 +792,12 @@ class RafsControllerTest < ActionController::TestCase
 #		end
 
 		test "should update and create address with blank line and #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Address.count',1) {
 				put :update, :id => study_subject.id, 
 					:study_subject => { 'addresses_attributes' => { 
-					'0' => FactoryGirl.attributes_for(:blank_line_1_address) } 
+					'0' => FactoryBot.attributes_for(:blank_line_1_address) } 
 			} }
 			assert_not_nil assigns(:study_subject)
 			assert_not_nil assigns(:study_subject).addresses.first.line_1
@@ -810,7 +810,7 @@ class RafsControllerTest < ActionController::TestCase
 		test "should NOT update case study_subject" <<
 				" with invalid study_subject and #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			put :update, :id => study_subject.id,
 				:study_subject => {}
@@ -823,7 +823,7 @@ class RafsControllerTest < ActionController::TestCase
 		test "should NOT update case study_subject when save fails" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			put :update, :id => study_subject.id,
 				:study_subject => {}
@@ -836,7 +836,7 @@ class RafsControllerTest < ActionController::TestCase
 		test "should update and mark is_eligible yes with #{cu} login" do
 			login_as send(cu)
 			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
-			study_subject = FactoryGirl.create(:complete_case_study_subject)	#	eligible? not auto-set
+			study_subject = FactoryBot.create(:complete_case_study_subject)	#	eligible? not auto-set
 			enrollment = study_subject.enrollments.find_by_project_id(
 				Project['ccls'].id)
 			assert_nil enrollment.is_eligible
@@ -869,7 +869,7 @@ class RafsControllerTest < ActionController::TestCase
 				"over 15 and #{cu} login" do
 			login_as send(cu)
 			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
-			study_subject = FactoryGirl.create(:complete_case_study_subject)	#	eligible? not auto-set
+			study_subject = FactoryBot.create(:complete_case_study_subject)	#	eligible? not auto-set
 			enrollment = study_subject.enrollments.find_by_project_id(
 					Project['ccls'].id)
 			assert_nil enrollment.is_eligible
@@ -902,7 +902,7 @@ class RafsControllerTest < ActionController::TestCase
 				"previous treatment and #{cu} login" do
 			login_as send(cu)
 			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
-			study_subject = FactoryGirl.create(:complete_case_study_subject)	#	eligible? not auto-set
+			study_subject = FactoryBot.create(:complete_case_study_subject)	#	eligible? not auto-set
 			enrollment = study_subject.enrollments.find_by_project_id(
 					Project['ccls'].id)
 			assert_nil enrollment.is_eligible
@@ -935,7 +935,7 @@ class RafsControllerTest < ActionController::TestCase
 				"non-CA residence at dx and #{cu} login" do
 			login_as send(cu)
 			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
-			study_subject = FactoryGirl.create(:complete_case_study_subject)	#	eligible? not auto-set
+			study_subject = FactoryBot.create(:complete_case_study_subject)	#	eligible? not auto-set
 			enrollment = study_subject.enrollments.find_by_project_id(
 					Project['ccls'].id)
 			assert_nil enrollment.is_eligible
@@ -968,7 +968,7 @@ class RafsControllerTest < ActionController::TestCase
 				"no English or Spanish and #{cu} login" do
 			login_as send(cu)
 			#	MUST BE COMPLETE AS AM ADDING PATIENT ATTRIBUTES
-			study_subject = FactoryGirl.create(:complete_case_study_subject)	#	eligible? not auto-set
+			study_subject = FactoryBot.create(:complete_case_study_subject)	#	eligible? not auto-set
 			enrollment = study_subject.enrollments.find_by_project_id(
 					Project['ccls'].id)
 			assert_nil enrollment.is_eligible
@@ -1004,7 +1004,7 @@ class RafsControllerTest < ActionController::TestCase
 				" if admit_date - dob < 15 years and was under 15 is yes" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			assert_all_differences(0) do
 				put :update, :id => study_subject.id,
 					:study_subject => { 
@@ -1026,7 +1026,7 @@ class RafsControllerTest < ActionController::TestCase
 				" if admit_date - dob > 15 years and was under 15 is no" <<
 				" with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			assert_all_differences(0) do
 				put :update, :id => study_subject.id,
 					:study_subject => { 

@@ -59,7 +59,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 
 		test "should NOT have checked subject_languages on edit if don't exist with #{cu} login" do
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = FactoryGirl.create(:case_study_subject)	#	NOTE CASE subject only (for now?)
+				@study_subject = FactoryBot.create(:case_study_subject)	#	NOTE CASE subject only (for now?)
 			}
 			login_as send(cu)
 			get :edit, :study_subject_id => @study_subject.id
@@ -114,7 +114,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				#	NOTE CASE subject only (for now?)
-				@study_subject = FactoryGirl.create(:case_study_subject, 
+				@study_subject = FactoryBot.create(:case_study_subject, 
 					:subject_languages_attributes => {			
 						'0' => { :language_code => language.code }
 			} ) }
@@ -198,7 +198,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
 				#	NOTE CASE subject only (for now?)
-				@study_subject = FactoryGirl.create(:case_study_subject, 
+				@study_subject = FactoryBot.create(:case_study_subject, 
 					:subject_languages_attributes => {			
 						'0' => { :other_language => 'redneck', :language_code => language.code }
 			} ) }
@@ -224,16 +224,16 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 0 ){
-				@study_subject = FactoryGirl.create(:complete_case_study_subject)
+				@study_subject = FactoryBot.create(:complete_case_study_subject)
 			}
 			login_as send(cu)
 #	NOTE CASE subject only (for now) ... ONLY CASE WILL HAVE PATIENT (AND MUST) SO CASE ONLY
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
-#				:patient => FactoryGirl.attributes_for(:patient),
+#				:patient => FactoryBot.attributes_for(:patient),
 			assert_difference('SubjectLanguage.count',1){
 				put :update, :study_subject_id => @study_subject.id, 
 				:patient => patient_attributes_on_consent,
-					:enrollment => FactoryGirl.attributes_for(:consented_enrollment),
+					:enrollment => FactoryBot.attributes_for(:consented_enrollment),
 					:study_subject => { :subject_languages_attributes => {
 					'0' => { :language_code => language.code }
 			} } }
@@ -247,7 +247,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			language = Language['english']
 			assert_not_nil language
 			assert_difference( 'SubjectLanguage.count', 1 ){
-				@study_subject = FactoryGirl.create(:complete_case_study_subject, 
+				@study_subject = FactoryBot.create(:complete_case_study_subject, 
 					:subject_languages_attributes => {
 						'0' => { :language_code => language.code }
 			} ) }
@@ -256,11 +256,11 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 			login_as send(cu)
 #	NOTE CASE subject only (for now) ... ONLY CASE WILL HAVE PATIENT (AND MUST) SO CASE ONLY
 #	NOTE controller won't care if not case, it's just the edit view that won't have the fields
-#				:patient => FactoryGirl.attributes_for(:patient),
+#				:patient => FactoryBot.attributes_for(:patient),
 			assert_difference( 'SubjectLanguage.count', -1 ){
 				put :update, :study_subject_id => @study_subject.id, 
 				:patient => patient_attributes_on_consent,
-					:enrollment => FactoryGirl.attributes_for(:consented_enrollment),
+					:enrollment => FactoryBot.attributes_for(:consented_enrollment),
 					:study_subject => { :subject_languages_attributes => {
 						'0' => { :id => subject_language.id, :_destroy => 1 } } }
 			}
@@ -272,14 +272,14 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 
 		test "should NOT update consent if study_subject update fails with #{cu} login" do
 			language = Language['english']
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			#	Don't need to provide something new to save to trigger this failure.
-			#	:patient => FactoryGirl.attributes_for(:patient),
+			#	:patient => FactoryBot.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
 				:patient => patient_attributes_on_consent,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -289,13 +289,13 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		test "should NOT update consent if patient update fails with #{cu} login" do
 #	TODO as soon as 3 field data types are settled.
 #		don't remember which 3 I was talking about!
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			Patient.any_instance.stubs(:create_or_update).returns(false)
-#				:patient => FactoryGirl.attributes_for(:patient),
+#				:patient => FactoryBot.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
 				:patient => patient_attributes_on_consent,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -303,7 +303,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should create ccls enrollment on edit if none exists with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil ccls_enrollment	#	auto-created
 			ccls_enrollment.destroy
@@ -320,7 +320,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create ccls enrollment on edit if one exists with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			ccls_enrollment = study_subject.enrollments.find_by_project_id(Project['ccls'].id)
 			assert_not_nil ccls_enrollment	#	auto-created
 			login_as send(cu)
@@ -337,21 +337,21 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 #
 
 		test "should update consent for case without patient with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_nil study_subject.patient
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
 		end
 
 		test "should update consent for control with #{cu} login" do
-			study_subject = FactoryGirl.create(:complete_control_study_subject)
+			study_subject = FactoryBot.create(:complete_control_study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
@@ -359,7 +359,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 
 
 		test "should edit consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_not_nil assigns(:study_subject)
@@ -369,7 +369,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should have eligibility criteria on case edit consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_response :success
@@ -378,7 +378,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT have eligibility criteria on control edit consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_response :success
@@ -387,7 +387,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT have eligibility criteria on mother edit consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_response :success
@@ -403,12 +403,12 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should update consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
-#				:patient => FactoryGirl.attributes_for(:patient),
+#				:patient => FactoryBot.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
 				:patient => patient_attributes_on_consent,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:error]
 			assert_not_nil flash[:notice]
 			assert_redirected_to study_subject_consent_path(assigns(:study_subject))
@@ -422,13 +422,13 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent with #{cu} login and invalid enrollment" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:valid?).returns(false)
-#				:patient => FactoryGirl.attributes_for(:patient),
+#				:patient => FactoryBot.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
 				:patient => patient_attributes_on_consent,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -436,13 +436,13 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent with #{cu} login and save fails" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			Enrollment.any_instance.stubs(:create_or_update).returns(false)
-#				:patient => FactoryGirl.attributes_for(:patient),
+#				:patient => FactoryBot.attributes_for(:patient),
 			put :update, :study_subject_id => study_subject.id,
 				:patient => patient_attributes_on_consent,
-				:enrollment => FactoryGirl.attributes_for(:consented_enrollment)
+				:enrollment => FactoryBot.attributes_for(:consented_enrollment)
 			assert_nil     flash[:notice]
 			assert_not_nil flash[:error]
 			assert_response :success
@@ -454,7 +454,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT edit consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -462,7 +462,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update consent with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			put :update, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -474,7 +474,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get consents with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -493,7 +493,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 
 		test "should NOT get consents for mother with #{cu} login" do
 			login_as send(cu)
-			mother = FactoryGirl.create(:mother_study_subject)
+			mother = FactoryBot.create(:mother_study_subject)
 			get :show, :study_subject_id => mother.id
 			assert_nil flash[:error]
 			assert_match /data is only collected for child subjects. Please go to the record for the subject's child for details/, 
@@ -508,7 +508,7 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get consents with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :show, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -518,19 +518,19 @@ class StudySubject::ConsentsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get consents without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :show, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get edit consent without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :edit, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update consent without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		put :update, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

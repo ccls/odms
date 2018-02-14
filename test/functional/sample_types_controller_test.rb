@@ -10,7 +10,7 @@ class SampleTypesControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:sample_type,options)
+		FactoryBot.attributes_for(:sample_type,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

@@ -156,7 +156,7 @@ protected
 	end
 
 	def build_and_index_abstract(options={})
-		abstract = FactoryGirl.create(:abstract,options)
+		abstract = FactoryBot.create(:abstract,options)
 		Abstract.solr_reindex
 		assert !Abstract.search.hits.empty?
 		return abstract

@@ -42,7 +42,7 @@ class CasesControllerTest < ActionController::TestCase
 
 		test "should get index with exclusive ids and #{cu} login" do
 			login_as send(cu)
-			missed_subject = FactoryGirl.create(:study_subject)
+			missed_subject = FactoryBot.create(:study_subject)
 			subject = subject_for_assigned_for_interview_at
 			get :index, :ids => [missed_subject.id]
 			assert_not_nil assigns(:study_subjects)
@@ -163,7 +163,7 @@ class CasesControllerTest < ActionController::TestCase
 protected
 
 	def subject_for_assigned_for_interview_at
-		subject = FactoryGirl.create(:patient, :admit_date => 60.days.ago).study_subject
+		subject = FactoryBot.create(:patient, :admit_date => 60.days.ago).study_subject
 		#	Pagan only wants subjects with reference_date/admit_date > 30 days ago
 		#	updating admit_date should trigger reference_date update
 		subject.enrollments.where(:project_id   => Project[:ccls].id).first

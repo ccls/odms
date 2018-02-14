@@ -6,7 +6,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		assert_difference( 'Enrollment.count', 2) {	#	ccls enrollment is auto-created, so 2
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:enrollments_attributes => [FactoryGirl.attributes_for(:enrollment,
+				:enrollments_attributes => [FactoryBot.attributes_for(:enrollment,
 					:project_id => Project['nonspecific'].id)])
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -16,7 +16,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 	test "should NOT destroy enrollments with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Enrollment.count',2) {	#	due to the callback creation of ccls enrollment
-			@study_subject = FactoryGirl.create(:enrollment).study_subject
+			@study_subject = FactoryBot.create(:enrollment).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Enrollment.count',0) {
@@ -32,7 +32,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 
 	test "should return valid hx_enrollment if enrolled" do
 		study_subject = create_study_subject
-		hxe = FactoryGirl.create(:enrollment,
+		hxe = FactoryBot.create(:enrollment,
 			:study_subject => study_subject,
 			:project => Project['HomeExposures']
 		)
@@ -81,7 +81,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 	test "ineligible? should return true if ccls enrollment is_eligible is no" do
 		study_subject = create_study_subject(:enrollments_attributes => [
 			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:no],
-				:ineligible_reason => FactoryGirl.create(:ineligible_reason) }
+				:ineligible_reason => FactoryBot.create(:ineligible_reason) }
 		])
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"
@@ -116,7 +116,7 @@ class StudySubjectEnrollmentsTest < ActiveSupport::TestCase
 		study_subject = create_study_subject(:enrollments_attributes => [
 			{ :project_id => Project['ccls'].id, :consented => YNDK[:no],
 			:consented_on => Date.current,
-			:refusal_reason => FactoryGirl.create(:refusal_reason) }
+			:refusal_reason => FactoryBot.create(:refusal_reason) }
 		])
 		assert study_subject.persisted?, 
 			"#{study_subject.errors.full_messages.to_sentence}"

@@ -18,7 +18,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 
 	test "candidate_control factory should create candidate control" do
 		assert_difference('CandidateControl.count',1) {
-			candidate_control = FactoryGirl.create(:candidate_control)
+			candidate_control = FactoryBot.create(:candidate_control)
 			assert_not_nil candidate_control.reject_candidate
 			assert !candidate_control.reject_candidate
 		}
@@ -189,7 +189,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		case_study_subject = create_case_study_subject(
 			:icf_master_id => 'CASE4BIRT')
 		assert_nil case_study_subject.patient
-		birth_datum = FactoryGirl.create(:control_birth_datum, 
+		birth_datum = FactoryBot.create(:control_birth_datum, 
 			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
@@ -357,7 +357,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 		case_study_subject, birth_datum = create_case_and_control_birth_datum
 		candidate_control_1 = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control_1,case_study_subject)
-		birth_datum = FactoryGirl.create(:control_birth_datum, 
+		birth_datum = FactoryBot.create(:control_birth_datum, 
 			:master_id => case_study_subject.icf_master_id)
 		candidate_control_2 = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control_2,case_study_subject)
@@ -377,8 +377,8 @@ class CandidateControlTest < ActiveSupport::TestCase
 	#	icf_master_id isn't required as may not have any
 	test "should create control from attributes and add icf_master_id if any" do
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => '123456789')
-		birth_datum = FactoryGirl.create(:control_birth_datum, 
+		imi = FactoryBot.create(:icf_master_id,:icf_master_id => '123456789')
+		birth_datum = FactoryBot.create(:control_birth_datum, 
 			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
@@ -440,9 +440,9 @@ class CandidateControlTest < ActiveSupport::TestCase
 	#	icf_master_id isn't required as may not have any
 	test "should create mother from attributes and add icf_master_id if any" do
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		child_imi = FactoryGirl.create(:icf_master_id,:icf_master_id => 'child')
-		mother_imi = FactoryGirl.create(:icf_master_id,:icf_master_id => 'mother')
-		birth_datum = FactoryGirl.create(:control_birth_datum, 
+		child_imi = FactoryBot.create(:icf_master_id,:icf_master_id => 'child')
+		mother_imi = FactoryBot.create(:icf_master_id,:icf_master_id => 'mother')
+		birth_datum = FactoryBot.create(:control_birth_datum, 
 			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		create_study_subjects_for_candidate_control(candidate_control,case_study_subject)
@@ -493,8 +493,8 @@ class CandidateControlTest < ActiveSupport::TestCase
 
 	test "should rollback study subject creation of icf_master_id save fails" do
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		FactoryGirl.create(:icf_master_id,:icf_master_id => '123456789')
-		birth_datum = FactoryGirl.create(:control_birth_datum, 
+		FactoryBot.create(:icf_master_id,:icf_master_id => '123456789')
+		birth_datum = FactoryBot.create(:control_birth_datum, 
 			:master_id => case_study_subject.icf_master_id)
 		candidate_control = birth_datum.candidate_control
 		assert_not_nil IcfMasterId.next_unused
@@ -550,14 +550,14 @@ class CandidateControlTest < ActiveSupport::TestCase
 
 
 	test "case_study_subject_birth_state_CA should return true if case subject birth_state CA" do
-		case_subject = FactoryGirl.create(:case_study_subject, :birth_state => 'CA')
+		case_subject = FactoryBot.create(:case_study_subject, :birth_state => 'CA')
 		assert_not_nil case_subject.birth_state
 		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
 		assert candidate_control.case_study_subject_birth_state_CA?
 	end
 
 	test "case_study_subject_birth_state_CA should return false if case subject birth_state NOT CA" do
-		case_subject = FactoryGirl.create(:case_study_subject, :birth_state => 'AZ')
+		case_subject = FactoryBot.create(:case_study_subject, :birth_state => 'AZ')
 		assert_not_nil case_subject.birth_state
 		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
 		assert !candidate_control.case_study_subject_birth_state_CA?
@@ -569,7 +569,7 @@ class CandidateControlTest < ActiveSupport::TestCase
 	end
 
 	test "case_study_subject should return the case with related patid" do
-		case_subject = FactoryGirl.create(:case_study_subject)
+		case_subject = FactoryBot.create(:case_study_subject)
 		assert_not_nil case_subject.patid
 		candidate_control = CandidateControl.new(:related_patid => case_subject.patid)
 		assert_equal case_subject, candidate_control.case_study_subject
@@ -593,7 +593,7 @@ protected
 	alias_method :create_object, :create_candidate_control
 
 	def create_complete_case_study_subject_with_icf_master_id
-		study_subject = FactoryGirl.create(:complete_case_study_subject,
+		study_subject = FactoryBot.create(:complete_case_study_subject,
 			:icf_master_id => 'UCASE4BIR')
 		assert_not_nil study_subject.icf_master_id
 		assert_equal 'UCASE4BIR', study_subject.icf_master_id
@@ -612,7 +612,7 @@ protected
 
 	def create_case_and_control_birth_datum(options={})
 		case_study_subject = create_complete_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,{
+		birth_datum = FactoryBot.create(:control_birth_datum,{
 			:master_id => case_study_subject.icf_master_id
 		}.merge(options) )
 		return case_study_subject, birth_datum

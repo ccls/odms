@@ -24,7 +24,7 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 
 	test "blood_spot_request factory should create bc request" do
 		assert_difference('BloodSpotRequest.count',1) {
-			blood_spot_request = FactoryGirl.create(:blood_spot_request)
+			blood_spot_request = FactoryBot.create(:blood_spot_request)
 			assert_match /Notes\d*/, blood_spot_request.notes
 		}
 	end
@@ -38,7 +38,7 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 	%w( active waitlist pending unavailable completed ).each do |status|
 
 		test "should include #{status} blood spot request in #{status} scope" do
-			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			blood_spot_request = FactoryBot.create(:blood_spot_request,
 				:status => status )
 			blood_spot_requests = BloodSpotRequest.send(status)
 			assert blood_spot_requests.include?( blood_spot_request )
@@ -47,14 +47,14 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 	end
 
 	test "should include nil blood spot request in incomplete scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
+		blood_spot_request = FactoryBot.create(:blood_spot_request,
 			:status => nil )
 		blood_spot_requests = BloodSpotRequest.incomplete
 		assert blood_spot_requests.include?( blood_spot_request )
 	end
 
 	test "should NOT include nil blood spot request in complete scope" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request,
+		blood_spot_request = FactoryBot.create(:blood_spot_request,
 			:status => nil )
 		blood_spot_requests = BloodSpotRequest.complete
 		assert !blood_spot_requests.include?( blood_spot_request )
@@ -63,14 +63,14 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 	%w( active waitlist pending ).each do |status|
 
 		test "should include #{status} blood spot request in incomplete scope" do
-			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			blood_spot_request = FactoryBot.create(:blood_spot_request,
 			:status => status )
 			blood_spot_requests = BloodSpotRequest.incomplete
 			assert blood_spot_requests.include?( blood_spot_request )
 		end
 
 		test "should NOT #{status} pending blood spot request in complete scope" do
-			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			blood_spot_request = FactoryBot.create(:blood_spot_request,
 				:status => status )
 			blood_spot_requests = BloodSpotRequest.complete
 			assert !blood_spot_requests.include?( blood_spot_request )
@@ -81,14 +81,14 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 	%w( completed unavailable ).each do |status|
 
 		test "should include #{status} blood spot request in complete scope" do
-			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			blood_spot_request = FactoryBot.create(:blood_spot_request,
 			:status => status )
 			blood_spot_requests = BloodSpotRequest.complete
 			assert blood_spot_requests.include?( blood_spot_request )
 		end
 
 		test "should NOT #{status} pending blood spot request in incomplete scope" do
-			blood_spot_request = FactoryGirl.create(:blood_spot_request,
+			blood_spot_request = FactoryBot.create(:blood_spot_request,
 				:status => status )
 			blood_spot_requests = BloodSpotRequest.incomplete
 			assert !blood_spot_requests.include?( blood_spot_request )
@@ -99,23 +99,23 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 	test "should return study subjects studyid for to_s if study subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('BloodSpotRequest.count',1) {
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
-			blood_spot_request = FactoryGirl.create(:blood_spot_request)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
+			blood_spot_request = FactoryBot.create(:blood_spot_request)
 			study_subject.blood_spot_requests << blood_spot_request
 			assert_equal study_subject.studyid, "#{blood_spot_request}"
 		} }
 	end
 
 	test "should return blood_spot_requests with status blank" do
-		blood_spot_request = FactoryGirl.create(:blood_spot_request)
+		blood_spot_request = FactoryBot.create(:blood_spot_request)
 		assert blood_spot_request.status.blank?
 		assert BloodSpotRequest.with_status().include?(blood_spot_request)
 	end
 
 	test "should return blood_spot_requests with status bogus" do
-		blank_blood_spot_request = FactoryGirl.create(:blood_spot_request)
+		blank_blood_spot_request = FactoryBot.create(:blood_spot_request)
 		assert blank_blood_spot_request.status.blank?
-		blood_spot_request = FactoryGirl.create(:blood_spot_request)
+		blood_spot_request = FactoryBot.create(:blood_spot_request)
 		assert  blood_spot_request.status.blank?
 		blood_spot_requests = BloodSpotRequest.with_status('bogus')
 		assert !blood_spot_requests.include?(blood_spot_request)
@@ -124,9 +124,9 @@ class BloodSpotRequestTest < ActiveSupport::TestCase
 
 	BloodSpotRequest.statuses.each do |status|
 		test "should return blood_spot_requests with status #{status}" do
-			blank_blood_spot_request = FactoryGirl.create(:blood_spot_request)
+			blank_blood_spot_request = FactoryBot.create(:blood_spot_request)
 			assert blank_blood_spot_request.status.blank?
-			blood_spot_request = FactoryGirl.create(:blood_spot_request, :status => status)
+			blood_spot_request = FactoryBot.create(:blood_spot_request, :status => status)
 			assert blood_spot_request.status.present?
 			assert_equal status, blood_spot_request.status
 			blood_spot_requests = BloodSpotRequest.with_status(status)

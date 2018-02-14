@@ -9,7 +9,7 @@ class RacesControllerTest < ActionController::TestCase
 		:method_for_create => :create_race
 	}
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:race,options)
+		FactoryBot.attributes_for(:race,options)
 	end
 
 	assert_access_with_login(    :logins => site_administrators )

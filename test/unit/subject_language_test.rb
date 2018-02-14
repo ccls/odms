@@ -7,20 +7,20 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 
 	test "subject_language factory should create subject language" do
 		assert_difference('SubjectLanguage.count',1) {
-			subject_language = FactoryGirl.create(:subject_language)
+			subject_language = FactoryBot.create(:subject_language)
 		}
 	end
 
 	test "subject_language factory should create language" do
 		assert_difference('Language.count',1) {
-			subject_language = FactoryGirl.create(:subject_language)
+			subject_language = FactoryBot.create(:subject_language)
 			assert_not_nil subject_language.language
 		}
 	end
 
 	test "subject_language factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			subject_language = FactoryGirl.create(:subject_language)
+			subject_language = FactoryBot.create(:subject_language)
 			assert_not_nil subject_language.study_subject
 		}
 	end
@@ -42,36 +42,36 @@ class SubjectLanguageTest < ActiveSupport::TestCase
 	end
 
 	test "language_is_other should return true if language is other" do
-		subject_language = FactoryGirl.create(:subject_language, 
+		subject_language = FactoryBot.create(:subject_language, 
 			:language => Language['other'],
 			:other_language => 'redneck' )
 		assert subject_language.language_is_other?
 	end
 
 	test "language_is_other should return false if language is not other" do
-		subject_language = FactoryGirl.create(:subject_language, :language => Language['english'])
+		subject_language = FactoryBot.create(:subject_language, :language => Language['english'])
 		assert !subject_language.language_is_other?
 	end
 
 	test "to_s should return language description if english" do
-		subject_language = FactoryGirl.create(:subject_language, :language => Language['ENglish'])
+		subject_language = FactoryBot.create(:subject_language, :language => Language['ENglish'])
 		assert_equal subject_language.to_s, 'English'
 	end
 
 	test "to_s should return language description if spanish" do
-		subject_language = FactoryGirl.create(:subject_language, :language => Language['spanish'])
+		subject_language = FactoryBot.create(:subject_language, :language => Language['spanish'])
 		assert_equal subject_language.to_s, 'Spanish'
 	end
 
 
 	test "should flag study subject for reindexed on create" do
-		subject_language = FactoryGirl.create(:subject_language)
+		subject_language = FactoryBot.create(:subject_language)
 		assert_not_nil subject_language.study_subject
 		assert  subject_language.study_subject.needs_reindexed
 	end
 
 	test "should flag study subject for reindexed on update" do
-		subject_language = FactoryGirl.create(:subject_language)
+		subject_language = FactoryBot.create(:subject_language)
 		assert_not_nil subject_language.study_subject
 		study_subject = subject_language.study_subject
 		assert  study_subject.needs_reindexed

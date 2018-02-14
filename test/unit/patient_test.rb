@@ -32,7 +32,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "subjectless patient factory should create patient" do
 		assert_difference('Patient.count',1) {
-			patient = FactoryGirl.create(:subjectless_patient)
+			patient = FactoryBot.create(:subjectless_patient)
 			assert_not_nil patient.admit_date
 			assert_not_nil patient.hospital_no
 			assert_not_nil patient.organization_id
@@ -42,36 +42,36 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "subjectless patient factory should not create study subject" do
 		assert_difference('StudySubject.count',0) {
-			patient = FactoryGirl.create(:subjectless_patient)
+			patient = FactoryBot.create(:subjectless_patient)
 			assert_nil patient.study_subject
 		}
 	end
 
 	test "subjectless patient factory should not create hospital" do
 		assert_difference('Hospital.count',0) {
-			patient = FactoryGirl.create(:subjectless_patient)
+			patient = FactoryBot.create(:subjectless_patient)
 		}
 	end
 
 	test "patient factory should sequence existing hospitals" do
-		patient = FactoryGirl.create(:patient)		#	'first' hospital
+		patient = FactoryBot.create(:patient)		#	'first' hospital
 		(Hospital.active.count - 1).times {	#	loop over the rest of the hospitals
-			new_patient = FactoryGirl.create(:patient)
+			new_patient = FactoryBot.create(:patient)
 			assert patient.organization_id != new_patient.organization_id
 		}
-		new_patient = FactoryGirl.create(:patient)	#	back to the 'first' hospital
+		new_patient = FactoryBot.create(:patient)	#	back to the 'first' hospital
 		assert patient.organization_id == new_patient.organization_id
 	end
 
 	test "patient factory should create patient" do
 		assert_difference('Patient.count',1) {
-			patient = FactoryGirl.create(:patient)
+			patient = FactoryBot.create(:patient)
 		}
 	end
 
 	test "patient factory should create case study subject" do
 		assert_difference('StudySubject.count',1) {
-			patient = FactoryGirl.create(:patient)
+			patient = FactoryBot.create(:patient)
 			assert_not_nil patient.study_subject
 #			assert_equal patient.study_subject.subject_type, SubjectType['Case']
 			assert_equal patient.study_subject.subject_type, 'Case'
@@ -80,30 +80,30 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "patient factory should create not create hospital" do
 		assert_difference('Hospital.count',0) {
-			patient = FactoryGirl.create(:patient)
+			patient = FactoryBot.create(:patient)
 		}
 	end
 
 	test "waivered patient factory should sequence existing waivered hospitals" do
-		patient = FactoryGirl.create(:waivered_patient)		#	'first' hospital
+		patient = FactoryBot.create(:waivered_patient)		#	'first' hospital
 		(Hospital.active.waivered.count - 1).times {	#	loop over the rest of the hospitals
-			new_patient = FactoryGirl.create(:waivered_patient)
+			new_patient = FactoryBot.create(:waivered_patient)
 			assert patient.organization_id != new_patient.organization_id
 		}
-		new_patient = FactoryGirl.create(:waivered_patient)	#	back to the 'first' hospital
+		new_patient = FactoryBot.create(:waivered_patient)	#	back to the 'first' hospital
 		assert patient.organization_id == new_patient.organization_id
 	end
 
 	test "waivered_patient factory should create patient in waivered hospital" do
 		assert_difference('Patient.count',1) {
-			patient = FactoryGirl.create(:waivered_patient)
+			patient = FactoryBot.create(:waivered_patient)
 			assert patient.organization.hospital.has_irb_waiver
 		}
 	end
 
 	test "waivered_patient factory should create case study subject" do
 		assert_difference('StudySubject.count',1) {
-			patient = FactoryGirl.create(:waivered_patient)
+			patient = FactoryBot.create(:waivered_patient)
 			assert_not_nil patient.study_subject
 #			assert_equal patient.study_subject.subject_type, SubjectType['Case']
 			assert_equal patient.study_subject.subject_type, 'Case'
@@ -112,30 +112,30 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "waivered_patient factory should not create hospital" do
 		assert_difference('Hospital.count',0) {
-			patient = FactoryGirl.create(:waivered_patient)
+			patient = FactoryBot.create(:waivered_patient)
 		}
 	end
 
 	test "nonwaivered patient factory should sequence existing nonwaivered hospitals" do
-		patient = FactoryGirl.create(:nonwaivered_patient)		#	'first' hospital
+		patient = FactoryBot.create(:nonwaivered_patient)		#	'first' hospital
 		(Hospital.active.nonwaivered.count - 1).times {	#	loop over the rest of the hospitals
-			new_patient = FactoryGirl.create(:nonwaivered_patient)
+			new_patient = FactoryBot.create(:nonwaivered_patient)
 			assert patient.organization_id != new_patient.organization_id
 		}
-		new_patient = FactoryGirl.create(:nonwaivered_patient)	#	back to the 'first' hospital
+		new_patient = FactoryBot.create(:nonwaivered_patient)	#	back to the 'first' hospital
 		assert patient.organization_id == new_patient.organization_id
 	end
 
 	test "nonwaivered_patient factory should create patient in non-waivered hospital" do
 		assert_difference('Patient.count',1) {
-			patient = FactoryGirl.create(:nonwaivered_patient)
+			patient = FactoryBot.create(:nonwaivered_patient)
 			assert !patient.organization.hospital.has_irb_waiver
 		}
 	end
 
 	test "nonwaivered_patient factory should create case study subject" do
 		assert_difference('StudySubject.count',1) {
-			patient = FactoryGirl.create(:nonwaivered_patient)
+			patient = FactoryBot.create(:nonwaivered_patient)
 			assert_not_nil patient.study_subject
 #			assert_equal patient.study_subject.subject_type, SubjectType['Case']
 			assert_equal patient.study_subject.subject_type, 'Case'
@@ -144,7 +144,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "nonwaivered_patient factory should not create hospital" do
 		assert_difference('Hospital.count',0) {
-			patient = FactoryGirl.create(:nonwaivered_patient)
+			patient = FactoryBot.create(:nonwaivered_patient)
 		}
 	end
 
@@ -174,7 +174,7 @@ class PatientTest < ActiveSupport::TestCase
 	test "should require Case study_subject" do
 		assert_difference( "StudySubject.count", 1 ) {
 		assert_difference( "Patient.count", 0 ) {
-			patient = create_patient(:study_subject => FactoryGirl.create(:study_subject))
+			patient = create_patient(:study_subject => FactoryBot.create(:study_subject))
 			assert patient.errors.include?(:study_subject)
 		} }
 	end
@@ -183,7 +183,7 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) {
 		assert_difference( "Patient.count", 0 ) {
 			study_subject = create_study_subject(
-				:patient_attributes => FactoryGirl.attributes_for(:patient))
+				:patient_attributes => FactoryBot.attributes_for(:patient))
 			#	raised from study_subject model, NOT patient
 			assert study_subject.errors.include?(:patient)
 		} }
@@ -191,7 +191,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "should allow admit_date be on DOB" do
 		assert_difference( "Patient.count", 1 ) {
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			patient = create_patient(
 				:study_subject => study_subject,
 				:admit_date => study_subject.dob )
@@ -202,7 +202,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "should require admit_date be after DOB" do
 		assert_difference( "Patient.count", 0 ) {
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert Date.jd(2430000) < study_subject.dob
 			patient = create_patient(
 				:study_subject => study_subject,
@@ -215,7 +215,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "should NOT require admit_date 1/1/1900 be after DOB" do
 		assert_difference( "Patient.count", 1 ) {
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			patient = create_patient(
 				:study_subject => study_subject,
 				:admit_date => Date.parse('1/1/1900') )
@@ -227,7 +227,7 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) {
 		assert_difference( "Patient.count", 0 ) {
 			study_subject = create_case_study_subject(
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					# BEFORE my factory set dob to raise error (Date.jd(2440000+rand(15000))
 					:admit_date => Date.jd(2430000)
 				}))
@@ -241,7 +241,7 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 1 ) {
 		assert_difference( "Patient.count", 1 ) {
 			study_subject = create_case_study_subject(
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					:admit_date => Date.parse('1/1/1900')
 				}))
 			assert !study_subject.errors.include?('patient:admit_date')
@@ -251,7 +251,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "should allow diagnosis_date be on DOB" do
 		assert_difference( "Patient.count", 1 ) do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			patient = create_patient(
 				:study_subject => study_subject,
 				:diagnosis_date => study_subject.dob )
@@ -262,7 +262,7 @@ class PatientTest < ActiveSupport::TestCase
 
 	test "should require diagnosis_date be after DOB" do
 		assert_difference( "Patient.count", 0 ) do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert Date.jd(2430000) < study_subject.dob
 			patient = create_patient(
 				:study_subject => study_subject,
@@ -277,7 +277,7 @@ class PatientTest < ActiveSupport::TestCase
 		assert_difference( "StudySubject.count", 0 ) {
 		assert_difference( "Patient.count", 0 ) {
 			study_subject = create_case_study_subject(
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					# BEFORE my factory set dob to raise error
 					:diagnosis_date => Date.jd(2430000),
 				}))
@@ -294,7 +294,7 @@ class PatientTest < ActiveSupport::TestCase
 			admit_date = Date.parse('1/1/1900')
 			study_subject = create_case_study_subject(
 				:dob => dob,
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					:admit_date => admit_date
 				})
 			).reload
@@ -311,7 +311,7 @@ class PatientTest < ActiveSupport::TestCase
 			dob        = 10.years.ago.to_date
 			admit_date = Date.parse('1/1/1900')
 			study_subject = create_case_study_subject( :dob => dob )
-			patient = FactoryGirl.create(:patient,{
+			patient = FactoryBot.create(:patient,{
 				:study_subject => study_subject,
 				:admit_date => admit_date
 			})
@@ -330,7 +330,7 @@ class PatientTest < ActiveSupport::TestCase
 			admit_date = 1.year.ago.to_date
 			study_subject = create_case_study_subject(
 				:dob => dob,
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					:admit_date => admit_date
 				})
 			).reload
@@ -346,7 +346,7 @@ class PatientTest < ActiveSupport::TestCase
 			dob        = Date.parse('1/1/1900')
 			admit_date = 1.year.ago.to_date
 			study_subject = create_case_study_subject( :dob => dob )
-			patient = FactoryGirl.create(:patient,{
+			patient = FactoryBot.create(:patient,{
 				:study_subject => study_subject,
 				:admit_date => admit_date
 			})
@@ -365,7 +365,7 @@ class PatientTest < ActiveSupport::TestCase
 			admit_date = 1.year.ago.to_date
 			study_subject = create_case_study_subject(
 				:dob => dob,
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					:admit_date => admit_date
 				})
 			).reload
@@ -381,7 +381,7 @@ class PatientTest < ActiveSupport::TestCase
 			dob        = 14.years.ago.to_date
 			admit_date = 1.year.ago.to_date
 			study_subject = create_case_study_subject( :dob => dob )
-			patient = FactoryGirl.create(:patient,{
+			patient = FactoryBot.create(:patient,{
 				:study_subject => study_subject,
 				:admit_date => admit_date
 			})
@@ -400,7 +400,7 @@ class PatientTest < ActiveSupport::TestCase
 			admit_date = 1.year.ago.to_date
 			study_subject = create_case_study_subject(
 				:dob => dob,
-				:patient_attributes => FactoryGirl.attributes_for(:patient,{
+				:patient_attributes => FactoryBot.attributes_for(:patient,{
 					:admit_date => admit_date
 				})
 			).reload
@@ -417,7 +417,7 @@ class PatientTest < ActiveSupport::TestCase
 			admit_date = 1.year.ago.to_date
 			study_subject = create_case_study_subject( :dob => dob )
 			#	patient creation MUST come AFTER pii creation
-			patient = FactoryGirl.create(:patient,{
+			patient = FactoryBot.create(:patient,{
 				:study_subject    => study_subject,
 				:admit_date => admit_date
 			})
@@ -431,7 +431,7 @@ class PatientTest < ActiveSupport::TestCase
 	test "should set was_under_15_at_dx on dob change" do
 		study_subject = create_case_study_subject(
 			:dob => 20.years.ago.to_date,
-			:patient_attributes => FactoryGirl.attributes_for(:patient,{
+			:patient_attributes => FactoryBot.attributes_for(:patient,{
 				:admit_date => 1.year.ago.to_date
 			})
 		).reload
@@ -443,7 +443,7 @@ class PatientTest < ActiveSupport::TestCase
 	test "should set was_under_15_at_dx on admit_date change" do
 		study_subject = create_case_study_subject(
 			:dob => 20.years.ago.to_date,
-			:patient_attributes => FactoryGirl.attributes_for(:patient,{
+			:patient_attributes => FactoryBot.attributes_for(:patient,{
 				:admit_date => 1.year.ago.to_date
 			})
 		).reload
@@ -455,7 +455,7 @@ class PatientTest < ActiveSupport::TestCase
 	test "should set was_under_15_at_dx on was_under_15_at_dx change" do
 		study_subject = create_case_study_subject(
 			:dob => 20.years.ago.to_date,
-			:patient_attributes => FactoryGirl.attributes_for(:patient,{
+			:patient_attributes => FactoryBot.attributes_for(:patient,{
 				:admit_date => 1.year.ago.to_date
 			})
 		).reload
@@ -542,13 +542,13 @@ class PatientTest < ActiveSupport::TestCase
 
 
 	test "should flag study subject for reindexed on create" do
-		patient = FactoryGirl.create(:patient)
+		patient = FactoryBot.create(:patient)
 		assert_not_nil patient.study_subject
 		assert  patient.study_subject.needs_reindexed
 	end
 
 	test "should flag study subject for reindexed on update" do
-		patient = FactoryGirl.create(:patient)
+		patient = FactoryBot.create(:patient)
 		assert_not_nil patient.study_subject
 		study_subject = patient.study_subject
 		assert  study_subject.needs_reindexed

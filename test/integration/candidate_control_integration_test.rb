@@ -7,7 +7,7 @@ class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		test "should create control for case with no duplicates and #{cu} login" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = FactoryGirl.create(:control_birth_datum, 
+			birth_datum = FactoryBot.create(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
@@ -51,11 +51,11 @@ class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				" with #{cu} login and 'Match Found' and no duplicate_id" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = FactoryGirl.create(:control_birth_datum, 
+			birth_datum = FactoryBot.create(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
-			duplicate = FactoryGirl.create(:study_subject,
+			duplicate = FactoryBot.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -113,11 +113,11 @@ class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				" with #{cu} login and 'Match Found' and valid duplicate_id" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = FactoryGirl.create(:control_birth_datum, 
+			birth_datum = FactoryBot.create(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
-			duplicate = FactoryGirl.create(:study_subject,
+			duplicate = FactoryBot.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -178,11 +178,11 @@ class CandidateControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 				" with #{cu} login and No Match found" do
 			login_as send(cu)
 			case_study_subject = create_complete_case_study_subject_with_icf_master_id
-			birth_datum = FactoryGirl.create(:control_birth_datum, 
+			birth_datum = FactoryBot.create(:control_birth_datum, 
 				:master_id => case_study_subject.icf_master_id )
 			candidate = birth_datum.candidate_control
 			candidate.update_attributes( :updated_at => ( Date.current - 2.days ) )
-			duplicate = FactoryGirl.create(:study_subject,
+			duplicate = FactoryBot.create(:study_subject,
 				:sex => candidate.sex,
 				:dob => candidate.dob,
 				:mother_maiden_name => candidate.mother_maiden_name)
@@ -253,9 +253,9 @@ protected
 	end
 
 	def create_complete_case_study_subject_with_icf_master_id
-		study_subject = FactoryGirl.create(:complete_case_study_subject)
+		study_subject = FactoryBot.create(:complete_case_study_subject)
 		assert_nil study_subject.icf_master_id
-		imi = FactoryGirl.create(:icf_master_id,:icf_master_id => 'ICASE4BIR')
+		imi = FactoryBot.create(:icf_master_id,:icf_master_id => 'ICASE4BIR')
 		study_subject.assign_icf_master_id
 		assert_not_nil study_subject.icf_master_id
 		assert_equal 'ICASE4BIR', study_subject.icf_master_id

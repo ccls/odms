@@ -82,50 +82,50 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	test "study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			assert_not_nil study_subject.vital_status
 			assert_not_nil study_subject.sex
 		}
 	end
 
 	test "study_subject factory should create subject type" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		assert_not_nil study_subject.subject_type
 	end
 
 	test "case study_subject should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_equal study_subject.subject_type, 'Case'
 		}
 	end
 
 	test "case study_subject should not create subject type" do
-		study_subject = FactoryGirl.create(:case_study_subject)
+		study_subject = FactoryBot.create(:case_study_subject)
 	end
 
 	test "control study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			assert_equal study_subject.subject_type, 'Control'
 		}
 	end
 
 	test "control study_subject factory should not create subject type" do
-		study_subject = FactoryGirl.create(:control_study_subject)
+		study_subject = FactoryBot.create(:control_study_subject)
 	end
 
 	test "minimum_raf_form_attributes should create differing random dobs" do
 		#	build a couple and check that they are not the same
 		#	it is possible that this will occassionally fail
-		dob1 = FactoryGirl.attributes_for(:minimum_raf_form_attributes)[:dob]
-		dob2 = FactoryGirl.attributes_for(:minimum_raf_form_attributes)[:dob]
+		dob1 = FactoryBot.attributes_for(:minimum_raf_form_attributes)[:dob]
+		dob2 = FactoryBot.attributes_for(:minimum_raf_form_attributes)[:dob]
 		assert dob1 != dob2, "Expected #{dob1} and #{dob2} to differ"
 	end
 
 	test "mother study_subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			s = FactoryGirl.create(:mother_study_subject)
+			s = FactoryBot.create(:mother_study_subject)
 			assert_equal s.subject_type, 'Mother'
 			assert_equal s.sex, 'F'
 			assert_nil     s.studyid
@@ -135,19 +135,19 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "mother study_subject factory should not create subject type" do
-		s = FactoryGirl.create(:mother_study_subject)
+		s = FactoryBot.create(:mother_study_subject)
 	end
 
 	test "explicit Factory complete case study subject build test" do
 		assert_difference('Patient.count',0) {
 		assert_difference('StudySubject.count',0) {
-			s = FactoryGirl.build(:complete_case_study_subject)
+			s = FactoryBot.build(:complete_case_study_subject)
 		} }
 	end
 
 	test "complete case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			s = FactoryGirl.create(:complete_case_study_subject)
+			s = FactoryBot.create(:complete_case_study_subject)
 			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
@@ -162,13 +162,13 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	test "complete case study subject factory should create patient" do
 		assert_difference('Patient.count',1) {
-			s = FactoryGirl.create(:complete_case_study_subject)
+			s = FactoryBot.create(:complete_case_study_subject)
 		}
 	end
 
 	test "complete waivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			s = FactoryGirl.create(:complete_waivered_case_study_subject)
+			s = FactoryBot.create(:complete_waivered_case_study_subject)
 			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
@@ -180,7 +180,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	test "complete waivered case study subject factory should create waivered patient" do
 		assert_difference('Patient.count',1) {
-			s = FactoryGirl.create(:complete_waivered_case_study_subject)
+			s = FactoryBot.create(:complete_waivered_case_study_subject)
 			assert_not_nil s.organization_id
 			assert s.organization.hospital.has_irb_waiver
 		}
@@ -188,7 +188,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	test "complete nonwaivered case study subject factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			s = FactoryGirl.create(:complete_nonwaivered_case_study_subject)
+			s = FactoryBot.create(:complete_nonwaivered_case_study_subject)
 			assert_equal s.subject_type, 'Case'
 			assert_equal s.case_control_type, 'C'
 			assert_equal s.orderno, 0
@@ -200,7 +200,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 
 	test "complete nonwaivered case study subject factory should create nonwaivered patient" do
 		assert_difference('Patient.count',1) {
-			s = FactoryGirl.create(:complete_nonwaivered_case_study_subject)
+			s = FactoryBot.create(:complete_nonwaivered_case_study_subject)
 			assert !s.organization.hospital.has_irb_waiver
 		}
 	end
@@ -250,8 +250,8 @@ class StudySubjectTest < ActiveSupport::TestCase
 	test "should NOT destroy bc_requests with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('BcRequest.count',1) {
-			@study_subject = FactoryGirl.create(:study_subject)
-			FactoryGirl.create(:bc_request, :study_subject => @study_subject)
+			@study_subject = FactoryBot.create(:study_subject)
+			FactoryBot.create(:bc_request, :study_subject => @study_subject)
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('BcRequest.count',0) {
@@ -265,7 +265,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "should be case if explicitly told" do
-		study_subject = FactoryGirl.create(:case_study_subject)
+		study_subject = FactoryBot.create(:case_study_subject)
 		assert study_subject.is_case?
 	end
 
@@ -388,14 +388,14 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "should not create mother for mother" do
-		study_subject = FactoryGirl.create(:complete_mother_study_subject)
+		study_subject = FactoryBot.create(:complete_mother_study_subject)
 		assert_nil study_subject.familyid
 		assert_nil study_subject.mother
 		assert_equal study_subject, study_subject.create_mother
 	end
 
 	test "should return appended child's childid if is mother" do
-		study_subject = FactoryGirl.create(:complete_control_study_subject)
+		study_subject = FactoryBot.create(:complete_control_study_subject)
 		mother = study_subject.create_mother
 		assert_not_nil study_subject.childid
 		assert_nil     mother.childid
@@ -417,7 +417,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 #	end
 
 	test "should return n/a for mother's studyid" do
-		study_subject = FactoryGirl.create(:complete_control_study_subject)
+		study_subject = FactoryBot.create(:complete_control_study_subject)
 		mother = study_subject.create_mother
 		assert_nil          mother.studyid
 		assert_equal 'n/a', mother.studyid_to_s
@@ -435,7 +435,7 @@ class StudySubjectTest < ActiveSupport::TestCase
 	end
 
 	test "replicates should return empty when replication_id is not blank and subjects exist with replication_id" do
-		s = FactoryGirl.create(:study_subject, :replication_id => 1)
+		s = FactoryBot.create(:study_subject, :replication_id => 1)
 		study_subject = StudySubject.new(:replication_id => s.replication_id)
 		assert !study_subject.replicates.empty?
 	end

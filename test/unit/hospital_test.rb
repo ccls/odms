@@ -9,42 +9,42 @@ class HospitalTest < ActiveSupport::TestCase
 
 	test "hospital factory should create non-waivered hospital" do
 		assert_difference('Hospital.count',1) {
-			hospital = FactoryGirl.create(:hospital)
+			hospital = FactoryBot.create(:hospital)
 			assert !hospital.has_irb_waiver	#	database default
 		}
 	end
 
 	test "hospital factory should create organization" do
 		assert_difference('Organization.count',1) {
-			hospital = FactoryGirl.create(:hospital)
+			hospital = FactoryBot.create(:hospital)
 			assert_not_nil hospital.organization
 		}
 	end
 
 	test "nonwaivered hospital should create non-waivered hospital" do
 		assert_difference('Hospital.count',1) {
-			hospital = FactoryGirl.create(:nonwaivered_hospital)
+			hospital = FactoryBot.create(:nonwaivered_hospital)
 			assert !hospital.has_irb_waiver	#	database default
 		}
 	end
 
 	test "nonwaivered hospital should create organization" do
 		assert_difference('Organization.count',1) {
-			hospital = FactoryGirl.create(:nonwaivered_hospital)
+			hospital = FactoryBot.create(:nonwaivered_hospital)
 			assert_not_nil hospital.organization
 		}
 	end
 
 	test "waivered hospital should create waivered hospital" do
 		assert_difference('Hospital.count',1) {
-			hospital = FactoryGirl.create(:waivered_hospital)
+			hospital = FactoryBot.create(:waivered_hospital)
 			assert hospital.has_irb_waiver
 		}
 	end
 
 	test "waivered hospital should create organization" do
 		assert_difference('Organization.count',1) {
-			hospital = FactoryGirl.create(:waivered_hospital)
+			hospital = FactoryBot.create(:waivered_hospital)
 			assert_not_nil hospital.organization
 		}
 	end

@@ -17,12 +17,12 @@ def random_sex
 	%w( M F )[rand(2)]
 end
 	
-FactoryGirl.define do
+FactoryBot.define do
 	#
 	#	Note the double {} around *_attributes. One for the hash and one for the proc.
 	#
 	#	These factories (the non-minimum ones) should ONLY include those fields 
-	#	actually on the RAF forms so I should probably NOT use the FactoryGirl.attributes_for
+	#	actually on the RAF forms so I should probably NOT use the FactoryBot.attributes_for
 	#	method for the other factories.  For now, I do though as they actually do only 
 	#	include those fields.
 	#
@@ -31,7 +31,7 @@ FactoryGirl.define do
 		#	Always want this date between yesterday and <15 years ago
 		#	as default was_under_15 is Yes and admit_date is Today.
 		f.dob { Date.jd( ((Date.current - 14.years).jd)+ rand(5000)).to_s }	# like this
-		f.patient_attributes { FactoryGirl.attributes_for(:waivered_patient) }
+		f.patient_attributes { FactoryBot.attributes_for(:waivered_patient) }
 	end
 	factory :raf_form_attributes, :parent => :minimum_raf_form_attributes do |f|
 		f.first_name ''
@@ -54,11 +54,11 @@ FactoryGirl.define do
 			"1"=>{"language_code"=>""}, 
 			"2"=>{"language_code"=>"", "other_language"=>""} }}
 		f.addresses_attributes {{
-			"0"=> FactoryGirl.attributes_for(:address) }}
+			"0"=> FactoryBot.attributes_for(:address) }}
 		f.phone_numbers_attributes {{
-			"0"=> FactoryGirl.attributes_for(:phone_number),
+			"0"=> FactoryBot.attributes_for(:phone_number),
 			"1"=>{"phone_number"=>""} }}
-		f.patient_attributes { FactoryGirl.attributes_for(:waivered_patient,{
+		f.patient_attributes { FactoryBot.attributes_for(:waivered_patient,{
 			"raf_zip" => '12345',
 			"raf_county" => "some county, usa",
 			"was_previously_treated"=> YNDK[:no].to_s,
@@ -373,13 +373,13 @@ FactoryGirl.define do
 		#	when the fixtures have been loaded and these will work.
 		#	Only really needed for patient as gets Hospital and Diagnosis.
 	
-		f.patient_attributes { FactoryGirl.attributes_for(:patient) }
+		f.patient_attributes { FactoryBot.attributes_for(:patient) }
 	end
 	factory :complete_waivered_case_study_subject, :parent => :complete_case_study_subject do |f|
-		f.patient_attributes { FactoryGirl.attributes_for(:waivered_patient) }
+		f.patient_attributes { FactoryBot.attributes_for(:waivered_patient) }
 	end
 	factory :complete_nonwaivered_case_study_subject, :parent => :complete_case_study_subject do |f|
-		f.patient_attributes { FactoryGirl.attributes_for(:nonwaivered_patient) }
+		f.patient_attributes { FactoryBot.attributes_for(:nonwaivered_patient) }
 	end
 	factory :control_study_subject, :parent => :study_subject do |f|
 		f.subject_type 'Control'

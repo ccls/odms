@@ -13,7 +13,7 @@ class OperationalEventTypeTest < ActiveSupport::TestCase
 
 	test "operational_event_type factory should create operational event type" do
 		assert_difference('OperationalEventType.count',1) {
-			operational_event_type = FactoryGirl.create(:operational_event_type)
+			operational_event_type = FactoryBot.create(:operational_event_type)
 			assert_match /Key\d*/,  operational_event_type.key
 			assert_match /Desc\d*/, operational_event_type.description
 			assert_match /Cat\d*/,  operational_event_type.event_category
@@ -43,14 +43,14 @@ class OperationalEventTypeTest < ActiveSupport::TestCase
 
 	#	NOTE event_category is required
 	test "should return operational_event_types with blank category" do
-		operational_event_type = FactoryGirl.create(:operational_event_type)
+		operational_event_type = FactoryBot.create(:operational_event_type)
 		operational_event_types = OperationalEventType.with_category()
 		assert operational_event_types.include?(operational_event_type)
 	end
 
 	test "should return operational_event_types with 'example' category" do
-		operational_event_type1 = FactoryGirl.create(:operational_event_type)
-		operational_event_type2 = FactoryGirl.create(:operational_event_type,
+		operational_event_type1 = FactoryBot.create(:operational_event_type)
+		operational_event_type2 = FactoryBot.create(:operational_event_type,
 			:event_category => 'example')
 		operational_event_types = OperationalEventType.with_category('example')
 		assert !operational_event_types.include?(operational_event_type1)

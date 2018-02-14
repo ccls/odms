@@ -10,7 +10,7 @@ class IcfMasterIdsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:icf_master_id,options)
+		FactoryBot.attributes_for(:icf_master_id,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })
@@ -22,7 +22,7 @@ class IcfMasterIdsControllerTest < ActionController::TestCase
 
 		test "should get icf_master_ids and order by study_subject_id with #{cu} login" do
 			login_as send(cu)
-			ici1,ici2,ici3 = 3.times.collect{|i| FactoryGirl.create(:icf_master_id, :study_subject_id => i ) }
+			ici1,ici2,ici3 = 3.times.collect{|i| FactoryBot.create(:icf_master_id, :study_subject_id => i ) }
 			get :index, :order => :study_subject_id
 			assert_response :success
 			assert_template 'index'
@@ -34,7 +34,7 @@ class IcfMasterIdsControllerTest < ActionController::TestCase
 
 		test "should get icf_master_ids and order by study_subject_id asc with #{cu} login" do
 			login_as send(cu)
-			ici1,ici2,ici3 = 3.times.collect{|i| FactoryGirl.create(:icf_master_id, :study_subject_id => i ) }
+			ici1,ici2,ici3 = 3.times.collect{|i| FactoryBot.create(:icf_master_id, :study_subject_id => i ) }
 			get :index, :order => :study_subject_id, :dir => :asc
 			assert_response :success
 			assert_template 'index'
@@ -46,7 +46,7 @@ class IcfMasterIdsControllerTest < ActionController::TestCase
 
 		test "should get icf_master_ids and order by study_subject_id desc with #{cu} login" do
 			login_as send(cu)
-			ici1,ici2,ici3 = 3.times.collect{|i| FactoryGirl.create(:icf_master_id, :study_subject_id => i ) }
+			ici1,ici2,ici3 = 3.times.collect{|i| FactoryBot.create(:icf_master_id, :study_subject_id => i ) }
 			get :index, :order => :study_subject_id, :dir => :desc
 			assert_response :success
 			assert_template 'index'

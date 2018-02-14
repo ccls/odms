@@ -47,7 +47,7 @@ skip_validation
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:operational_event_type,options)
+		FactoryBot.attributes_for(:operational_event_type,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })

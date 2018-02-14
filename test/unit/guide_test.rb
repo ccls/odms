@@ -21,7 +21,7 @@ class GuideTest < ActiveSupport::TestCase
 	assert_should_require_attribute_length( :body, :maximum => 65000 )
 
 	test "should return controller and action name as to_s" do
-		guide = FactoryGirl.create(:guide)
+		guide = FactoryBot.create(:guide)
 		assert_equal "#{guide.controller}##{guide.action}", "#{guide}"
 	end
 

@@ -10,7 +10,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:medical_record_request)
+		FactoryBot.attributes_for(:medical_record_request)
 	end
 
 	assert_access_with_login({    :logins => site_editors })
@@ -107,7 +107,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with non-case" <<
 				" study_subject patid and #{cu} login" do
 			login_as send(cu)
-			non_case_study_subject = FactoryGirl.create(:study_subject, :patid => '1234')
+			non_case_study_subject = FactoryBot.create(:study_subject, :patid => '1234')
 			assert non_case_study_subject.persisted?
 			assert_not_nil non_case_study_subject.patid
 			assert_equal non_case_study_subject.patid, '1234'
@@ -122,7 +122,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with non-case" <<
 				" study_subject icf master id and #{cu} login" do
 			login_as send(cu)
-			non_case_study_subject = FactoryGirl.create(:study_subject, :icf_master_id => '12345')
+			non_case_study_subject = FactoryBot.create(:study_subject, :icf_master_id => '12345')
 			assert non_case_study_subject.persisted?
 			assert_not_nil non_case_study_subject.icf_master_id
 			assert_equal non_case_study_subject.icf_master_id, '12345'
@@ -137,7 +137,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with existing incomplete" <<
 				" medical_record_request and #{cu} login patid" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			case_study_subject.medical_record_requests.create
 			assert_difference('MedicalRecordRequest.count',0) {
 				post :create, :q => case_study_subject.patid
@@ -151,7 +151,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with existing incomplete" <<
 				" medical_record_request and #{cu} login icf master id" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_not_nil case_study_subject.icf_master_id
 			case_study_subject.medical_record_requests.create
@@ -167,7 +167,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with existing complete" <<
 				" medical_record_request and #{cu} login patid" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			case_study_subject.medical_record_requests.create(:status => 'completed')
 			assert_difference('MedicalRecordRequest.count',0) {
 				post :create, :q => case_study_subject.patid
@@ -181,7 +181,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with existing complete" <<
 				" medical_record_request and #{cu} login icf master id" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			case_study_subject.medical_record_requests.create(:status => 'completed')
 			assert_difference('MedicalRecordRequest.count',0) {
@@ -196,7 +196,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to medical_record_requests with matching patid" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			assert_difference('MedicalRecordRequest.count',1) {
 				post :create, :q => case_study_subject.patid
 			}
@@ -209,7 +209,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to medical_record_requests with matching icf master id" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_difference('MedicalRecordRequest.count',1) {
 				post :create, :q => case_study_subject.icf_master_id
@@ -223,7 +223,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to medical_record_requests with matching patid" <<
 				" missing leading zeroes and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			# case_study_subject.patid should be a small 4-digit string
 			#		with leading zeroes. (probably 0001). Remove them before submit.
 			patid = case_study_subject.patid.to_i
@@ -240,7 +240,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update medical_record_request status with invalid medical_record_request #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			MedicalRecordRequest.any_instance.stubs(:valid?).returns(false)
 			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
@@ -253,7 +253,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update medical_record_request status with failed save and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			MedicalRecordRequest.any_instance.stubs(:create_or_update).returns(false)
 			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
@@ -266,7 +266,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update medical_record_request status with invalid status and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'bogus'
@@ -278,7 +278,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should NOT update medical_record_request status with invalid id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			deny_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => 0, :status => 'waitlist'
@@ -289,7 +289,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should update medical_record_request status with #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mrr = case_study_subject.medical_record_requests.create(:status => 'active')
 			assert_changes("MedicalRecordRequest.find(#{mrr.id}).status") {
 				put :update_status, :id => mrr.id, :status => 'waitlist'
@@ -311,7 +311,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should get medical_record_requests with #{cu} login and requests" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mrr = case_study_subject.medical_record_requests.create
 			get :index
 			assert_response :success
@@ -325,7 +325,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 			test "should get #{status} medical_record_requests with #{cu} login" do
 				login_as send(cu)
-				case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+				case_study_subject = FactoryBot.create(:complete_case_study_subject)
 				mrr = case_study_subject.medical_record_requests.create(:status => status )
 				get :index, :status => status
 				assert_response :success
@@ -340,7 +340,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 		test "should export medical_record_requests to csv with #{cu} login and requests" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:mother_maiden_name => '',
 				:mother_last_name   => 'momlastname'
 			)
@@ -487,7 +487,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with matching patid" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			assert_difference('MedicalRecordRequest.count',0) {
 				post :create, :q => case_study_subject.patid
 			}
@@ -499,7 +499,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to medical_record_requests with matching icf master id" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_difference('MedicalRecordRequest.count',0) {
 				post :create, :q => case_study_subject.icf_master_id
@@ -567,7 +567,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 	test "should NOT add case study_subject to medical_record_requests with matching patid" <<
 			" and without login" do
-		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+		case_study_subject = FactoryBot.create(:complete_case_study_subject)
 		assert_difference('MedicalRecordRequest.count',0) {
 			post :create, :q => case_study_subject.patid
 		}
@@ -577,7 +577,7 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 
 	test "should NOT add case study_subject to medical_record_requests with matching icf master id" <<
 			" and without login" do
-		case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+		case_study_subject = FactoryBot.create(:complete_case_study_subject,
 			:icf_master_id => '12345')
 		assert_difference('MedicalRecordRequest.count',0) {
 			post :create, :q => case_study_subject.icf_master_id
@@ -628,12 +628,12 @@ class MedicalRecordRequestsControllerTest < ActionController::TestCase
 		[ :status,:sent_on,:returned_on,:is_found,:notes ])
 
 	def create_medical_record_requests(count=1,options={})
-		count.times.collect { FactoryGirl.create(:medical_record_request, options) }
+		count.times.collect { FactoryBot.create(:medical_record_request, options) }
 	end
 
 	def create_case_subjects_with_active_request(count=1)
 		count.times.collect {
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			mr = case_study_subject.medical_record_requests.create(:status => 'active')
 		}
 	end

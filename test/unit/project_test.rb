@@ -24,7 +24,7 @@ class ProjectTest < ActiveSupport::TestCase
 
 	test "project factory should create project" do
 		assert_difference('Project.count',1) {
-			project = FactoryGirl.create(:project)
+			project = FactoryBot.create(:project)
 			assert_match /Key\d*/, project.key
 			assert_match /Desc\d*/, project.description
 		}
@@ -39,9 +39,9 @@ class ProjectTest < ActiveSupport::TestCase
 	test "should have many study_subjects through enrollments" do
 		project = create_project
 		assert_equal 0, project.study_subjects.length
-		FactoryGirl.create(:enrollment, :project_id => project.id)
+		FactoryBot.create(:enrollment, :project_id => project.id)
 		assert_equal 1, project.reload.study_subjects.length
-		FactoryGirl.create(:enrollment, :project_id => project.id)
+		FactoryBot.create(:enrollment, :project_id => project.id)
 		assert_equal 2, project.reload.study_subjects.length
 	end
 

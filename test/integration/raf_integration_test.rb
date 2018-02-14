@@ -5,11 +5,11 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 	site_editors.each do |cu|
 
 		test "should NOT create subject if duplicate subject match found with #{cu} login" do
-			duplicate = FactoryGirl.create(:complete_waivered_case_study_subject)
+			duplicate = FactoryBot.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
 			visit new_raf_path
 
-			subject = FactoryGirl.build(:complete_waivered_case_study_subject)	
+			subject = FactoryBot.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
@@ -55,11 +55,11 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		end
 
 		test "should create subject if duplicate subject no match found with #{cu} login" do
-			duplicate = FactoryGirl.create(:complete_waivered_case_study_subject)
+			duplicate = FactoryBot.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
 			visit new_raf_path
 
-			subject = FactoryGirl.build(:complete_waivered_case_study_subject)	
+			subject = FactoryBot.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
@@ -108,7 +108,7 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 			visit new_raf_path
 
-			subject = FactoryGirl.build(:complete_waivered_case_study_subject)	
+			subject = FactoryBot.build(:complete_waivered_case_study_subject)	
 			#	build, but DON'T save
 			#	by using the attributes from this built subject, 
 			#	we test the factory and use its sequencing
@@ -249,7 +249,7 @@ class RafIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 		end
 
 		test "test edit complete case with #{cu} login" do
-			subject = FactoryGirl.create(:complete_waivered_case_study_subject)
+			subject = FactoryBot.create(:complete_waivered_case_study_subject)
 			login_as send(cu)
 			visit edit_raf_path(:id => subject.id)
 #	TODO should add some stuff here

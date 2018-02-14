@@ -222,7 +222,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = FactoryGirl.create(:case_study_subject)
+				study_subject = FactoryBot.create(:case_study_subject)
 				assert_nil subject_side_menu(study_subject)
 				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
@@ -314,7 +314,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for case subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = FactoryGirl.create(:case_study_subject)
+				study_subject = FactoryBot.create(:case_study_subject)
 				assert_nil subject_side_menu(study_subject)
 				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
@@ -332,7 +332,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for control subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = FactoryGirl.create(:control_study_subject)
+				study_subject = FactoryBot.create(:control_study_subject)
 				assert_nil subject_side_menu(study_subject)
 				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
@@ -351,7 +351,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for mother subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = FactoryGirl.create(:mother_study_subject)
+				study_subject = FactoryBot.create(:mother_study_subject)
 				assert_nil subject_side_menu(study_subject)
 				response = content_for(:side_menu).to_html_document
 				assert_select response, '#sidemenu' do
@@ -370,7 +370,7 @@ class ApplicationHelperTest < ActionView::TestCase
 			test "subject_side_menu for subject and #{k} with #{cu} login" do
 				login_as send(cu)
 				self.params = { :controller => k }
-				study_subject = FactoryGirl.create(:study_subject)
+				study_subject = FactoryBot.create(:study_subject)
 				assert_nil subject_side_menu(study_subject)
 				response = content_for(:side_menu).to_html_document
 				assert_select response, 'ul#sidemenu' do |s|
@@ -391,7 +391,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for case subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_nil subject_side_menu(study_subject)
 			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
@@ -404,7 +404,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for control subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			assert_nil subject_side_menu(study_subject)
 			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
@@ -417,7 +417,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for mother subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			assert_nil subject_side_menu(study_subject)
 			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
@@ -430,7 +430,7 @@ class ApplicationHelperTest < ActionView::TestCase
 		test "subject_side_menu for subject and bogus controller with #{cu} login" do
 			login_as send(cu)
 			self.params = { :controller => 'bogus' }
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			assert_nil subject_side_menu(study_subject)
 			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
@@ -455,7 +455,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
 		test "subject_side_menu for case subject and #{k} without login" do
 			self.params = { :controller => k }
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_nil subject_side_menu(study_subject)
 			response = content_for(:side_menu).to_html_document
 			assert_select response, '#sidemenu' do
@@ -584,7 +584,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "subject_id_bar should return subject_id_bar with study_subject" do
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		assert subject.is_a?(StudySubject)
 		response = subject_id_bar(subject).to_html_document
 		assert_select response, 'div#id_bar' do
@@ -605,7 +605,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "do_not_contact should return do_not_contact if do not contact" do
-		subject = FactoryGirl.create(:study_subject,:do_not_contact => true)
+		subject = FactoryBot.create(:study_subject,:do_not_contact => true)
 		assert subject.is_a?(StudySubject)
 		assert subject.do_not_contact?
 		response = do_not_contact(subject).to_html_document
@@ -614,7 +614,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "do_not_contact should NOT return do_not_contact if NOT do not contact" do
-		subject = FactoryGirl.create(:study_subject,:do_not_contact => false)
+		subject = FactoryBot.create(:study_subject,:do_not_contact => false)
 		assert  subject.is_a?(StudySubject)
 		assert !subject.do_not_contact?
 		assert do_not_contact(subject).to_s.blank?
@@ -634,7 +634,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "ineligible should return ineligible if subject is not eligible" do
 		subject = create_study_subject(:enrollments_attributes => [
 			{ :project_id => Project['ccls'].id, :is_eligible => YNDK[:no],
-				:ineligible_reason => FactoryGirl.create(:ineligible_reason) }
+				:ineligible_reason => FactoryBot.create(:ineligible_reason) }
 		])
 		assert subject.is_a?(StudySubject)
 		assert subject.ineligible?
@@ -666,7 +666,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	test "refused should return refused if subject did not consent" do
 		subject = create_study_subject(:enrollments_attributes => [
 			{ :project_id => Project['ccls'].id, :consented => YNDK[:no],
-				:refusal_reason => FactoryGirl.create(:refusal_reason),
+				:refusal_reason => FactoryBot.create(:refusal_reason),
 				:consented_on => Date.current }
 		])
 		assert subject.is_a?(StudySubject)
@@ -698,7 +698,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "replicated should return Yes if replication_id present" do
-		subject = FactoryGirl.create(:study_subject,:replication_id => 1)
+		subject = FactoryBot.create(:study_subject,:replication_id => 1)
 		assert  subject.is_a?(StudySubject)
 		assert !subject.replicates.empty?
 		response = replicated(subject).to_html_document
@@ -707,7 +707,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	end
 
 	test "replicated should return blank if replication_id not present" do
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		assert subject.is_a?(StudySubject)
 		assert subject.replicates.empty?
 		assert replicated(subject).to_s.blank?

@@ -21,7 +21,7 @@ class StudySubject::InterviewsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get index with #{cu} login and valid study_subject_id" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -39,7 +39,7 @@ class StudySubject::InterviewsControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get index with #{cu} login and valid study_subject_id" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
@@ -48,7 +48,7 @@ class StudySubject::InterviewsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get index without login and with valid study_subject_id" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

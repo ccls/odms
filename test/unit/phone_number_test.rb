@@ -27,50 +27,50 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 	test "phone_number factory should create phone number" do
 		assert_difference('PhoneNumber.count',1) {
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			assert_match /\(\d{3}\) \d{3}-\d{4}/, phone_number.phone_number
 		}
 	end
 
 	test "phone_number factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			assert_not_nil phone_number.study_subject
 		}
 	end
 
 	test "phone_number factory should leave is_primary as nil" do
-		phone_number = FactoryGirl.build(:phone_number)
+		phone_number = FactoryBot.build(:phone_number)
 		assert_nil phone_number.is_primary
 	end
 
 	test "primary_phone_number factory should set is_primary to true" do
-		phone_number = FactoryGirl.build(:primary_phone_number)
+		phone_number = FactoryBot.build(:primary_phone_number)
 		assert phone_number.is_primary
 	end
 
 	test "altername_phone_number factory should set is_primary to false" do
-		phone_number = FactoryGirl.build(:alternate_phone_number)
+		phone_number = FactoryBot.build(:alternate_phone_number)
 		assert !phone_number.is_primary
 	end
 
 	test "current_primary_phone factory should set is_primary to true" do
-		phone_number = FactoryGirl.build(:current_primary_phone_number)
+		phone_number = FactoryBot.build(:current_primary_phone_number)
 		assert phone_number.is_primary
 	end
 
 	test "current_primary_phone factory should set current_phone to YNDK yes" do
-		phone_number = FactoryGirl.build(:current_primary_phone_number)
+		phone_number = FactoryBot.build(:current_primary_phone_number)
 		assert_equal YNDK[:yes], phone_number.current_phone
 	end
 
 	test "current_alternate_phone factory should set is_primary to false" do
-		phone_number = FactoryGirl.build(:current_alternate_phone_number)
+		phone_number = FactoryBot.build(:current_alternate_phone_number)
 		assert !phone_number.is_primary
 	end
 
 	test "current_alternate_phone factory should set current_phone to YNDK yes" do
-		phone_number = FactoryGirl.build(:current_alternate_phone_number)
+		phone_number = FactoryBot.build(:current_alternate_phone_number)
 		assert_equal YNDK[:yes], phone_number.current_phone
 	end
 
@@ -265,13 +265,13 @@ class PhoneNumberTest < ActiveSupport::TestCase
 
 
 	test "should flag study subject for reindexed on create" do
-		phone_number = FactoryGirl.create(:phone_number)
+		phone_number = FactoryBot.create(:phone_number)
 		assert_not_nil phone_number.study_subject
 		assert  phone_number.study_subject.needs_reindexed
 	end
 
 	test "should flag study subject for reindexed on update" do
-		phone_number = FactoryGirl.create(:phone_number)
+		phone_number = FactoryBot.create(:phone_number)
 		assert_not_nil phone_number.study_subject
 		study_subject = phone_number.study_subject
 		assert  study_subject.needs_reindexed

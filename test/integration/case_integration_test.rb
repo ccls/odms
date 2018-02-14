@@ -94,7 +94,7 @@ class CaseIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 protected
 
 	def subject_for_assigned_for_interview_at
-		subject = FactoryGirl.create(:patient, :admit_date => 60.days.ago).study_subject
+		subject = FactoryBot.create(:patient, :admit_date => 60.days.ago).study_subject
 		#	Pagan only wants subjects with reference_date/admit_date > 30 days ago
 		#	updating admit_date should trigger reference_date update
 		subject.enrollments.where(:project_id   => Project[:ccls].id).first

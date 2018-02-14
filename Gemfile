@@ -98,7 +98,7 @@ group :test do
 
 	gem 'ZenTest'
 
-	gem "factory_girl_rails"
+	gem "factory_bot_rails"
 
 	gem 'jakewendt-html_test'
 

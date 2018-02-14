@@ -42,27 +42,27 @@ class AddressTest < ActiveSupport::TestCase
 
 #	test "address factory should create address" do
 #		assert_difference('Address.count',1) {
-#			address = FactoryGirl.create(:address)
+#			address = FactoryBot.create(:address)
 #		}
 #	end
 
 	test "address factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			address = FactoryGirl.create(:address)
+			address = FactoryBot.create(:address)
 			assert_not_nil address.study_subject
 		}
 	end
 
 	test "mailing_address factory should create address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:mailing_address)
+			address = FactoryBot.create(:mailing_address)
 			assert_equal address.current_address, YNDK[:no]
 		}
 	end
 
 	test "mailing_address factory should create mailing address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:mailing_address)
+			address = FactoryBot.create(:mailing_address)
 			assert_equal address.address_type,
 				'Mailing'
 		}
@@ -70,20 +70,20 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "mailing_address factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			address = FactoryGirl.create(:mailing_address)
+			address = FactoryBot.create(:mailing_address)
 		}
 	end
 
 	test "current_mailing_address factory should create current address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:current_mailing_address)
+			address = FactoryBot.create(:current_mailing_address)
 			assert_equal address.current_address, YNDK[:yes]
 		}
 	end
 
 	test "current_mailing_address factory should create mailing address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:current_mailing_address)
+			address = FactoryBot.create(:current_mailing_address)
 			assert_equal address.address_type,
 				'Mailing'
 		}
@@ -91,20 +91,20 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "current_mailing_address factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			address = FactoryGirl.create(:current_mailing_address)
+			address = FactoryBot.create(:current_mailing_address)
 		}
 	end
 
 	test "residence_address factory should create address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:residence_address)
+			address = FactoryBot.create(:residence_address)
 			assert_equal address.current_address, YNDK[:no]
 		}
 	end
 
 	test "residence_address factory should create residence address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:residence_address)
+			address = FactoryBot.create(:residence_address)
 			assert_equal address.address_type,
 				'Residence'
 		}
@@ -112,20 +112,20 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "residence_address factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			address = FactoryGirl.create(:residence_address)
+			address = FactoryBot.create(:residence_address)
 		}
 	end
 
 	test "current_residence_address factory should create current address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:current_residence_address)
+			address = FactoryBot.create(:current_residence_address)
 			assert_equal address.current_address, YNDK[:yes]
 		}
 	end
 
 	test "current_residence_address factory should create residence address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:current_residence_address)
+			address = FactoryBot.create(:current_residence_address)
 			assert_equal address.address_type,
 				'Residence'
 		}
@@ -133,7 +133,7 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "current_residence_address factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			address = FactoryGirl.create(:current_residence_address)
+			address = FactoryBot.create(:current_residence_address)
 		}
 	end
 
@@ -196,11 +196,11 @@ class AddressTest < ActiveSupport::TestCase
 #	'1' and '0' are the default values for a checkbox.
 #	I probably should add a condition to this event that
 #	the address_type be 'Residence', but I've left that to the view.
-#			address = FactoryGirl.create(:current_residence_address)
+#			address = FactoryBot.create(:current_residence_address)
 
 	test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
 			" if not residence address" do
-		address = FactoryGirl.create(:current_mailing_address)
+		address = FactoryBot.create(:current_mailing_address)
 		assert_difference('OperationalEvent.count',0) {
 			address.update_attributes(
 				:current_address => '2',
@@ -210,7 +210,7 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "should NOT add 'subject_moved' event to subject if subject_moved is '1'" <<
 			" if was not current address" do
-		address = FactoryGirl.create(:residence_address)
+		address = FactoryBot.create(:residence_address)
 		assert_difference('OperationalEvent.count',0) {
 			address.update_attributes(
 				:current_address => '2',
@@ -219,7 +219,7 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should add 'subject_moved' event to subject if subject_moved is '1'" do
-		address = FactoryGirl.create(:current_residence_address)
+		address = FactoryBot.create(:current_residence_address)
 		assert_difference('OperationalEvent.count',1) {
 			address.update_attributes(
 				:current_address => '2',
@@ -228,7 +228,7 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should not add 'subject_moved' event to subject if subject_moved is '0'" do
-		address = FactoryGirl.create(:current_residence_address)
+		address = FactoryBot.create(:current_residence_address)
 		assert_difference('OperationalEvent.count',0) {
 			address.update_attributes(
 				:current_address => '2',
@@ -237,7 +237,7 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should add 'subject_moved' event to subject if subject_moved is 'true'" do
-		address = FactoryGirl.create(:current_residence_address)
+		address = FactoryBot.create(:current_residence_address)
 		assert_difference('OperationalEvent.count',1) {
 			address.update_attributes(
 				:current_address => '2',
@@ -246,7 +246,7 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should not add 'subject_moved' event to subject if subject_moved is 'false'" do
-		address = FactoryGirl.create(:current_residence_address)
+		address = FactoryBot.create(:current_residence_address)
 		assert_difference('OperationalEvent.count',0) {
 			address.update_attributes(
 				:current_address => '2',
@@ -255,7 +255,7 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should not add 'subject_moved' event to subject if subject_moved is nil" do
-		address = FactoryGirl.create(:current_residence_address)
+		address = FactoryBot.create(:current_residence_address)
 		assert_difference('OperationalEvent.count',0) {
 			address.update_attributes(
 				:current_address => '2',
@@ -264,13 +264,13 @@ class AddressTest < ActiveSupport::TestCase
 	end
 
 	test "should flag study subject for reindexed on create" do
-		address = FactoryGirl.create(:address).reload
+		address = FactoryBot.create(:address).reload
 		assert_not_nil address.study_subject
 		assert address.study_subject.needs_reindexed
 	end
 
 	test "should flag study subject for reindexed on update" do
-		address = FactoryGirl.create(:address).reload
+		address = FactoryBot.create(:address).reload
 		assert_not_nil address.study_subject
 		study_subject = address.study_subject
 		assert  study_subject.needs_reindexed
@@ -286,7 +286,7 @@ class AddressTest < ActiveSupport::TestCase
 	#	would have to modify class level test to try to put something
 	#	in the field, but would have to determine datatype and ......
 	test "should require unique external_address_id" do
-		FactoryGirl.create(:address,:external_address_id => 123456789)
+		FactoryBot.create(:address,:external_address_id => 123456789)
 		address = Address.new(:external_address_id => 123456789)
 		assert !address.valid?
 		assert address.errors.matching?(:external_address_id,
@@ -302,7 +302,7 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "address factory should create address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:address)
+			address = FactoryBot.create(:address)
 			assert_match /Box \d*/, address.line_1
 			assert_equal "Berkeley", address.city
 			assert_equal "CA", address.state
@@ -312,13 +312,13 @@ class AddressTest < ActiveSupport::TestCase
 
 	test "mailing_address should create address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:mailing_address)
+			address = FactoryBot.create(:mailing_address)
 		}
 	end
 
 	test "residence_address should create address" do
 		assert_difference('Address.count',1) {
-			address = FactoryGirl.create(:residence_address)
+			address = FactoryBot.create(:residence_address)
 		}
 	end
 
@@ -412,7 +412,7 @@ protected
 #	doesn't work in rcov for some reason
 #			:address => nil,	#	block address_attributes
 #			:address_id => nil,	#	block address_attributes
-#			:address_attributes => FactoryGirl.attributes_for(:address,{
+#			:address_attributes => FactoryBot.attributes_for(:address,{
 #				:address_type => 'Residence'
 #			}.merge(options[:address]||{}))
 		}.merge(options[:address]||{}))

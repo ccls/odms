@@ -9,7 +9,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 
 #	20130129 - no longer using 'is_primary'
 	test "subject_races_select White" do
-		@study_subject = FactoryGirl.create(:study_subject)
+		@study_subject = FactoryBot.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['white']) }
 
@@ -40,7 +40,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 #	rails 4 now html_escapes ' to &#39; in these input selectors
 
 	test "subject_races_select White with White" do
-		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryBot.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_code => Race['white'].code } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	
@@ -77,7 +77,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_races_select Other" do
-		@study_subject = FactoryGirl.create(:study_subject)
+		@study_subject = FactoryBot.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['other']) }
 
@@ -110,7 +110,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_races_select Other with Other" do
-		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryBot.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_code => Race['other'].code, :other_race => "otherrace" } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	
@@ -157,7 +157,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_races_select Mixed" do
-		@study_subject = FactoryGirl.create(:study_subject)
+		@study_subject = FactoryBot.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_races_select(Race['mixed']) }
 
@@ -190,7 +190,7 @@ class SubjectRaceSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_races_select Mixed with Mixed" do
-		@study_subject = FactoryGirl.create(:study_subject,:subject_races_attributes => {
+		@study_subject = FactoryBot.create(:study_subject,:subject_races_attributes => {
 			'0' => { :race_code => Race['mixed'].code, :mixed_race => "mixedrace" } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_race_id = @study_subject.subject_race_ids.first	

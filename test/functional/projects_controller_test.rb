@@ -16,7 +16,7 @@ class ProjectsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:project,options)
+		FactoryBot.attributes_for(:project,options)
 	end
 
 	assert_access_with_login({ 

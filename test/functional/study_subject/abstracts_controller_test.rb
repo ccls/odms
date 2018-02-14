@@ -6,7 +6,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 	tests StudySubject::AbstractsController
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:abstract,{:reviewed_by => 'Testing'}.merge(options))
+		FactoryBot.attributes_for(:abstract,{:reviewed_by => 'Testing'}.merge(options))
 	end
 
 	site_editors.each do |cu|
@@ -27,7 +27,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should get index with valid study_subject_id and #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -37,7 +37,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get index with control study subject and #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -47,7 +47,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get index with mother study subject and #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_response :success
@@ -72,7 +72,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should get new with valid study_subject_id and #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_response :success
@@ -83,7 +83,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new with control study subject and #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -92,7 +92,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT get new with mother study subject and #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -101,7 +101,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create with control study subject and #{cu} login" do
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -113,7 +113,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create with mother study subject and #{cu} login" do
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -125,7 +125,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should create valid abstract for case subject with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',1) do
 				post :create, :study_subject_id => study_subject.id
@@ -135,7 +135,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create invalid abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			Abstract.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -147,7 +147,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create abstract when save fails with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			Abstract.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -169,7 +169,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 		test "should set entry_1_by_uid on creation with #{cu} login" <<
 				" without abstract hash" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as u = send(cu)
 			post :create, :study_subject_id => study_subject.id
 			assert assigns(:abstract)
@@ -177,7 +177,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should set entry_1_by_uid on creation with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as u = send(cu)
 			post :create, :study_subject_id => study_subject.id,
 				:abstract => factory_attributes
@@ -187,7 +187,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 		test "should set entry_1_by on creation if study_subject's first abstract " <<
 				"with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as u = send(cu)
 			assert_difference('Abstract.count',1) {
 				post :create, :study_subject_id => study_subject.id,
@@ -199,9 +199,9 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 		test "should set entry_2_by on creation if study_subject's second abstract " <<
 				"with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as u = send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
 			assert_difference('Abstract.count',1) {
 				post :create, :study_subject_id => study_subject.id,
 					:abstract => factory_attributes
@@ -213,7 +213,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 
 		test "should show abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			assert_not_nil abstract.study_subject_id
 			login_as send(cu)
 			get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -222,7 +222,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show abstract with invalid abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :show, :study_subject_id => abstract.study_subject_id, :id => 0
 			assert_not_nil flash[:error]
@@ -230,7 +230,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show abstract with invalid study_subject_id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :show, :study_subject_id => 0, :id => abstract.id
 			assert_not_nil flash[:error]
@@ -238,7 +238,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should edit abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			assert_not_nil abstract.study_subject_id
 			login_as send(cu)
 			get :edit, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -247,7 +247,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit abstract with valid study_subject_id and invalid abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :edit, :study_subject_id => abstract.study_subject_id, :id => 0
 			assert_not_nil flash[:error]
@@ -255,7 +255,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit abstract with invalid study_subject_id and valid abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :edit, :study_subject_id => 0, :id => abstract.id
 			assert_not_nil flash[:error]
@@ -263,7 +263,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should update abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			assert_not_nil abstract.study_subject_id
 			login_as send(cu)
 			put :update, :study_subject_id => abstract.study_subject_id, :id => abstract.id,
@@ -273,7 +273,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update abstract with invalid abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			put :update, :study_subject_id => abstract.study_subject_id, :id => 0,
 				:abstract => factory_attributes
@@ -282,7 +282,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update abstract with invalid study_subject_id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			put :update, :study_subject_id => 0, :id => abstract.id,
 				:abstract => factory_attributes
@@ -291,7 +291,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update abstract with invalid abstract and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			Abstract.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			put :update, :study_subject_id => abstract.study_subject_id, :id => abstract.id,
@@ -302,7 +302,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update abstract when save fails and with #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			Abstract.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			put :update, :study_subject_id => abstract.study_subject_id, :id => abstract.id,
@@ -318,7 +318,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 
 		test "should destroy abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count', -1) {
 				delete :destroy, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -329,7 +329,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy abstract with valid study_subject_id and invalid abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count', 0) {
 				delete :destroy, :study_subject_id => abstract.study_subject_id, :id => 0
@@ -339,7 +339,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy abstract with invalid study_subject_id and valid abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count', 0) {
 				delete :destroy, :study_subject_id => 0, :id => abstract.id
@@ -351,25 +351,25 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 
 		test "should NOT get compare if study_subject only has 0 abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :compare, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT get compare if study_subject only has 1 abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
 			get :compare, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should get compare if study_subject has 2 abstracts with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 			get :compare, :study_subject_id => study_subject.id
 			assert assigns(:abstracts)
 		end
@@ -377,28 +377,28 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 
 
 		test "should NOT merge if study_subject only has 0 abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			post :merge, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT merge if study_subject only has 1 abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
 			post :merge, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should set merged_by on merge of study_subject's abstracts with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			u1 = send(cu)
 			u2 = send(cu)
 			login_as u3 = send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject,
+			FactoryBot.create(:abstract, :study_subject => study_subject,
 				:current_user_uid => u1.uid)
-			FactoryGirl.create(:abstract, :study_subject => study_subject.reload,
+			FactoryBot.create(:abstract, :study_subject => study_subject.reload,
 				:current_user_uid => u2.uid)
 			assert_difference('Abstract.count', -1) {
 				post :merge, :study_subject_id => study_subject.id,
@@ -421,9 +421,9 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create merged invalid abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+			study_subject = FactoryBot.create(:case_study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 			Abstract.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -435,9 +435,9 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create merged abstract when save fails with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+			study_subject = FactoryBot.create(:case_study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 			Abstract.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
@@ -470,21 +470,21 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get index with #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :index, :study_subject_id => abstract.study_subject_id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT get new abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT create abstract with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
 			assert_difference('Abstract.count',0) do
 				post :create, :study_subject_id => study_subject.id
@@ -494,21 +494,21 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT show abstract with #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT edit abstract with #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			get :edit, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 			assert_redirected_to root_path
 		end
 
 		test "should NOT update abstract with #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			put :update, :study_subject_id => abstract.study_subject_id, :id => abstract.id,
 				:abstract => factory_attributes
@@ -516,7 +516,7 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy abstract with valid study_subject_id and abstract id and #{cu} login" do
-			abstract = FactoryGirl.create(:abstract).reload
+			abstract = FactoryBot.create(:abstract).reload
 			login_as send(cu)
 			assert_difference('Abstract.count',0){
 				delete :destroy, :study_subject_id => abstract.study_subject_id, :id => abstract.id
@@ -525,20 +525,20 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT compare abstracts with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 			get :compare, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
 		end
 
 		test "should NOT merge abstracts with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			login_as send(cu)
-			FactoryGirl.create(:abstract, :study_subject => study_subject)
-			FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+			FactoryBot.create(:abstract, :study_subject => study_subject)
+			FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 			post :merge, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -547,19 +547,19 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get index without login" do
-		abstract = FactoryGirl.create(:abstract).reload
+		abstract = FactoryBot.create(:abstract).reload
 		get :index, :study_subject_id => abstract.study_subject_id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get new without login" do
-		study_subject = FactoryGirl.create(:case_study_subject)
+		study_subject = FactoryBot.create(:case_study_subject)
 		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create abstract without login" do
-		study_subject = FactoryGirl.create(:case_study_subject)
+		study_subject = FactoryBot.create(:case_study_subject)
 		assert_difference('Abstract.count',0) do
 			post :create, :study_subject_id => study_subject.id
 		end
@@ -567,26 +567,26 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT show abstract with without login" do
-		abstract = FactoryGirl.create(:abstract).reload
+		abstract = FactoryBot.create(:abstract).reload
 		get :show, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT edit abstract with without login" do
-		abstract = FactoryGirl.create(:abstract).reload
+		abstract = FactoryBot.create(:abstract).reload
 		get :edit, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update abstract with without login" do
-		abstract = FactoryGirl.create(:abstract).reload
+		abstract = FactoryBot.create(:abstract).reload
 		put :update, :study_subject_id => abstract.study_subject_id, :id => abstract.id,
 			:abstract => factory_attributes
 		assert_redirected_to_login
 	end
 
 	test "should NOT destroy abstract with valid study_subject_id and abstract id without login" do
-		abstract = FactoryGirl.create(:abstract).reload
+		abstract = FactoryBot.create(:abstract).reload
 		assert_difference('Abstract.count',0){
 			delete :destroy, :study_subject_id => abstract.study_subject_id, :id => abstract.id
 		}
@@ -594,17 +594,17 @@ class StudySubject::AbstractsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT compare abstracts without login" do
-		study_subject = FactoryGirl.create(:case_study_subject)
-		FactoryGirl.create(:abstract, :study_subject => study_subject)
-		FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+		study_subject = FactoryBot.create(:case_study_subject)
+		FactoryBot.create(:abstract, :study_subject => study_subject)
+		FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 		get :compare, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT merge abstracts without login" do
-		study_subject = FactoryGirl.create(:case_study_subject)
-		FactoryGirl.create(:abstract, :study_subject => study_subject)
-		FactoryGirl.create(:abstract, :study_subject => study_subject.reload)
+		study_subject = FactoryBot.create(:case_study_subject)
+		FactoryBot.create(:abstract, :study_subject => study_subject)
+		FactoryBot.create(:abstract, :study_subject => study_subject.reload)
 		post :merge, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end

@@ -20,14 +20,14 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	assert_no_route(:get,:show,:id => 0)
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:alternate_contact,{
+		FactoryBot.attributes_for(:alternate_contact,{
 		}.merge(options))
 	end
 
 	site_administrators.each do |cu|
 
 		test "should destroy with #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',-1){
 				delete :destroy, :study_subject_id => alternate_contact.study_subject_id,
@@ -38,8 +38,8 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
-			study_subject = FactoryGirl.create(:study_subject)
+			alternate_contact = FactoryBot.create(:alternate_contact)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0){
 				delete :destroy, :study_subject_id => study_subject.id,
@@ -50,7 +50,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0){
 				delete :destroy, :study_subject_id => 0,
@@ -61,7 +61,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0){
 				delete :destroy, :study_subject_id => alternate_contact.study_subject_id,
@@ -76,7 +76,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	non_site_administrators.each do |cu|
 
 		test "should NOT destroy with #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0){
 				delete :destroy, :study_subject_id => alternate_contact.study_subject_id,
@@ -91,7 +91,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should get new alternate_contact with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -109,7 +109,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should create new alternate_contact with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			assert_difference("StudySubject.find(#{study_subject.id}).alternate_contacts.count",1) {
 			assert_difference('AlternateContact.count',1) {
@@ -133,7 +133,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 
 		test "should NOT create new alternate_contact with #{cu} login when " <<
 				"create fails" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			AlternateContact.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0) do
@@ -148,7 +148,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 
 		test "should NOT create new alternate_contact with #{cu} login " <<
 				"and invalid alternate_contact" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			AlternateContact.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0) do
@@ -162,7 +162,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should edit with #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			get :edit, :study_subject_id => alternate_contact.study_subject_id,
 				:id => alternate_contact.id
@@ -172,8 +172,8 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
-			study_subject = FactoryGirl.create(:study_subject)
+			alternate_contact = FactoryBot.create(:alternate_contact)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => alternate_contact.id
@@ -182,7 +182,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with invalid study_subject_id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			get :edit, :study_subject_id => 0,
 				:id => alternate_contact.id
@@ -191,7 +191,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with invalid id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			get :edit, :study_subject_id => alternate_contact.study_subject_id,
 				:id => 0
@@ -200,7 +200,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should update with #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
 				put :update, :study_subject_id => alternate_contact.study_subject_id,
@@ -213,7 +213,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with save failure and #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			AlternateContact.any_instance.stubs(:create_or_update).returns(false)
 			deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
@@ -228,7 +228,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid and #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			AlternateContact.any_instance.stubs(:valid?).returns(false)
 			deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
@@ -243,8 +243,8 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with mismatched study_subject_id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
-			study_subject = FactoryGirl.create(:study_subject)
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
@@ -257,7 +257,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid study_subject_id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
 				put :update, :study_subject_id => 0,
@@ -270,7 +270,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid id #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
 				put :update, :study_subject_id => alternate_contact.study_subject_id,
@@ -287,7 +287,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get new alternate_contact with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -295,7 +295,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create new alternate_contact with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			assert_difference('AlternateContact.count',0){
 				post :create, :study_subject_id => study_subject.id,
@@ -306,7 +306,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact)
+			alternate_contact = FactoryBot.create(:alternate_contact)
 			login_as send(cu)
 			get :edit, :study_subject_id => alternate_contact.study_subject_id,
 				:id => alternate_contact.id
@@ -315,7 +315,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with #{cu} login" do
-			alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+			alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
 				put :update, :study_subject_id => alternate_contact.study_subject_id,
@@ -332,7 +332,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get alternate_contacts with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -345,7 +345,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get alternate_contacts with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -355,19 +355,19 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get alternate_contacts without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get new alternate_contact without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new alternate_contact without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		assert_difference('AlternateContact.count',0){
 			post :create, :study_subject_id => study_subject.id,
 				:alternate_contact => factory_attributes
@@ -376,14 +376,14 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT edit without login" do
-		alternate_contact = FactoryGirl.create(:alternate_contact)
+		alternate_contact = FactoryBot.create(:alternate_contact)
 		get :edit, :study_subject_id => alternate_contact.study_subject_id,
 			:id => alternate_contact.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update without login" do
-		alternate_contact = FactoryGirl.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
+		alternate_contact = FactoryBot.create(:alternate_contact, :updated_at => ( Time.now - 1.day ) )
 		deny_changes("AlternateContact.find(#{alternate_contact.id}).updated_at") {
 			put :update, :study_subject_id => alternate_contact.study_subject_id,
 				:id => alternate_contact.id, :alternate_contact => {
@@ -394,7 +394,7 @@ class StudySubject::AlternateContactsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT destroy without login" do
-		alternate_contact = FactoryGirl.create(:alternate_contact)
+		alternate_contact = FactoryBot.create(:alternate_contact)
 		assert_difference('AlternateContact.count',0){
 			delete :destroy, :study_subject_id => alternate_contact.study_subject_id,
 				:id => alternate_contact.id

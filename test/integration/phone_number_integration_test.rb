@@ -8,7 +8,7 @@ class PhoneNumberIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 		test "phone_number#new should show other_data_source when 'Other Source'" <<
 				" data_source is selected with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			visit new_study_subject_phone_number_path(study_subject)
 			assert !( find_field('phone_number[other_data_source]', :visible => false).visible? )
@@ -24,7 +24,7 @@ class PhoneNumberIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 	test "phone_number#edit should show other_data_source when 'Other Source'" <<
 				" data_source is selected with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			visit edit_study_subject_phone_number_path(phone_number.study_subject,phone_number)
 			assert !( find_field('phone_number[other_data_source]', :visible => false).visible? )

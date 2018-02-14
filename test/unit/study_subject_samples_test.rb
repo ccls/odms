@@ -7,7 +7,7 @@ class StudySubjectSamplesTest < ActiveSupport::TestCase
 	test "should NOT destroy samples with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Sample.count',1) {
-			@study_subject = FactoryGirl.create(:sample).study_subject
+			@study_subject = FactoryBot.create(:sample).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Sample.count',0) {

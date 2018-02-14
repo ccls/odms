@@ -10,7 +10,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 		assert_difference( 'SubjectLanguage.count', 1 ){
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject
-			study_subject.languages << FactoryGirl.create(:language)
+			study_subject.languages << FactoryBot.create(:language)
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
 		} } }
@@ -19,7 +19,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 	test "should NOT destroy languages with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('SubjectLanguage.count',1) {
-			@study_subject = FactoryGirl.create(:subject_language).study_subject
+			@study_subject = FactoryBot.create(:subject_language).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('SubjectLanguage.count',0) {
@@ -30,7 +30,7 @@ class StudySubjectLanguagesTest < ActiveSupport::TestCase
 	test "should NOT destroy subject_languages with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('SubjectLanguage.count',1) {
-			@study_subject = FactoryGirl.create(:subject_language).study_subject
+			@study_subject = FactoryBot.create(:subject_language).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('SubjectLanguage.count',0) {

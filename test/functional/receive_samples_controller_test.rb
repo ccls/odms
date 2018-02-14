@@ -21,7 +21,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		#	Being more explicit to reflect what is actually on the form
 		{
 			:project_id     => Project['ccls'].id,
-			:sample_type_id => FactoryGirl.create(:sample_type).id
+			:sample_type_id => FactoryBot.create(:sample_type).id
 		}.merge(options)
 	end
 
@@ -74,7 +74,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should get new receive sample with #{cu} login" <<
 				" and studyid of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :q => study_subject.studyid
 			assert_found_single_study_subject(study_subject)
@@ -82,7 +82,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" <<
 				" and patid as studyid of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :q => study_subject.patid
 			assert_no_study_subjects_found
@@ -90,7 +90,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" <<
 				" and case_control_type as studyid of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject)
+			study_subject = FactoryBot.create(:complete_case_study_subject)
 			login_as send(cu)
 			get :new, :q => study_subject.case_control_type
 			assert_no_study_subjects_found
@@ -98,7 +98,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should get new receive sample with #{cu} login" <<
 				" and icf_master_id of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject, :icf_master_id => '123456789' )
+			study_subject = FactoryBot.create(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
 			get :new, :q => study_subject.icf_master_id
@@ -107,7 +107,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" <<
 				" and first 3 of icf_master_id of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject, :icf_master_id => '123456789' )
+			study_subject = FactoryBot.create(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
 			get :new, :q => study_subject.icf_master_id[0..2]
@@ -116,7 +116,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" <<
 				" and middle 3 of icf_master_id of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject, :icf_master_id => '123456789' )
+			study_subject = FactoryBot.create(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
 			get :new, :q => study_subject.icf_master_id[3..5]
@@ -125,7 +125,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" <<
 				" and last 3 of icf_master_id of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject, :icf_master_id => '123456789' )
+			study_subject = FactoryBot.create(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
 			get :new, :q => study_subject.icf_master_id[6..8]
@@ -134,7 +134,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT get new receive sample with #{cu} login" <<
 				" and first and last 3 of icf_master_id of case subject" do
-			study_subject = FactoryGirl.create(:complete_case_study_subject, :icf_master_id => '123456789' )
+			study_subject = FactoryBot.create(:complete_case_study_subject, :icf_master_id => '123456789' )
 			assert_not_nil study_subject.icf_master_id
 			login_as send(cu)
 			get :new, :q => [study_subject.icf_master_id[0..2],
@@ -145,7 +145,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" and case study_subject_id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			get :new, :study_subject_id => study_subject.id
 			assert_found_single_study_subject(study_subject)
 		end
@@ -153,7 +153,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" and control study_subject_id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			get :new, :study_subject_id => study_subject.id
 			assert_found_single_study_subject(study_subject)
 		end
@@ -161,7 +161,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" and mother study_subject_id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 #	just mother, no child
 			get :new, :study_subject_id => study_subject.id
 #			assert_found_single_study_subject(study_subject)
@@ -185,7 +185,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" for control mother study subject id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:control_study_subject)
+			study_subject = FactoryBot.create(:control_study_subject)
 			mother = study_subject.create_mother
 			get :new, :study_subject_id => mother.id
 			#	subject is child, NOT mother
@@ -195,7 +195,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" for case mother study subject id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			mother = study_subject.create_mother
 			get :new, :study_subject_id => mother.id
 			#	subject is child, NOT mother
@@ -205,8 +205,8 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" for control mother icf master id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:control_study_subject)
-			FactoryGirl.create(:icf_master_id, :icf_master_id => 'ID4MOM01')
+			study_subject = FactoryBot.create(:control_study_subject)
+			FactoryBot.create(:icf_master_id, :icf_master_id => 'ID4MOM01')
 			mother = study_subject.create_mother
 			assert_not_nil mother.icf_master_id
 			get :new, :q => mother.icf_master_id
@@ -217,8 +217,8 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should get new receive sample with #{cu} login" <<
 				" for case mother icf master id" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
-			FactoryGirl.create(:icf_master_id, :icf_master_id => 'ID4MOM02')
+			study_subject = FactoryBot.create(:case_study_subject)
+			FactoryBot.create(:icf_master_id, :icf_master_id => 'ID4MOM02')
 			mother = study_subject.create_mother
 			assert_not_nil mother.icf_master_id
 			get :new, :q => mother.icf_master_id
@@ -228,7 +228,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should create new sample default for case with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -244,7 +244,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should mark vaccine authorization as received if checked with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			post :create, :study_subject_id => study_subject.id,
 				:sample => factory_attributes, :vaccine_authorization_received => 1
 			assert_not_nil study_subject.ccls_enrollment.reload.vaccine_authorization_received_at
@@ -252,7 +252,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should create new sample for case with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample_source => 'child',
@@ -269,7 +269,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should create new sample for case mother with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			study_subject.create_mother
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
@@ -289,7 +289,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 		test "should create new sample for mother with #{cu} login and " <<
 				"have mother's study_subject_id in links" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			mother = study_subject.create_mother
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
@@ -335,7 +335,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"with #{cu} login" do
 			#	This could happen as db may not have all mothers.
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('Sample.count',0) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample_source => 'mother',
@@ -350,7 +350,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			#	unlikely to ever happen unless child got deleted
 			#	also shouldn't have mothers in link list
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			assert_difference('Sample.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample_source => 'mother',
@@ -365,7 +365,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 			#	unlikely to ever happen unless child got deleted
 			#	also shouldn't have mothers in link list
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:mother_study_subject)
+			study_subject = FactoryBot.create(:mother_study_subject)
 			assert_difference('Sample.count',0) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample_source => 'child',
@@ -398,7 +398,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and invalid sample for case" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:valid?).returns(false)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('SampleTransfer.count',0) {
 			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -412,7 +412,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and sample save failure for case" do
 			login_as send(cu)
 			Sample.any_instance.stubs(:create_or_update).returns(false)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('SampleTransfer.count',0) {
 			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -426,7 +426,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and invalid sample transfer for case" do
 			login_as send(cu)
 			SampleTransfer.any_instance.stubs(:valid?).returns(false)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('SampleTransfer.count',0) {
 			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -440,7 +440,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 				"and sample transfer save failure for case" do
 			login_as send(cu)
 			SampleTransfer.any_instance.stubs(:create_or_update).returns(false)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('SampleTransfer.count',0) {
 			assert_difference('Sample.count',0) {
 				post :create, :study_subject_id => study_subject.id,
@@ -452,7 +452,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should create new sample transfer with sample and #{cu} login for case" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('SampleTransfer.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -467,7 +467,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should create new operational event with sample and #{cu} login for case" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('OperationalEvent.count',1) do
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -496,7 +496,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 
 		test "should NOT create new sample with #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert_difference('Sample.count',0){
 				post :create, :study_subject_id => study_subject.id,
 					:sample => factory_attributes
@@ -513,7 +513,7 @@ class ReceiveSamplesControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT create new sample without login" do
-		study_subject = FactoryGirl.create(:case_study_subject)
+		study_subject = FactoryBot.create(:case_study_subject)
 		assert_difference('Sample.count',0){
 			post :create, :study_subject_id => study_subject.id,
 				:sample => factory_attributes

@@ -8,7 +8,7 @@ class PatientIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 		test "should show other_diagnosis when diagnosis is Other" <<
 				" with #{cu} login" do
-			study_subject = FactoryGirl.create(:patient).study_subject.reload
+			study_subject = FactoryBot.create(:patient).study_subject.reload
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 
@@ -25,7 +25,7 @@ class PatientIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 
 		test "should show admit_date changed when admit_date changes" <<
 				" with #{cu} login" do
-			study_subject = FactoryGirl.create(:patient).study_subject.reload
+			study_subject = FactoryBot.create(:patient).study_subject.reload
 			login_as send(cu)
 			visit edit_study_subject_patient_path(study_subject)
 			assert has_no_css?('div.admit_date_wrapper.changed')

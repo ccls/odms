@@ -13,7 +13,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
 	test "organization factory should create organization" do
 		assert_difference('Organization.count',1) {
-			organization = FactoryGirl.create(:organization)
+			organization = FactoryBot.create(:organization)
 			assert_match /Key \d*/,  organization.key
 			assert_match /Name \d*/, organization.name
 		}
@@ -31,7 +31,7 @@ class OrganizationTest < ActiveSupport::TestCase
 	end
 
 	test "should not be other if is not other" do
-		organization = FactoryGirl.create(:organization)
+		organization = FactoryBot.create(:organization)
 		assert !organization.is_other?
 	end
 

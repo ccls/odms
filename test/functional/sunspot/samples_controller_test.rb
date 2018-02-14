@@ -184,7 +184,7 @@ protected
 	end
 
 	def build_and_index_sample(options={})
-		sample = FactoryGirl.create(:sample,options)
+		sample = FactoryBot.create(:sample,options)
 		Sample.solr_reindex
 		assert !Sample.search.hits.empty?
 		return sample

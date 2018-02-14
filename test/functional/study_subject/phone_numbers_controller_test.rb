@@ -31,7 +31,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 #	assert_no_access_without_login
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:phone_number,{
+		FactoryBot.attributes_for(:phone_number,{
 			:data_source => 'Unknown Data Source',
 			:phone_type  => 'Unknown'
 		}.merge(options))
@@ -40,7 +40,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	site_administrators.each do |cu|
 
 		test "should destroy with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',-1){
 				delete :destroy, :study_subject_id => phone_number.study_subject_id,
@@ -51,8 +51,8 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with mismatched study_subject_id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
-			study_subject = FactoryGirl.create(:study_subject)
+			phone_number = FactoryBot.create(:phone_number)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0){
 				delete :destroy, :study_subject_id => study_subject.id,
@@ -63,7 +63,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid study_subject_id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0){
 				delete :destroy, :study_subject_id => 0,
@@ -74,7 +74,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT destroy with invalid id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0){
 				delete :destroy, :study_subject_id => phone_number.study_subject_id,
@@ -89,7 +89,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	non_site_administrators.each do |cu|
 
 		test "should NOT destroy with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0){
 				delete :destroy, :study_subject_id => phone_number.study_subject_id,
@@ -104,7 +104,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should get new phone_number with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -122,7 +122,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should create new phone_number with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			assert_difference("StudySubject.find(#{study_subject.id}).phone_numbers.count",1) {
 			assert_difference('PhoneNumber.count',1) {
@@ -146,7 +146,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 		test "should NOT create new phone_number with #{cu} login when " <<
 				"create fails" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			PhoneNumber.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) do
@@ -161,7 +161,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 
 		test "should NOT create new phone_number with #{cu} login " <<
 				"and invalid phone_number" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			PhoneNumber.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0) do
@@ -175,7 +175,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should edit with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			get :edit, :study_subject_id => phone_number.study_subject_id,
 				:id => phone_number.id
@@ -185,8 +185,8 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with mismatched study_subject_id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
-			study_subject = FactoryGirl.create(:study_subject)
+			phone_number = FactoryBot.create(:phone_number)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :edit, :study_subject_id => study_subject.id,
 				:id => phone_number.id
@@ -195,7 +195,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with invalid study_subject_id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			get :edit, :study_subject_id => 0,
 				:id => phone_number.id
@@ -204,7 +204,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with invalid id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			get :edit, :study_subject_id => phone_number.study_subject_id,
 				:id => 0
@@ -213,7 +213,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should update with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
 				put :update, :study_subject_id => phone_number.study_subject_id,
@@ -226,7 +226,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with save failure and #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			PhoneNumber.any_instance.stubs(:create_or_update).returns(false)
 			deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
@@ -241,7 +241,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid and #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			PhoneNumber.any_instance.stubs(:valid?).returns(false)
 			deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
@@ -256,8 +256,8 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with mismatched study_subject_id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
-			study_subject = FactoryGirl.create(:study_subject)
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
 				put :update, :study_subject_id => study_subject.id,
@@ -270,7 +270,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid study_subject_id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
 				put :update, :study_subject_id => 0,
@@ -283,7 +283,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with invalid id #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
 				put :update, :study_subject_id => phone_number.study_subject_id,
@@ -300,7 +300,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT get new phone_number with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :new, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -308,7 +308,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT create new phone_number with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			assert_difference('PhoneNumber.count',0){
 				post :create, :study_subject_id => study_subject.id,
@@ -319,7 +319,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT edit with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number)
+			phone_number = FactoryBot.create(:phone_number)
 			login_as send(cu)
 			get :edit, :study_subject_id => phone_number.study_subject_id,
 				:id => phone_number.id
@@ -328,7 +328,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 		end
 
 		test "should NOT update with #{cu} login" do
-			phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+			phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
 				put :update, :study_subject_id => phone_number.study_subject_id,
@@ -345,7 +345,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get phone_numbers with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert assigns(:study_subject)
@@ -358,7 +358,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	non_site_readers.each do |cu|
 
 		test "should NOT get phone_numbers with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :study_subject_id => study_subject.id
 			assert_not_nil flash[:error]
@@ -368,19 +368,19 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get phone_numbers without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :index, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT get new phone_number without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		get :new, :study_subject_id => study_subject.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT create new phone_number without login" do
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		assert_difference('PhoneNumber.count',0){
 			post :create, :study_subject_id => study_subject.id,
 				:phone_number => factory_attributes
@@ -389,14 +389,14 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT edit without login" do
-		phone_number = FactoryGirl.create(:phone_number)
+		phone_number = FactoryBot.create(:phone_number)
 		get :edit, :study_subject_id => phone_number.study_subject_id,
 			:id => phone_number.id
 		assert_redirected_to_login
 	end
 
 	test "should NOT update without login" do
-		phone_number = FactoryGirl.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
+		phone_number = FactoryBot.create(:phone_number, :updated_at => ( Time.now - 1.day ) )
 		deny_changes("PhoneNumber.find(#{phone_number.id}).updated_at") {
 			put :update, :study_subject_id => phone_number.study_subject_id,
 				:id => phone_number.id, :phone_number => {
@@ -407,7 +407,7 @@ class StudySubject::PhoneNumbersControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT destroy without login" do
-		phone_number = FactoryGirl.create(:phone_number)
+		phone_number = FactoryBot.create(:phone_number)
 		assert_difference('PhoneNumber.count',0){
 			delete :destroy, :study_subject_id => phone_number.study_subject_id,
 				:id => phone_number.id

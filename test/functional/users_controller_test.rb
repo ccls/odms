@@ -10,10 +10,10 @@ class UsersControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes
-		FactoryGirl.attributes_for(:user)
+		FactoryBot.attributes_for(:user)
 	end
 	def factory_create
-		FactoryGirl.create(:user)
+		FactoryBot.create(:user)
 	end
 
 	assert_access_with_login(    :logins => site_administrators )
@@ -27,7 +27,7 @@ class UsersControllerTest < ActionController::TestCase
 #		they don't test the exclusion
 	
 		test "should filter users index by role with #{cu} login" do
-			roleless_user = FactoryGirl.create(:user)
+			roleless_user = FactoryBot.create(:user)
 			some_other_user = send(cu)
 			login_as send(cu)
 			assert_equal User.all.length, 3

@@ -10,7 +10,7 @@ class BirthDataControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:birth_datum,options)
+		FactoryBot.attributes_for(:birth_datum,options)
 	end
 
 	assert_access_with_login({    :logins => site_administrators })
@@ -31,7 +31,7 @@ class BirthDataControllerTest < ActionController::TestCase
 	
 		test "should get index with order study_subject_id and dir desc "<<
 				"with #{cu} login and birth datum" do
-			FactoryGirl.create(:birth_datum)
+			FactoryBot.create(:birth_datum)
 			login_as send(cu)
 			get :index, :order => 'study_subject_id', :dir => 'desc'
 			assert_response :success
@@ -42,7 +42,7 @@ class BirthDataControllerTest < ActionController::TestCase
 	
 		test "should get index with order study_subject_id and dir asc "<<
 				"with #{cu} login and birth datum" do
-			FactoryGirl.create(:birth_datum)
+			FactoryBot.create(:birth_datum)
 			login_as send(cu)
 			get :index, :order => 'study_subject_id', :dir => 'asc'
 			assert_response :success

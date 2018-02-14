@@ -7,12 +7,12 @@ class BirthDatumTest < ActiveSupport::TestCase
 	assert_should_belong_to( :study_subject )
 
 	test "birth_datum factory should create birth datum" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert birth_datum.persisted?
 	end
 
 	test "birth_datum factory should not have master_id" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_blank birth_datum.master_id
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /master_id, childid and subjectid blank/, 
@@ -20,7 +20,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "birth_datum factory should not have childid" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_blank birth_datum.childid
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /master_id, childid and subjectid blank/, 
@@ -28,7 +28,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "birth_datum factory should not have subjectid" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_blank birth_datum.subjectid
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /master_id, childid and subjectid blank/, 
@@ -37,136 +37,136 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "birth_datum factory should NOT create candidate control" do
 		assert_difference('CandidateControl.count',0) {
-			birth_datum = FactoryGirl.create(:birth_datum)
+			birth_datum = FactoryBot.create(:birth_datum)
 		}
 	end
 
 	test "birth_datum factory should have dob" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_not_nil birth_datum.dob
 	end
 
 	test "birth_datum factory should have sex" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_not_nil birth_datum.sex
 	end
 
 	test "birth_datum factory should not have first name" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_nil birth_datum.first_name
 	end
 
 	test "birth_datum factory should not have last name" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_nil birth_datum.last_name
 	end
 
 	test "birth_datum factory should not have case control flag" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_nil birth_datum.case_control_flag
 	end
 
 	test "birth_datum factory should not have match confidence" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		assert_nil birth_datum.match_confidence
 	end
 
 	test "case_birth_datum factory should create birth datum" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert birth_datum.persisted?
 	end
 
 	test "case_birth_datum factory should not create candidate control" do
 		assert_difference('CandidateControl.count',0) {
-			birth_datum = FactoryGirl.create(:case_birth_datum)
+			birth_datum = FactoryBot.create(:case_birth_datum)
 		}
 	end
 
 	test "case_birth_datum factory should have dob" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert_not_nil birth_datum.dob
 	end
 
 	test "case_birth_datum factory should have sex" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert_not_nil birth_datum.sex
 	end
 
 	test "case_birth_datum factory should have case control flag" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert_equal 'case', birth_datum.case_control_flag
 	end
 
 	test "case_birth_datum factory should have match confidence" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert_equal 'definite', birth_datum.match_confidence
 	end
 
 	test "control_birth_datum factory should create birth datum" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert birth_datum.persisted?
 	end
 
 	test "control_birth_datum factory should not create candidate control" do
 		assert_difference('CandidateControl.count',0) {
-			birth_datum = FactoryGirl.create(:control_birth_datum)
+			birth_datum = FactoryBot.create(:control_birth_datum)
 		}
 	end
 
 	test "control_birth_datum factory should have dob" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert_not_nil birth_datum.dob
 	end
 
 	test "control_birth_datum factory should have sex" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert_not_nil birth_datum.sex
 	end
 
 	test "control_birth_datum factory should have case control flag" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert_equal  'control', birth_datum.case_control_flag
 	end
 
 	test "control_birth_datum factory should not have match confidence" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert_nil birth_datum.match_confidence
 	end
 
 	test "bogus_birth_datum factory should create birth datum" do
-		birth_datum = FactoryGirl.create(:bogus_birth_datum)
+		birth_datum = FactoryBot.create(:bogus_birth_datum)
 		assert birth_datum.persisted?
 	end
 
 	test "bogus_birth_datum factory should not create candidate control" do
 		assert_difference('CandidateControl.count',0) {
-			birth_datum = FactoryGirl.create(:bogus_birth_datum)
+			birth_datum = FactoryBot.create(:bogus_birth_datum)
 		}
 	end
 
 	test "bogus_birth_datum factory should have dob" do
-		birth_datum = FactoryGirl.create(:bogus_birth_datum)
+		birth_datum = FactoryBot.create(:bogus_birth_datum)
 		assert_not_nil birth_datum.dob
 	end
 
 	test "bogus_birth_datum factory should have sex" do
-		birth_datum = FactoryGirl.create(:bogus_birth_datum)
+		birth_datum = FactoryBot.create(:bogus_birth_datum)
 		assert_not_nil birth_datum.sex
 	end
 
 	test "bogus_birth_datum factory should have case control flag" do
-		birth_datum = FactoryGirl.create(:bogus_birth_datum)
+		birth_datum = FactoryBot.create(:bogus_birth_datum)
 		assert_equal  'bogus', birth_datum.case_control_flag
 	end
 
 	test "bogus_birth_datum factory should not have match confidence" do
-		birth_datum = FactoryGirl.create(:bogus_birth_datum)
+		birth_datum = FactoryBot.create(:bogus_birth_datum)
 		assert_nil birth_datum.match_confidence
 	end
 
 	test "bogus_birth_datum factory should note bogus flag" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:bogus_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:bogus_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /Unknown case_control_flag :bogus:/,
 			birth_datum.ccls_import_notes
@@ -249,14 +249,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control_birth_datum factory with matching case should create birth datum" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 	end
 
 	test "control_birth_datum factory with matching case should create candidate control" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert_not_nil birth_datum.candidate_control
 		assert birth_datum.candidate_control.persisted?
@@ -264,7 +264,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control_birth_datum factory with matching case and definite should create study subject" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:match_confidence => 'definite',
 			:master_id => study_subject.icf_master_id ).reload
 		assert_not_nil birth_datum.study_subject
@@ -276,7 +276,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			"NO should create study subject" do
 		study_subject = create_case_study_subject_with_icf_master_id(
 			:birth_state => "Somewhere over the rainbow")
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:match_confidence => 'NO',
 			:master_id => study_subject.icf_master_id ).reload
 		assert_not_nil birth_datum.study_subject
@@ -285,13 +285,13 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 
 	test "case birth datum factory should create birth datum if master_id is blank" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert_nil birth_datum.master_id
 		assert birth_datum.persisted?
 	end
 
 	test "case birth datum factory should note if master_id is blank" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
@@ -299,14 +299,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum should create birth datum if master_id is not blank" <<
 			" but not used by a subject" do
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => 'IAMUNUSED')
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => 'IAMUNUSED')
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, 'IAMUNUSED'
 	end
 
 	test "case birth datum should create note if master_id is not blank" <<
 			" but not used by a subject" do
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => 'IAMUNUSED')
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => 'IAMUNUSED')
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /No subject found with master_id :\w+:/,
 			birth_datum.ccls_import_notes
@@ -335,7 +335,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should create birth datum if master_id is not blank" <<
 			" and used by a case and match_confidence is NOT definite" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,
+		birth_datum = FactoryBot.create(:case_birth_datum,
 			:match_confidence => 'somethingelse',
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
@@ -346,7 +346,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should note if master_id is not blank" <<
 			" and used by a case and match_confidence is NOT definite" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,
+		birth_datum = FactoryBot.create(:case_birth_datum,
 			:match_confidence => 'somethingelse',
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
@@ -358,7 +358,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" and used by a case and match_confidence is NOT definite" do
 		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference('OperationalEvent.count',0) {
-			birth_datum = FactoryGirl.create(:case_birth_datum,
+			birth_datum = FactoryBot.create(:case_birth_datum,
 				:match_confidence => 'somethingelse',
 				:master_id => study_subject.icf_master_id )
 		}
@@ -367,7 +367,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should create birth datum if master_id is not blank" <<
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
@@ -375,7 +375,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should note if master_id is not blank" <<
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
@@ -384,7 +384,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should create birth datum if master_id is not blank" <<
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
@@ -392,7 +392,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "case birth datum should note if master_id is not blank" <<
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,
+		birth_datum = FactoryBot.create(:case_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /Subject found with master_id :\w+: is not a case subject/,
@@ -400,13 +400,13 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "control birth datum should create birth datum if master_id is blank" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert birth_datum.persisted?
 		assert_nil birth_datum.master_id
 	end
 
 	test "control birth datum should note if master_id is blank" do
-		birth_datum = FactoryGirl.create(:control_birth_datum)
+		birth_datum = FactoryBot.create(:control_birth_datum)
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /master_id, childid and subjectid blank/,
 			birth_datum.ccls_import_notes
@@ -414,14 +414,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should create birth datum if master_id is not blank" <<
 			" but not used by a subject" do
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => 'IAMUNUSED')
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => 'IAMUNUSED')
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, 'IAMUNUSED'
 	end
 
 	test "control birth datum should note if master_id is not blank" <<
 			" but not used by a subject" do
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => 'IAMUNUSED')
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => 'IAMUNUSED')
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /No subject found with master_id :\w+:/,
 			birth_datum.ccls_import_notes
@@ -430,7 +430,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create birth datum if master_id is not blank" <<
 			" and used by a case" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
@@ -438,7 +438,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create candidate control if master_id is not blank" <<
 			" and used by a case" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:master_id => study_subject.icf_master_id )
 		assert_not_nil birth_datum.candidate_control
 		assert  birth_datum.candidate_control.persisted?
@@ -451,7 +451,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" create candidate control fails" do
 		CandidateControl.any_instance.stubs(:create_or_update).returns(false)
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
@@ -460,7 +460,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 			" create candidate control fails" do
 		CandidateControl.any_instance.stubs(:create_or_update).returns(false)
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /candidate control creation:Error creating candidate_control for subject/,
 			birth_datum.ccls_import_notes
@@ -471,7 +471,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		CandidateControl.any_instance.stubs(:create_or_update).returns(false)
 		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference('CandidateControl.count',0) {
-			birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+			birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 			assert birth_datum.candidate_control.new_record?
 		}
 	end
@@ -479,7 +479,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create birth datum if master_id is not blank" <<
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
@@ -487,7 +487,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should note if master_id is not blank" <<
 			" and used by a control" do
 		study_subject = create_control_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
@@ -496,7 +496,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should create birth datum if master_id is not blank" <<
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
 		assert_equal birth_datum.master_id, study_subject.icf_master_id
 	end
@@ -504,7 +504,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "control birth datum should note if master_id is not blank" <<
 			" and used by a mother" do
 		study_subject = create_mother_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
+		birth_datum = FactoryBot.create(:control_birth_datum,:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
 		assert_match /Subject found with master_id :\w+: is not a case subject/,
 			birth_datum.ccls_import_notes
@@ -512,7 +512,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should create birth datum if sex is blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
@@ -521,7 +521,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should note if sex is blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
@@ -531,7 +531,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should pre-reject candidate if sex is blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:sex => nil,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.candidate_control.persisted?
@@ -541,7 +541,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should create birth datum if dob is blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.persisted?
@@ -550,7 +550,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should note if dob is blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.ccls_import_notes.present?
@@ -560,7 +560,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "control birth datum should pre-reject candidate if dob is blank" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:dob => nil,
 			:master_id => study_subject.icf_master_id )
 		assert birth_datum.candidate_control.persisted?
@@ -570,14 +570,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum should assign study_subject_id if exists" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id)
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => study_subject.icf_master_id)
 		assert_not_nil birth_datum.study_subject_id
 		assert_equal   birth_datum.study_subject_id, study_subject.id
 	end
 
 	test "case birth datum should NOT assign study_subject_id if already assigned" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id)
+		birth_datum = FactoryBot.create(:case_birth_datum,:master_id => study_subject.icf_master_id)
 		assert_not_nil birth_datum.reload.study_subject_id
 		assert_equal birth_datum.study_subject, study_subject
 		birth_datum.assign_case_subject
@@ -585,7 +585,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "case birth datum should NOT assign study_subject_id if does not exist" do
-		birth_datum = FactoryGirl.create(:case_birth_datum)
+		birth_datum = FactoryBot.create(:case_birth_datum)
 		assert_nil birth_datum.study_subject_id
 	end
 
@@ -593,7 +593,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		study_subject = create_case_study_subject_with_icf_master_id
 		assert_difference('CandidateControl.count',1) {
 		assert_difference('BirthDatum.count',1) {
-			birth_datum = FactoryGirl.create(:control_birth_datum,
+			birth_datum = FactoryBot.create(:control_birth_datum,
 				:master_id => study_subject.icf_master_id)
 			assert_not_nil birth_datum.candidate_control
 			assert_not_nil birth_datum.candidate_control.related_patid
@@ -634,10 +634,10 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum update_case_study_subject_attributes should update" <<
 			" subject attributes middle name" do
-		birth_datum = FactoryGirl.create(:case_birth_datum,
+		birth_datum = FactoryBot.create(:case_birth_datum,
 			:middle_name => 'mynewmiddlename',
 			:master_id    => '12345678A' )
-		study_subject = FactoryGirl.create(:case_study_subject,
+		study_subject = FactoryBot.create(:case_study_subject,
 			:icf_master_id => '12345678A' )
 		assert_nil study_subject.middle_name
 		birth_datum.update_case_study_subject_attributes
@@ -647,7 +647,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum update_case_study_subject_attributes should do nothing" <<
 			" without matching subject" do
-		birth_datum = FactoryGirl.create(:case_birth_datum,
+		birth_datum = FactoryBot.create(:case_birth_datum,
 			:middle_name => 'mynewmiddlename',
 			:master_id    => '12345678A' )
 		birth_datum.update_case_study_subject_attributes
@@ -655,7 +655,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 	test "case birth datum update_case_study_subject_attributes should do nothing" <<
 			" without master_id" do
-		birth_datum = FactoryGirl.create(:case_birth_datum,
+		birth_datum = FactoryBot.create(:case_birth_datum,
 			:middle_name => 'mynewmiddlename' )
 		birth_datum.update_case_study_subject_attributes
 	end
@@ -873,7 +873,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('BcRequest.count',0){
 		assert_difference('BcRequest.active.count',-1){
 		assert_difference('BcRequest.complete.count',1){
-			FactoryGirl.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
+			FactoryBot.create(:case_birth_datum,:master_id => study_subject.icf_master_id )
 		} } } }
 		#	20150624 - for some reason, must now reload?
 		bcr = study_subject.bc_requests.first.reload
@@ -885,7 +885,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "should copy case_dob to dob if blank" do
-		birth_datum = FactoryGirl.build(:birth_datum, :dob => nil, :case_dob => Date.current)
+		birth_datum = FactoryBot.build(:birth_datum, :dob => nil, :case_dob => Date.current)
 		assert_nil     birth_datum.dob
 		assert_not_nil birth_datum.case_dob
 		birth_datum.save
@@ -894,15 +894,15 @@ class BirthDatumTest < ActiveSupport::TestCase
 	
 
 	test "should flag study subject for reindexing on create" do
-		study_subject = FactoryGirl.create(:study_subject)
-		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
+		study_subject = FactoryBot.create(:study_subject)
+		birth_datum = FactoryBot.create(:birth_datum, :study_subject => study_subject)
 		assert_not_nil birth_datum.study_subject
 		assert birth_datum.study_subject.needs_reindexed
 	end
 
 	test "should flag study subject for reindexing on update" do
-		study_subject = FactoryGirl.create(:study_subject)
-		birth_datum = FactoryGirl.create(:birth_datum, :study_subject => study_subject)
+		study_subject = FactoryBot.create(:study_subject)
+		birth_datum = FactoryBot.create(:birth_datum, :study_subject => study_subject)
 		assert_not_nil birth_datum.study_subject
 		assert  study_subject.needs_reindexed
 		study_subject.update_column(:needs_reindexed, false)
@@ -925,7 +925,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 
 
 	test "append_notes should update instance AND save to db" do
-		birth_datum = FactoryGirl.create(:birth_datum)
+		birth_datum = FactoryBot.create(:birth_datum)
 		birth_datum.update_column(:ccls_import_notes,nil)
 		assert_blank birth_datum.ccls_import_notes
 		assert_blank birth_datum.reload.ccls_import_notes
@@ -956,7 +956,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 	test "calling post_processing again on a control with study subject"<<
 			" should not do anything" do
 		study_subject = create_case_study_subject_with_icf_master_id
-		birth_datum = FactoryGirl.create(:control_birth_datum,
+		birth_datum = FactoryBot.create(:control_birth_datum,
 			:match_confidence => 'definite',
 			:master_id => study_subject.icf_master_id ).reload
 		assert_not_nil birth_datum.candidate_control
@@ -980,7 +980,7 @@ class BirthDatumTest < ActiveSupport::TestCase
 		assert_difference('StudySubject.count', 0){
 		assert_difference('CandidateControl.count', 1){
 		assert_difference('OperationalEvent.count', 0){	
-			birth_datum = FactoryGirl.create(:control_birth_datum,
+			birth_datum = FactoryBot.create(:control_birth_datum,
 				:match_confidence => 'NOTACHANCE',
 				:master_id => study_subject.icf_master_id ).reload
 		} } } }
@@ -1012,14 +1012,14 @@ class BirthDatumTest < ActiveSupport::TestCase
 	end
 
 	test "should add leading zeroes to do_not_use_derived_state_file_no_last6 if not blank" do
-		birth_datum = FactoryGirl.build(:birth_datum, :do_not_use_derived_state_file_no_last6 => 123)
+		birth_datum = FactoryBot.build(:birth_datum, :do_not_use_derived_state_file_no_last6 => 123)
 		assert_not_nil birth_datum.do_not_use_derived_state_file_no_last6
 		birth_datum.save
 		assert_equal '000123', birth_datum.reload.do_not_use_derived_state_file_no_last6
 	end
 
 	test "should add leading zeroes to do_not_use_derived_local_file_no_last6 if not blank" do
-		birth_datum = FactoryGirl.build(:birth_datum, :do_not_use_derived_local_file_no_last6 => 123)
+		birth_datum = FactoryBot.build(:birth_datum, :do_not_use_derived_local_file_no_last6 => 123)
 		assert_not_nil birth_datum.do_not_use_derived_local_file_no_last6
 		birth_datum.save
 		assert_equal '000123', birth_datum.reload.do_not_use_derived_local_file_no_last6
@@ -1045,7 +1045,7 @@ protected
 	end
 
 	def create_matching_case_birth_datum(study_subject,options={})
-		birth_datum = FactoryGirl.create(:case_birth_datum,{
+		birth_datum = FactoryBot.create(:case_birth_datum,{
 			:sex => study_subject.sex,
 			:dob => study_subject.dob,
 			:match_confidence => 'definite',
@@ -1053,19 +1053,19 @@ protected
 	end
 
 	def create_case_study_subject_with_icf_master_id(options={})
-		study_subject = FactoryGirl.create(:case_study_subject,{
+		study_subject = FactoryBot.create(:case_study_subject,{
 			:icf_master_id => '12345678A' }.merge(options))
 		check_icf_master_id(study_subject)
 	end
 
 	def create_control_study_subject_with_icf_master_id
-		study_subject = FactoryGirl.create(:control_study_subject,
+		study_subject = FactoryBot.create(:control_study_subject,
 			:icf_master_id => '12345678A')
 		check_icf_master_id(study_subject)
 	end
 
 	def create_mother_study_subject_with_icf_master_id
-		study_subject = FactoryGirl.create(:mother_study_subject,
+		study_subject = FactoryBot.create(:mother_study_subject,
 			:icf_master_id => '12345678A')
 		check_icf_master_id(study_subject)
 	end

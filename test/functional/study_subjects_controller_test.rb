@@ -9,10 +9,10 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		:method_for_create => :create_study_subject
 	}
 	def factory_attributes(options={})
-#		FactoryGirl.attributes_for(:study_subject,{
+#		FactoryBot.attributes_for(:study_subject,{
 #			:updated_at => ( Time.now + 1.day ),
 #			:race_ids => [Race['white'].id]}.merge(options))
-		FactoryGirl.attributes_for(:study_subject,
+		FactoryBot.attributes_for(:study_subject,
 			{}.merge(options)).except(
 				:subject_type,:case_control_type,:do_not_use_state_id_no)
 	end
@@ -49,7 +49,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		#	test to ensure no NESTED FORMS!!!
 		#	sadly, html validation doesn't seem to do this
 		test "should get index with subjects and NO NESTED FORMS and #{cu} login" do
-			study_subjects = 3.times.collect{|i| FactoryGirl.create(:study_subject) }
+			study_subjects = 3.times.collect{|i| FactoryBot.create(:study_subject) }
 			login_as send(cu)
 			get :index
 			assert_response :success
@@ -62,7 +62,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	site_readers.each do |cu|
 
 		test "should get index with order and dir desc with #{cu} login" do
-			FactoryGirl.create(:study_subject)
+			FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :order => 'last_name', :dir => 'desc'
 			assert_response :success
@@ -71,7 +71,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 		end
 	
 		test "should get index with order and dir asc with #{cu} login" do
-			FactoryGirl.create(:study_subject)
+			FactoryBot.create(:study_subject)
 			login_as send(cu)
 			get :index, :order => 'last_name', :dir => 'asc'
 			assert_response :success
@@ -81,7 +81,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should have do_not_contact if it is true "<<
 				"with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject, :do_not_contact => true)
+			study_subject = FactoryBot.create(:study_subject, :do_not_contact => true)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_response :success
@@ -91,7 +91,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT have do_not_contact if it is false "<<
 				"with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject, :do_not_contact => false)
+			study_subject = FactoryBot.create(:study_subject, :do_not_contact => false)
 			login_as send(cu)
 			get :show, :id => study_subject.id
 			assert_response :success
@@ -101,7 +101,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should have hospital link if study_subject is case "<<
 				"with #{cu} login" do
-			study_subject = FactoryGirl.create(:case_study_subject)
+			study_subject = FactoryBot.create(:case_study_subject)
 			assert study_subject.reload.is_case?
 			login_as send(cu)
 			get :show, :id => study_subject.id
@@ -150,62 +150,62 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should get next study_subject with no next #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			get :next, :id => study_subject.id
 			assert_redirected_to study_subject
 		end
 	
 		test "should get next study_subject with next #{cu} login" do
 			login_as send(cu)
-			this_study_subject = FactoryGirl.create(:study_subject)
-			next_study_subject = FactoryGirl.create(:study_subject)
+			this_study_subject = FactoryBot.create(:study_subject)
+			next_study_subject = FactoryBot.create(:study_subject)
 			get :next, :id => this_study_subject.id
 			assert_redirected_to next_study_subject
 		end
 	
 		test "should get prev study_subject with no prev #{cu} login" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			get :prev, :id => study_subject.id
 			assert_redirected_to study_subject
 		end
 	
 		test "should get prev study_subject with prev #{cu} login" do
 			login_as send(cu)
-			prev_study_subject = FactoryGirl.create(:study_subject)
-			this_study_subject = FactoryGirl.create(:study_subject)
+			prev_study_subject = FactoryBot.create(:study_subject)
+			this_study_subject = FactoryBot.create(:study_subject)
 			get :prev, :id => this_study_subject.id
 			assert_redirected_to prev_study_subject
 		end
 	
 		test "should get first study_subject with last #{cu} login" do
 			login_as send(cu)
-			first_study_subject = FactoryGirl.create(:study_subject)
-			FactoryGirl.create(:study_subject)
-			this_study_subject = FactoryGirl.create(:study_subject)
+			first_study_subject = FactoryBot.create(:study_subject)
+			FactoryBot.create(:study_subject)
+			this_study_subject = FactoryBot.create(:study_subject)
 			get :first	#	now irrelevant ... , :id => this_study_subject.id
 			assert_redirected_to first_study_subject
 		end
 	
 		test "should get last study_subject with first #{cu} login" do
 			login_as send(cu)
-			this_study_subject = FactoryGirl.create(:study_subject)
-			FactoryGirl.create(:study_subject)
-			last_study_subject = FactoryGirl.create(:study_subject)
+			this_study_subject = FactoryBot.create(:study_subject)
+			FactoryBot.create(:study_subject)
+			last_study_subject = FactoryBot.create(:study_subject)
 			get :last	#	now irrelevant ... , :id => this_study_subject.id
 			assert_redirected_to last_study_subject
 		end
 
 		test "should redirect to study_subject by icf_master_id with #{cu} login" do
 			login_as send(cu)
-			subject = FactoryGirl.create(:study_subject, :icf_master_id => "1234FIND")
+			subject = FactoryBot.create(:study_subject, :icf_master_id => "1234FIND")
 			get :by, :by_id => '1234FIND'
 			assert_redirected_to subject
 		end
 
 		test "should redirect to study_subject by subjectid with #{cu} login" do
 			login_as send(cu)
-			subject = FactoryGirl.create(:study_subject)
+			subject = FactoryBot.create(:study_subject)
 			assert !subject.subjectid.blank?, "SubjectID should NOT be blank"
 			get :by, :by_id => subject.subjectid
 			assert_redirected_to subject
@@ -253,7 +253,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	site_editors.each do |cu|
 
 		test "should update with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
+			study_subject = FactoryBot.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('Race.count',0){
@@ -267,7 +267,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 
 		test "should NOT update with #{cu} login" <<
 			" and invalid" do
-			study_subject = FactoryGirl.create(:study_subject, 
+			study_subject = FactoryBot.create(:study_subject, 
 				:updated_at => ( Time.now - 1.day ) )
 			StudySubject.any_instance.stubs(:valid?).returns(false)
 			login_as send(cu)
@@ -284,7 +284,7 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	
 		test "should NOT update with #{cu} login" <<
 			" and save fails" do
-			study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
+			study_subject = FactoryBot.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			StudySubject.any_instance.stubs(:create_or_update).returns(false)
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
@@ -303,13 +303,13 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	non_site_editors.each do |cu|
 
 		test "should NOT update with #{cu} login" do
-			study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
+			study_subject = FactoryBot.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 			login_as send(cu)
 			assert_difference('StudySubject.count',0){
 			assert_difference('Race.count',0){
 			deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 				put :update, :id => study_subject.id, 
-					:study_subject => FactoryGirl.attributes_for(:study_subject)
+					:study_subject => FactoryBot.attributes_for(:study_subject)
 			} } }
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -346,12 +346,12 @@ class StudySubjectsControllerTest < ActionController::TestCase
 	end
 	
 	test "should NOT update without login" do
-		study_subject = FactoryGirl.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
+		study_subject = FactoryBot.create(:study_subject, :updated_at => ( Time.now - 1.day ) )
 		assert_difference('StudySubject.count',0){
 		assert_difference('Race.count',0){
 		deny_changes("StudySubject.find(#{study_subject.id}).updated_at") {
 			put :update, :id => study_subject.id, 
-				:study_subject => FactoryGirl.attributes_for(:study_subject)
+				:study_subject => FactoryBot.attributes_for(:study_subject)
 		} } }
 		assert_redirected_to_login
 	end

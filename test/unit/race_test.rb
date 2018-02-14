@@ -14,7 +14,7 @@ class RaceTest < ActiveSupport::TestCase
 
 	test "race factory should create race" do
 		assert_difference('Race.count',1) {
-			race = FactoryGirl.create(:race)
+			race = FactoryBot.create(:race)
 			assert_match     /\d*/, race.code.to_s
 			assert_match  /Key\d*/, race.key
 			assert_match /Desc\d*/, race.description

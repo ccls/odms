@@ -7,7 +7,7 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 
 	test "icf_master_id factory should create icf master id" do
 		assert_difference('IcfMasterId.count',1) {
-			icf_master_id = FactoryGirl.create(:icf_master_id)
+			icf_master_id = FactoryBot.create(:icf_master_id)
 			assert_nil icf_master_id.icf_master_id
 		}
 	end
@@ -19,8 +19,8 @@ class IcfMasterIdTest < ActiveSupport::TestCase
 	end
 
 	test "unused should return those without a study subject" do
-		icf_master_id_1 = FactoryGirl.create(:icf_master_id)
-		icf_master_id_2 = FactoryGirl.create(:icf_master_id)
+		icf_master_id_1 = FactoryBot.create(:icf_master_id)
+		icf_master_id_2 = FactoryBot.create(:icf_master_id)
 		assert_equal IcfMasterId.unused, [icf_master_id_1,icf_master_id_2]
 		icf_master_id_2.study_subject_id = 0
 		icf_master_id_2.save

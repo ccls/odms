@@ -364,7 +364,7 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "column_content should NOT destroy subject with column destroy" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		assert_difference('StudySubject.count',0){
 			response = column_content(subject,'destroy')
 #			assert_nil response
@@ -374,28 +374,28 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "column_content should return formatted subject dob" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject, :dob => Date.parse('Dec 31, 1950') )
+		subject = FactoryBot.create(:study_subject, :dob => Date.parse('Dec 31, 1950') )
 		response = column_content(subject,'dob')
 		assert_equal response, '12/31/1950'
 	end
 
 	test "column_content should return formatted subject died_on" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject, :died_on => Date.parse('Dec 31, 1950') )
+		subject = FactoryBot.create(:study_subject, :died_on => Date.parse('Dec 31, 1950') )
 		response = column_content(subject,'died_on')
 		assert_equal response, '12/31/1950'
 	end
 
 	test "column_content should return formatted subject reference_date" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject, :reference_date => Date.parse('Dec 31, 1950') )
+		subject = FactoryBot.create(:study_subject, :reference_date => Date.parse('Dec 31, 1950') )
 		response = column_content(subject,'reference_date')
 		assert_equal response, '12/31/1950'
 	end
 
 	test "column_content should return formatted subject admit_date" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:case_study_subject)
+		subject = FactoryBot.create(:case_study_subject)
 		subject.build_patient(:admit_date => Date.parse('Dec 31, 1950'))
 		response = column_content(subject,'admit_date')
 		assert_equal response, '12/31/1950'
@@ -403,14 +403,14 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "column_content should return blank for subject without languages" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		response = column_content(subject,'languages')
 		assert response.blank?
 	end
 
 	test "column_content should return language names for subject with languages" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		subject.languages << Language['english']
 		subject.languages << Language['spanish']
 		response = column_content(subject,'languages')
@@ -419,7 +419,7 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "column_content should return other languages for subject with other languages" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		subject.subject_languages.create(:language => Language['other'],
 			:other_language => "Redneck")
 		response = column_content(subject,'languages')
@@ -429,14 +429,14 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "column_content should return blank for subject without races" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		response = column_content(subject,'races')
 		assert response.blank?
 	end
 
 	test "column_content should return race names for subject with races" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		subject.races << Race['asian']
 		subject.races << Race['nativeamerican']
 		response = column_content(subject,'races')
@@ -445,7 +445,7 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 
 	test "column_content should return other races for subject with other races" do
 		@sunspot_search_class = StudySubject
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		subject.subject_races.create(:race => Race['other'],
 			:other_race => "Redneck")
 		response = column_content(subject,'races')
@@ -453,14 +453,14 @@ class ActiveRecordSunspotter::SunspotHelperTest < ActionView::TestCase
 	end
 
 #	test "column_content should return Yes for consented" do
-#		enrollment = FactoryGirl.create(:consented_enrollment)
+#		enrollment = FactoryBot.create(:consented_enrollment)
 #		subject = enrollment.study_subject
 #		assert_equal 'Yes',
 #			column_content(subject,"#{enrollment.project.description}:consented")
 #	end
 #
 #	test "column_content should return Yes for eligible" do
-#		enrollment = FactoryGirl.create(:eligible_enrollment)
+#		enrollment = FactoryBot.create(:eligible_enrollment)
 #		subject = enrollment.study_subject
 #		assert_equal 'Yes',
 #			column_content(subject,"#{enrollment.project.description}:is_eligible")

@@ -53,19 +53,19 @@ class EnrollmentTest < ActiveSupport::TestCase
 	test "enrollment factory should create 2 enrollments" do
 		#	NOTE this enrollment AND the subject's ccls enrollment
 		assert_difference('Enrollment.count',2) {	
-			enrollment = FactoryGirl.create(:enrollment)
+			enrollment = FactoryBot.create(:enrollment)
 		}
 	end
 
 	test "enrollment factory should create enrollment in new non-ccls project" do
-		enrollment = FactoryGirl.create(:enrollment)
+		enrollment = FactoryBot.create(:enrollment)
 		assert enrollment.persisted?
 		assert !enrollment.consented
 		assert ( enrollment.project_id != Project['ccls'].id )
 	end
 
 	test "enrollment factory should create enrollment in ccls project" do
-		enrollment = FactoryGirl.create(:enrollment)
+		enrollment = FactoryBot.create(:enrollment)
 		other_enrollments = enrollment.study_subject.enrollments - [enrollment]
 		assert_equal other_enrollments.length, 1
 		ccls_enrollment = other_enrollments.first
@@ -74,47 +74,47 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "enrollment factory should create project" do
 		assert_difference('Project.count',1) {
-			enrollment = FactoryGirl.create(:enrollment)
+			enrollment = FactoryBot.create(:enrollment)
 			assert_not_nil enrollment.project
 		}
 	end
 
 	test "enrollment factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			enrollment = FactoryGirl.create(:enrollment)
+			enrollment = FactoryBot.create(:enrollment)
 			assert_not_nil enrollment.study_subject
 		}
 	end
 
 	test "subjectless_enrollment factory should create enrollment" do
 		assert_difference('Enrollment.count',1) {
-			enrollment = FactoryGirl.create(:subjectless_enrollment)
+			enrollment = FactoryBot.create(:subjectless_enrollment)
 			assert !enrollment.consented
 		}
 	end
 
 	test "subjectless_enrollment factory should create project" do
 		assert_difference('Project.count',1) {
-			enrollment = FactoryGirl.create(:subjectless_enrollment)
+			enrollment = FactoryBot.create(:subjectless_enrollment)
 			assert_not_nil enrollment.project
 		}
 	end
 
 	test "subjectless_enrollment factory should create study subject" do
 		assert_difference('StudySubject.count',0) {
-			enrollment = FactoryGirl.create(:subjectless_enrollment)
+			enrollment = FactoryBot.create(:subjectless_enrollment)
 			assert_nil     enrollment.study_subject
 		}
 	end
 
 	test "eligible_enrollment should create eligible enrollment" do
-		enrollment = FactoryGirl.create(:eligible_enrollment)
+		enrollment = FactoryBot.create(:eligible_enrollment)
 		assert enrollment.persisted?
 		assert_equal enrollment.is_eligible, YNDK[:yes]
 	end
 
 	test "consented_enrollment should create consented enrollment" do
-		enrollment = FactoryGirl.create(:consented_enrollment)
+		enrollment = FactoryBot.create(:consented_enrollment)
 		assert enrollment.persisted?
 		assert_not_nil enrollment.consented
 		assert_equal enrollment.consented, YNDK[:yes]
@@ -122,20 +122,20 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "consented_enrollment should create project" do
 		assert_difference('Project.count',1) {
-			enrollment = FactoryGirl.create(:consented_enrollment)
+			enrollment = FactoryBot.create(:consented_enrollment)
 			assert_not_nil enrollment.project
 		}
 	end
 
 	test "consented_enrollment should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			enrollment = FactoryGirl.create(:consented_enrollment)
+			enrollment = FactoryBot.create(:consented_enrollment)
 			assert_not_nil enrollment.study_subject
 		}
 	end
 
 	test "declined_enrollment factory should create non-consented enrollment" do
-		enrollment = FactoryGirl.create(:declined_enrollment)
+		enrollment = FactoryBot.create(:declined_enrollment)
 		assert enrollment.persisted?
 		assert_not_nil enrollment.consented
 		assert_equal enrollment.consented, YNDK[:no]
@@ -143,14 +143,14 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "declined_enrollment factory should create project" do
 		assert_difference('Project.count',1) {
-			enrollment = FactoryGirl.create(:declined_enrollment)
+			enrollment = FactoryBot.create(:declined_enrollment)
 			assert_not_nil enrollment.project
 		}
 	end
 
 	test "declined_enrollment factory should create study subject" do
 		assert_difference('StudySubject.count',1) {
-			enrollment = FactoryGirl.create(:declined_enrollment)
+			enrollment = FactoryBot.create(:declined_enrollment)
 			assert_not_nil enrollment.study_subject
 		}
 	end
@@ -196,7 +196,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW ineligible_reason if is_eligible == #{yndk}" do
 			enrollment = Enrollment.new(:is_eligible => YNDK[yndk],
-				:ineligible_reason => FactoryGirl.create(:ineligible_reason) )
+				:ineligible_reason => FactoryBot.create(:ineligible_reason) )
 			assert !enrollment.valid?
 			assert !enrollment.errors.include?(:ineligible_reason)
 			#	NOTE custom message
@@ -220,7 +220,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			"ineligible_reason != other" do
 		enrollment = Enrollment.new(
 			:is_eligible => YNDK[:no],
-			:ineligible_reason => FactoryGirl.create(:ineligible_reason),
+			:ineligible_reason => FactoryBot.create(:ineligible_reason),
 			:other_ineligible_reason => 'blah blah blah' )
 		enrollment.valid?
 		assert !enrollment.errors.include?(:other_ineligible_reason)
@@ -230,7 +230,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 				"is_eligible == #{yndk}" do
 			enrollment = Enrollment.new(
 				:is_eligible => YNDK[yndk],
-				:ineligible_reason => FactoryGirl.create(:ineligible_reason),
+				:ineligible_reason => FactoryBot.create(:ineligible_reason),
 				:other_ineligible_reason => 'blah blah blah' )
 			enrollment.valid?
 			assert enrollment.errors.include?(:other_ineligible_reason)
@@ -277,7 +277,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	[:yes,:dk,:nil].each do |yndk|
 		test "should NOT ALLOW refusal_reason if consented == #{yndk}" do
 			enrollment = Enrollment.new(:consented => YNDK[yndk],
-				:refusal_reason_id => FactoryGirl.create(:refusal_reason).id)	#	added id
+				:refusal_reason_id => FactoryBot.create(:refusal_reason).id)	#	added id
 			assert !enrollment.valid?
 			assert !enrollment.errors.include?(:refusal_reason)
 			#	NOTE custom error message
@@ -301,7 +301,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 			"refusal_reason != other" do
 		enrollment = Enrollment.new(:consented => YNDK[:no],
 			:consented_on => Date.current,
-			:refusal_reason => FactoryGirl.create(:refusal_reason),
+			:refusal_reason => FactoryBot.create(:refusal_reason),
 			:other_refusal_reason => 'asdfasdf' )
 		enrollment.valid?
 		assert !enrollment.errors.include?(:other_refusal_reason)
@@ -310,7 +310,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 		test "should NOT ALLOW other_refusal_reason if "<<
 				"consented == #{yndk}" do
 			enrollment = Enrollment.new(:consented => YNDK[yndk],
-				:refusal_reason => FactoryGirl.create(:refusal_reason),
+				:refusal_reason => FactoryBot.create(:refusal_reason),
 				:other_refusal_reason => 'asdfasdf' )
 			assert !enrollment.valid?
 			assert  enrollment.errors.include?(:other_refusal_reason)
@@ -399,7 +399,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 #	but I left the tests here.
 
 	test "should create operational event when enrollment complete" do
-		enrollment = FactoryGirl.create(:enrollment,
+		enrollment = FactoryBot.create(:enrollment,
 			:completed_on => nil,
 			:is_complete  => YNDK[:no])
 		#	arbitrary past date
@@ -419,9 +419,9 @@ class EnrollmentTest < ActiveSupport::TestCase
 		#	arbitrary past date
 		past_date = Date.parse('Jan 15 2003')
 		enrollment = nil
-		study_subject = FactoryGirl.create(:study_subject)
+		study_subject = FactoryBot.create(:study_subject)
 		assert_difference('OperationalEvent.count',1) do
-			enrollment = FactoryGirl.create(:enrollment,
+			enrollment = FactoryBot.create(:enrollment,
 				:study_subject => study_subject,
 				:completed_on  => past_date,
 				:is_complete   => YNDK[:yes])
@@ -443,7 +443,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 
 	test "should create subjectConsents operational event if consent changes to yes" do
-		enrollment = FactoryGirl.create(:enrollment)
+		enrollment = FactoryBot.create(:enrollment)
 		assert_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(:consented => YNDK[:yes],
@@ -459,7 +459,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 
 	test "should not create subjectConsents operational event if consent doesn't change" do
-		enrollment = FactoryGirl.create(:consented_enrollment)
+		enrollment = FactoryBot.create(:consented_enrollment)
 		assert_not_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",0){
 			enrollment.update_attributes(:consented => YNDK[:yes],
@@ -475,11 +475,11 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 
 	test "should create subjectDeclines operational event if consent changes to no" do
-		enrollment = FactoryGirl.create(:enrollment)
+		enrollment = FactoryBot.create(:enrollment)
 		assert_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",1){
 			enrollment.update_attributes(:consented => YNDK[:no],
-				:refusal_reason => FactoryGirl.create(:refusal_reason),
+				:refusal_reason => FactoryBot.create(:refusal_reason),
 				:consented_on   => Date.current )
 		}
 		enrollment.reload
@@ -492,7 +492,7 @@ class EnrollmentTest < ActiveSupport::TestCase
 	end
 
 	test "should not create subjectDeclines operational event if consent doesn't change" do
-		enrollment = FactoryGirl.create(:declined_enrollment)
+		enrollment = FactoryBot.create(:declined_enrollment)
 		assert_not_nil enrollment.consented
 		assert_difference("enrollment.study_subject.operational_events.count",0){
 			enrollment.update_attributes(:consented => YNDK[:no],
@@ -509,31 +509,31 @@ class EnrollmentTest < ActiveSupport::TestCase
 
 	test "should have eligible scope" do
 		assert_equal [], Enrollment.eligible
-		FactoryGirl.create(:enrollment)
+		FactoryBot.create(:enrollment)
 		assert_equal [], Enrollment.eligible
-		enrollment = FactoryGirl.create(:eligible_enrollment)
+		enrollment = FactoryBot.create(:eligible_enrollment)
 		assert_equal [enrollment], Enrollment.eligible
-		FactoryGirl.create(:enrollment)
+		FactoryBot.create(:enrollment)
 		assert_equal [enrollment], Enrollment.eligible
 	end
 
 	test "should have consented scope" do
 		assert_equal [], Enrollment.consented
-		FactoryGirl.create(:enrollment)
+		FactoryBot.create(:enrollment)
 		assert_equal [], Enrollment.consented
-		enrollment = FactoryGirl.create(:consented_enrollment)
+		enrollment = FactoryBot.create(:consented_enrollment)
 		assert_equal [enrollment], Enrollment.consented
-		FactoryGirl.create(:enrollment)
+		FactoryBot.create(:enrollment)
 		assert_equal [enrollment], Enrollment.consented
 	end
 
 	test "should have assigned_for_interview scope" do
 		assert_equal [], Enrollment.assigned_for_interview
-		FactoryGirl.create(:enrollment)
+		FactoryBot.create(:enrollment)
 		assert_equal [], Enrollment.assigned_for_interview
-		enrollment = FactoryGirl.create(:enrollment, :assigned_for_interview_at => Time.now)
+		enrollment = FactoryBot.create(:enrollment, :assigned_for_interview_at => Time.now)
 		assert_equal [enrollment], Enrollment.assigned_for_interview
-		FactoryGirl.create(:enrollment)
+		FactoryBot.create(:enrollment)
 		assert_equal [enrollment], Enrollment.assigned_for_interview
 	end
 
@@ -541,23 +541,23 @@ class EnrollmentTest < ActiveSupport::TestCase
 		#	Use subjectless_enrollment as will create a subject and another 
 		#	enrollment which will muck up the test results.
 		assert_equal [], Enrollment.not_assigned_for_interview
-		FactoryGirl.create(:subjectless_enrollment, :assigned_for_interview_at => Time.now)
+		FactoryBot.create(:subjectless_enrollment, :assigned_for_interview_at => Time.now)
 		assert_equal [], Enrollment.not_assigned_for_interview
-		enrollment = FactoryGirl.create(:subjectless_enrollment)
+		enrollment = FactoryBot.create(:subjectless_enrollment)
 		assert_equal [enrollment], Enrollment.not_assigned_for_interview
-		FactoryGirl.create(:subjectless_enrollment, :assigned_for_interview_at => Time.now)
+		FactoryBot.create(:subjectless_enrollment, :assigned_for_interview_at => Time.now)
 		assert_equal [enrollment], Enrollment.not_assigned_for_interview
 	end
 
 
 	test "should flag study subject for reindexed on create" do
-		enrollment = FactoryGirl.create(:enrollment)
+		enrollment = FactoryBot.create(:enrollment)
 		assert_not_nil enrollment.study_subject
 		assert  enrollment.study_subject.needs_reindexed
 	end
 
 	test "should flag study subject for reindexed on update" do
-		enrollment = FactoryGirl.create(:enrollment)
+		enrollment = FactoryBot.create(:enrollment)
 		assert_not_nil enrollment.study_subject
 		study_subject = enrollment.study_subject
 		assert  study_subject.needs_reindexed
@@ -572,7 +572,7 @@ protected
 	#	MUST define this method so can use the alias_method below.
 	#	Or could just define create_object.  Either way.
 	def create_subjectless_enrollment(options={})
-		enrollment = FactoryGirl.build(:subjectless_enrollment,options)
+		enrollment = FactoryBot.build(:subjectless_enrollment,options)
 		enrollment.save
 		enrollment
 	end
@@ -583,7 +583,7 @@ protected
 	alias_method :create_object, :create_subjectless_enrollment
 
 #	def create_enrollment(options={})
-#		enrollment = FactoryGirl.build(:enrollment,options)
+#		enrollment = FactoryBot.build(:enrollment,options)
 #		enrollment.save
 #		enrollment
 #	end

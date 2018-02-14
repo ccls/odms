@@ -10,10 +10,10 @@ class PagesControllerTest < ActionController::TestCase
 	}
 
 	def factory_create(options={})
-		FactoryGirl.create(:page,options)
+		FactoryBot.create(:page,options)
 	end
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:page,options)
+		FactoryBot.attributes_for(:page,options)
 	end
 
 	with_options :actions => [:show] do |show|

@@ -13,7 +13,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 #			Sunspot.commit
 
 			assert StudySubject.search.hits.empty?
-			FactoryGirl.create(:study_subject)
+			FactoryBot.create(:study_subject)
 
 			StudySubject.solr_reindex
 #	DEPRECATION WARNING: Relation#find_in_batches with finder options is deprecated. Please build a scope and then call find_in_batches on it instead. (called from irb_binding at (irb):1)
@@ -35,7 +35,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 			).each do |meth|
 
 		test "should respond to custom method #{meth}" do
-			subject = FactoryGirl.create(:study_subject)
+			subject = FactoryBot.create(:study_subject)
 			assert subject.respond_to?(meth)	#hmm.  subject responds to meth?
 			#	subject.diagnosis
 		end
@@ -43,7 +43,7 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 	end
 
 	test "interviewed should be true when ccls enrollment interview_completed_on set" do
-		subject = FactoryGirl.create(:study_subject)
+		subject = FactoryBot.create(:study_subject)
 		e = subject.ccls_enrollment
 		assert !subject.ccls_enrollment.reload.try(:interview_completed_on).present?
 		assert_nil e.interview_completed_on
@@ -54,35 +54,35 @@ class StudySubjectSunspotTest < ActiveSupport::TestCase
 
 
 	test "should text search on entire first name" do
-		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		subject = FactoryBot.create(:study_subject, :first_name => "xyz123zyx")
 		Sunspot.commit
 		search = StudySubject.search { fulltext 'xyz123zyx' }
 		assert search.results.include?(subject)
 	end
 
 	test "should text search on first chars of first name" do
-		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		subject = FactoryBot.create(:study_subject, :first_name => "xyz123zyx")
 		Sunspot.commit
 		search = StudySubject.search { fulltext 'xyz' }
 		assert search.results.include?(subject)
 	end
 
 	test "should text search on middle chars of first name" do
-		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		subject = FactoryBot.create(:study_subject, :first_name => "xyz123zyx")
 		Sunspot.commit
 		search = StudySubject.search { fulltext 'z123z' }
 		assert search.results.include?(subject)
 	end
 
 	test "should text search on last chars of first name" do
-		subject = FactoryGirl.create(:study_subject, :first_name => "xyz123zyx")
+		subject = FactoryBot.create(:study_subject, :first_name => "xyz123zyx")
 		Sunspot.commit
 		search = StudySubject.search { fulltext 'zyx' }
 		assert search.results.include?(subject)
 	end
 
 	test "should text search on first name with hypen" do
-		subject = FactoryGirl.create(:study_subject, :first_name => "xyz1-3zyx")
+		subject = FactoryBot.create(:study_subject, :first_name => "xyz1-3zyx")
 		Sunspot.commit
 		search = StudySubject.search { fulltext 'z1-3z' }
 		assert search.results.include?(subject)

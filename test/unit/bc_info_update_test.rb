@@ -87,7 +87,7 @@ class BcInfoUpdateTest < ActiveSupport::TestCase
 			assert_difference('StudySubject.count',94) {
 				(f=CSV.open( real_data_file, 'rb',{
 						:headers => true })).each { |line|
-					subject = FactoryGirl.create(:study_subject,:icf_master_id => line['icf_master_id'])
+					subject = FactoryBot.create(:study_subject,:icf_master_id => line['icf_master_id'])
 	
 					#	need the mother to exist to create an operational event
 					subject.create_mother
@@ -146,8 +146,8 @@ protected
 	end
 
 	def create_case_for_bc_info_update
-		icf_master_id = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345FAKE')
-		study_subject = FactoryGirl.create(:complete_case_study_subject)
+		icf_master_id = FactoryBot.create(:icf_master_id,:icf_master_id => '12345FAKE')
+		study_subject = FactoryBot.create(:complete_case_study_subject)
 		study_subject.assign_icf_master_id
 		assert_equal '12345FAKE', study_subject.icf_master_id
 		study_subject
@@ -189,17 +189,17 @@ protected
 #
 #	#	just enough for no exceptions
 #	def unknown_subject_hash
-#		FactoryGirl.attributes_for(:screening_datum,
+#		FactoryBot.attributes_for(:screening_datum,
 #			:master_id => '12345FAKE' )
 #	end
 #
 #	def case_subject_hash
-#		FactoryGirl.attributes_for(:case_screening_datum,
+#		FactoryBot.attributes_for(:case_screening_datum,
 #			:master_id => '12345FAKE' )
 #	end
 #
 #	def control_subject_hash
-#		FactoryGirl.attributes_for(:control_screening_datum,
+#		FactoryBot.attributes_for(:control_screening_datum,
 #			:master_id => '12345FAKE' )
 #	end
 

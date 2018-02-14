@@ -47,7 +47,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should return case study_subject with matching patid and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			get :new, :q => case_study_subject.patid
 			assert_not_nil assigns(:study_subject)
 			assert_equal case_study_subject, assigns(:study_subject)
@@ -58,7 +58,7 @@ class ControlsControllerTest < ActionController::TestCase
 		test "should return case study_subject with matching patid missing" <<
 				" leading zeroes and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			# case_study_subject.patid should be a small 4-digit string
 			#   with leading zeroes. (probably 0001). Remove them before submit.
 			patid = case_study_subject.patid.to_i
@@ -73,7 +73,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should return case study_subject with matching icf master id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			get :new, :q => case_study_subject.icf_master_id
 			assert_not_nil assigns(:study_subject)
@@ -88,7 +88,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should get new control with case_id, matching candidate and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			candidate = create_candidate_control(:related_patid => case_study_subject.patid)
 			post :create, :case_id => case_study_subject.id
 			assert_nil flash[:error]
@@ -97,7 +97,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get new control with case_id, no matching candidate and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:case_study_subject)
+			case_study_subject = FactoryBot.create(:case_study_subject)
 			post :create, :case_id => case_study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to study_subject_related_subjects_path(case_study_subject)
@@ -112,7 +112,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get new control with #{cu} login and non-case study_subject" do
 			login_as send(cu)
-			study_subject = FactoryGirl.create(:study_subject)
+			study_subject = FactoryBot.create(:study_subject)
 			post :create, :case_id => study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to new_control_path
@@ -120,7 +120,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should get index with date and #{cu} login" do
 			login_as send(cu)
-			subject = FactoryGirl.create(:control_study_subject)
+			subject = FactoryBot.create(:control_study_subject)
 			assert_equal 5, subject.phase
 			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id
 				).first.assigned_for_interview_at
@@ -172,7 +172,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should get index with #{cu} login" do
 			login_as send(cu)
-			subject = FactoryGirl.create(:control_study_subject)
+			subject = FactoryBot.create(:control_study_subject)
 			assert_equal 5, subject.phase
 			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id).first.assigned_for_interview_at
 			get :index
@@ -190,7 +190,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should get index csv with #{cu} login" do
 			login_as send(cu)
-			subject = FactoryGirl.create(:control_study_subject)
+			subject = FactoryBot.create(:control_study_subject)
 			assert_equal 5, subject.phase
 			assert_nil subject.enrollments.where(:project_id => Project[:ccls].id).first.assigned_for_interview_at
 			get :index, :format => :csv
@@ -268,7 +268,7 @@ class ControlsControllerTest < ActionController::TestCase
 
 		test "should NOT get new control with case_id and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:case_study_subject)
+			case_study_subject = FactoryBot.create(:case_study_subject)
 			post :create, :case_id => case_study_subject.id
 			assert_not_nil flash[:error]
 			assert_redirected_to root_path
@@ -303,7 +303,7 @@ class ControlsControllerTest < ActionController::TestCase
 	end
 
 	test "should NOT get new control with case_id and without login" do
-		case_study_subject = FactoryGirl.create(:case_study_subject)
+		case_study_subject = FactoryBot.create(:case_study_subject)
 		post :create, :case_id => case_study_subject.id
 		assert_redirected_to_login
 	end
@@ -328,7 +328,7 @@ class ControlsControllerTest < ActionController::TestCase
 protected
 
 	def subject_for_assigned_for_interview_at
-		subject = FactoryGirl.create(:control_study_subject)
+		subject = FactoryBot.create(:control_study_subject)
 		assert_nil subject.enrollments.where(
 			:project_id => Project[:ccls].id).first.assigned_for_interview_at
 		subject
@@ -338,8 +338,8 @@ end
 __END__
 #	for cases
 	def subject_for_assigned_for_interview_at
-		subject = FactoryGirl.create(:case_study_subject)
-		FactoryGirl.create(:patient, :study_subject => subject,
+		subject = FactoryBot.create(:case_study_subject)
+		FactoryBot.create(:patient, :study_subject => subject,
 			:admit_date => 60.days.ago)
 		#	Pagan only wants subjects with reference_date/admit_date > 30 days ago
 		#	updating admit_date should trigger reference_date update

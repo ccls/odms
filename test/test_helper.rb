@@ -80,7 +80,7 @@ class ActiveSupport::TestCase
 	end
 
 	def active_user(options={})
-		u = FactoryGirl.create(:user, options)
+		u = FactoryBot.create(:user, options)
 		#	leave this special save here just in case I change things.
 		#	although this would need changed for UCB CAS.
 		#	u.save_without_session_maintenance

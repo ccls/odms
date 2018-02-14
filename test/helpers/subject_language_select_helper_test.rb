@@ -12,7 +12,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 
 	#	added extract_options to allow for passing of :class for marking field_errors
 	test "subject_languages_select English with class option" do
-		@study_subject = FactoryGirl.create(:study_subject)
+		@study_subject = FactoryBot.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']], :class => 'field_error') }
 
@@ -38,7 +38,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select English" do
-		@study_subject = FactoryGirl.create(:study_subject)
+		@study_subject = FactoryBot.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['english']]) }
 
@@ -64,7 +64,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select English with English" do
-		@study_subject = FactoryGirl.create(:study_subject, :subject_languages_attributes => {
+		@study_subject = FactoryBot.create(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_code => Language['english'].code } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_language_id = @study_subject.subject_language_ids.first	
@@ -100,7 +100,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select Other" do
-		@study_subject = FactoryGirl.create(:study_subject)
+		@study_subject = FactoryBot.create(:study_subject)
 		output_buffer = form_for(@study_subject,:url => '/'){|f| 
 			f.subject_languages_select([Language['other']]) }
 
@@ -132,7 +132,7 @@ class SubjectLanguageSelectHelperTest < ActionView::TestCase
 	end
 
 	test "subject_languages_select Other with Other" do
-		@study_subject = FactoryGirl.create(:study_subject, :subject_languages_attributes => {
+		@study_subject = FactoryBot.create(:study_subject, :subject_languages_attributes => {
 			'0' => { :language_code => Language['other'].code, :other_language => 'redneck' } } )
 		#	this can vary so cannot assume that it will be 1
 		subject_language_id = @study_subject.subject_language_ids.first	

@@ -10,7 +10,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 	}
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:bc_request)
+		FactoryBot.attributes_for(:bc_request)
 	end
 
 	assert_access_with_login({    :logins => site_editors })
@@ -107,7 +107,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with non-case" <<
 				" study_subject patid and #{cu} login" do
 			login_as send(cu)
-			non_case_study_subject = FactoryGirl.create(:study_subject, :patid => '1234')
+			non_case_study_subject = FactoryBot.create(:study_subject, :patid => '1234')
 			assert non_case_study_subject.persisted?
 			assert_not_nil non_case_study_subject.patid
 			assert_equal non_case_study_subject.patid, '1234'
@@ -122,7 +122,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with non-case" <<
 				" study_subject icf master id and #{cu} login" do
 			login_as send(cu)
-			non_case_study_subject = FactoryGirl.create(:study_subject, :icf_master_id => '12345')
+			non_case_study_subject = FactoryBot.create(:study_subject, :icf_master_id => '12345')
 			assert non_case_study_subject.persisted?
 			assert_not_nil non_case_study_subject.icf_master_id
 			assert_equal non_case_study_subject.icf_master_id, '12345'
@@ -150,7 +150,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with existing incomplete" <<
 				" bc_request and #{cu} login icf master id" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_not_nil case_study_subject.icf_master_id
 			case_study_subject.bc_requests.create
@@ -166,7 +166,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to bc_requests with existing complete" <<
 				" bc_request and #{cu} login patid" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			case_study_subject.bc_requests.create(:status => 'completed')
 			assert_difference('BcRequest.count',1) {
 				post :create, :q => case_study_subject.patid
@@ -180,7 +180,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to bc_requests with existing complete" <<
 				" bc_request and #{cu} login icf master id" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			case_study_subject.bc_requests.create(:status => 'completed')
 			assert_difference('BcRequest.count',1) {
@@ -195,7 +195,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to bc_requests with matching patid" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			assert_difference('BcRequest.count',1) {
 				post :create, :q => case_study_subject.patid
 			}
@@ -208,7 +208,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to bc_requests with matching icf master id" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_difference('BcRequest.count',1) {
 				post :create, :q => case_study_subject.icf_master_id
@@ -222,7 +222,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should add case study_subject to bc_requests with matching patid" <<
 				" missing leading zeroes and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			# case_study_subject.patid should be a small 4-digit string
 			#		with leading zeroes. (probably 0001). Remove them before submit.
 			patid = case_study_subject.patid.to_i
@@ -316,7 +316,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 		test "should export bc_requests to csv with #{cu} login and requests" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:mother_maiden_name => '',
 				:mother_last_name   => 'momlastname'
 			)
@@ -356,7 +356,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 			test "should get #{status} bc_requests with #{cu} login" do
 				login_as send(cu)
-				case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+				case_study_subject = FactoryBot.create(:complete_case_study_subject)
 				bcr = case_study_subject.bc_requests.create(:status => status)
 				get :index, :status => status
 				assert_response :success
@@ -482,7 +482,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with matching patid" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			assert_difference('BcRequest.count',0) {
 				post :create, :q => case_study_subject.patid
 			}
@@ -494,7 +494,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 		test "should NOT add case study_subject to bc_requests with matching icf master id" <<
 				" and #{cu} login" do
 			login_as send(cu)
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+			case_study_subject = FactoryBot.create(:complete_case_study_subject,
 				:icf_master_id => '12345')
 			assert_difference('BcRequest.count',0) {
 				post :create, :q => case_study_subject.icf_master_id
@@ -562,7 +562,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 	test "should NOT add case study_subject to bc_requests with matching patid" <<
 			" and without login" do
-		case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+		case_study_subject = FactoryBot.create(:complete_case_study_subject)
 		assert_difference('BcRequest.count',0) {
 			post :create, :q => case_study_subject.patid
 		}
@@ -572,7 +572,7 @@ class BcRequestsControllerTest < ActionController::TestCase
 
 	test "should NOT add case study_subject to bc_requests with matching icf master id" <<
 			" and without login" do
-		case_study_subject = FactoryGirl.create(:complete_case_study_subject,
+		case_study_subject = FactoryBot.create(:complete_case_study_subject,
 			:icf_master_id => '12345')
 		assert_difference('BcRequest.count',0) {
 			post :create, :q => case_study_subject.icf_master_id
@@ -623,12 +623,12 @@ class BcRequestsControllerTest < ActionController::TestCase
 		[:status,:sent_on,:returned_on,:is_found,:notes ])
 
 	def create_bc_requests(count=1,options={})
-		count.times.collect { FactoryGirl.create(:bc_request, options) }
+		count.times.collect { FactoryBot.create(:bc_request, options) }
 	end
 
 	def create_case_subjects_with_active_bcr(count=1)
 		count.times.collect {
-			case_study_subject = FactoryGirl.create(:complete_case_study_subject)
+			case_study_subject = FactoryBot.create(:complete_case_study_subject)
 			bcr = case_study_subject.bc_requests.create(:status => 'active')
 		}
 	end

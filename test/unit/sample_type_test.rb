@@ -27,7 +27,7 @@ class SampleTypeTest < ActiveSupport::TestCase
 	test "sample_type factory should create 2 sample types" do
 		#	creates sample_type and a parent sample_type
 		assert_difference('SampleType.count',2) {	
-			sample_type = FactoryGirl.create(:sample_type)
+			sample_type = FactoryBot.create(:sample_type)
 			assert_not_nil sample_type.parent
 			assert_match /Key\d*/, sample_type.key
 			assert_match /Desc\d*/, sample_type.description
@@ -37,7 +37,7 @@ class SampleTypeTest < ActiveSupport::TestCase
 
 	test "sample_type parent factory should create sample type" do
 		assert_difference('SampleType.count',1) {
-			sample_type = FactoryGirl.create(:sample_type_parent)
+			sample_type = FactoryBot.create(:sample_type_parent)
 			assert_nil sample_type.parent
 			assert_match /Key\d*/, sample_type.key
 			assert_match /Desc\d*/, sample_type.description
@@ -46,41 +46,41 @@ class SampleTypeTest < ActiveSupport::TestCase
 	end
 
 	test "roots should include sample type parent" do
-		sample_type = FactoryGirl.create(:sample_type)
+		sample_type = FactoryBot.create(:sample_type)
 		assert sample_type.is_child?
 		assert sample_type.parent.is_root?
 		assert SampleType.roots.include?(sample_type.parent)
 	end
 
 	test "not_roots should include sample type child" do
-		sample_type = FactoryGirl.create(:sample_type)
+		sample_type = FactoryBot.create(:sample_type)
 		assert sample_type.is_child?
 		assert sample_type.parent.is_root?
 		assert SampleType.not_roots.include?(sample_type)
 	end
 
 	test "should default to being for_new_sample" do
-		sample_type = FactoryGirl.create(:sample_type)
+		sample_type = FactoryBot.create(:sample_type)
 		assert sample_type.for_new_sample?
 	end
 
 	test "should be flaggable for not being for_new_sample" do
-		sample_type = FactoryGirl.create(:sample_type, :for_new_sample => false)
+		sample_type = FactoryBot.create(:sample_type, :for_new_sample => false)
 		assert !sample_type.for_new_sample?
 	end
 
 	test "should have children_for_new_samples if child for_new_sample" do
-		sample_type = FactoryGirl.create(:sample_type)
+		sample_type = FactoryBot.create(:sample_type)
 		assert !sample_type.parent.children_for_new_samples.empty?
 	end
 
 	test "should have no children_for_new_samples if child not for_new_sample" do
-		sample_type = FactoryGirl.create(:sample_type, :for_new_sample => false)
+		sample_type = FactoryBot.create(:sample_type, :for_new_sample => false)
 		assert sample_type.parent.children_for_new_samples.empty?
 	end
 
 #	test "should have no children_for_new_sample if parent not for_new_sample" do
-#		sample_type = FactoryGirl.create(:sample_type)
+#		sample_type = FactoryBot.create(:sample_type)
 #		assert  sample_type.parent.for_new_sample?
 #		sample_type.parent.update_column(:for_new_sample, false)
 #		assert !sample_type.parent.for_new_sample?
@@ -104,11 +104,11 @@ protected
 #	The common assertions use create_object, so leave this alone.
 
 #	def create_object(options = {})
-##		record = FactoryGirl.build(:sample_type,options)
+##		record = FactoryBot.build(:sample_type,options)
 ##	The normal sample_type factory creates a parent 
 ##	which seems to cause some testing issues unless
 ##	this was expected so ....
-#		record = FactoryGirl.build(:sample_type_parent,options)
+#		record = FactoryBot.build(:sample_type_parent,options)
 #		record.save
 #		record
 #	end

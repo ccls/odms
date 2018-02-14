@@ -3,7 +3,7 @@ require 'test_helper'
 class CountrySelectHelperTest < ActionView::TestCase
 
 	test "basic address form" do
-		@address = FactoryGirl.create(:address)
+		@address = FactoryBot.create(:address)
 		output_buffer = form_for(@address,:url => '/'){|f| 
 			f.country_select(:country) }
 		response = output_buffer.to_html_document

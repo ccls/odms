@@ -18,7 +18,7 @@ class AbstractsControllerTest < ActionController::TestCase
 	assert_no_route(:post,:create)
 
 	def factory_attributes(options={})
-		FactoryGirl.attributes_for(:abstract,{
+		FactoryBot.attributes_for(:abstract,{
 		}.merge(options))
 	end
 
@@ -34,8 +34,8 @@ class AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should get index with abstracts and #{cu} login" do
-			FactoryGirl.create(:abstract)
-			FactoryGirl.create(:abstract)
+			FactoryBot.create(:abstract)
+			FactoryBot.create(:abstract)
 			login_as send(cu)
 			get :index
 			assert_response :success
@@ -45,8 +45,8 @@ class AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should get merged index with #{cu} login" do
-			FactoryGirl.create(:abstract)
-			FactoryGirl.create(:abstract,:merged_by_uid => '1234')
+			FactoryBot.create(:abstract)
+			FactoryBot.create(:abstract,:merged_by_uid => '1234')
 			login_as send(cu)
 			get :merged
 			assert_response :success
@@ -56,9 +56,9 @@ class AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should get to_merge index with #{cu} login" do
-			FactoryGirl.create(:abstract)
-			a1 = FactoryGirl.create(:abstract)
-			FactoryGirl.create(:abstract,:study_subject_id => a1.study_subject_id)
+			FactoryBot.create(:abstract)
+			a1 = FactoryBot.create(:abstract)
+			FactoryBot.create(:abstract,:study_subject_id => a1.study_subject_id)
 			login_as send(cu)
 			get :to_merge
 			assert_response :success
@@ -72,7 +72,7 @@ class AbstractsControllerTest < ActionController::TestCase
 	#		Begin Find Order Tests (only on fields in table)
 
 		test "should find abstracts and order by id with #{cu} login" do
-			abstracts = 3.times.collect{|i| FactoryGirl.create(:abstract) }
+			abstracts = 3.times.collect{|i| FactoryBot.create(:abstract) }
 			login_as send(cu)
 			get :index, :order => :id
 			assert_response :success
@@ -80,7 +80,7 @@ class AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should find abstracts and order by id asc with #{cu} login" do
-			abstracts = 3.times.collect{|i| FactoryGirl.create(:abstract) }
+			abstracts = 3.times.collect{|i| FactoryBot.create(:abstract) }
 			login_as send(cu)
 			get :index, :order => :id, :dir => :asc
 			assert_response :success
@@ -88,7 +88,7 @@ class AbstractsControllerTest < ActionController::TestCase
 		end
 
 		test "should find abstracts and order by id desc with #{cu} login" do
-			abstracts = 3.times.collect{|i| FactoryGirl.create(:abstract) }
+			abstracts = 3.times.collect{|i| FactoryBot.create(:abstract) }
 			login_as send(cu)
 			get :index, :order => :id, :dir => :desc
 			assert_response :success

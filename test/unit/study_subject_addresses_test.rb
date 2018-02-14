@@ -8,7 +8,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( 'Address.count', 1) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:addresses_attributes => { '0' => FactoryGirl.attributes_for(:address,
+				:addresses_attributes => { '0' => FactoryBot.attributes_for(:address,
 					:data_source => 'Unknown Data Source')})
 			assert study_subject.persisted?, 
 				"#{study_subject.errors.full_messages.to_sentence}"
@@ -19,7 +19,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( 'Address.count', 0) {
 		assert_difference( "StudySubject.count", 1 ) {
 			study_subject = create_study_subject(
-				:addresses_attributes => { '0' => FactoryGirl.attributes_for(:address,
+				:addresses_attributes => { '0' => FactoryBot.attributes_for(:address,
 					:data_source => 'Unknown Data Source',
 					:line_1 => nil,
 					:city => nil,
@@ -34,7 +34,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert_difference( 'Address.count', 0) {
 		assert_difference( "StudySubject.count", 0 ) {
 			study_subject = create_study_subject(
-				:addresses_attributes => { '0' => FactoryGirl.attributes_for(:address,
+				:addresses_attributes => { '0' => FactoryBot.attributes_for(:address,
 					:data_source => 'Unknown Data Source',
 					:address_required   => true,
 					:line_1 => nil,
@@ -49,7 +49,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 	end
 
 	test "should update study_subject with address" do
-		address = FactoryGirl.create(:address)
+		address = FactoryBot.create(:address)
 		address.study_subject.update_attributes(
 			:addresses_attributes => { '0' => { 'id' => address.id } } )
 	end
@@ -59,11 +59,11 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 		assert study_subject.respond_to?(:residence_addresses_count)
 		assert_equal 0, study_subject.residence_addresses_count
 		study_subject.update_attributes(
-				:addresses_attributes => { '0' => FactoryGirl.attributes_for(:residence_address,
+				:addresses_attributes => { '0' => FactoryBot.attributes_for(:residence_address,
 					:data_source => 'Unknown Data Source' )})
 		assert_equal 1, study_subject.reload.residence_addresses_count
 		study_subject.update_attributes(
-				:addresses_attributes => { '0' => FactoryGirl.attributes_for(:residence_address,
+				:addresses_attributes => { '0' => FactoryBot.attributes_for(:residence_address,
 					:data_source => 'Unknown Data Source' )})
 		assert_equal 2, study_subject.reload.residence_addresses_count
 	end
@@ -71,7 +71,7 @@ class StudySubjectAddressesTest < ActiveSupport::TestCase
 	test "should NOT destroy addresses with study_subject" do
 		assert_difference('StudySubject.count',1) {
 		assert_difference('Address.count',1) {
-			@study_subject = FactoryGirl.create(:address).study_subject
+			@study_subject = FactoryBot.create(:address).study_subject
 		} }
 		assert_difference('StudySubject.count',-1) {
 		assert_difference('Address.count',0) {

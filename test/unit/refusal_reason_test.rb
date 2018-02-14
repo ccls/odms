@@ -13,7 +13,7 @@ class RefusalReasonTest < ActiveSupport::TestCase
 
 	test "refusal_reason factory should create refusal reason" do
 		assert_difference('RefusalReason.count',1) {
-			refusal_reason = FactoryGirl.create(:refusal_reason)
+			refusal_reason = FactoryBot.create(:refusal_reason)
 			assert_match /Key\d*/, refusal_reason.key
 			assert_match /Desc\d*/, refusal_reason.description
 		}

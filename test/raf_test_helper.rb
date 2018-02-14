@@ -1,7 +1,7 @@
 module RafTestHelper
 
 #	NOTE the deep factories are convenient, but are a bit of a pain in the butt
-#		when trying to override the default attributes because FactoryGirl doesn't
+#		when trying to override the default attributes because FactoryBot doesn't
 #		deep_merge, it just merges.  Which means that the nested attribute model
 #		needs to be completely defined, rather than just merging in the new attribute.
 #		Because of this, if I want to use nested factories and I want to override them,
@@ -14,16 +14,16 @@ module RafTestHelper
 #
 
 	def complete_case_study_subject_attributes(options={})
-		{ 'study_subject' => FactoryGirl.attributes_for(:raf_study_subject,
-			'patient_attributes' => FactoryGirl.attributes_for(:patient),
+		{ 'study_subject' => FactoryBot.attributes_for(:raf_study_subject,
+			'patient_attributes' => FactoryBot.attributes_for(:patient),
 			'subject_languages_attributes' => {
 				"0"=>{"language_code"=>"1"} },
 			'phone_numbers_attributes' => {
-				'0' => FactoryGirl.attributes_for(:phone_number) },
+				'0' => FactoryBot.attributes_for(:phone_number) },
 			'addresses_attributes' => {
-				'0' => FactoryGirl.attributes_for(:address) },
+				'0' => FactoryBot.attributes_for(:address) },
 			'enrollments_attributes' => {
-				'0' => FactoryGirl.attributes_for(:enrollment,
+				'0' => FactoryBot.attributes_for(:enrollment,
 					:project_id => Project['ccls'].id ) }
 			)
 		}.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
@@ -73,12 +73,12 @@ module RafTestHelper
 	end
 
 	def minimum_raf_form_attributes(options={})
-		{ 'study_subject' => FactoryGirl.attributes_for(:minimum_raf_form_attributes
+		{ 'study_subject' => FactoryBot.attributes_for(:minimum_raf_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 
 	def raf_form_attributes(options={})
-		{ 'study_subject' => FactoryGirl.attributes_for(:raf_form_attributes
+		{ 'study_subject' => FactoryBot.attributes_for(:raf_form_attributes
 			) }.deep_stringify_keys.deep_merge(options.deep_stringify_keys)
 	end
 

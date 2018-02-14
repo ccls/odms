@@ -197,11 +197,11 @@ do_not_use_state_registrar_no
 			puts "\n\n-- Real data test file does not exist. Skipping.\n\n"
 		else
 			#	case must exist for candidate controls to be created
-			s = FactoryGirl.create(:case_study_subject,:sex => 'M',
+			s = FactoryBot.create(:case_study_subject,:sex => 'M',
 				:first_name => 'FakeFirst3',:last_name => 'FakeLast3', 
 				:dob => Date.parse('4/30/2009'))	#	dob doesn't really matter here
-			#FactoryGirl.create(:icf_master_id,:icf_master_id => '15851196C')
-			FactoryGirl.create(:icf_master_id,:icf_master_id => '36696199E')
+			#FactoryBot.create(:icf_master_id,:icf_master_id => '15851196C')
+			FactoryBot.create(:icf_master_id,:icf_master_id => '36696199E')
 			s.assign_icf_master_id
 
 			birth_datum_update = nil
@@ -314,8 +314,8 @@ protected
 	end
 
 	def create_case_for_birth_datum_update
-		icf_master_id = FactoryGirl.create(:icf_master_id,:icf_master_id => '12345FAKE')
-		study_subject = FactoryGirl.create(:complete_case_study_subject)
+		icf_master_id = FactoryBot.create(:icf_master_id,:icf_master_id => '12345FAKE')
+		study_subject = FactoryBot.create(:complete_case_study_subject)
 		study_subject.assign_icf_master_id
 		assert_equal '12345FAKE', study_subject.icf_master_id
 		study_subject
@@ -353,17 +353,17 @@ protected
 
 	#	just enough for no exceptions
 	def unknown_subject_hash
-		FactoryGirl.attributes_for(:birth_datum,
+		FactoryBot.attributes_for(:birth_datum,
 			:master_id => '12345FAKE' )
 	end
 
 	def case_subject_hash
-		FactoryGirl.attributes_for(:case_birth_datum,
+		FactoryBot.attributes_for(:case_birth_datum,
 			:master_id => '12345FAKE' )
 	end
 
 	def control_subject_hash
-		FactoryGirl.attributes_for(:control_birth_datum,
+		FactoryBot.attributes_for(:control_birth_datum,
 			:master_id => '12345FAKE' )
 	end
 

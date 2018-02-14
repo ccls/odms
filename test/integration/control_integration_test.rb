@@ -112,7 +112,7 @@ class ControlIntegrationTest < ActionDispatch::CapybaraIntegrationTest
 protected
 
 	def subject_for_assigned_for_interview_at
-		subject = FactoryGirl.create(:control_study_subject)
+		subject = FactoryBot.create(:control_study_subject)
 		assert_nil subject.enrollments.where(
 			:project_id => Project[:ccls].id).first.assigned_for_interview_at
 		subject
