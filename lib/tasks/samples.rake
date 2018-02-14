@@ -3,8 +3,6 @@ require 'csv'
 namespace :app do
 namespace :samples do
 
-	#	mysql --user=odms_web_app ccls_odms_production --host=dba-opsc-qa-01.ist.berkeley.edu --port=3351 < <( zcat ~/database_dumps/odms_production.20170627173110.sql.gz )
-
 	#	20180213
 	task :import_and_manifest_samples_20180213 => :environment do
 		path = "/home/app_odms/archive/"
