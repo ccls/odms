@@ -877,7 +877,7 @@ Maybe try brand new empty rails app if no joy?
 ---
 == New Production Server Update Procedure
 
- dump_database
+ ~/dump_database
  cd /home/app_odms/odms/
  bundle exec rake app:data:dump_to_csv
  sudo /sbin/service httpd status
